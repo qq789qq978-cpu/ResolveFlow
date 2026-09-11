@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: resolveflow
+      POSTGRES_DB: resolveflow
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resolveflow -d resolveflow"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  resolveflow:
+    build: .
+    image: resolveflow:local
+    ports:
+      - "127.0.0.1:${APP_PORT:-8003}:8000"
+    environment: &application-env
+      DATABASE_URL: postgresql://resolveflow:${POSTGRES_PASSWORD}@db:5432/resolveflow
+      APP_API_KEY: ${APP_API_KEY:?Set APP_API_KEY}
+      REVIEWER_API_KEY: ${REVIEWER_API_KEY:?Set REVIEWER_API_KEY}
+      ADMIN_API_KEY: ${ADMIN_API_KEY:?Set ADMIN_API_KEY}
+      MODE: ${MODE:-live}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.deepseek.com}
+      MODEL_NAME: ${MODEL_NAME:-deepseek-flash}
+      DATA_DIR: /data
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - agent-data:/data
+    restart: unless-stopped
+  worker:
+    image: resolveflow:local
+    build: .
+    command: ["python", "worker.py"]
+    environment: *application-env
+    depends_on:
+      resolveflow:
+        condition: service_healthy
+    volumes:
+      - worker-data:/data
+    healthcheck:
+      test: ["CMD", "python", "worker_health.py"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+volumes:
+  postgres-data:
+  agent-data:
+  worker-data:

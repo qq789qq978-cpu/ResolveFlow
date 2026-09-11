@@ -1,0 +1,12 @@
+.env
+data
+__pycache__
+.pytest_cache
+.git
+.venv
+work
+*.log
+*.zip
+.idea
+.sites-runtime
+PROJECT_HANDOFF.md

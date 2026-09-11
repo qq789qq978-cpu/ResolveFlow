@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "url": "http://127.0.0.1:8003",
+  "cases": [
+    {
+      "order": "RF-1001",
+      "run_id": "8dbc7cd1-4af4-4ade-8feb-20d1f0df6e31",
+      "status": "already_refunded",
+      "enqueue_ms": 281,
+      "elapsed_ms": 10125,
+      "usage": {
+        "model_calls": 3,
+        "input_tokens": 2993,
+        "output_tokens": 624
+      }
+    },
+    {
+      "order": "RF-1002",
+      "run_id": "c1e7480f-d7b4-4fbb-a043-e04fe2b5a9ee",
+      "status": "auto_rejected",
+      "enqueue_ms": 375,
+      "elapsed_ms": 9436,
+      "usage": {
+        "model_calls": 3,
+        "input_tokens": 2908,
+        "output_tokens": 512
+      }
+    },
+    {
+      "order": "RF-1004",
+      "run_id": "1dce268d-3f8f-4819-92e8-f32455700768",
+      "status": "awaiting_approval",
+      "enqueue_ms": 235,
+      "elapsed_ms": 9077,
+      "usage": {
+        "model_calls": 3,
+        "input_tokens": 2959,
+        "output_tokens": 581
+      },
+      "human_final": "rejected"
+    }
+  ],
+  "metrics": {
+    "runs": {
+      "closed": 4,
+      "already_refunded": 3,
+      "rejected": 5,
+      "refunded": 1,
+      "answered": 1,
+      "escalated": 1,
+      "auto_rejected": 2
+    },
+    "attempts": {
+      "total": 5,
+      "failed": 1,
+      "avg_ms": 7655,
+      "p95_ms": 10012.2
+    },
+    "usage": {
+      "input_tokens": 8860,
+      "output_tokens": 1717
+    },
+    "workers_online": 1,
+    "refund_execution": "simulated"
+  },
+  "limitations": "Synthetic orders and simulated refunds; not real payment integration."
+}
