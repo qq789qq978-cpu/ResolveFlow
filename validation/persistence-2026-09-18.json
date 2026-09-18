@@ -1,0 +1,304 @@
+{
+  "started_at": "2026-09-18T09:22:46.791092+00:00",
+  "mode": "demo",
+  "passed": true,
+  "scope": "Graceful Compose recreation; not a disk-loss or forced-crash test",
+  "excluded_dynamic_table": "rf_worker_heartbeats",
+  "initial_tables": {
+    "rf_orders": {
+      "count": 4,
+      "fingerprint": "031d774c9445cc7bbb59ee3d81fb34ac"
+    },
+    "rf_runs": {
+      "count": 8,
+      "fingerprint": "f5025b2e1b0bbdf4e6a23cffc8f461ac"
+    },
+    "rf_jobs": {
+      "count": 8,
+      "fingerprint": "1d1329d0a47d25e69f2f871fb9a39b28"
+    },
+    "rf_approvals": {
+      "count": 2,
+      "fingerprint": "cd6caa6783ebd99e822b1e4f7a0f73d9"
+    },
+    "rf_audit": {
+      "count": 10,
+      "fingerprint": "a8492a42fd426bd98483aa3645dfe740"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "fingerprint": "1984ad79f69a32150146670d7aa60f8f"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "rf_job_attempts": {
+      "count": 10,
+      "fingerprint": "06f2a6428f091d467bda471ff3d43396"
+    },
+    "checkpoints": {
+      "count": 37,
+      "fingerprint": "6740b267287d9fb2473fc3a8965213f2"
+    },
+    "checkpoint_writes": {
+      "count": 165,
+      "fingerprint": "58aee0d89db56b5239788038e05233a0"
+    },
+    "checkpoint_blobs": {
+      "count": 88,
+      "fingerprint": "c7f22539eab1b92d62e090f1c5ecaf09"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "fingerprint": "63a282a08243f71966a92c9e91b8b367"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "fingerprint": "1e131489b8d83d5a6fec8deb2c891511"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "fingerprint": "04e60455e71eac1d32cdd150ab366b56"
+    }
+  },
+  "resume_run_id": "184868ad-27ff-4d68-9883-fa0700fa75af",
+  "before_recreation": {
+    "rf_orders": {
+      "count": 4,
+      "fingerprint": "031d774c9445cc7bbb59ee3d81fb34ac"
+    },
+    "rf_runs": {
+      "count": 9,
+      "fingerprint": "d1aa4157526bac5084374e4b39359ce0"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "fingerprint": "2ff0606af47eecd09dc1097a637494a6"
+    },
+    "rf_approvals": {
+      "count": 2,
+      "fingerprint": "cd6caa6783ebd99e822b1e4f7a0f73d9"
+    },
+    "rf_audit": {
+      "count": 11,
+      "fingerprint": "da8cabe49b432879b11c3c6c176ec092"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "fingerprint": "1984ad79f69a32150146670d7aa60f8f"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "rf_job_attempts": {
+      "count": 11,
+      "fingerprint": "996abf0c0284c7ad27ac63ce8e87d11e"
+    },
+    "checkpoints": {
+      "count": 41,
+      "fingerprint": "2c4e1e4fa503f2d64d255ec5043279bc"
+    },
+    "checkpoint_writes": {
+      "count": 185,
+      "fingerprint": "1b91e5a7e15735778827cad591d0b01b"
+    },
+    "checkpoint_blobs": {
+      "count": 98,
+      "fingerprint": "b503df178b3431e88a1a102480b27506"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "fingerprint": "63a282a08243f71966a92c9e91b8b367"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "fingerprint": "1e131489b8d83d5a6fec8deb2c891511"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "fingerprint": "04e60455e71eac1d32cdd150ab366b56"
+    }
+  },
+  "containers_before": {
+    "db": {
+      "id": "80dab54aed30c98201dd7eb92c230dc3339730cffe6328d9a6b4158849b4024f",
+      "health": "healthy",
+      "volumes": {
+        "/var/lib/postgresql/data": "resolveflow_postgres-data"
+      }
+    },
+    "resolveflow": {
+      "id": "81657caa5c3d8eeae30b8c75dc589282a2b7ba39a81d6458c0be227a8c8142c1",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_agent-data"
+      }
+    },
+    "worker": {
+      "id": "5f90544d98bb9824ef5ae40773f66d4785816635409f02495de5268b9247fc1f",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_worker-data"
+      }
+    }
+  },
+  "containers_after": {
+    "db": {
+      "id": "65c58324444e0e1aa6089a70c432c00a9c805d47643b72f367dad04c4b00cab0",
+      "health": "healthy",
+      "volumes": {
+        "/var/lib/postgresql/data": "resolveflow_postgres-data"
+      }
+    },
+    "resolveflow": {
+      "id": "0f3fd7811243ae476c92471fe2eaa6edacaa46a79627355daf03f9bd82bd8f7f",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_agent-data"
+      }
+    },
+    "worker": {
+      "id": "ad3aa6cde8a69ec5c4cc3a2cdf78e85ac8c0dc73e3019abbf0378bba78e3e1e9",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_worker-data"
+      }
+    }
+  },
+  "after_recreation": {
+    "rf_orders": {
+      "count": 4,
+      "fingerprint": "031d774c9445cc7bbb59ee3d81fb34ac"
+    },
+    "rf_runs": {
+      "count": 9,
+      "fingerprint": "d1aa4157526bac5084374e4b39359ce0"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "fingerprint": "2ff0606af47eecd09dc1097a637494a6"
+    },
+    "rf_approvals": {
+      "count": 2,
+      "fingerprint": "cd6caa6783ebd99e822b1e4f7a0f73d9"
+    },
+    "rf_audit": {
+      "count": 11,
+      "fingerprint": "da8cabe49b432879b11c3c6c176ec092"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "fingerprint": "1984ad79f69a32150146670d7aa60f8f"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "rf_job_attempts": {
+      "count": 11,
+      "fingerprint": "996abf0c0284c7ad27ac63ce8e87d11e"
+    },
+    "checkpoints": {
+      "count": 41,
+      "fingerprint": "2c4e1e4fa503f2d64d255ec5043279bc"
+    },
+    "checkpoint_writes": {
+      "count": 185,
+      "fingerprint": "1b91e5a7e15735778827cad591d0b01b"
+    },
+    "checkpoint_blobs": {
+      "count": 98,
+      "fingerprint": "b503df178b3431e88a1a102480b27506"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "fingerprint": "63a282a08243f71966a92c9e91b8b367"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "fingerprint": "1e131489b8d83d5a6fec8deb2c891511"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "fingerprint": "04e60455e71eac1d32cdd150ab366b56"
+    }
+  },
+  "original_runs_retained": [
+    "270f61ec-af48-45db-9ee9-669b47a961b6",
+    "d58bfaeb-9c8b-4c79-b65d-647a1e65948e",
+    "119310f4-0016-48b4-8c94-232ea5f044f7",
+    "baee9112-d8f1-46d6-9714-b280f4972c1b",
+    "80924318-4b4d-4048-9daa-251a34bb0d62",
+    "e1794505-00e4-4911-98cc-99c387eb8228",
+    "88576a3e-c6ca-4a73-9938-91868cbfd9e8",
+    "0330f981-af60-4e75-9a6d-9aa6f9aeec11"
+  ],
+  "after_resume": {
+    "rf_orders": {
+      "count": 4,
+      "fingerprint": "031d774c9445cc7bbb59ee3d81fb34ac"
+    },
+    "rf_runs": {
+      "count": 9,
+      "fingerprint": "ea9e49100ae3285a1b2ba41e22005607"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "fingerprint": "fd7a53f50996ca1ecc54361432466791"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "fingerprint": "6b9a18cb6349ba49e9fff492e87acf4a"
+    },
+    "rf_audit": {
+      "count": 12,
+      "fingerprint": "87ea6d7c7e4bd44b00948ac51f375a3d"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "fingerprint": "1984ad79f69a32150146670d7aa60f8f"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "fingerprint": "d7fa14d35a8ff6c25b57e82fcda80f9d"
+    },
+    "checkpoints": {
+      "count": 43,
+      "fingerprint": "f8ff4ac19bec3addf3f062fdd2ceeffe"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "fingerprint": "8d530e5fa216a3836b499e2e859eb734"
+    },
+    "checkpoint_blobs": {
+      "count": 101,
+      "fingerprint": "103e56ac8a2cb2606312503d03c04046"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "fingerprint": "63a282a08243f71966a92c9e91b8b367"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "fingerprint": "1e131489b8d83d5a6fec8deb2c891511"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "fingerprint": "04e60455e71eac1d32cdd150ab366b56"
+    }
+  },
+  "all_table_fingerprints_equal": true,
+  "all_container_ids_changed": true,
+  "all_volume_names_retained": true,
+  "resumed_status": "rejected",
+  "investigation_trace_unchanged": true,
+  "refund_ledger_unchanged": true,
+  "workers_online": 1,
+  "finished_at": "2026-09-18T09:23:45.358411+00:00"
+}

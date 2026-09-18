@@ -8,4 +8,4 @@ work/
 .idea/
 *.zip
 .sites-runtime/
-PROJECT_HANDOFF.md
+validation/github-actions-local.json

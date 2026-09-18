@@ -20,6 +20,8 @@ jobs:
       REVIEWER_API_KEY: ci-reviewer
       ADMIN_API_KEY: ci-admin
       MODE: demo
+      POSTGRES_PASSWORD: ci-only-password
+      APP_PORT: '8005'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,11 +31,13 @@ jobs:
           cache-dependency-path: requirements.lock
       - run: pip install -r requirements.lock
       - name: Unit and MCP tests (synthetic fixtures)
-        run: env -u DATABASE_URL python -m pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py -q
+        run: env -u DATABASE_URL python -m pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py -q
       - name: PostgreSQL queue, RBAC and crash recovery
         run: RUN_PG_TESTS=1 python -m pytest test_jobs.py -q
       - name: Offline evaluation
         run: python evaluate_v3.py
+      - name: Document retrieval evaluation
+        run: env -u DATABASE_URL python evaluate_rag.py
       - name: Build containers and verify asynchronous flow
         env:
           POSTGRES_PASSWORD: ci-only-password
@@ -41,6 +45,8 @@ jobs:
         run: |
           docker compose up --build -d --wait --wait-timeout 180
           python smoke_async.py --url http://127.0.0.1:8005
+      - name: Recreate containers and resume checkpoint
+        run: python verify_persistence.py --url http://127.0.0.1:8005 --report validation/persistence-ci.json
       - name: Container logs
         if: failure()
         run: docker compose logs --no-color --tail=100
@@ -51,4 +57,7 @@ jobs:
         if: always()
         with:
           name: evaluation
-          path: evaluation_v3.json
+          path: |
+            evaluation_v3.json
+            evaluation_rag.json
+            validation/persistence-ci.json

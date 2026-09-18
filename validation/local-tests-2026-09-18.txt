@@ -1,0 +1,11 @@
+2026-09-18 — Docker Linux / Python 3.12, demo mode
+Command group 1: pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py -q -p no:cacheprovider
+Observed output excerpt:
+42 passed in 22.85s
+
+Command group 2: RUN_PG_TESTS=1 pytest test_jobs.py -q -p no:cacheprovider
+Observed output excerpt:
+8 passed, 1 warning in 15.38s
+Warning: Starlette TestClient uses deprecated anyio.abc.BlockingPortal alias.
+
+These are excerpts from the actual container run, not a remote CI report.

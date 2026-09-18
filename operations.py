@@ -43,6 +43,10 @@ def create_app():
         return {'mode':os.getenv('MODE','live'),'model':os.getenv('MODEL_NAME'),'database':'PostgreSQL','role':actor,'execution':'async'}
     @app.get('/api/orders',dependencies=[Depends(authenticate)])
     def orders():return app.state.store.orders()
+    @app.get('/api/knowledge',dependencies=[Depends(authenticate)])
+    def knowledge(query:str=Query(min_length=2,max_length=4000)):
+        from rag import retrieve
+        return {'query':query,'retriever':'bm25','results':retrieve(query)}
     @app.get('/api/metrics',dependencies=[Depends(allow('admin'))])
     def metrics():return jobs.metrics(app.state.store)
     @app.get('/api/runs',dependencies=[Depends(authenticate)])

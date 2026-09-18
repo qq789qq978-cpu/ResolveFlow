@@ -37,10 +37,12 @@ class Store:
 
     def setup(self):
         from support_data import ORDERS
+        from rag import sync_index
         with self.connect() as c:
             c.execute(SCHEMA)
             for order in ORDERS.values():
                 c.execute("INSERT INTO rf_orders VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING", tuple(order[k] for k in ('id','owner','amount','days','used','status')))
+            sync_index(c, only_if_empty=True)
 
     def order(self, order_id, owner):
         with self.connect() as c:

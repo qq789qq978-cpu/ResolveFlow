@@ -1,38 +1,65 @@
-# ResolveFlow — 售后 AI Agent 运营工作台
+# ResolveFlow V3 — 售后 AI Agent 工作台
 
-当前唯一版本：3.0。基于 DeepSeek、LangGraph、MCP、Skills 和 PostgreSQL，提供浏览器运营界面、异步任务与人工审批。正式入口是 `operations:app` 与独立 `worker.py`；旧同步 SQLite API 已移除。
+基于 LangGraph、DeepSeek、MCP 和 PostgreSQL，支持异步 Worker、可恢复人工审批、政策文档 RAG、三角色权限和模拟退款幂等。浏览器界面由 FastAPI 同源提供。
 
-## 快速使用
+## Docker 快速启动
 
-项目路径：`D:\AgentProjects\ResolveFlow`。完整操作、架构、权限与部署说明见 [ENTERPRISE_V3.md](ENTERPRISE_V3.md)。
+前置条件：Git、已启动的 Docker Engine / Docker Desktop，以及 Compose。首次获取私有仓库：
 
 ```powershell
-cd D:\AgentProjects\ResolveFlow
-.\start-local.ps1
+git clone https://github.com/qq789qq978-cpu/ResolveFlow.git
+cd ResolveFlow
+Copy-Item .env.example .env
 ```
 
-打开 http://127.0.0.1:8003/ 。授权码从本机 `.env` 读取：APP_API_KEY 为运营，REVIEWER_API_KEY 为审批，ADMIN_API_KEY 为管理员。使用“切换角色”登录其他角色。不要把 `.env` 提交到 Git。
+编辑 `.env`，设置 `POSTGRES_PASSWORD` 和三个不同的随机角色授权码：`APP_API_KEY`、`REVIEWER_API_KEY`、`ADMIN_API_KEY`。数据库密码建议用 URL-safe 字符。已有 `.env` 时不要覆盖。
 
-首次在其他机器运行：安装 Python 3.12，创建 `.venv`，安装 `requirements.lock`，根据 `.env.example` 配置模型、数据库和三个不同的授权码。便携 PostgreSQL 和本机虚拟环境不包含在源码包中。可用 Docker 环境下运行 `docker compose up --build -d --wait` 启动 PostgreSQL、API、Worker。
+```powershell
+$env:MODE='demo'
+docker compose up --build -d --wait
+docker compose ps
+```
 
-## 核心功能
+打开 http://127.0.0.1:8003/，输入角色授权码。三个服务应均为 healthy。API 和 Worker 使用 `db:5432` 的容器数据库；Compose 不使用 `.env` 中供本机 Python 使用的 `DATABASE_URL`。
 
-- 真实模型调查，MCP 只读查询政策/订单，按需加载应用 Skills。
-- PostgreSQL 保存工单、检查点、任务、审批、审计和模拟退款台账。
-- 条件全满足自动模拟退款，全不满足自动拒绝，部分满足转人工；事实冲突/缺失优先人工核查。
-- 独立 Worker 执行持久化队列，失败退避重试、管理员重试、进程中断恢复、退款幂等。
-- 运营/审批/管理员三种角色的后端权限校验。
-- 工单工作台、自动刷新、异常重试、任务耗时/失败/心跳监控，API 提供 token 汇总。
+本机源码在 `D:/AgentProjects/ResolveFlow`，Docker 程序在 `D:/Programs/DockerDesktop`，Docker 数据在 `D:/DockerData`；其他机器无需沿用这些路径。本机 Python/便携 PostgreSQL 运行方式见 [运行说明](ENTERPRISE_V3.md)。
 
-## 验证状态
+## demo 与 live
 
-- 基础测试覆盖规则、Graph、MCP、Skills 和 SQLite 隔离测试路径。
-- PostgreSQL 集成测试覆盖权限、队列、重试、进程终止恢复和退款提交后重放；发布前应在可用 PostgreSQL 环境重新执行。
-- 12 条离线合成案例的历史结果见 `evaluation_v3.json`；不是生产准确率。
-- 3 条真实 DeepSeek 异步工单的历史结果见 `async_live_report.json`。
-- Compose 配置已通过静态校验；容器构建、运行和命名卷持久化仍需在 Docker Engine 可用的环境验收。
-- GitHub Actions 工作流会运行基础测试、PostgreSQL 集成测试、离线评测和容器冒烟验证。
+- demo：真实 PostgreSQL、MCP、文档检索、队列和审批，以规则生成演示建议，不调用模型、不消耗 DeepSeek token。
+- live：额外调用模型调查和生成建议，需配置有效的 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`MODEL_NAME`。这几个兼容接口变量在本项目中用于 DeepSeek，不是 Codex 登录配置。
+- 两种模式都只使用合成订单和模拟退款，不调用真实支付。
 
-所有订单为合成数据，退款仅记入模拟台账。角色授权码不是完整的个人账号体系；尚未接入实际电商订单、支付退款和云端生产运维。
+确认模型配置后，可设置 `$env:MODE='live'` 再运行 `docker compose up -d --wait`。API 与 Worker 必须同模式；切换前先处理完旧模式的排队任务。本次容器验收使用 demo，没有付费模型请求。
 
-详细架构、运行方式与限制见 [ENTERPRISE_V3.md](ENTERPRISE_V3.md)。
+## 演示功能
+
+- RF-1001：两项条件均符合，自动模拟退款；再次处理拦截重复退款。
+- RF-1002：两项条件均不满足，自动拒绝。
+- RF-1004：部分条件满足，审批员同意或拒绝后恢复原工单。
+- 缺失事实、政策证据不足或事实冲突：转人工核查。
+- 页面“政策知识库”可查询政策；工单显示来源文件、版本、行号和原文。
+- 管理员可查看心跳、耗时、失败情况，并重试耗尽自动重试次数的任务。
+
+RAG 采用 Markdown 导入、分块、PostgreSQL 存储和 BM25 文本检索，不依赖 embedding 服务。详见 [RAG.md](RAG.md)。
+
+## 持久化与验证
+
+已实际运行 Docker Compose，并完成保留命名卷的容器重建、数据库内容核对与待审批工单恢复。复验脚本会新增一条合成工单，重建容器并比较业务表、checkpoint 和知识库索引，最后拒绝该工单的例外退款：
+
+```powershell
+# 需本机 Python 和 requirements.lock 依赖；服务须先以 demo 启动
+python verify_persistence.py --report validation/persistence.json
+```
+
+**不要执行 `docker compose down -v`，它会删除数据卷。** 停止服务用 `docker compose down`，再启动用 `docker compose up -d --wait`。命名卷不等于备份，正常重建验收不等于强制断电或云端容灾验收。
+
+测试与证据见 [VALIDATION.md](VALIDATION.md)。GitHub Actions 自动执行基础测试、PG 集成、业务/RAG 评测、容器业务流和重建恢复；当前远程结果以 [Actions](https://github.com/qq789qq978-cpu/ResolveFlow/actions) 对应提交为准。
+
+## 交接与计划
+
+- [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md)：架构、恢复设计和已知问题。
+- [ROADMAP.md](ROADMAP.md)：可靠性、RAG 质量、迁移备份与求职展示。
+- [ENTERPRISE_V3.md](ENTERPRISE_V3.md)：权限、监控及运行细节。
+
+当前是本机可部署的求职演示项目。共享角色码不是个人账号体系；未接真实商户订单、真实支付，也未完成公网生产部署。

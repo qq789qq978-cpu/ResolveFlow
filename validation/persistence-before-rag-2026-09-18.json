@@ -1,0 +1,271 @@
+{
+  "started_at": "2026-09-18T09:10:03.489989+00:00",
+  "mode": "demo",
+  "passed": true,
+  "scope": "Graceful Compose recreation; not a disk-loss or forced-crash test",
+  "excluded_dynamic_table": "rf_worker_heartbeats",
+  "initial_tables": {
+    "rf_orders": {
+      "count": 4,
+      "fingerprint": "031d774c9445cc7bbb59ee3d81fb34ac"
+    },
+    "rf_runs": {
+      "count": 7,
+      "fingerprint": "79161db2505ae61d3c4db02bff156564"
+    },
+    "rf_jobs": {
+      "count": 7,
+      "fingerprint": "3124500335dbb2089bbd6d1cc6ddcca4"
+    },
+    "rf_approvals": {
+      "count": 1,
+      "fingerprint": "5065be172feb2c3d45b821572b91976b"
+    },
+    "rf_audit": {
+      "count": 8,
+      "fingerprint": "3937a0ab085a04cc5c10b181b23ae2ad"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "fingerprint": "1984ad79f69a32150146670d7aa60f8f"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "rf_job_attempts": {
+      "count": 8,
+      "fingerprint": "c0f48a51167d756b05c7e9001b0c1f0d"
+    },
+    "checkpoints": {
+      "count": 31,
+      "fingerprint": "4d2608d495c23e0e2058bddb6fe7cda1"
+    },
+    "checkpoint_writes": {
+      "count": 138,
+      "fingerprint": "de574d21f02aa063a789108b41440f85"
+    },
+    "checkpoint_blobs": {
+      "count": 75,
+      "fingerprint": "4c522b497b258da2d1affc783354866f"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "fingerprint": "63a282a08243f71966a92c9e91b8b367"
+    }
+  },
+  "resume_run_id": "270f61ec-af48-45db-9ee9-669b47a961b6",
+  "before_recreation": {
+    "rf_orders": {
+      "count": 4,
+      "fingerprint": "031d774c9445cc7bbb59ee3d81fb34ac"
+    },
+    "rf_runs": {
+      "count": 8,
+      "fingerprint": "72059bc5ede206a0f377e319fae01b57"
+    },
+    "rf_jobs": {
+      "count": 8,
+      "fingerprint": "2bcfa7ee4b1c52cb7e3d59d02ac8a480"
+    },
+    "rf_approvals": {
+      "count": 1,
+      "fingerprint": "5065be172feb2c3d45b821572b91976b"
+    },
+    "rf_audit": {
+      "count": 9,
+      "fingerprint": "b6e1a3ccb111835c4a044fd9b3dac0a1"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "fingerprint": "1984ad79f69a32150146670d7aa60f8f"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "rf_job_attempts": {
+      "count": 9,
+      "fingerprint": "daa161d324440fa7c790d24dc8abfcba"
+    },
+    "checkpoints": {
+      "count": 35,
+      "fingerprint": "fdeda5886a9db1df48eef1624b8f532f"
+    },
+    "checkpoint_writes": {
+      "count": 158,
+      "fingerprint": "cfcdc619424c48a117ebe09cafc98ef6"
+    },
+    "checkpoint_blobs": {
+      "count": 85,
+      "fingerprint": "6576acb7aacfa14b113898ba8f86268e"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "fingerprint": "63a282a08243f71966a92c9e91b8b367"
+    }
+  },
+  "containers_before": {
+    "db": {
+      "id": "99e24ffe770e8674183505ce6e1496ae2d2ad08624a1d8ccbee4e539b662f919",
+      "health": "healthy",
+      "volumes": {
+        "/var/lib/postgresql/data": "resolveflow_postgres-data"
+      }
+    },
+    "resolveflow": {
+      "id": "3304332ff76ed933d3045d5676a4506dee2df234e5d08cfe96c46336c8baa842",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_agent-data"
+      }
+    },
+    "worker": {
+      "id": "aa046415f9c84b4212110810f605e85e61f34c66c480fac91fc195eca4dcdfe4",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_worker-data"
+      }
+    }
+  },
+  "containers_after": {
+    "db": {
+      "id": "80dab54aed30c98201dd7eb92c230dc3339730cffe6328d9a6b4158849b4024f",
+      "health": "healthy",
+      "volumes": {
+        "/var/lib/postgresql/data": "resolveflow_postgres-data"
+      }
+    },
+    "resolveflow": {
+      "id": "96aa562a25ae1946959c1b6c6512edec1689491c462dc5515a4a1f6a7ea7399f",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_agent-data"
+      }
+    },
+    "worker": {
+      "id": "6f722c22557894201c5dab3d986c8f3d99d3d6557dd3aaf2d2fcc5bdbc2ccc72",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_worker-data"
+      }
+    }
+  },
+  "after_recreation": {
+    "rf_orders": {
+      "count": 4,
+      "fingerprint": "031d774c9445cc7bbb59ee3d81fb34ac"
+    },
+    "rf_runs": {
+      "count": 8,
+      "fingerprint": "72059bc5ede206a0f377e319fae01b57"
+    },
+    "rf_jobs": {
+      "count": 8,
+      "fingerprint": "2bcfa7ee4b1c52cb7e3d59d02ac8a480"
+    },
+    "rf_approvals": {
+      "count": 1,
+      "fingerprint": "5065be172feb2c3d45b821572b91976b"
+    },
+    "rf_audit": {
+      "count": 9,
+      "fingerprint": "b6e1a3ccb111835c4a044fd9b3dac0a1"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "fingerprint": "1984ad79f69a32150146670d7aa60f8f"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "rf_job_attempts": {
+      "count": 9,
+      "fingerprint": "daa161d324440fa7c790d24dc8abfcba"
+    },
+    "checkpoints": {
+      "count": 35,
+      "fingerprint": "fdeda5886a9db1df48eef1624b8f532f"
+    },
+    "checkpoint_writes": {
+      "count": 158,
+      "fingerprint": "cfcdc619424c48a117ebe09cafc98ef6"
+    },
+    "checkpoint_blobs": {
+      "count": 85,
+      "fingerprint": "6576acb7aacfa14b113898ba8f86268e"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "fingerprint": "63a282a08243f71966a92c9e91b8b367"
+    }
+  },
+  "original_runs_retained": [
+    "d58bfaeb-9c8b-4c79-b65d-647a1e65948e",
+    "119310f4-0016-48b4-8c94-232ea5f044f7",
+    "baee9112-d8f1-46d6-9714-b280f4972c1b",
+    "80924318-4b4d-4048-9daa-251a34bb0d62",
+    "e1794505-00e4-4911-98cc-99c387eb8228",
+    "88576a3e-c6ca-4a73-9938-91868cbfd9e8",
+    "0330f981-af60-4e75-9a6d-9aa6f9aeec11"
+  ],
+  "after_resume": {
+    "rf_orders": {
+      "count": 4,
+      "fingerprint": "031d774c9445cc7bbb59ee3d81fb34ac"
+    },
+    "rf_runs": {
+      "count": 8,
+      "fingerprint": "f5025b2e1b0bbdf4e6a23cffc8f461ac"
+    },
+    "rf_jobs": {
+      "count": 8,
+      "fingerprint": "1d1329d0a47d25e69f2f871fb9a39b28"
+    },
+    "rf_approvals": {
+      "count": 2,
+      "fingerprint": "cd6caa6783ebd99e822b1e4f7a0f73d9"
+    },
+    "rf_audit": {
+      "count": 10,
+      "fingerprint": "a8492a42fd426bd98483aa3645dfe740"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "fingerprint": "1984ad79f69a32150146670d7aa60f8f"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "rf_job_attempts": {
+      "count": 10,
+      "fingerprint": "06f2a6428f091d467bda471ff3d43396"
+    },
+    "checkpoints": {
+      "count": 37,
+      "fingerprint": "6740b267287d9fb2473fc3a8965213f2"
+    },
+    "checkpoint_writes": {
+      "count": 165,
+      "fingerprint": "58aee0d89db56b5239788038e05233a0"
+    },
+    "checkpoint_blobs": {
+      "count": 88,
+      "fingerprint": "c7f22539eab1b92d62e090f1c5ecaf09"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "fingerprint": "63a282a08243f71966a92c9e91b8b367"
+    }
+  },
+  "all_table_fingerprints_equal": true,
+  "all_container_ids_changed": true,
+  "all_volume_names_retained": true,
+  "resumed_status": "rejected",
+  "investigation_trace_unchanged": true,
+  "refund_ledger_unchanged": true,
+  "workers_online": 1,
+  "finished_at": "2026-09-18T09:11:03.633383+00:00"
+}

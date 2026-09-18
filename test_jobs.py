@@ -140,3 +140,36 @@ def test_refund_commit_before_checkpoint_replay(system,monkeypatch):
     assert store.get(rid)['status']=='already_refunded'
     assert calls==[True,False]
     with store.connect() as conn:assert conn.execute('SELECT count(*) AS n FROM rf_refunds').fetchone()['n']==1
+
+def test_rag_postgres_reindex_and_invalid_input_rollback(system,tmp_path):
+    from rag import retrieve,sync_index
+    store,engine,c=system
+    original=retrieve('退款')
+    assert original and original[0]['source']=='refund.md'
+    assert c.get('/api/knowledge',params={'query':'退款'}).status_code==401
+    response=c.get('/api/knowledge',params={'query':'退款'},headers=headers())
+    assert response.status_code==200 and response.json()['results'][0]['source']=='refund.md'
+    directory=tmp_path/'knowledge';directory.mkdir()
+    doc=directory/'replacement.md'
+    doc.write_text("---\nid: test-v1\ntitle: 售后政策\nversion: '1'\n---\n保修凭证需要人工核查。",encoding='utf-8')
+    with store.connect() as connection:sync_index(connection,directory)
+    result=retrieve('保修凭证')
+    assert result[0]['id']=='test-v1'
+    assert retrieve('退款')==[]  # stale chunks are removed by replacement
+    doc.write_text('invalid metadata',encoding='utf-8')
+    with pytest.raises(ValueError):
+        with store.connect() as connection:sync_index(connection,directory)
+    assert retrieve('保修凭证')==result
+
+def test_manual_approval_true_with_document_evidence(system):
+    store,engine,c=system
+    rid=submit(c,'RF-1004')
+    jobs.process_one(store,engine,rid)
+    row=store.get(rid)
+    assert row['state']['evidence'][0]['chunk_id']
+    assert c.post(f'/api/runs/{rid}/approval',headers=headers('reviewer'),json={'approved':True,'reason':'例外审批验收'}).status_code==202
+    jobs.process_one(store,engine,rid)
+    assert store.get(rid)['status']=='refunded'
+    assert store.get(rid)['state']['result']['reason']=='模拟退款已完成。'
+    with store.connect() as connection:
+        assert connection.execute('SELECT count(*) AS n FROM rf_refunds').fetchone()['n']==1

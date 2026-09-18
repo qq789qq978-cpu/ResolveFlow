@@ -73,3 +73,14 @@ def test_live_contract(tmp_path):
     assert result["pending"]
     assert any(t.get("tool") == "search_policy" for t in result["state"]["trace"])
     e.close()
+
+def test_final_reason_matches_approval_result(tmp_path):
+    e=Engine(str(tmp_path))
+    try:
+        rid=uid()
+        e.start(rid,'退款','RF-1004')
+        result=e.resume(rid,False)['state']['result']
+        assert result['status']=='rejected'
+        assert result['reason']==result['response']=='人工审批拒绝退款。'
+    finally:
+        e.close()
