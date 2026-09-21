@@ -70,7 +70,15 @@ python scripts/worker_crash_qa.py --report validation/worker-crash-recheck.json
 python scripts/worker_crash_qa.py --step 1.6 --report validation/approval-crash-recheck.json
 ```
 
-此选项固定使用 `resolveflow-qa-step16` 独立环境，依次验证拒绝/同意已保存、Worker领取任务后强杀、按原决定恢复、重复/反向审批409及后续工单重复退款拦截。每次新增三条合成工单和审批，结束后停止QA保留卷。它不验证退款提交与checkpoint保存之间的故障窗口，该项为后续1.7。
+此选项固定使用 `resolveflow-qa-step16` 独立环境，依次验证拒绝/同意已保存、Worker领取任务后强杀、按原决定恢复、重复/反向审批409及后续工单重复退款拦截。每次新增三条合成工单和审批，结束后停止QA保留卷。
+
+退款提交后、checkpoint保存前的重放已完成 [步骤1.7验收](validation/step-1.7-2026-09-21/REPORT.md)。相同前置条件，8008可用时运行：
+
+```powershell
+python scripts/worker_crash_qa.py --step 1.7 --report validation/refund-replay-recheck.json
+```
+
+固定使用 `resolveflow-qa-step17`，每次新增两张合成订单、四条工单和两笔模拟退款。测试库临时触发器控制提交窗口；强杀Worker后，还会终止被该测试锁阻塞的checkpoint写连接，确保它不能在解锁后补写完成。恢复前删除测试触发器与函数，重启后验证自动/人工批准两条路径重放和退款幂等。原工单显示already_refunded表示重放的再次插入被拦截，首次退款仍属于原工单。主环境只读指纹，结束后QA停止、卷及历史保留。
 
 ## 交接与计划
 

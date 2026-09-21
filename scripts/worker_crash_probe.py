@@ -1,6 +1,7 @@
-"""Container-side observer for steps 1.5/1.6; invoked by worker_crash_qa.py.
+"""Container-side observer for steps 1.5-1.7; invoked by worker_crash_qa.py.
 
 Uses a bounded QA orders (1.5) or approvals (1.6) table lock. Never runs a job.
+Step 1.7 delegates temporary refund/checkpoint gates to refund_replay_probe.py.
 JSON line protocol keeps the blocker connection alive across Docker commands.
 """
 import hashlib
@@ -44,7 +45,7 @@ def main():
             print(json.dumps(fingerprints(observer)))
             return
         fixture = os.environ.get("APP_API_KEY")
-        if fixture not in {"qa-step15-operator", "qa-step16-operator"}:
+        if fixture not in {"qa-step15-operator", "qa-step16-operator", "qa-step17-operator"}:
             raise RuntimeError("Fault injection requires a dedicated crash QA fixture")
         approval_test = fixture == "qa-step16-operator"
         gate_table = "rf_approvals" if approval_test else "rf_orders"
@@ -53,6 +54,10 @@ def main():
         with tempfile.TemporaryDirectory(prefix="rf-crash-") as directory:
             engine = Engine(directory, "demo", repository=Store(url))
             gate = None
+            replay = None
+            if fixture == "qa-step17-operator":
+                from refund_replay_probe import ReplayGate
+                replay = ReplayGate(url, observer)
 
             def snapshot(run_id):
                 run = observer.execute("SELECT * FROM rf_runs WHERE id=%s", (run_id,)).fetchone()
@@ -63,7 +68,7 @@ def main():
                 graph = engine.graph.get_state(engine.config(run_id))
                 # During 1.6, only the lock-owning connection can read approvals.
                 approval_reader = gate if approval_test and gate is not None else observer
-                return {
+                result = {
                     "run": run, "job": job, "job_lock_available": available,
                     "graph_next": graph.next, "graph_state": graph.values,
                     "graph_interrupts": [item.value for task in graph.tasks for item in task.interrupts],
@@ -74,6 +79,9 @@ def main():
                     "audit": observer.execute("SELECT action FROM rf_audit WHERE run_id=%s ORDER BY id", (run_id,)).fetchall(),
                     "refunds": observer.execute("SELECT * FROM rf_refunds WHERE order_id=%s", (run["order_id"],)).fetchall(),
                 }
+                if replay is not None:
+                    result["checkpoint_writes"] = replay.describe(run_id)
+                return result
 
             print(json.dumps({"ready": True}), flush=True)
             try:
@@ -81,7 +89,23 @@ def main():
                     request = json.loads(line)
                     command = request["command"]
                     try:
-                        if command == "gate":
+                        if command.startswith("replay_") and replay is not None:
+                            if command == "replay_seed":
+                                result = replay.seed(request["source"])
+                            elif command == "replay_install":
+                                result = replay.install(request["run_id"])
+                            elif command == "replay_blocked":
+                                result = {"blocked_writes": replay.blocked(request.get("checkpoint", False)),
+                                          **snapshot(request["run_id"])}
+                            elif command == "replay_allow_refund":
+                                result = replay.allow_refund()
+                            elif command == "replay_abort_writers":
+                                result = replay.abort_checkpoint_writers()
+                            elif command == "replay_cleanup":
+                                result = replay.close()
+                            else:
+                                raise ValueError("Unknown replay command")
+                        elif command == "gate":
                             if gate is not None:
                                 raise RuntimeError("Gate already held")
                             gate = psycopg.connect(url, row_factory=dict_row)
@@ -124,6 +148,8 @@ def main():
             finally:
                 if gate is not None:
                     gate.close()
+                if replay is not None:
+                    replay.close()
                 engine.close()
 
 

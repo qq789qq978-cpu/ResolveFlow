@@ -1,0 +1,11 @@
+{
+  "step17_checks_passed": 59,
+  "step16_regression_checks_passed": 52,
+  "first_calibration_strict_replay_failed_preserved": true,
+  "main_tables_unchanged_across_all_runs": 13,
+  "refunds_unchanged_on_replay": true,
+  "test_triggers_removed": true,
+  "all_QA_stopped": true,
+  "python_syntax": "valid",
+  "secret_scan": "passed"
+}

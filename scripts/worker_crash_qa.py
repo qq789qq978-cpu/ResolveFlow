@@ -1,4 +1,4 @@
-"""SIGKILL a real demo Worker: investigation (1.5) or saved approval (1.6).
+"""SIGKILL a real demo Worker: investigation, saved approval or refund replay.
 
 Run from any directory: python scripts/worker_crash_qa.py --report <new.json>
 Requires Docker Compose, an existing resolveflow:local image, and the main
@@ -86,6 +86,8 @@ def wait_for(check, seconds=60):
 class Observer:
     def __init__(self):
         docker("cp", str(PROBE), API + ":/tmp/worker_crash_probe.py")
+        if PROJECT == "resolveflow-qa-step17":
+            docker("cp", str(PROBE.with_name("refund_replay_probe.py")), API + ":/tmp/refund_replay_probe.py")
         self.process = subprocess.Popen(
             ["docker", "exec", "-i", API, "python", "-u", "/tmp/worker_crash_probe.py"],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
@@ -122,6 +124,8 @@ class Observer:
         except subprocess.TimeoutExpired:
             self.process.kill()
             self.process.wait(timeout=10)
+        if self.process.returncode != 0:
+            raise RuntimeError("Observer exited without successful cleanup")
 
 
 def main_fingerprints():
@@ -284,10 +288,110 @@ def approvals(observer, report, require):
     require(final["graph_state"]["usage"] == {"model_calls": 0, "input_tokens": 0, "output_tokens": 0}, "follow-up makes zero model calls")
 
 
+def refund_replay(observer, report, require):
+    """Real refund commit survives SIGKILL before execute output persistence."""
+    report["scenarios"] = []
+    for manual in (False, True):
+        case = {"manual_approval": manual, "worker_before": container(WORKER)}
+        report["scenarios"].append(case)
+        fixture = case["fixture"] = observer.call("replay_seed", source="RF-1004" if manual else "RF-1001")
+        order_id = fixture["order"]["id"]
+        # Each repeat uses a new synthetic order; this must exercise a first INSERT.
+        docker("pause", WORKER)
+        created = api("/api/runs", {"order_id": order_id, "ticket": "申请退款"})
+        rid = case["run_id"] = created["id"]
+        if manual:
+            docker("unpause", WORKER)
+            wait_for(lambda: api("/api/runs/" + rid)["status"] == "awaiting_approval")
+            docker("pause", WORKER)
+            api("/api/runs/" + rid + "/approval", {"approved": True, "reason": "1.7退款提交后重放验收"}, role="reviewer")
+        case["gate"] = observer.call("replay_install", run_id=rid)
+        docker("unpause", WORKER)
+        case["refund_insert_blocked"] = observer.call("replay_blocked", run_id=rid)
+        before = case["before_refund"] = wait_for(lambda: (s if
+            (s := observer.call("snapshot", run_id=rid))["graph_next"] == ["execute"] else None), 8)
+        require(not before["refunds"] and before["graph_state"]["decision"] is True,
+                "new synthetic order has no refund; authorized execute checkpoint is durable")
+        require(before["run"]["status"] == "running" and not before["job_lock_available"],
+                "real Worker holds the job lock before first refund INSERT")
+        require(not before["graph_interrupts"], "no unresolved human interrupt before execute")
+        if manual:
+            require(before["approval"]["approved"] is True and before["approval"]["actor"] == "reviewer",
+                    "manual path has a committed reviewer approval")
+        case["refund_gate_release"] = observer.call("replay_allow_refund")
+        require(case["refund_gate_release"]["released"], "first refund INSERT released while checkpoint gate remains held")
+        committed = case["refund_committed_checkpoint_blocked"] = observer.call("replay_blocked", run_id=rid, checkpoint=True)
+        addresses = {n["IPAddress"] for n in case["worker_before"]["networks"].values()}
+        require(all(row["client_addr"] in addresses and row["wait_event"] == "advisory"
+                    for row in committed["blocked_writes"]), "real Worker checkpoint write is blocked by test advisory lock")
+        require(len(committed["refunds"]) == 1 and committed["refunds"][0]["run_id"] == rid
+                and committed["refunds"][0]["amount"] == fixture["order"]["amount"],
+                "independent connection sees a committed first refund owned by the original run")
+        require(committed["graph_state"] == before["graph_state"] and committed["graph_next"] == ["execute"]
+                and committed["checkpoint_ids"] == before["checkpoint_ids"]
+                and committed["checkpoint_writes"] == before["checkpoint_writes"],
+                "neither execute checkpoint nor cached execute output was persisted after refund commit")
+        print("Refund committed for " + order_id + "; killing Worker before checkpoint write...", flush=True)
+        docker("kill", "--signal", "KILL", WORKER)
+        killed = case["worker_killed"] = container(WORKER)
+        require(killed["state"] == "exited" and killed["exit_code"] == 137, "real Worker killed in refund/checkpoint window (137)")
+        after = case["after_kill"] = wait_for(lambda: (s if
+            (s := observer.call("snapshot", run_id=rid))["job_lock_available"] else None), 8)
+        require(after["refunds"] == committed["refunds"], "committed refund survives Worker death unchanged")
+        require(after["checkpoint_ids"] == before["checkpoint_ids"] and after["checkpoint_writes"] == before["checkpoint_writes"]
+                and after["graph_state"] == before["graph_state"] and after["graph_next"] == ["execute"],
+                "checkpoint still requires execute replay; no persisted completion can skip it")
+        require(after["job"]["status"] == "queued" and after["job"]["attempts"] == 0
+                and after["attempts"] == before["attempts"], "queue transaction rolled back and uncommitted attempt was not counted")
+        aborted = case["checkpoint_connections_aborted"] = observer.call("replay_abort_writers")
+        require(bool(aborted) and all(row["terminated"] for row in aborted),
+                "dead Worker pending checkpoint connections terminated before gate release")
+        after_abort = case["after_checkpoint_abort"] = observer.call("snapshot", run_id=rid)
+        require(after_abort["checkpoint_writes"] == before["checkpoint_writes"] and after_abort["graph_next"] == ["execute"]
+                and after_abort["refunds"] == committed["refunds"], "checkpoint write aborted while independently committed refund remains")
+        cleanup = case["gate_cleanup"] = observer.call("replay_cleanup")
+        require(cleanup == {"remaining_test_triggers": 0, "test_function": None}, "all temporary QA triggers removed before restart")
+        started = time.monotonic()
+        docker("start", WORKER)
+        wait_for(lambda: api("/api/runs/" + rid)["job"]["status"] == "done")
+        case["recovery_seconds"] = round(time.monotonic() - started, 3)
+        final = case["recovered"] = observer.call("snapshot", run_id=rid)
+        require(final["run"]["status"] == "already_refunded" and not final["graph_next"],
+                "original run replays execute and completes via duplicate-refund protection")
+        require(final["refunds"] == committed["refunds"], "replay preserves refund count, amount, owner run and original timestamp")
+        require(final["approval"] == before["approval"], "replay does not lose or modify the original approval")
+        require(set(before["checkpoint_ids"]).issubset(final["checkpoint_ids"]), "original thread history retained")
+        attempts = [item for item in final["attempts"] if item["kind"] == ("approval" if manual else "investigate")]
+        require(final["job"]["attempts"] == 1 and len(attempts) == 1 and attempts[0]["success"],
+                "one committed successful replay attempt and no manual retry")
+        expected_audit = [{"action": "create"}] + ([{"action": "approve:yes"}] if manual else [])
+        require(final["audit"] == expected_audit, "no admin retry, resubmission or extra approval audit")
+        require(final["graph_state"]["result"]["decision_source"] == ("human" if manual else "automatic"),
+                "original automatic or human authorization is retained")
+        require(final["graph_state"]["usage"] == {"model_calls": 0, "input_tokens": 0, "output_tokens": 0},
+                "replay uses zero model calls and tokens")
+        case["worker_after"] = wait_for(lambda: (c if (c := container(WORKER))["health"] == "healthy" else None))
+        require(case["worker_after"]["started"] != case["worker_before"]["started"], "new Worker process is healthy")
+        follow = api("/api/runs", {"order_id": order_id, "ticket": "申请退款"})
+        fid = case["follow_up_run_id"] = follow["id"]
+        if manual:
+            wait_for(lambda: api("/api/runs/" + fid)["status"] == "awaiting_approval")
+            api("/api/runs/" + fid + "/approval", {"approved": True, "reason": "1.7重放后的重复退款验收"}, role="reviewer")
+        wait_for(lambda: api("/api/runs/" + fid)["job"]["status"] == "done")
+        follow = case["follow_up"] = observer.call("snapshot", run_id=fid)
+        require(follow["run"]["status"] == "already_refunded" and follow["refunds"] == committed["refunds"],
+                "subsequent distinct run also cannot duplicate or replace the original refund")
+        require(follow["graph_state"]["usage"] == {"model_calls": 0, "input_tokens": 0, "output_tokens": 0},
+                "follow-up uses zero model calls and tokens")
+    counts = observer.call("fingerprints")
+    require(counts["rf_refunds"]["count"] == report["qa_before"]["rf_refunds"]["count"] + 2,
+            "two fresh orders produce exactly two new refunds across crashes and follow-ups")
+
+
 def main():
     global PROJECT, API, WORKER, URL, PUBLIC_ENV
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--step", choices=("1.5", "1.6"), default="1.5")
+    parser.add_argument("--step", choices=("1.5", "1.6", "1.7"), default="1.5")
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
     if args.step == "1.6":
@@ -297,7 +401,14 @@ def main():
         PUBLIC_ENV = {**PUBLIC_ENV, "APP_PORT": "8007", "APP_API_KEY": "qa-step16-operator",
                       "REVIEWER_API_KEY": "qa-step16-reviewer", "ADMIN_API_KEY": "qa-step16-admin",
                       "POSTGRES_PASSWORD": "qa-step16-database"}
-    expected_runs = 2 if args.step == "1.5" else 3
+    elif args.step == "1.7":
+        PROJECT = "resolveflow-qa-step17"
+        API, WORKER = PROJECT + "-resolveflow-1", PROJECT + "-worker-1"
+        URL = "http://127.0.0.1:8008"
+        PUBLIC_ENV = {**PUBLIC_ENV, "APP_PORT": "8008", "APP_API_KEY": "qa-step17-operator",
+                      "REVIEWER_API_KEY": "qa-step17-reviewer", "ADMIN_API_KEY": "qa-step17-admin",
+                      "POSTGRES_PASSWORD": "qa-step17-database"}
+    expected_runs = {"1.5": 2, "1.6": 3, "1.7": 4}[args.step]
     if args.report.exists():
         parser.error("Choose a new report path; historical evidence is never overwritten")
     args.report.parent.mkdir(parents=True, exist_ok=True)
@@ -333,8 +444,10 @@ def main():
 
         if args.step == "1.5":
             investigation(observer, report, require)
-        else:
+        elif args.step == "1.6":
             approvals(observer, report, require)
+        else:
+            refund_replay(observer, report, require)
         report["worker_after"] = wait_for(lambda: (c if (c := container(WORKER))["health"] == "healthy" else None))
         require(report["worker_after"]["started"] != report["worker_before"]["started"], "new Worker process started")
         report["qa_after"] = observer.call("fingerprints")
