@@ -1,0 +1,335 @@
+{
+  "step": "1.2",
+  "date": "2026-09-21",
+  "database_read_only_verification": true,
+  "runs": [
+    {
+      "id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "ticket": "步骤1.1验收：商品没有使用过，签收3天，申请退款",
+      "order_id": "RF-1001",
+      "status": "refunded",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "result": {
+        "checks": [
+          {
+            "name": "签收不超过7天",
+            "passed": true
+          },
+          {
+            "name": "商品未使用",
+            "passed": true
+          }
+        ],
+        "reason": "模拟退款已完成。",
+        "status": "refunded",
+        "response": "模拟退款已完成。",
+        "simulated": true,
+        "amount_cents": 29900,
+        "policy_version": "refund-v2",
+        "decision_source": "automatic",
+        "policy_supported": true
+      }
+    },
+    {
+      "id": "2cb9a7b6-5a4a-4d56-a847-ff6e4ea2ba24",
+      "ticket": "步骤1.1验收：商品已使用，签收12天，申请退款",
+      "order_id": "RF-1002",
+      "status": "auto_rejected",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "result": {
+        "checks": [
+          {
+            "name": "签收不超过7天",
+            "passed": false
+          },
+          {
+            "name": "商品未使用",
+            "passed": false
+          }
+        ],
+        "reason": "两项退款条件均不满足，自动拒绝退款。",
+        "status": "auto_rejected",
+        "response": "两项退款条件均不满足，自动拒绝退款。",
+        "policy_version": "refund-v2",
+        "decision_source": "automatic",
+        "policy_supported": true
+      }
+    },
+    {
+      "id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "ticket": "步骤1.1验收：商品已使用，签收3天，申请退款",
+      "order_id": "RF-1004",
+      "status": "rejected",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "result": {
+        "checks": [
+          {
+            "name": "签收不超过7天",
+            "passed": true
+          },
+          {
+            "name": "商品未使用",
+            "passed": false
+          }
+        ],
+        "reason": "人工审批拒绝退款。",
+        "status": "rejected",
+        "response": "人工审批拒绝退款。",
+        "policy_version": "refund-v2",
+        "decision_source": "human",
+        "policy_supported": true
+      }
+    },
+    {
+      "id": "7ef0fd0a-8f08-4a9f-b6cd-adb0c3f756f8",
+      "ticket": "步骤1.1验收：商品已使用，申请退款",
+      "order_id": "RF-1001",
+      "status": "closed",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "result": {
+        "checks": [],
+        "reason": "订单未签收、事实不完整、证据不足或描述冲突，需要人工核查。",
+        "status": "escalated",
+        "response": "订单未签收、事实不完整、证据不足或描述冲突，需要人工核查。",
+        "policy_version": "refund-v2",
+        "decision_source": "system",
+        "policy_supported": true
+      }
+    },
+    {
+      "id": "45447c95-30e6-496b-9ad1-d0c534ac03c1",
+      "ticket": "步骤1.1验收：重复申请退款",
+      "order_id": "RF-1001",
+      "status": "already_refunded",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "result": {
+        "checks": [
+          {
+            "name": "签收不超过7天",
+            "passed": true
+          },
+          {
+            "name": "商品未使用",
+            "passed": true
+          }
+        ],
+        "reason": "该订单已经退款，已拦截重复执行。",
+        "status": "already_refunded",
+        "response": "该订单已经退款，已拦截重复执行。",
+        "simulated": true,
+        "amount_cents": 29900,
+        "policy_version": "refund-v2",
+        "decision_source": "automatic",
+        "policy_supported": true
+      }
+    },
+    {
+      "id": "050edebd-e556-41f9-96e6-158440811410",
+      "ticket": "步骤1.2审批同意验收：商品已使用，签收3天，申请例外退款",
+      "order_id": "RF-1004",
+      "status": "refunded",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "result": {
+        "checks": [
+          {
+            "name": "签收不超过7天",
+            "passed": true
+          },
+          {
+            "name": "商品未使用",
+            "passed": false
+          }
+        ],
+        "reason": "模拟退款已完成。",
+        "status": "refunded",
+        "response": "模拟退款已完成。",
+        "simulated": true,
+        "amount_cents": 15900,
+        "policy_version": "refund-v2",
+        "decision_source": "human",
+        "policy_supported": true
+      }
+    }
+  ],
+  "approvals": [
+    {
+      "run_id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "approved": false,
+      "actor": "reviewer",
+      "reason": "步骤1.2：商品已使用，不批准例外退款",
+      "created_at": "2026-09-21 02:35:59.504263+00:00"
+    },
+    {
+      "run_id": "050edebd-e556-41f9-96e6-158440811410",
+      "approved": true,
+      "actor": "reviewer",
+      "reason": "步骤1.2：测试角色批准本次合成订单例外模拟退款",
+      "created_at": "2026-09-21 02:37:23.295278+00:00"
+    }
+  ],
+  "reviews": [
+    {
+      "run_id": "7ef0fd0a-8f08-4a9f-b6cd-adb0c3f756f8",
+      "actor": "reviewer",
+      "resolution": "步骤1.2：核对合成订单与描述存在冲突，记录核查结论并关闭；本次不执行退款。",
+      "created_at": "2026-09-21 02:36:36.104197+00:00"
+    }
+  ],
+  "refunds": [
+    {
+      "order_id": "RF-1001",
+      "run_id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "amount": 29900,
+      "created_at": "2026-09-21 02:23:34.866003+00:00"
+    },
+    {
+      "order_id": "RF-1004",
+      "run_id": "050edebd-e556-41f9-96e6-158440811410",
+      "amount": 15900,
+      "created_at": "2026-09-21 02:37:23.427764+00:00"
+    }
+  ],
+  "jobs": [
+    {
+      "run_id": "050edebd-e556-41f9-96e6-158440811410",
+      "kind": "approval",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "run_id": "2cb9a7b6-5a4a-4d56-a847-ff6e4ea2ba24",
+      "kind": "investigate",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "run_id": "45447c95-30e6-496b-9ad1-d0c534ac03c1",
+      "kind": "investigate",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "run_id": "7ef0fd0a-8f08-4a9f-b6cd-adb0c3f756f8",
+      "kind": "investigate",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "run_id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "kind": "investigate",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "run_id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "kind": "approval",
+      "status": "done",
+      "attempts": 1
+    }
+  ],
+  "audit": [
+    {
+      "run_id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "actor": "operator",
+      "action": "create"
+    },
+    {
+      "run_id": "2cb9a7b6-5a4a-4d56-a847-ff6e4ea2ba24",
+      "actor": "operator",
+      "action": "create"
+    },
+    {
+      "run_id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "actor": "operator",
+      "action": "create"
+    },
+    {
+      "run_id": "7ef0fd0a-8f08-4a9f-b6cd-adb0c3f756f8",
+      "actor": "operator",
+      "action": "create"
+    },
+    {
+      "run_id": "45447c95-30e6-496b-9ad1-d0c534ac03c1",
+      "actor": "operator",
+      "action": "create"
+    },
+    {
+      "run_id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "actor": "reviewer",
+      "action": "approve:no"
+    },
+    {
+      "run_id": "050edebd-e556-41f9-96e6-158440811410",
+      "actor": "operator",
+      "action": "create"
+    },
+    {
+      "run_id": "050edebd-e556-41f9-96e6-158440811410",
+      "actor": "reviewer",
+      "action": "approve:yes"
+    }
+  ],
+  "checkpoints": [
+    {
+      "thread_id": "050edebd-e556-41f9-96e6-158440811410",
+      "count": 6
+    },
+    {
+      "thread_id": "2cb9a7b6-5a4a-4d56-a847-ff6e4ea2ba24",
+      "count": 4
+    },
+    {
+      "thread_id": "45447c95-30e6-496b-9ad1-d0c534ac03c1",
+      "count": 5
+    },
+    {
+      "thread_id": "7ef0fd0a-8f08-4a9f-b6cd-adb0c3f756f8",
+      "count": 4
+    },
+    {
+      "thread_id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "count": 5
+    },
+    {
+      "thread_id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "count": 6
+    }
+  ],
+  "assertions": "passed: final states, actors, unique decisions/refunds, original rejection reason unchanged, no refund for rejection or closure, zero tokens, all jobs done"
+}

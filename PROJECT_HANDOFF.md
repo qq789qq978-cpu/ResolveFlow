@@ -2,9 +2,11 @@
 
 更新日期：2026-09-18。主目录 `D:/AgentProjects/ResolveFlow`，私有仓库 `qq789qq978-cpu/ResolveFlow`。本文替代此前“没有 Git / Docker 尚未实跑”的过期交接说明。验证结果见 [VALIDATION.md](VALIDATION.md)，后续计划见 [ROADMAP.md](ROADMAP.md)。
 
-执行进度（2026-09-21）：1.1运营浏览器验收完成，详见 [报告](validation/step-1.1-2026-09-21/REPORT.md)。用户要求每次对话只完成一步，每步本地提交、阶段末统一推送并确认CI；完整清单见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。下一步1.2尚未执行。独立QA环境位于8004，与主环境使用同一镜像、独立卷；用 `scripts/operator-qa.ps1 -Action Start` 恢复，保留了待审批和人工核查样例。1.1结束时该QA环境停止，主环境8003继续运行。
+执行进度（2026-09-21）：1.1运营与1.2审批浏览器验收完成，详见 [1.1报告](validation/step-1.1-2026-09-21/REPORT.md) 和 [1.2报告](validation/step-1.2-2026-09-21/REPORT.md)。用户要求每次对话只完成一步，每步本地提交、阶段末统一推送并确认CI；完整清单见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。下一步1.3尚未执行。独立QA环境位于8004，与主环境使用同一镜像、独立卷；用 `scripts/operator-qa.ps1 -Action Start` 恢复。1.1保留的两个待办已分别拒绝和核查结案，1.2另建工单批准成功；目前共6条工单、2条审批、1条核查、2条模拟退款，均为demo。后续需待审批/失败样例时应新增合成工单，不删除原验收数据。
 
 ## 当前架构
+
+1.2收尾状态：主环境8003三服务healthy，独立QA容器已停止并保留卷。非阻断UI待复验：底部提交提示可能滞后于终态，核查结案仍保留原调查建议；最终状态与人工结论正确，详见1.2报告。
 
 - 正式入口 `operations:app` + `worker.py`，前端是 `frontend/dist` 原生 HTML/CSS/JS。
 - Compose 管理 PostgreSQL 17、FastAPI 和 Worker；入口 `127.0.0.1:8003`，数据库仅在容器网络内开放。
