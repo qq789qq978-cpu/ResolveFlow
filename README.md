@@ -56,6 +56,14 @@ python verify_persistence.py --report validation/persistence.json
 
 测试与证据见 [VALIDATION.md](VALIDATION.md)。前端异步响应与断线回归可用 Node 22+ 执行 `node --test test_frontend.cjs`，无须安装 npm 依赖；运行容器应用本身不需要 Node。GitHub Actions 配置包含前端测试、基础测试、PG 集成、业务/RAG 评测、容器业务流和重建恢复；当前远程结果以 [Actions](https://github.com/qq789qq978-cpu/ResolveFlow/actions) 对应提交为准。
 
+调查中真实Worker强杀与恢复已完成 [步骤1.5验收](validation/step-1.5-2026-09-21/REPORT.md)。复验时先确保主环境以demo运行、现有 `resolveflow:local` 镜像与主环境一致，8006端口可用，再执行：
+
+```powershell
+python scripts/worker_crash_qa.py --report validation/worker-crash-recheck.json
+```
+
+宿主Python只需标准库。脚本使用固定独立Compose项目 `resolveflow-qa-step15` 和公开测试凭据，不读取主环境 `.env`，不构建镜像；在真实MCP调查查询中强杀测试Worker，显式启动后检查原任务恢复及重复退款拦截。主环境只读取数据指纹。结束时停止QA并保留卷；复验新增两条合成工单，已有退款会按幂等路径验证，报告路径须未存在。此场景尚未加入远程CI，阶段末统一收口。
+
 ## 交接与计划
 
 - [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md)：架构、恢复设计和已知问题。

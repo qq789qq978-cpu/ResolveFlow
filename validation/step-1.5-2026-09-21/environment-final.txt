@@ -1,0 +1,9 @@
+resolveflow-qa-step15-worker-1 | Exited (0) 38 seconds ago | resolveflow:local
+resolveflow-qa-step15-resolveflow-1 | Exited (0) 37 seconds ago | resolveflow:local
+resolveflow-qa-step15-db-1 | Exited (0) 37 seconds ago | postgres:17
+resolveflow-worker-1 | Up 5 minutes (healthy) | resolveflow:local
+resolveflow-resolveflow-1 | Up 5 minutes (healthy) | resolveflow:local
+resolveflow-qa-step11-worker-1 | Exited (0) 2 hours ago | resolveflow:local
+resolveflow-qa-step11-resolveflow-1 | Exited (0) 2 hours ago | resolveflow:local
+resolveflow-qa-step11-db-1 | Exited (0) 2 hours ago | postgres:17
+resolveflow-db-1 | Up 5 minutes (healthy) | postgres:17
