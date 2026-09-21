@@ -1,0 +1,3536 @@
+{
+  "step": "1.9",
+  "baseline": false,
+  "project": "resolveflow-qa-step19",
+  "started_utc": "2026-09-21T08:13:59.294036+00:00",
+  "passed": true,
+  "checks": [
+    {
+      "check": "two real healthy QA Workers",
+      "passed": true
+    },
+    {
+      "check": "demo mode",
+      "passed": true
+    },
+    {
+      "check": "real Worker is waiting in refund SQL",
+      "passed": true
+    },
+    {
+      "check": "busy admin retry promptly returns HTTP 409",
+      "passed": true
+    },
+    {
+      "check": "second Worker completes unrelated job while first is stalled",
+      "passed": true
+    },
+    {
+      "check": "both heartbeats and health checks stay green while one task is stalled",
+      "passed": true
+    },
+    {
+      "check": "stalled run retains job lock and pending execute checkpoint",
+      "passed": true
+    },
+    {
+      "check": "blocked refund has not committed",
+      "passed": true
+    },
+    {
+      "check": "queue transaction remains open beyond 30 seconds without an overall task deadline",
+      "passed": true
+    },
+    {
+      "check": "releasing external SQL blocker completes original job",
+      "passed": true
+    },
+    {
+      "check": "busy retry request neither resets nor duplicates work",
+      "passed": true
+    },
+    {
+      "check": "two distinct Worker containers concurrently execute different jobs for the same order",
+      "passed": true
+    },
+    {
+      "check": "both active job rows are locked and cannot be claimed by another Worker",
+      "passed": true
+    },
+    {
+      "check": "concurrent same-order requests produce one refund and one duplicate result",
+      "passed": true
+    },
+    {
+      "check": "each concurrent job commits one successful attempt and sees one ledger row",
+      "passed": true
+    },
+    {
+      "check": "both jobs see the identical unique refund",
+      "passed": true
+    },
+    {
+      "check": "real MCP timeout consumes exactly three ordinary attempts then fails",
+      "passed": true
+    },
+    {
+      "check": "each observed server-side SQL timeout finishes before the 15-second MCP read deadline",
+      "passed": true
+    },
+    {
+      "check": "slow failures wait at least 2 then 4 seconds before the next retry",
+      "passed": true
+    },
+    {
+      "check": "exhausted timeout releases job lock",
+      "passed": true
+    },
+    {
+      "check": "MCP cleanup leaves no blocked order-read backend after exhaustion",
+      "passed": true
+    },
+    {
+      "check": "failed task can be retried after blocker is removed",
+      "passed": true
+    },
+    {
+      "check": "admin retry resumes original checkpoint to completion",
+      "passed": true
+    },
+    {
+      "check": "retry history retains three failures and one success",
+      "passed": true
+    },
+    {
+      "check": "all five runs use zero model calls",
+      "passed": true
+    },
+    {
+      "check": "neither Worker restarted during the scenarios",
+      "passed": true
+    },
+    {
+      "check": "all temporary test triggers/functions removed",
+      "passed": true
+    },
+    {
+      "check": "main 13 business/checkpoint/RAG tables unchanged",
+      "passed": true
+    }
+  ],
+  "cleanup_errors": [],
+  "main_before": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 9,
+      "sha256": "30e2a18fa4de3ec10aef8691c85980a7af9d5fcbd9bcbe764eeaf5a6038d40b3"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "sha256": "34022e839b50bfe464e65c63c0112cccefbdd73f661c02e5cc429675de0012d3"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "0729bcc573fcab694609b02a911044ad3895a40b3d1e0abe2e7cb9bc59fa7860"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "cd6ea8e96928fbb1227210766146ccfaf900f628591707fd0e7697eb88723233"
+    },
+    "rf_audit": {
+      "count": 12,
+      "sha256": "5ccdb411bc2d049ae12406dfed2002b5588f1cd6b0c686a9f96d169f41e2c893"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "sha256": "2d40c98b86ee1205b5e24f1f9031d6f67c3b0001f5ef79aa5ed0412b30fb3166"
+    },
+    "checkpoints": {
+      "count": 43,
+      "sha256": "9d9dce4cf984cd9000410d53331fbe5fae3fede4325638f4d962eafa01bfd2be"
+    },
+    "checkpoint_blobs": {
+      "count": 101,
+      "sha256": "439bbd8ce447b31cad22c03da6c880491705e5e327d91d8bd7c726804cedc063"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "sha256": "b36a5ee91c3ffc72a88dae759dbddf56c2eb9a9f2b123dbe1ff7492a9eb6954f"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "3e8b7227960b57f0f64114420d397e0b86db1c92086975b8ffb7e474b2f48762"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "workers_before": [
+    {
+      "id": "3d4d4ac84060886089dc9399952375325268ee0b7a881df736e982e666228322",
+      "image": "sha256:77aed6dc7dafa9cbef5b53bc24fa54748adad342d5bceadcfec8bdd9b7b864f9",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 78360,
+      "started": "2026-09-21T08:14:36.762045486Z",
+      "finished": "2026-09-21T07:46:40.480242243Z",
+      "command": [
+        "python",
+        "worker.py"
+      ],
+      "project": "resolveflow-qa-step19",
+      "networks": {
+        "resolveflow-qa-step19_default": {
+          "Aliases": [
+            "resolveflow-qa-step19-worker-1",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-qa-step19-worker-1",
+            "worker",
+            "3d4d4ac84060"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "752a26219efab0513804c5087c6f182377940994d92b0d0b010359d75db43a86",
+          "Gateway": "172.25.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.25.0.5",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "06:0d:ab:25:6a:87",
+          "NetworkID": "b627686c6109acbda1d3c579b00592980f2b7e411c03ef4a1c08f4805d5e6335"
+        }
+      }
+    },
+    {
+      "id": "5c595b6ebb7d1cc1d14542369790c31106beb0368e817417826f125b4859b3c7",
+      "image": "sha256:77aed6dc7dafa9cbef5b53bc24fa54748adad342d5bceadcfec8bdd9b7b864f9",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 78305,
+      "started": "2026-09-21T08:14:36.564885535Z",
+      "finished": "2026-09-21T07:43:51.651964536Z",
+      "command": [
+        "python",
+        "worker.py"
+      ],
+      "project": "resolveflow-qa-step19",
+      "networks": {
+        "resolveflow-qa-step19_default": {
+          "Aliases": [
+            "resolveflow-qa-step19-worker-2",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-qa-step19-worker-2",
+            "worker",
+            "5c595b6ebb7d"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "9fb0c593c8bd0a76e4ba57a8cc20e568d8db5c21a0b15df3db0d448794e8e5ff",
+          "Gateway": "172.25.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.25.0.4",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "82:69:68:82:dd:89",
+          "NetworkID": "b627686c6109acbda1d3c579b00592980f2b7e411c03ef4a1c08f4805d5e6335"
+        }
+      }
+    }
+  ],
+  "qa_before": {
+    "rf_orders": {
+      "count": 10,
+      "sha256": "fca0b325242dd53799b886b23e347be82f4ba7e1588fd64ae77097a988ceddf0"
+    },
+    "rf_runs": {
+      "count": 14,
+      "sha256": "33bad89fe8cf716aef66347ecaf637a1aa489c0125687305aed6c74490a6d542"
+    },
+    "rf_jobs": {
+      "count": 14,
+      "sha256": "ca39fffefbb561bc38278e43340ae20d7991fac8fe766bb8dd9e8396955d0e49"
+    },
+    "rf_approvals": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 6,
+      "sha256": "6798b52aa74806930cce9fb469e6f51571dc4f86a43b69459d81c4aca6463fc4"
+    },
+    "rf_audit": {
+      "count": 16,
+      "sha256": "fa6cb95b586475b1ff00f21cb7b88faeb805255d2c8a7170719dff98b34b31ba"
+    },
+    "rf_job_attempts": {
+      "count": 20,
+      "sha256": "a4d8fb0ea30aacc2c38f157dfd3f4ef1a6764c9fbb0c976eaeb010878a786597"
+    },
+    "checkpoints": {
+      "count": 64,
+      "sha256": "162d86ed7b2a00a2820bc9339900ee53ead48f4ee53e7b47af249fabb83c0e1a"
+    },
+    "checkpoint_blobs": {
+      "count": 156,
+      "sha256": "34f1032d57bb43e3be024a8cb76746dc52baceee804ce1c7ab1c41db9eed9d19"
+    },
+    "checkpoint_writes": {
+      "count": 278,
+      "sha256": "37b46a595848793e6ffaea4cfd6fd872af6fa59ed272cabf736a5effb99acf73"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "3e8b7227960b57f0f64114420d397e0b86db1c92086975b8ffb7e474b2f48762"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "stalled": {
+    "order_id": "RF-1906",
+    "gate": {
+      "gate_pid": 150,
+      "order_id": "RF-1906",
+      "max_idle_seconds": 180
+    },
+    "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+    "blocked": [
+      {
+        "pid": 168,
+        "client_addr": "172.25.0.4",
+        "state": "active",
+        "wait_event_type": "Lock",
+        "wait_event": "advisory",
+        "transaction_seconds": "0.158809",
+        "blockers": [
+          150
+        ],
+        "operation": "refund_insert"
+      }
+    ],
+    "retry_http": {
+      "status": 409,
+      "body": {
+        "detail": "任务正在处理或状态更新中，请稍后查询状态"
+      },
+      "seconds": 0.016
+    },
+    "other_run_id": "252028f6-c8a1-45bc-8889-ce9d48cea749",
+    "observed_seconds": 35.0,
+    "snapshot": {
+      "run": {
+        "id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+        "ticket": "申请退款",
+        "order_id": "RF-1906",
+        "status": "running",
+        "mode": "demo",
+        "model": "deepseek-flash",
+        "state": null,
+        "error": null,
+        "elapsed_ms": null,
+        "created_at": "2026-09-21 08:14:50.502850+00:00",
+        "updated_at": "2026-09-21 08:14:50.576198+00:00",
+        "created_by": "operator"
+      },
+      "job": {
+        "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+        "kind": "investigate",
+        "status": "queued",
+        "attempts": 0,
+        "available_at": "2026-09-21 08:14:50.502850+00:00",
+        "last_error": null,
+        "updated_at": "2026-09-21 08:14:50.502850+00:00"
+      },
+      "job_lock_available": false,
+      "graph_next": [
+        "execute"
+      ],
+      "graph_state": {
+        "ticket": "申请退款",
+        "order_id": "RF-1906",
+        "owner": "demo",
+        "order": {
+          "id": "RF-1906",
+          "owner": "demo",
+          "amount": 29900,
+          "days": 3,
+          "used": false,
+          "status": "delivered"
+        },
+        "evidence": [
+          {
+            "id": "shipping-v1",
+            "chunk_id": "shipping-v1:872750f16cd0:0",
+            "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+            "title": "物流与配送查询政策",
+            "source": "shipping.md",
+            "version": "1",
+            "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 2.311677,
+            "retrieval": "bm25"
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:2",
+            "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 12,
+            "line_end": 12,
+            "score": 0.765555,
+            "retrieval": "bm25"
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:1",
+            "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 10,
+            "line_end": 10,
+            "score": 0.683279,
+            "retrieval": "bm25"
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:0",
+            "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 0.65444,
+            "retrieval": "bm25"
+          }
+        ],
+        "proposal": {
+          "action": "refund",
+          "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+          "citations": [
+            "refund-v2"
+          ]
+        },
+        "result": {
+          "status": "auto_approved",
+          "response": "两项退款条件均满足，自动执行模拟退款。",
+          "reason": "两项退款条件均满足，自动执行模拟退款。",
+          "policy_supported": true,
+          "policy_version": "refund-v2",
+          "checks": [
+            {
+              "name": "签收不超过7天",
+              "passed": true
+            },
+            {
+              "name": "商品未使用",
+              "passed": true
+            }
+          ],
+          "decision_source": "automatic"
+        },
+        "trace": [
+          {
+            "node": "investigate",
+            "event": "skill_loaded",
+            "name": "refund-handling",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+          },
+          {
+            "node": "investigate",
+            "transport": "mcp-stdio",
+            "tools": [
+              "search_policy",
+              "lookup_order"
+            ]
+          },
+          {
+            "node": "investigate",
+            "event": "baseline_evidence",
+            "sources": [
+              "shipping-v1",
+              "refund-v2",
+              "refund-v2",
+              "refund-v2"
+            ],
+            "chunks": [
+              "shipping-v1:872750f16cd0:0",
+              "refund-v2:3ad704686fec:2",
+              "refund-v2:3ad704686fec:1",
+              "refund-v2:3ad704686fec:0"
+            ],
+            "retrieval": "bm25"
+          },
+          {
+            "node": "validate",
+            "route": "auto_approved",
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "reason": "两项退款条件均满足，自动执行模拟退款。"
+          }
+        ],
+        "decision": true,
+        "validated": true,
+        "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+        "skill": {
+          "name": "refund-handling",
+          "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+          "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。",
+          "catalog": [
+            {
+              "name": "refund-handling",
+              "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+            },
+            {
+              "name": "shipping-handling",
+              "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+            },
+            {
+              "name": "support-triage",
+              "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+            }
+          ]
+        },
+        "conflicts": [],
+        "route": "auto_approved",
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_calls": 0
+        }
+      },
+      "graph_interrupts": [],
+      "approval": null,
+      "checkpoint_ids": [
+        "1f1b5948-4606-6e77-bfff-eb1175a112ab",
+        "1f1b5948-460b-6cc8-8000-c28d25fffd44",
+        "1f1b5948-4dfb-67a2-8001-e01178d480bf",
+        "1f1b5948-4dfe-65e9-8002-ad2a8b80eff5"
+      ],
+      "attempts": [],
+      "audit": [
+        {
+          "action": "create"
+        }
+      ],
+      "refunds": []
+    },
+    "activity": [
+      {
+        "pid": 97,
+        "client_addr": "172.25.0.4",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 102,
+        "client_addr": "172.25.0.5",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 149,
+        "client_addr": "172.25.0.3",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 150,
+        "client_addr": "172.25.0.3",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 154,
+        "client_addr": "172.25.0.4",
+        "state": "idle in transaction",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": "36.050834",
+        "blockers": [],
+        "operation": "queue_claim"
+      },
+      {
+        "pid": 168,
+        "client_addr": "172.25.0.4",
+        "state": "active",
+        "wait_event_type": "Lock",
+        "wait_event": "advisory",
+        "transaction_seconds": "35.170019",
+        "blockers": [
+          150
+        ],
+        "operation": "refund_insert"
+      }
+    ],
+    "metrics": {
+      "status": 200,
+      "body": {
+        "runs": {
+          "already_refunded": 2,
+          "refunded": 6,
+          "running": 1,
+          "auto_rejected": 7
+        },
+        "attempts": {
+          "total": 21,
+          "failed": 6,
+          "avg_ms": 8787,
+          "p95_ms": 36428.0
+        },
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "workers_online": 2,
+        "refund_execution": "simulated"
+      },
+      "seconds": 0.015
+    },
+    "health": [
+      "healthy",
+      "healthy"
+    ],
+    "completion_http": {
+      "id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+      "ticket": "申请退款",
+      "order_id": "RF-1906",
+      "status": "refunded",
+      "mode": "demo",
+      "model": "deepseek-flash",
+      "state": {
+        "order": {
+          "id": "RF-1906",
+          "days": 3,
+          "used": false,
+          "owner": "demo",
+          "amount": 29900,
+          "status": "delivered"
+        },
+        "owner": "demo",
+        "route": "auto_approved",
+        "skill": {
+          "name": "refund-handling",
+          "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+          "catalog": [
+            {
+              "name": "refund-handling",
+              "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+            },
+            {
+              "name": "shipping-handling",
+              "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+            },
+            {
+              "name": "support-triage",
+              "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+            }
+          ],
+          "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。"
+        },
+        "trace": [
+          {
+            "name": "refund-handling",
+            "node": "investigate",
+            "event": "skill_loaded",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+          },
+          {
+            "node": "investigate",
+            "tools": [
+              "search_policy",
+              "lookup_order"
+            ],
+            "transport": "mcp-stdio"
+          },
+          {
+            "node": "investigate",
+            "event": "baseline_evidence",
+            "chunks": [
+              "shipping-v1:872750f16cd0:0",
+              "refund-v2:3ad704686fec:2",
+              "refund-v2:3ad704686fec:1",
+              "refund-v2:3ad704686fec:0"
+            ],
+            "sources": [
+              "shipping-v1",
+              "refund-v2",
+              "refund-v2",
+              "refund-v2"
+            ],
+            "retrieval": "bm25"
+          },
+          {
+            "node": "validate",
+            "route": "auto_approved",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "reason": "两项退款条件均满足，自动执行模拟退款。",
+            "policy_version": "refund-v2"
+          },
+          {
+            "node": "execute",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "reason": "模拟退款已完成。",
+            "status": "refunded",
+            "response": "模拟退款已完成。",
+            "simulated": true,
+            "amount_cents": 29900,
+            "policy_version": "refund-v2",
+            "decision_source": "automatic",
+            "policy_supported": true
+          }
+        ],
+        "usage": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "result": {
+          "checks": [
+            {
+              "name": "签收不超过7天",
+              "passed": true
+            },
+            {
+              "name": "商品未使用",
+              "passed": true
+            }
+          ],
+          "reason": "模拟退款已完成。",
+          "status": "refunded",
+          "response": "模拟退款已完成。",
+          "simulated": true,
+          "amount_cents": 29900,
+          "policy_version": "refund-v2",
+          "decision_source": "automatic",
+          "policy_supported": true
+        },
+        "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+        "ticket": "申请退款",
+        "decision": true,
+        "evidence": [
+          {
+            "id": "shipping-v1",
+            "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+            "score": 2.311677,
+            "title": "物流与配送查询政策",
+            "source": "shipping.md",
+            "version": "1",
+            "chunk_id": "shipping-v1:872750f16cd0:0",
+            "line_end": 8,
+            "retrieval": "bm25",
+            "line_start": 8,
+            "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c"
+          },
+          {
+            "id": "refund-v2",
+            "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+            "score": 0.765555,
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "chunk_id": "refund-v2:3ad704686fec:2",
+            "line_end": 12,
+            "retrieval": "bm25",
+            "line_start": 12,
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+          },
+          {
+            "id": "refund-v2",
+            "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+            "score": 0.683279,
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "chunk_id": "refund-v2:3ad704686fec:1",
+            "line_end": 10,
+            "retrieval": "bm25",
+            "line_start": 10,
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+          },
+          {
+            "id": "refund-v2",
+            "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+            "score": 0.65444,
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "chunk_id": "refund-v2:3ad704686fec:0",
+            "line_end": 8,
+            "retrieval": "bm25",
+            "line_start": 8,
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+          }
+        ],
+        "order_id": "RF-1906",
+        "proposal": {
+          "action": "refund",
+          "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+          "citations": [
+            "refund-v2"
+          ]
+        },
+        "conflicts": [],
+        "validated": true
+      },
+      "error": null,
+      "elapsed_ms": 36245,
+      "created_at": "2026-09-21T08:14:50.502850+00:00",
+      "updated_at": "2026-09-21T08:14:50.553834+00:00",
+      "created_by": "operator",
+      "approval": null,
+      "review": null,
+      "job": {
+        "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "available_at": "2026-09-21T08:14:50.502850+00:00",
+        "last_error": null,
+        "updated_at": "2026-09-21T08:14:50.553834+00:00"
+      },
+      "audit": [
+        {
+          "actor": "operator",
+          "action": "create",
+          "created_at": "2026-09-21T08:14:50.502850+00:00"
+        }
+      ]
+    },
+    "final": {
+      "run": {
+        "id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+        "ticket": "申请退款",
+        "order_id": "RF-1906",
+        "status": "refunded",
+        "mode": "demo",
+        "model": "deepseek-flash",
+        "state": {
+          "order": {
+            "id": "RF-1906",
+            "days": 3,
+            "used": false,
+            "owner": "demo",
+            "amount": 29900,
+            "status": "delivered"
+          },
+          "owner": "demo",
+          "route": "auto_approved",
+          "skill": {
+            "name": "refund-handling",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+            "catalog": [
+              {
+                "name": "refund-handling",
+                "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+              },
+              {
+                "name": "shipping-handling",
+                "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+              },
+              {
+                "name": "support-triage",
+                "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+              }
+            ],
+            "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。"
+          },
+          "trace": [
+            {
+              "name": "refund-handling",
+              "node": "investigate",
+              "event": "skill_loaded",
+              "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+            },
+            {
+              "node": "investigate",
+              "tools": [
+                "search_policy",
+                "lookup_order"
+              ],
+              "transport": "mcp-stdio"
+            },
+            {
+              "node": "investigate",
+              "event": "baseline_evidence",
+              "chunks": [
+                "shipping-v1:872750f16cd0:0",
+                "refund-v2:3ad704686fec:2",
+                "refund-v2:3ad704686fec:1",
+                "refund-v2:3ad704686fec:0"
+              ],
+              "sources": [
+                "shipping-v1",
+                "refund-v2",
+                "refund-v2",
+                "refund-v2"
+              ],
+              "retrieval": "bm25"
+            },
+            {
+              "node": "validate",
+              "route": "auto_approved",
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "reason": "两项退款条件均满足，自动执行模拟退款。",
+              "policy_version": "refund-v2"
+            },
+            {
+              "node": "execute",
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "reason": "模拟退款已完成。",
+              "status": "refunded",
+              "response": "模拟退款已完成。",
+              "simulated": true,
+              "amount_cents": 29900,
+              "policy_version": "refund-v2",
+              "decision_source": "automatic",
+              "policy_supported": true
+            }
+          ],
+          "usage": {
+            "model_calls": 0,
+            "input_tokens": 0,
+            "output_tokens": 0
+          },
+          "result": {
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "reason": "模拟退款已完成。",
+            "status": "refunded",
+            "response": "模拟退款已完成。",
+            "simulated": true,
+            "amount_cents": 29900,
+            "policy_version": "refund-v2",
+            "decision_source": "automatic",
+            "policy_supported": true
+          },
+          "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+          "ticket": "申请退款",
+          "decision": true,
+          "evidence": [
+            {
+              "id": "shipping-v1",
+              "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+              "score": 2.311677,
+              "title": "物流与配送查询政策",
+              "source": "shipping.md",
+              "version": "1",
+              "chunk_id": "shipping-v1:872750f16cd0:0",
+              "line_end": 8,
+              "retrieval": "bm25",
+              "line_start": 8,
+              "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c"
+            },
+            {
+              "id": "refund-v2",
+              "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+              "score": 0.765555,
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "chunk_id": "refund-v2:3ad704686fec:2",
+              "line_end": 12,
+              "retrieval": "bm25",
+              "line_start": 12,
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+            },
+            {
+              "id": "refund-v2",
+              "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+              "score": 0.683279,
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "chunk_id": "refund-v2:3ad704686fec:1",
+              "line_end": 10,
+              "retrieval": "bm25",
+              "line_start": 10,
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+            },
+            {
+              "id": "refund-v2",
+              "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+              "score": 0.65444,
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "chunk_id": "refund-v2:3ad704686fec:0",
+              "line_end": 8,
+              "retrieval": "bm25",
+              "line_start": 8,
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+            }
+          ],
+          "order_id": "RF-1906",
+          "proposal": {
+            "action": "refund",
+            "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+            "citations": [
+              "refund-v2"
+            ]
+          },
+          "conflicts": [],
+          "validated": true
+        },
+        "error": null,
+        "elapsed_ms": 36245,
+        "created_at": "2026-09-21 08:14:50.502850+00:00",
+        "updated_at": "2026-09-21 08:14:50.553834+00:00",
+        "created_by": "operator"
+      },
+      "job": {
+        "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "available_at": "2026-09-21 08:14:50.502850+00:00",
+        "last_error": null,
+        "updated_at": "2026-09-21 08:14:50.553834+00:00"
+      },
+      "job_lock_available": true,
+      "graph_next": [],
+      "graph_state": {
+        "ticket": "申请退款",
+        "order_id": "RF-1906",
+        "owner": "demo",
+        "order": {
+          "id": "RF-1906",
+          "owner": "demo",
+          "amount": 29900,
+          "days": 3,
+          "used": false,
+          "status": "delivered"
+        },
+        "evidence": [
+          {
+            "id": "shipping-v1",
+            "chunk_id": "shipping-v1:872750f16cd0:0",
+            "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+            "title": "物流与配送查询政策",
+            "source": "shipping.md",
+            "version": "1",
+            "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 2.311677,
+            "retrieval": "bm25"
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:2",
+            "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 12,
+            "line_end": 12,
+            "score": 0.765555,
+            "retrieval": "bm25"
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:1",
+            "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 10,
+            "line_end": 10,
+            "score": 0.683279,
+            "retrieval": "bm25"
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:0",
+            "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 0.65444,
+            "retrieval": "bm25"
+          }
+        ],
+        "proposal": {
+          "action": "refund",
+          "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+          "citations": [
+            "refund-v2"
+          ]
+        },
+        "result": {
+          "status": "refunded",
+          "response": "模拟退款已完成。",
+          "reason": "模拟退款已完成。",
+          "policy_supported": true,
+          "policy_version": "refund-v2",
+          "checks": [
+            {
+              "name": "签收不超过7天",
+              "passed": true
+            },
+            {
+              "name": "商品未使用",
+              "passed": true
+            }
+          ],
+          "decision_source": "automatic",
+          "amount_cents": 29900,
+          "simulated": true
+        },
+        "trace": [
+          {
+            "node": "investigate",
+            "event": "skill_loaded",
+            "name": "refund-handling",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+          },
+          {
+            "node": "investigate",
+            "transport": "mcp-stdio",
+            "tools": [
+              "search_policy",
+              "lookup_order"
+            ]
+          },
+          {
+            "node": "investigate",
+            "event": "baseline_evidence",
+            "sources": [
+              "shipping-v1",
+              "refund-v2",
+              "refund-v2",
+              "refund-v2"
+            ],
+            "chunks": [
+              "shipping-v1:872750f16cd0:0",
+              "refund-v2:3ad704686fec:2",
+              "refund-v2:3ad704686fec:1",
+              "refund-v2:3ad704686fec:0"
+            ],
+            "retrieval": "bm25"
+          },
+          {
+            "node": "validate",
+            "route": "auto_approved",
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "reason": "两项退款条件均满足，自动执行模拟退款。"
+          },
+          {
+            "node": "execute",
+            "status": "refunded",
+            "response": "模拟退款已完成。",
+            "reason": "模拟退款已完成。",
+            "policy_supported": true,
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "decision_source": "automatic",
+            "amount_cents": 29900,
+            "simulated": true
+          }
+        ],
+        "decision": true,
+        "validated": true,
+        "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+        "skill": {
+          "name": "refund-handling",
+          "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+          "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。",
+          "catalog": [
+            {
+              "name": "refund-handling",
+              "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+            },
+            {
+              "name": "shipping-handling",
+              "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+            },
+            {
+              "name": "support-triage",
+              "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+            }
+          ]
+        },
+        "conflicts": [],
+        "route": "auto_approved",
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_calls": 0
+        }
+      },
+      "graph_interrupts": [],
+      "approval": null,
+      "checkpoint_ids": [
+        "1f1b5948-4606-6e77-bfff-eb1175a112ab",
+        "1f1b5948-460b-6cc8-8000-c28d25fffd44",
+        "1f1b5948-4dfb-67a2-8001-e01178d480bf",
+        "1f1b5948-4dfe-65e9-8002-ad2a8b80eff5",
+        "1f1b5949-9f64-6990-8003-e9ecf838445a"
+      ],
+      "attempts": [
+        {
+          "id": 22,
+          "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+          "kind": "investigate",
+          "success": true,
+          "error_type": null,
+          "elapsed_ms": 36245,
+          "created_at": "2026-09-21 08:14:50.553834+00:00"
+        }
+      ],
+      "audit": [
+        {
+          "action": "create"
+        }
+      ],
+      "refunds": [
+        {
+          "order_id": "RF-1906",
+          "run_id": "f48e62fa-7ce2-45d1-8c11-766c6169c146",
+          "amount": 29900,
+          "created_at": "2026-09-21 08:14:51.434654+00:00"
+        }
+      ]
+    }
+  },
+  "concurrent": {
+    "order_id": "RF-1907",
+    "gate": {
+      "gate_pid": 308,
+      "order_id": "RF-1907",
+      "max_idle_seconds": 180
+    },
+    "run_ids": [
+      "c499ce42-de47-4fe2-a698-12cb36632fd0",
+      "af5f9a91-7f9c-4db2-aefd-80975d15a482"
+    ],
+    "blocked": [
+      {
+        "pid": 325,
+        "client_addr": "172.25.0.4",
+        "state": "active",
+        "wait_event_type": "Lock",
+        "wait_event": "advisory",
+        "transaction_seconds": "0.232327",
+        "blockers": [
+          308
+        ],
+        "operation": "refund_insert"
+      },
+      {
+        "pid": 328,
+        "client_addr": "172.25.0.5",
+        "state": "active",
+        "wait_event_type": "Lock",
+        "wait_event": "advisory",
+        "transaction_seconds": "0.007929",
+        "blockers": [
+          308,
+          325
+        ],
+        "operation": "refund_insert"
+      }
+    ],
+    "before": [
+      {
+        "run": {
+          "id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+          "ticket": "申请退款",
+          "order_id": "RF-1907",
+          "status": "running",
+          "mode": "demo",
+          "model": "deepseek-flash",
+          "state": null,
+          "error": null,
+          "elapsed_ms": null,
+          "created_at": "2026-09-21 08:15:27.108828+00:00",
+          "updated_at": "2026-09-21 08:15:27.858314+00:00",
+          "created_by": "operator"
+        },
+        "job": {
+          "run_id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+          "kind": "investigate",
+          "status": "queued",
+          "attempts": 0,
+          "available_at": "2026-09-21 08:15:27.108828+00:00",
+          "last_error": null,
+          "updated_at": "2026-09-21 08:15:27.108828+00:00"
+        },
+        "job_lock_available": false,
+        "graph_next": [
+          "execute"
+        ],
+        "graph_state": {
+          "ticket": "申请退款",
+          "order_id": "RF-1907",
+          "owner": "demo",
+          "order": {
+            "id": "RF-1907",
+            "owner": "demo",
+            "amount": 29900,
+            "days": 3,
+            "used": false,
+            "status": "delivered"
+          },
+          "evidence": [
+            {
+              "id": "shipping-v1",
+              "chunk_id": "shipping-v1:872750f16cd0:0",
+              "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+              "title": "物流与配送查询政策",
+              "source": "shipping.md",
+              "version": "1",
+              "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+              "line_start": 8,
+              "line_end": 8,
+              "score": 2.311677,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:2",
+              "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 12,
+              "line_end": 12,
+              "score": 0.765555,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:1",
+              "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 10,
+              "line_end": 10,
+              "score": 0.683279,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:0",
+              "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 8,
+              "line_end": 8,
+              "score": 0.65444,
+              "retrieval": "bm25"
+            }
+          ],
+          "proposal": {
+            "action": "refund",
+            "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+            "citations": [
+              "refund-v2"
+            ]
+          },
+          "result": {
+            "status": "auto_approved",
+            "response": "两项退款条件均满足，自动执行模拟退款。",
+            "reason": "两项退款条件均满足，自动执行模拟退款。",
+            "policy_supported": true,
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "decision_source": "automatic"
+          },
+          "trace": [
+            {
+              "node": "investigate",
+              "event": "skill_loaded",
+              "name": "refund-handling",
+              "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+            },
+            {
+              "node": "investigate",
+              "transport": "mcp-stdio",
+              "tools": [
+                "search_policy",
+                "lookup_order"
+              ]
+            },
+            {
+              "node": "investigate",
+              "event": "baseline_evidence",
+              "sources": [
+                "shipping-v1",
+                "refund-v2",
+                "refund-v2",
+                "refund-v2"
+              ],
+              "chunks": [
+                "shipping-v1:872750f16cd0:0",
+                "refund-v2:3ad704686fec:2",
+                "refund-v2:3ad704686fec:1",
+                "refund-v2:3ad704686fec:0"
+              ],
+              "retrieval": "bm25"
+            },
+            {
+              "node": "validate",
+              "route": "auto_approved",
+              "policy_version": "refund-v2",
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "reason": "两项退款条件均满足，自动执行模拟退款。"
+            }
+          ],
+          "decision": true,
+          "validated": true,
+          "run_id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+          "skill": {
+            "name": "refund-handling",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+            "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。",
+            "catalog": [
+              {
+                "name": "refund-handling",
+                "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+              },
+              {
+                "name": "shipping-handling",
+                "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+              },
+              {
+                "name": "support-triage",
+                "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+              }
+            ]
+          },
+          "conflicts": [],
+          "route": "auto_approved",
+          "usage": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "model_calls": 0
+          }
+        },
+        "graph_interrupts": [],
+        "approval": null,
+        "checkpoint_ids": [
+          "1f1b5949-a985-68b8-bfff-b758f52dad5d",
+          "1f1b5949-a988-6cab-8000-af2a1aba962b",
+          "1f1b5949-b243-6554-8001-93a024c8bd29",
+          "1f1b5949-b245-604f-8002-068be378546d"
+        ],
+        "attempts": [],
+        "audit": [
+          {
+            "action": "create"
+          }
+        ],
+        "refunds": []
+      },
+      {
+        "run": {
+          "id": "af5f9a91-7f9c-4db2-aefd-80975d15a482",
+          "ticket": "申请退款",
+          "order_id": "RF-1907",
+          "status": "running",
+          "mode": "demo",
+          "model": "deepseek-flash",
+          "state": null,
+          "error": null,
+          "elapsed_ms": null,
+          "created_at": "2026-09-21 08:15:27.146639+00:00",
+          "updated_at": "2026-09-21 08:15:28.016976+00:00",
+          "created_by": "operator"
+        },
+        "job": {
+          "run_id": "af5f9a91-7f9c-4db2-aefd-80975d15a482",
+          "kind": "investigate",
+          "status": "queued",
+          "attempts": 0,
+          "available_at": "2026-09-21 08:15:27.146639+00:00",
+          "last_error": null,
+          "updated_at": "2026-09-21 08:15:27.146639+00:00"
+        },
+        "job_lock_available": false,
+        "graph_next": [
+          "execute"
+        ],
+        "graph_state": {
+          "ticket": "申请退款",
+          "order_id": "RF-1907",
+          "owner": "demo",
+          "order": {
+            "id": "RF-1907",
+            "owner": "demo",
+            "amount": 29900,
+            "days": 3,
+            "used": false,
+            "status": "delivered"
+          },
+          "evidence": [
+            {
+              "id": "shipping-v1",
+              "chunk_id": "shipping-v1:872750f16cd0:0",
+              "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+              "title": "物流与配送查询政策",
+              "source": "shipping.md",
+              "version": "1",
+              "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+              "line_start": 8,
+              "line_end": 8,
+              "score": 2.311677,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:2",
+              "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 12,
+              "line_end": 12,
+              "score": 0.765555,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:1",
+              "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 10,
+              "line_end": 10,
+              "score": 0.683279,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:0",
+              "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 8,
+              "line_end": 8,
+              "score": 0.65444,
+              "retrieval": "bm25"
+            }
+          ],
+          "proposal": {
+            "action": "refund",
+            "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+            "citations": [
+              "refund-v2"
+            ]
+          },
+          "result": {
+            "status": "auto_approved",
+            "response": "两项退款条件均满足，自动执行模拟退款。",
+            "reason": "两项退款条件均满足，自动执行模拟退款。",
+            "policy_supported": true,
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "decision_source": "automatic"
+          },
+          "trace": [
+            {
+              "node": "investigate",
+              "event": "skill_loaded",
+              "name": "refund-handling",
+              "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+            },
+            {
+              "node": "investigate",
+              "transport": "mcp-stdio",
+              "tools": [
+                "search_policy",
+                "lookup_order"
+              ]
+            },
+            {
+              "node": "investigate",
+              "event": "baseline_evidence",
+              "sources": [
+                "shipping-v1",
+                "refund-v2",
+                "refund-v2",
+                "refund-v2"
+              ],
+              "chunks": [
+                "shipping-v1:872750f16cd0:0",
+                "refund-v2:3ad704686fec:2",
+                "refund-v2:3ad704686fec:1",
+                "refund-v2:3ad704686fec:0"
+              ],
+              "retrieval": "bm25"
+            },
+            {
+              "node": "validate",
+              "route": "auto_approved",
+              "policy_version": "refund-v2",
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "reason": "两项退款条件均满足，自动执行模拟退款。"
+            }
+          ],
+          "decision": true,
+          "validated": true,
+          "run_id": "af5f9a91-7f9c-4db2-aefd-80975d15a482",
+          "skill": {
+            "name": "refund-handling",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+            "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。",
+            "catalog": [
+              {
+                "name": "refund-handling",
+                "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+              },
+              {
+                "name": "shipping-handling",
+                "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+              },
+              {
+                "name": "support-triage",
+                "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+              }
+            ]
+          },
+          "conflicts": [],
+          "route": "auto_approved",
+          "usage": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "model_calls": 0
+          }
+        },
+        "graph_interrupts": [],
+        "approval": null,
+        "checkpoint_ids": [
+          "1f1b5949-ab0b-6fbf-bfff-8a7d88a90e68",
+          "1f1b5949-ab0f-6282-8000-8fd125c88730",
+          "1f1b5949-b467-67fe-8001-139f152bb2ac",
+          "1f1b5949-b469-6512-8002-c3273971343e"
+        ],
+        "attempts": [],
+        "audit": [
+          {
+            "action": "create"
+          }
+        ],
+        "refunds": []
+      }
+    ],
+    "after": [
+      {
+        "run": {
+          "id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+          "ticket": "申请退款",
+          "order_id": "RF-1907",
+          "status": "refunded",
+          "mode": "demo",
+          "model": "deepseek-flash",
+          "state": {
+            "order": {
+              "id": "RF-1907",
+              "days": 3,
+              "used": false,
+              "owner": "demo",
+              "amount": 29900,
+              "status": "delivered"
+            },
+            "owner": "demo",
+            "route": "auto_approved",
+            "skill": {
+              "name": "refund-handling",
+              "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+              "catalog": [
+                {
+                  "name": "refund-handling",
+                  "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+                },
+                {
+                  "name": "shipping-handling",
+                  "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+                },
+                {
+                  "name": "support-triage",
+                  "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+                }
+              ],
+              "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。"
+            },
+            "trace": [
+              {
+                "name": "refund-handling",
+                "node": "investigate",
+                "event": "skill_loaded",
+                "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+              },
+              {
+                "node": "investigate",
+                "tools": [
+                  "search_policy",
+                  "lookup_order"
+                ],
+                "transport": "mcp-stdio"
+              },
+              {
+                "node": "investigate",
+                "event": "baseline_evidence",
+                "chunks": [
+                  "shipping-v1:872750f16cd0:0",
+                  "refund-v2:3ad704686fec:2",
+                  "refund-v2:3ad704686fec:1",
+                  "refund-v2:3ad704686fec:0"
+                ],
+                "sources": [
+                  "shipping-v1",
+                  "refund-v2",
+                  "refund-v2",
+                  "refund-v2"
+                ],
+                "retrieval": "bm25"
+              },
+              {
+                "node": "validate",
+                "route": "auto_approved",
+                "checks": [
+                  {
+                    "name": "签收不超过7天",
+                    "passed": true
+                  },
+                  {
+                    "name": "商品未使用",
+                    "passed": true
+                  }
+                ],
+                "reason": "两项退款条件均满足，自动执行模拟退款。",
+                "policy_version": "refund-v2"
+              },
+              {
+                "node": "execute",
+                "checks": [
+                  {
+                    "name": "签收不超过7天",
+                    "passed": true
+                  },
+                  {
+                    "name": "商品未使用",
+                    "passed": true
+                  }
+                ],
+                "reason": "模拟退款已完成。",
+                "status": "refunded",
+                "response": "模拟退款已完成。",
+                "simulated": true,
+                "amount_cents": 29900,
+                "policy_version": "refund-v2",
+                "decision_source": "automatic",
+                "policy_supported": true
+              }
+            ],
+            "usage": {
+              "model_calls": 0,
+              "input_tokens": 0,
+              "output_tokens": 0
+            },
+            "result": {
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "reason": "模拟退款已完成。",
+              "status": "refunded",
+              "response": "模拟退款已完成。",
+              "simulated": true,
+              "amount_cents": 29900,
+              "policy_version": "refund-v2",
+              "decision_source": "automatic",
+              "policy_supported": true
+            },
+            "run_id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+            "ticket": "申请退款",
+            "decision": true,
+            "evidence": [
+              {
+                "id": "shipping-v1",
+                "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+                "score": 2.311677,
+                "title": "物流与配送查询政策",
+                "source": "shipping.md",
+                "version": "1",
+                "chunk_id": "shipping-v1:872750f16cd0:0",
+                "line_end": 8,
+                "retrieval": "bm25",
+                "line_start": 8,
+                "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c"
+              },
+              {
+                "id": "refund-v2",
+                "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+                "score": 0.765555,
+                "title": "退款与退货政策",
+                "source": "refund.md",
+                "version": "2",
+                "chunk_id": "refund-v2:3ad704686fec:2",
+                "line_end": 12,
+                "retrieval": "bm25",
+                "line_start": 12,
+                "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+              },
+              {
+                "id": "refund-v2",
+                "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+                "score": 0.683279,
+                "title": "退款与退货政策",
+                "source": "refund.md",
+                "version": "2",
+                "chunk_id": "refund-v2:3ad704686fec:1",
+                "line_end": 10,
+                "retrieval": "bm25",
+                "line_start": 10,
+                "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+              },
+              {
+                "id": "refund-v2",
+                "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+                "score": 0.65444,
+                "title": "退款与退货政策",
+                "source": "refund.md",
+                "version": "2",
+                "chunk_id": "refund-v2:3ad704686fec:0",
+                "line_end": 8,
+                "retrieval": "bm25",
+                "line_start": 8,
+                "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+              }
+            ],
+            "order_id": "RF-1907",
+            "proposal": {
+              "action": "refund",
+              "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+              "citations": [
+                "refund-v2"
+              ]
+            },
+            "conflicts": [],
+            "validated": true
+          },
+          "error": null,
+          "elapsed_ms": 1209,
+          "created_at": "2026-09-21 08:15:27.108828+00:00",
+          "updated_at": "2026-09-21 08:15:27.837922+00:00",
+          "created_by": "operator"
+        },
+        "job": {
+          "run_id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+          "kind": "investigate",
+          "status": "done",
+          "attempts": 1,
+          "available_at": "2026-09-21 08:15:27.108828+00:00",
+          "last_error": null,
+          "updated_at": "2026-09-21 08:15:27.837922+00:00"
+        },
+        "job_lock_available": true,
+        "graph_next": [],
+        "graph_state": {
+          "ticket": "申请退款",
+          "order_id": "RF-1907",
+          "owner": "demo",
+          "order": {
+            "id": "RF-1907",
+            "owner": "demo",
+            "amount": 29900,
+            "days": 3,
+            "used": false,
+            "status": "delivered"
+          },
+          "evidence": [
+            {
+              "id": "shipping-v1",
+              "chunk_id": "shipping-v1:872750f16cd0:0",
+              "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+              "title": "物流与配送查询政策",
+              "source": "shipping.md",
+              "version": "1",
+              "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+              "line_start": 8,
+              "line_end": 8,
+              "score": 2.311677,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:2",
+              "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 12,
+              "line_end": 12,
+              "score": 0.765555,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:1",
+              "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 10,
+              "line_end": 10,
+              "score": 0.683279,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:0",
+              "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 8,
+              "line_end": 8,
+              "score": 0.65444,
+              "retrieval": "bm25"
+            }
+          ],
+          "proposal": {
+            "action": "refund",
+            "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+            "citations": [
+              "refund-v2"
+            ]
+          },
+          "result": {
+            "status": "refunded",
+            "response": "模拟退款已完成。",
+            "reason": "模拟退款已完成。",
+            "policy_supported": true,
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "decision_source": "automatic",
+            "amount_cents": 29900,
+            "simulated": true
+          },
+          "trace": [
+            {
+              "node": "investigate",
+              "event": "skill_loaded",
+              "name": "refund-handling",
+              "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+            },
+            {
+              "node": "investigate",
+              "transport": "mcp-stdio",
+              "tools": [
+                "search_policy",
+                "lookup_order"
+              ]
+            },
+            {
+              "node": "investigate",
+              "event": "baseline_evidence",
+              "sources": [
+                "shipping-v1",
+                "refund-v2",
+                "refund-v2",
+                "refund-v2"
+              ],
+              "chunks": [
+                "shipping-v1:872750f16cd0:0",
+                "refund-v2:3ad704686fec:2",
+                "refund-v2:3ad704686fec:1",
+                "refund-v2:3ad704686fec:0"
+              ],
+              "retrieval": "bm25"
+            },
+            {
+              "node": "validate",
+              "route": "auto_approved",
+              "policy_version": "refund-v2",
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "reason": "两项退款条件均满足，自动执行模拟退款。"
+            },
+            {
+              "node": "execute",
+              "status": "refunded",
+              "response": "模拟退款已完成。",
+              "reason": "模拟退款已完成。",
+              "policy_supported": true,
+              "policy_version": "refund-v2",
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "decision_source": "automatic",
+              "amount_cents": 29900,
+              "simulated": true
+            }
+          ],
+          "decision": true,
+          "validated": true,
+          "run_id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+          "skill": {
+            "name": "refund-handling",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+            "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。",
+            "catalog": [
+              {
+                "name": "refund-handling",
+                "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+              },
+              {
+                "name": "shipping-handling",
+                "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+              },
+              {
+                "name": "support-triage",
+                "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+              }
+            ]
+          },
+          "conflicts": [],
+          "route": "auto_approved",
+          "usage": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "model_calls": 0
+          }
+        },
+        "graph_interrupts": [],
+        "approval": null,
+        "checkpoint_ids": [
+          "1f1b5949-a985-68b8-bfff-b758f52dad5d",
+          "1f1b5949-a988-6cab-8000-af2a1aba962b",
+          "1f1b5949-b243-6554-8001-93a024c8bd29",
+          "1f1b5949-b245-604f-8002-068be378546d",
+          "1f1b5949-b4ce-65cf-8003-4da6beaa0a9f"
+        ],
+        "attempts": [
+          {
+            "id": 23,
+            "run_id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+            "kind": "investigate",
+            "success": true,
+            "error_type": null,
+            "elapsed_ms": 1209,
+            "created_at": "2026-09-21 08:15:27.837922+00:00"
+          }
+        ],
+        "audit": [
+          {
+            "action": "create"
+          }
+        ],
+        "refunds": [
+          {
+            "order_id": "RF-1907",
+            "run_id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+            "amount": 29900,
+            "created_at": "2026-09-21 08:15:28.794483+00:00"
+          }
+        ]
+      },
+      {
+        "run": {
+          "id": "af5f9a91-7f9c-4db2-aefd-80975d15a482",
+          "ticket": "申请退款",
+          "order_id": "RF-1907",
+          "status": "already_refunded",
+          "mode": "demo",
+          "model": "deepseek-flash",
+          "state": {
+            "order": {
+              "id": "RF-1907",
+              "days": 3,
+              "used": false,
+              "owner": "demo",
+              "amount": 29900,
+              "status": "delivered"
+            },
+            "owner": "demo",
+            "route": "auto_approved",
+            "skill": {
+              "name": "refund-handling",
+              "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+              "catalog": [
+                {
+                  "name": "refund-handling",
+                  "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+                },
+                {
+                  "name": "shipping-handling",
+                  "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+                },
+                {
+                  "name": "support-triage",
+                  "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+                }
+              ],
+              "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。"
+            },
+            "trace": [
+              {
+                "name": "refund-handling",
+                "node": "investigate",
+                "event": "skill_loaded",
+                "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+              },
+              {
+                "node": "investigate",
+                "tools": [
+                  "search_policy",
+                  "lookup_order"
+                ],
+                "transport": "mcp-stdio"
+              },
+              {
+                "node": "investigate",
+                "event": "baseline_evidence",
+                "chunks": [
+                  "shipping-v1:872750f16cd0:0",
+                  "refund-v2:3ad704686fec:2",
+                  "refund-v2:3ad704686fec:1",
+                  "refund-v2:3ad704686fec:0"
+                ],
+                "sources": [
+                  "shipping-v1",
+                  "refund-v2",
+                  "refund-v2",
+                  "refund-v2"
+                ],
+                "retrieval": "bm25"
+              },
+              {
+                "node": "validate",
+                "route": "auto_approved",
+                "checks": [
+                  {
+                    "name": "签收不超过7天",
+                    "passed": true
+                  },
+                  {
+                    "name": "商品未使用",
+                    "passed": true
+                  }
+                ],
+                "reason": "两项退款条件均满足，自动执行模拟退款。",
+                "policy_version": "refund-v2"
+              },
+              {
+                "node": "execute",
+                "checks": [
+                  {
+                    "name": "签收不超过7天",
+                    "passed": true
+                  },
+                  {
+                    "name": "商品未使用",
+                    "passed": true
+                  }
+                ],
+                "reason": "该订单已经退款，已拦截重复执行。",
+                "status": "already_refunded",
+                "response": "该订单已经退款，已拦截重复执行。",
+                "simulated": true,
+                "amount_cents": 29900,
+                "policy_version": "refund-v2",
+                "decision_source": "automatic",
+                "policy_supported": true
+              }
+            ],
+            "usage": {
+              "model_calls": 0,
+              "input_tokens": 0,
+              "output_tokens": 0
+            },
+            "result": {
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "reason": "该订单已经退款，已拦截重复执行。",
+              "status": "already_refunded",
+              "response": "该订单已经退款，已拦截重复执行。",
+              "simulated": true,
+              "amount_cents": 29900,
+              "policy_version": "refund-v2",
+              "decision_source": "automatic",
+              "policy_supported": true
+            },
+            "run_id": "af5f9a91-7f9c-4db2-aefd-80975d15a482",
+            "ticket": "申请退款",
+            "decision": true,
+            "evidence": [
+              {
+                "id": "shipping-v1",
+                "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+                "score": 2.311677,
+                "title": "物流与配送查询政策",
+                "source": "shipping.md",
+                "version": "1",
+                "chunk_id": "shipping-v1:872750f16cd0:0",
+                "line_end": 8,
+                "retrieval": "bm25",
+                "line_start": 8,
+                "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c"
+              },
+              {
+                "id": "refund-v2",
+                "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+                "score": 0.765555,
+                "title": "退款与退货政策",
+                "source": "refund.md",
+                "version": "2",
+                "chunk_id": "refund-v2:3ad704686fec:2",
+                "line_end": 12,
+                "retrieval": "bm25",
+                "line_start": 12,
+                "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+              },
+              {
+                "id": "refund-v2",
+                "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+                "score": 0.683279,
+                "title": "退款与退货政策",
+                "source": "refund.md",
+                "version": "2",
+                "chunk_id": "refund-v2:3ad704686fec:1",
+                "line_end": 10,
+                "retrieval": "bm25",
+                "line_start": 10,
+                "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+              },
+              {
+                "id": "refund-v2",
+                "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+                "score": 0.65444,
+                "title": "退款与退货政策",
+                "source": "refund.md",
+                "version": "2",
+                "chunk_id": "refund-v2:3ad704686fec:0",
+                "line_end": 8,
+                "retrieval": "bm25",
+                "line_start": 8,
+                "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+              }
+            ],
+            "order_id": "RF-1907",
+            "proposal": {
+              "action": "refund",
+              "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+              "citations": [
+                "refund-v2"
+              ]
+            },
+            "conflicts": [],
+            "validated": true
+          },
+          "error": null,
+          "elapsed_ms": 1053,
+          "created_at": "2026-09-21 08:15:27.146639+00:00",
+          "updated_at": "2026-09-21 08:15:27.996478+00:00",
+          "created_by": "operator"
+        },
+        "job": {
+          "run_id": "af5f9a91-7f9c-4db2-aefd-80975d15a482",
+          "kind": "investigate",
+          "status": "done",
+          "attempts": 1,
+          "available_at": "2026-09-21 08:15:27.146639+00:00",
+          "last_error": null,
+          "updated_at": "2026-09-21 08:15:27.996478+00:00"
+        },
+        "job_lock_available": true,
+        "graph_next": [],
+        "graph_state": {
+          "ticket": "申请退款",
+          "order_id": "RF-1907",
+          "owner": "demo",
+          "order": {
+            "id": "RF-1907",
+            "owner": "demo",
+            "amount": 29900,
+            "days": 3,
+            "used": false,
+            "status": "delivered"
+          },
+          "evidence": [
+            {
+              "id": "shipping-v1",
+              "chunk_id": "shipping-v1:872750f16cd0:0",
+              "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+              "title": "物流与配送查询政策",
+              "source": "shipping.md",
+              "version": "1",
+              "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+              "line_start": 8,
+              "line_end": 8,
+              "score": 2.311677,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:2",
+              "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 12,
+              "line_end": 12,
+              "score": 0.765555,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:1",
+              "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 10,
+              "line_end": 10,
+              "score": 0.683279,
+              "retrieval": "bm25"
+            },
+            {
+              "id": "refund-v2",
+              "chunk_id": "refund-v2:3ad704686fec:0",
+              "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "line_start": 8,
+              "line_end": 8,
+              "score": 0.65444,
+              "retrieval": "bm25"
+            }
+          ],
+          "proposal": {
+            "action": "refund",
+            "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+            "citations": [
+              "refund-v2"
+            ]
+          },
+          "result": {
+            "status": "already_refunded",
+            "response": "该订单已经退款，已拦截重复执行。",
+            "reason": "该订单已经退款，已拦截重复执行。",
+            "policy_supported": true,
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": true
+              },
+              {
+                "name": "商品未使用",
+                "passed": true
+              }
+            ],
+            "decision_source": "automatic",
+            "amount_cents": 29900,
+            "simulated": true
+          },
+          "trace": [
+            {
+              "node": "investigate",
+              "event": "skill_loaded",
+              "name": "refund-handling",
+              "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+            },
+            {
+              "node": "investigate",
+              "transport": "mcp-stdio",
+              "tools": [
+                "search_policy",
+                "lookup_order"
+              ]
+            },
+            {
+              "node": "investigate",
+              "event": "baseline_evidence",
+              "sources": [
+                "shipping-v1",
+                "refund-v2",
+                "refund-v2",
+                "refund-v2"
+              ],
+              "chunks": [
+                "shipping-v1:872750f16cd0:0",
+                "refund-v2:3ad704686fec:2",
+                "refund-v2:3ad704686fec:1",
+                "refund-v2:3ad704686fec:0"
+              ],
+              "retrieval": "bm25"
+            },
+            {
+              "node": "validate",
+              "route": "auto_approved",
+              "policy_version": "refund-v2",
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "reason": "两项退款条件均满足，自动执行模拟退款。"
+            },
+            {
+              "node": "execute",
+              "status": "already_refunded",
+              "response": "该订单已经退款，已拦截重复执行。",
+              "reason": "该订单已经退款，已拦截重复执行。",
+              "policy_supported": true,
+              "policy_version": "refund-v2",
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": true
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": true
+                }
+              ],
+              "decision_source": "automatic",
+              "amount_cents": 29900,
+              "simulated": true
+            }
+          ],
+          "decision": true,
+          "validated": true,
+          "run_id": "af5f9a91-7f9c-4db2-aefd-80975d15a482",
+          "skill": {
+            "name": "refund-handling",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+            "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。",
+            "catalog": [
+              {
+                "name": "refund-handling",
+                "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+              },
+              {
+                "name": "shipping-handling",
+                "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+              },
+              {
+                "name": "support-triage",
+                "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+              }
+            ]
+          },
+          "conflicts": [],
+          "route": "auto_approved",
+          "usage": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "model_calls": 0
+          }
+        },
+        "graph_interrupts": [],
+        "approval": null,
+        "checkpoint_ids": [
+          "1f1b5949-ab0b-6fbf-bfff-8a7d88a90e68",
+          "1f1b5949-ab0f-6282-8000-8fd125c88730",
+          "1f1b5949-b467-67fe-8001-139f152bb2ac",
+          "1f1b5949-b469-6512-8002-c3273971343e",
+          "1f1b5949-b4d0-64c9-8003-cbbbe1b5c2dd"
+        ],
+        "attempts": [
+          {
+            "id": 24,
+            "run_id": "af5f9a91-7f9c-4db2-aefd-80975d15a482",
+            "kind": "investigate",
+            "success": true,
+            "error_type": null,
+            "elapsed_ms": 1053,
+            "created_at": "2026-09-21 08:15:27.996478+00:00"
+          }
+        ],
+        "audit": [
+          {
+            "action": "create"
+          }
+        ],
+        "refunds": [
+          {
+            "order_id": "RF-1907",
+            "run_id": "c499ce42-de47-4fe2-a698-12cb36632fd0",
+            "amount": 29900,
+            "created_at": "2026-09-21 08:15:28.794483+00:00"
+          }
+        ]
+      }
+    ]
+  },
+  "timeout": {
+    "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+    "gate": {
+      "gate_pid": 341,
+      "table": "rf_orders",
+      "auto_release_seconds": 180
+    },
+    "blocked": {
+      "blocked_order_reads": [
+        {
+          "pid": 348,
+          "client_addr": "172.25.0.5",
+          "state": "active",
+          "wait_event_type": "Lock",
+          "wait_event": "relation",
+          "query": "SELECT * FROM rf_orders WHERE id=$1 AND owner=$2"
+        }
+      ],
+      "run": {
+        "id": "7002097c-df81-466c-b9ff-fd08527b8369",
+        "ticket": "申请退款",
+        "order_id": "RF-1002",
+        "status": "running",
+        "mode": "demo",
+        "model": "deepseek-flash",
+        "state": null,
+        "error": null,
+        "elapsed_ms": null,
+        "created_at": "2026-09-21 08:15:29.657624+00:00",
+        "updated_at": "2026-09-21 08:15:30.113854+00:00",
+        "created_by": "operator"
+      },
+      "job": {
+        "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+        "kind": "investigate",
+        "status": "queued",
+        "attempts": 0,
+        "available_at": "2026-09-21 08:15:29.657624+00:00",
+        "last_error": null,
+        "updated_at": "2026-09-21 08:15:29.657624+00:00"
+      },
+      "job_lock_available": false,
+      "graph_next": [
+        "investigate"
+      ],
+      "graph_state": {
+        "ticket": "申请退款",
+        "order_id": "RF-1002",
+        "owner": "demo",
+        "run_id": "7002097c-df81-466c-b9ff-fd08527b8369"
+      },
+      "graph_interrupts": [],
+      "approval": null,
+      "checkpoint_ids": [
+        "1f1b5949-bf06-68e0-bfff-d6fc087aa84d",
+        "1f1b5949-bf0a-625b-8000-96cd20b7158f"
+      ],
+      "attempts": [],
+      "audit": [
+        {
+          "action": "create"
+        }
+      ],
+      "refunds": []
+    },
+    "seconds_until_failed": 38.078,
+    "failed": {
+      "run": {
+        "id": "7002097c-df81-466c-b9ff-fd08527b8369",
+        "ticket": "申请退款",
+        "order_id": "RF-1002",
+        "status": "failed",
+        "mode": "demo",
+        "model": "deepseek-flash",
+        "state": null,
+        "error": "任务失败：ExceptionGroup",
+        "elapsed_ms": null,
+        "created_at": "2026-09-21 08:15:29.657624+00:00",
+        "updated_at": "2026-09-21 08:15:58.035348+00:00",
+        "created_by": "operator"
+      },
+      "job": {
+        "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+        "kind": "investigate",
+        "status": "failed",
+        "attempts": 3,
+        "available_at": "2026-09-21 08:16:16.962762+00:00",
+        "last_error": "ExceptionGroup",
+        "updated_at": "2026-09-21 08:16:08.962763+00:00"
+      },
+      "job_lock_available": true,
+      "graph_next": [
+        "investigate"
+      ],
+      "graph_state": {
+        "ticket": "申请退款",
+        "order_id": "RF-1002",
+        "owner": "demo",
+        "run_id": "7002097c-df81-466c-b9ff-fd08527b8369"
+      },
+      "graph_interrupts": [],
+      "approval": null,
+      "checkpoint_ids": [
+        "1f1b5949-bf06-68e0-bfff-d6fc087aa84d",
+        "1f1b5949-bf0a-625b-8000-96cd20b7158f"
+      ],
+      "attempts": [
+        {
+          "id": 25,
+          "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+          "kind": "investigate",
+          "success": false,
+          "error_type": "ExceptionGroup",
+          "elapsed_ms": 10924,
+          "created_at": "2026-09-21 08:15:30.090345+00:00"
+        },
+        {
+          "id": 26,
+          "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+          "kind": "investigate",
+          "success": false,
+          "error_type": "ExceptionGroup",
+          "elapsed_ms": 10891,
+          "created_at": "2026-09-21 08:15:43.076983+00:00"
+        },
+        {
+          "id": 27,
+          "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+          "kind": "investigate",
+          "success": false,
+          "error_type": "ExceptionGroup",
+          "elapsed_ms": 10913,
+          "created_at": "2026-09-21 08:15:58.035348+00:00"
+        }
+      ],
+      "audit": [
+        {
+          "action": "create"
+        }
+      ],
+      "refunds": []
+    },
+    "retry_gaps_seconds": [
+      2.063,
+      4.067
+    ],
+    "activity_after_failure": [
+      {
+        "pid": 97,
+        "client_addr": "172.25.0.4",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 102,
+        "client_addr": "172.25.0.5",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 149,
+        "client_addr": "172.25.0.3",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 341,
+        "client_addr": "172.25.0.3",
+        "state": "idle in transaction",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": "39.318799",
+        "blockers": [],
+        "operation": "other"
+      }
+    ],
+    "retry_http": {
+      "status": 202,
+      "body": {
+        "id": "7002097c-df81-466c-b9ff-fd08527b8369",
+        "ticket": "申请退款",
+        "order_id": "RF-1002",
+        "status": "queued",
+        "mode": "demo",
+        "model": "deepseek-flash",
+        "state": null,
+        "error": null,
+        "elapsed_ms": null,
+        "created_at": "2026-09-21T08:15:29.657624+00:00",
+        "updated_at": "2026-09-21T08:16:09.029878+00:00",
+        "created_by": "operator",
+        "approval": null,
+        "review": null,
+        "job": {
+          "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+          "kind": "investigate",
+          "status": "queued",
+          "attempts": 0,
+          "available_at": "2026-09-21T08:16:09.029878+00:00",
+          "last_error": null,
+          "updated_at": "2026-09-21T08:16:09.029878+00:00"
+        },
+        "audit": [
+          {
+            "actor": "operator",
+            "action": "create",
+            "created_at": "2026-09-21T08:15:29.657624+00:00"
+          },
+          {
+            "actor": "admin",
+            "action": "retry",
+            "created_at": "2026-09-21T08:16:09.029878+00:00"
+          }
+        ]
+      },
+      "seconds": 0.047
+    },
+    "recovered": {
+      "run": {
+        "id": "7002097c-df81-466c-b9ff-fd08527b8369",
+        "ticket": "申请退款",
+        "order_id": "RF-1002",
+        "status": "auto_rejected",
+        "mode": "demo",
+        "model": "deepseek-flash",
+        "state": {
+          "order": {
+            "id": "RF-1002",
+            "days": 12,
+            "used": true,
+            "owner": "demo",
+            "amount": 12900,
+            "status": "delivered"
+          },
+          "owner": "demo",
+          "route": "auto_rejected",
+          "skill": {
+            "name": "refund-handling",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+            "catalog": [
+              {
+                "name": "refund-handling",
+                "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+              },
+              {
+                "name": "shipping-handling",
+                "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+              },
+              {
+                "name": "support-triage",
+                "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+              }
+            ],
+            "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。"
+          },
+          "trace": [
+            {
+              "name": "refund-handling",
+              "node": "investigate",
+              "event": "skill_loaded",
+              "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+            },
+            {
+              "node": "investigate",
+              "tools": [
+                "search_policy",
+                "lookup_order"
+              ],
+              "transport": "mcp-stdio"
+            },
+            {
+              "node": "investigate",
+              "event": "baseline_evidence",
+              "chunks": [
+                "shipping-v1:872750f16cd0:0",
+                "refund-v2:3ad704686fec:2",
+                "refund-v2:3ad704686fec:1",
+                "refund-v2:3ad704686fec:0"
+              ],
+              "sources": [
+                "shipping-v1",
+                "refund-v2",
+                "refund-v2",
+                "refund-v2"
+              ],
+              "retrieval": "bm25"
+            },
+            {
+              "node": "validate",
+              "route": "auto_rejected",
+              "checks": [
+                {
+                  "name": "签收不超过7天",
+                  "passed": false
+                },
+                {
+                  "name": "商品未使用",
+                  "passed": false
+                }
+              ],
+              "reason": "两项退款条件均不满足，自动拒绝退款。",
+              "policy_version": "refund-v2"
+            }
+          ],
+          "usage": {
+            "model_calls": 0,
+            "input_tokens": 0,
+            "output_tokens": 0
+          },
+          "result": {
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": false
+              },
+              {
+                "name": "商品未使用",
+                "passed": false
+              }
+            ],
+            "reason": "两项退款条件均不满足，自动拒绝退款。",
+            "status": "auto_rejected",
+            "response": "两项退款条件均不满足，自动拒绝退款。",
+            "policy_version": "refund-v2",
+            "decision_source": "automatic",
+            "policy_supported": true
+          },
+          "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+          "ticket": "申请退款",
+          "decision": false,
+          "evidence": [
+            {
+              "id": "shipping-v1",
+              "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+              "score": 2.311677,
+              "title": "物流与配送查询政策",
+              "source": "shipping.md",
+              "version": "1",
+              "chunk_id": "shipping-v1:872750f16cd0:0",
+              "line_end": 8,
+              "retrieval": "bm25",
+              "line_start": 8,
+              "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c"
+            },
+            {
+              "id": "refund-v2",
+              "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+              "score": 0.765555,
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "chunk_id": "refund-v2:3ad704686fec:2",
+              "line_end": 12,
+              "retrieval": "bm25",
+              "line_start": 12,
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+            },
+            {
+              "id": "refund-v2",
+              "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+              "score": 0.683279,
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "chunk_id": "refund-v2:3ad704686fec:1",
+              "line_end": 10,
+              "retrieval": "bm25",
+              "line_start": 10,
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+            },
+            {
+              "id": "refund-v2",
+              "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+              "score": 0.65444,
+              "title": "退款与退货政策",
+              "source": "refund.md",
+              "version": "2",
+              "chunk_id": "refund-v2:3ad704686fec:0",
+              "line_end": 8,
+              "retrieval": "bm25",
+              "line_start": 8,
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+            }
+          ],
+          "order_id": "RF-1002",
+          "proposal": {
+            "action": "refund",
+            "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+            "citations": [
+              "refund-v2"
+            ]
+          },
+          "conflicts": [],
+          "validated": false
+        },
+        "error": null,
+        "elapsed_ms": 845,
+        "created_at": "2026-09-21 08:15:29.657624+00:00",
+        "updated_at": "2026-09-21 08:16:09.541707+00:00",
+        "created_by": "operator"
+      },
+      "job": {
+        "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "available_at": "2026-09-21 08:16:09.029878+00:00",
+        "last_error": null,
+        "updated_at": "2026-09-21 08:16:09.541707+00:00"
+      },
+      "job_lock_available": true,
+      "graph_next": [],
+      "graph_state": {
+        "ticket": "申请退款",
+        "order_id": "RF-1002",
+        "owner": "demo",
+        "order": {
+          "id": "RF-1002",
+          "owner": "demo",
+          "amount": 12900,
+          "days": 12,
+          "used": true,
+          "status": "delivered"
+        },
+        "evidence": [
+          {
+            "id": "shipping-v1",
+            "chunk_id": "shipping-v1:872750f16cd0:0",
+            "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+            "title": "物流与配送查询政策",
+            "source": "shipping.md",
+            "version": "1",
+            "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 2.311677,
+            "retrieval": "bm25"
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:2",
+            "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 12,
+            "line_end": 12,
+            "score": 0.765555,
+            "retrieval": "bm25"
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:1",
+            "text": "人工审批例外退款时，审批员必须明确同意或拒绝并填写理由。系统先保存决定，再恢复原工单流程。运营人员不能审批；重复提交审批应被拒绝。人工核查结案不会自动执行退款。",
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 10,
+            "line_end": 10,
+            "score": 0.683279,
+            "retrieval": "bm25"
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:0",
+            "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+            "title": "退款与退货政策",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 0.65444,
+            "retrieval": "bm25"
+          }
+        ],
+        "proposal": {
+          "action": "refund",
+          "reason": "演示规则提出处理建议，最终资格由校验节点判定。",
+          "citations": [
+            "refund-v2"
+          ]
+        },
+        "result": {
+          "status": "auto_rejected",
+          "response": "两项退款条件均不满足，自动拒绝退款。",
+          "reason": "两项退款条件均不满足，自动拒绝退款。",
+          "policy_supported": true,
+          "policy_version": "refund-v2",
+          "checks": [
+            {
+              "name": "签收不超过7天",
+              "passed": false
+            },
+            {
+              "name": "商品未使用",
+              "passed": false
+            }
+          ],
+          "decision_source": "automatic"
+        },
+        "trace": [
+          {
+            "node": "investigate",
+            "event": "skill_loaded",
+            "name": "refund-handling",
+            "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2"
+          },
+          {
+            "node": "investigate",
+            "transport": "mcp-stdio",
+            "tools": [
+              "search_policy",
+              "lookup_order"
+            ]
+          },
+          {
+            "node": "investigate",
+            "event": "baseline_evidence",
+            "sources": [
+              "shipping-v1",
+              "refund-v2",
+              "refund-v2",
+              "refund-v2"
+            ],
+            "chunks": [
+              "shipping-v1:872750f16cd0:0",
+              "refund-v2:3ad704686fec:2",
+              "refund-v2:3ad704686fec:1",
+              "refund-v2:3ad704686fec:0"
+            ],
+            "retrieval": "bm25"
+          },
+          {
+            "node": "validate",
+            "route": "auto_rejected",
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "签收不超过7天",
+                "passed": false
+              },
+              {
+                "name": "商品未使用",
+                "passed": false
+              }
+            ],
+            "reason": "两项退款条件均不满足，自动拒绝退款。"
+          }
+        ],
+        "decision": false,
+        "validated": false,
+        "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+        "skill": {
+          "name": "refund-handling",
+          "sha256": "2c9327dc001ccba475aea997445cb3313d71a70b501baf276fd1c50ce5ab1ad2",
+          "instructions": "# 退款处理\n\n使用 lookup_order 获取当前订单，使用 search_policy 查询退款政策。\n核对签收状态、签收天数、是否使用，并引用本次检索到的政策 ID。\n订单不存在、政策缺失、未签收或描述冲突时建议 escalate。退款诉求有充分政策证据时输出 refund 建议，并说明每项条件的事实，不替代规则引擎作最终授权。\n已签收前提下，签收不超过7天且未使用将自动模拟退款；两项都不满足自动拒绝；仅满足一项交人工审批。依据 refund-v2，不声称真实款项到账。最终分流由确定性代码执行。\n输出符合 Proposal 的 action、reason、citations。金额来自订单，不从用户文本取值。",
+          "catalog": [
+            {
+              "name": "refund-handling",
+              "description": "调查退款或退货工单，查询订单与退款政策，形成带证据的建议。"
+            },
+            {
+              "name": "shipping-handling",
+              "description": "调查物流或快递状态工单，依据当前订单事实答复，不承诺未经确认的赔付。"
+            },
+            {
+              "name": "support-triage",
+              "description": "对意图不明确或政策未覆盖的售后工单进行保守分流。"
+            }
+          ]
+        },
+        "conflicts": [],
+        "route": "auto_rejected",
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_calls": 0
+        }
+      },
+      "graph_interrupts": [],
+      "approval": null,
+      "checkpoint_ids": [
+        "1f1b5949-bf06-68e0-bfff-d6fc087aa84d",
+        "1f1b5949-bf0a-625b-8000-96cd20b7158f",
+        "1f1b594b-3f08-67f4-8001-54f58d8f1ceb",
+        "1f1b594b-3f0c-6b0b-8002-7393135fe791"
+      ],
+      "attempts": [
+        {
+          "id": 25,
+          "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+          "kind": "investigate",
+          "success": false,
+          "error_type": "ExceptionGroup",
+          "elapsed_ms": 10924,
+          "created_at": "2026-09-21 08:15:30.090345+00:00"
+        },
+        {
+          "id": 26,
+          "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+          "kind": "investigate",
+          "success": false,
+          "error_type": "ExceptionGroup",
+          "elapsed_ms": 10891,
+          "created_at": "2026-09-21 08:15:43.076983+00:00"
+        },
+        {
+          "id": 27,
+          "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+          "kind": "investigate",
+          "success": false,
+          "error_type": "ExceptionGroup",
+          "elapsed_ms": 10913,
+          "created_at": "2026-09-21 08:15:58.035348+00:00"
+        },
+        {
+          "id": 28,
+          "run_id": "7002097c-df81-466c-b9ff-fd08527b8369",
+          "kind": "investigate",
+          "success": true,
+          "error_type": null,
+          "elapsed_ms": 845,
+          "created_at": "2026-09-21 08:16:09.541707+00:00"
+        }
+      ],
+      "audit": [
+        {
+          "action": "create"
+        },
+        {
+          "action": "retry"
+        }
+      ],
+      "refunds": []
+    }
+  },
+  "workers_after": [
+    {
+      "id": "3d4d4ac84060886089dc9399952375325268ee0b7a881df736e982e666228322",
+      "image": "sha256:77aed6dc7dafa9cbef5b53bc24fa54748adad342d5bceadcfec8bdd9b7b864f9",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 78360,
+      "started": "2026-09-21T08:14:36.762045486Z",
+      "finished": "2026-09-21T07:46:40.480242243Z",
+      "command": [
+        "python",
+        "worker.py"
+      ],
+      "project": "resolveflow-qa-step19",
+      "networks": {
+        "resolveflow-qa-step19_default": {
+          "Aliases": [
+            "resolveflow-qa-step19-worker-1",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-qa-step19-worker-1",
+            "worker",
+            "3d4d4ac84060"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "752a26219efab0513804c5087c6f182377940994d92b0d0b010359d75db43a86",
+          "Gateway": "172.25.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.25.0.5",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "06:0d:ab:25:6a:87",
+          "NetworkID": "b627686c6109acbda1d3c579b00592980f2b7e411c03ef4a1c08f4805d5e6335"
+        }
+      }
+    },
+    {
+      "id": "5c595b6ebb7d1cc1d14542369790c31106beb0368e817417826f125b4859b3c7",
+      "image": "sha256:77aed6dc7dafa9cbef5b53bc24fa54748adad342d5bceadcfec8bdd9b7b864f9",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 78305,
+      "started": "2026-09-21T08:14:36.564885535Z",
+      "finished": "2026-09-21T07:43:51.651964536Z",
+      "command": [
+        "python",
+        "worker.py"
+      ],
+      "project": "resolveflow-qa-step19",
+      "networks": {
+        "resolveflow-qa-step19_default": {
+          "Aliases": [
+            "resolveflow-qa-step19-worker-2",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-qa-step19-worker-2",
+            "worker",
+            "5c595b6ebb7d"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "9fb0c593c8bd0a76e4ba57a8cc20e568d8db5c21a0b15df3db0d448794e8e5ff",
+          "Gateway": "172.25.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.25.0.4",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "82:69:68:82:dd:89",
+          "NetworkID": "b627686c6109acbda1d3c579b00592980f2b7e411c03ef4a1c08f4805d5e6335"
+        }
+      }
+    }
+  ],
+  "gate_cleanup": {
+    "trigger_count": 0,
+    "function": null
+  },
+  "qa_after": {
+    "rf_orders": {
+      "count": 12,
+      "sha256": "c3c9757d2e84e958dbed808ba6cafb2c51e60ca6b3bede88edea94a45d55d982"
+    },
+    "rf_runs": {
+      "count": 19,
+      "sha256": "7c2f86ce8bc0a2dc614d7e2adde76bd54d36e4d80f60a26f5267b822c127388f"
+    },
+    "rf_jobs": {
+      "count": 19,
+      "sha256": "bef097c4ead7298a3b6c031c97b357995dcecfa8710ad0ef536fda37b3d23e5d"
+    },
+    "rf_approvals": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 8,
+      "sha256": "1fcddbd931b169af9d42720ca2059a3e47eb7aa496528ae46aa4740f5920c9ae"
+    },
+    "rf_audit": {
+      "count": 22,
+      "sha256": "aa88707ed4e1a2dc74acea2d80665b7868c6d460e99afbd0f13ebc8165820b41"
+    },
+    "rf_job_attempts": {
+      "count": 28,
+      "sha256": "a29ae5e753f07223975d6654cd95597f28bc156fe52a5c89a91f18a3bd41b882"
+    },
+    "checkpoints": {
+      "count": 87,
+      "sha256": "4605d677e544959af47562a496e3b186d19158f73d78d03b977353c1f0b0c79d"
+    },
+    "checkpoint_blobs": {
+      "count": 212,
+      "sha256": "04da857cf8ac8c297de137dc7d77eabd1bca0b059848e4fd47c1de6314333f29"
+    },
+    "checkpoint_writes": {
+      "count": 378,
+      "sha256": "fb740374fbe8be4f95ce2ed09eea6ea189bf538b765f775ee5c83ec59209d32e"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "3e8b7227960b57f0f64114420d397e0b86db1c92086975b8ffb7e474b2f48762"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "main_after": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 9,
+      "sha256": "30e2a18fa4de3ec10aef8691c85980a7af9d5fcbd9bcbe764eeaf5a6038d40b3"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "sha256": "34022e839b50bfe464e65c63c0112cccefbdd73f661c02e5cc429675de0012d3"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "0729bcc573fcab694609b02a911044ad3895a40b3d1e0abe2e7cb9bc59fa7860"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "cd6ea8e96928fbb1227210766146ccfaf900f628591707fd0e7697eb88723233"
+    },
+    "rf_audit": {
+      "count": 12,
+      "sha256": "5ccdb411bc2d049ae12406dfed2002b5588f1cd6b0c686a9f96d169f41e2c893"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "sha256": "2d40c98b86ee1205b5e24f1f9031d6f67c3b0001f5ef79aa5ed0412b30fb3166"
+    },
+    "checkpoints": {
+      "count": 43,
+      "sha256": "9d9dce4cf984cd9000410d53331fbe5fae3fede4325638f4d962eafa01bfd2be"
+    },
+    "checkpoint_blobs": {
+      "count": 101,
+      "sha256": "439bbd8ce447b31cad22c03da6c880491705e5e327d91d8bd7c726804cedc063"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "sha256": "b36a5ee91c3ffc72a88dae759dbddf56c2eb9a9f2b123dbe1ff7492a9eb6954f"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "3e8b7227960b57f0f64114420d397e0b86db1c92086975b8ffb7e474b2f48762"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "qa_final": {
+    "resolveflow-qa-step19-worker-1": "exited",
+    "resolveflow-qa-step19-worker-2": "exited",
+    "resolveflow-qa-step19-resolveflow-1": "exited",
+    "resolveflow-qa-step19-db-1": "exited"
+  },
+  "finished_utc": "2026-09-21T08:16:14.040653+00:00"
+}

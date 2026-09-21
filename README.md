@@ -2,6 +2,10 @@
 
 基于 LangGraph、DeepSeek、MCP 和 PostgreSQL，支持异步 Worker、可恢复人工审批、政策文档 RAG、三角色权限和模拟退款幂等。浏览器界面由 FastAPI 同源提供。
 
+[![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
+
+第一阶段的演示与可靠性记录已汇总到 [1.10阶段报告](validation/step-1.10-2026-09-21/REPORT.md)。远程验证按提交SHA核对Actions，徽章仅表示main最新工作流状态；私有仓库需有访问权限。下一步为2.1 RAG评测集，尚未启动。
+
 ## Docker 快速启动
 
 前置条件：Git、已启动的 Docker Engine / Docker Desktop，以及 Compose。首次获取私有仓库：
@@ -62,7 +66,7 @@ python verify_persistence.py --report validation/persistence.json
 python scripts/worker_crash_qa.py --report validation/worker-crash-recheck.json
 ```
 
-宿主Python只需标准库。脚本使用固定独立Compose项目 `resolveflow-qa-step15` 和公开测试凭据，不读取主环境 `.env`，不构建镜像；在真实MCP调查查询中强杀测试Worker，显式启动后检查原任务恢复及重复退款拦截。主环境只读取数据指纹。结束时停止QA并保留卷；复验新增两条合成工单，已有退款会按幂等路径验证，报告路径须未存在。此场景尚未加入远程CI，阶段末统一收口。
+宿主Python只需标准库。脚本使用固定独立Compose项目 `resolveflow-qa-step15` 和公开测试凭据，不读取主环境 `.env`，不构建镜像；在真实MCP调查查询中强杀测试Worker，显式启动后检查原任务恢复及重复退款拦截。主环境只读取数据指纹。结束时停止QA并保留卷；复验新增两条合成工单，已有退款会按幂等路径验证，报告路径须未存在。1.10已将1.5–1.9串行故障验收加入CI，并上传各场景JSON证据。
 
 审批保存后强杀与恢复已完成 [步骤1.6验收](validation/step-1.6-2026-09-21/REPORT.md)。相同前置条件，8007可用时运行：
 
@@ -99,6 +103,18 @@ python scripts/multi_worker_qa.py --report validation/multi-worker-recheck.json
 需要已有 `resolveflow:local` 镜像和运行中的demo主环境。脚本新增两张合成订单、五条工单，验证一个Worker停滞时另一个继续处理、同订单并发退款唯一、MCP数据库查询超时、三次失败后的管理员恢复。两个真实Worker使用Compose的 `--scale worker=2`；结束时删除测试触发器并停止QA，保留全部卷和历史。不要与其他使用同一QA数据库的测试并行运行。
 
 管理员重试遇到任务锁立即返回409；普通失败从失败时刻起等待2秒、4秒再重试。MCP子进程的单条SQL限制10秒，早于MCP读取15秒和会话30秒限制，避免子进程退出后数据库查询继续等锁。这些是局部超时，不是整张工单的执行期限；退款写入、checkpoint等连接目前没有统一SQL超时。长事务持锁期间心跳和健康检查仍可正常，不能据此判断任务有进展。整体超时和停滞告警继续安排在3.7、3.8，实测边界见 [1.9报告](validation/step-1.9-2026-09-21/REPORT.md)。
+
+## 第一阶段回归入口
+
+主环境以demo运行、`resolveflow:local`镜像与其一致、8006–8010端口可用时，可一次串行复验1.5–1.9：
+
+```powershell
+python scripts/stage1_qa.py --reports validation/stage1-recheck
+```
+
+使用新的报告目录；不要与使用相同QA项目的脚本同时运行。各场景仍使用独立数据库，正常结束后停止QA、保留卷和历史。入口不重演浏览器操作；浏览器证据保留在1.1–1.4，前端延迟/断线回归由 `node --test test_frontend.cjs` 执行。
+
+CI按顺序运行前端、基础/MCP、PG集成、离线业务/RAG、全新镜像构建、HTTP权限/业务流、容器重建恢复及上述真实故障验收。Actions中的 `evaluation` 附件包含业务/RAG报告、重建证据及五个故障场景结果。42项基础测试、14项PG集成、12项前端测试与故障断言属于不同验证层次，不代表生产准确率或容量保证；故障断言数会因是否已有历史退款而略有区别。
 
 ## 交接与计划
 

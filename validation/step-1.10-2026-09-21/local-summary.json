@@ -1,0 +1,233 @@
+{
+  "passed": true,
+  "mode": "demo",
+  "main_data_unchanged": true,
+  "main_tables": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 9,
+      "sha256": "30e2a18fa4de3ec10aef8691c85980a7af9d5fcbd9bcbe764eeaf5a6038d40b3"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "sha256": "34022e839b50bfe464e65c63c0112cccefbdd73f661c02e5cc429675de0012d3"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "0729bcc573fcab694609b02a911044ad3895a40b3d1e0abe2e7cb9bc59fa7860"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "cd6ea8e96928fbb1227210766146ccfaf900f628591707fd0e7697eb88723233"
+    },
+    "rf_audit": {
+      "count": 12,
+      "sha256": "5ccdb411bc2d049ae12406dfed2002b5588f1cd6b0c686a9f96d169f41e2c893"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "sha256": "2d40c98b86ee1205b5e24f1f9031d6f67c3b0001f5ef79aa5ed0412b30fb3166"
+    },
+    "checkpoints": {
+      "count": 43,
+      "sha256": "9d9dce4cf984cd9000410d53331fbe5fae3fede4325638f4d962eafa01bfd2be"
+    },
+    "checkpoint_blobs": {
+      "count": 101,
+      "sha256": "439bbd8ce447b31cad22c03da6c880491705e5e327d91d8bd7c726804cedc063"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "sha256": "b36a5ee91c3ffc72a88dae759dbddf56c2eb9a9f2b123dbe1ff7492a9eb6954f"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "3e8b7227960b57f0f64114420d397e0b86db1c92086975b8ffb7e474b2f48762"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "main_services": [
+    {
+      "id": "064d69f2c0be60e2b9983f9d9a50620ef6d37dc9be10b899fd503ddb13edd459",
+      "image": "sha256:77aed6dc7dafa9cbef5b53bc24fa54748adad342d5bceadcfec8bdd9b7b864f9",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 57707,
+      "started": "2026-09-21T07:46:44.687766089Z",
+      "finished": "0001-01-01T00:00:00Z",
+      "command": [
+        "uvicorn",
+        "operations:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--workers",
+        "1"
+      ],
+      "project": "resolveflow",
+      "networks": {
+        "resolveflow_default": {
+          "Aliases": [
+            "resolveflow-resolveflow-1",
+            "resolveflow"
+          ],
+          "DNSNames": [
+            "resolveflow-resolveflow-1",
+            "resolveflow",
+            "064d69f2c0be"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "0e64dba0e80ff55b638861ce9dc4064d9c2bee04a4d0b3e7f9efa1a37480ff91",
+          "Gateway": "172.18.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.18.0.2",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "86:dc:46:61:39:84",
+          "NetworkID": "28fa8cb500dccbb732d8a7eb396e6d496e4da87dc4a706df40e96802b2ed65a3"
+        }
+      }
+    },
+    {
+      "id": "2ae2cd9730ef3e9d9b360e9643ede928502943c9a8735a5a1e2799d19bc0b29c",
+      "image": "sha256:77aed6dc7dafa9cbef5b53bc24fa54748adad342d5bceadcfec8bdd9b7b864f9",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 57918,
+      "started": "2026-09-21T07:47:15.406544274Z",
+      "finished": "0001-01-01T00:00:00Z",
+      "command": [
+        "python",
+        "worker.py"
+      ],
+      "project": "resolveflow",
+      "networks": {
+        "resolveflow_default": {
+          "Aliases": [
+            "resolveflow-worker-1",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-worker-1",
+            "worker",
+            "2ae2cd9730ef"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "c23ad9483adce7fd3034c7c47a652d806f7f3ad03badd07690749512b1bf4eb0",
+          "Gateway": "172.18.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.18.0.3",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "0e:dc:46:dd:bf:ef",
+          "NetworkID": "28fa8cb500dccbb732d8a7eb396e6d496e4da87dc4a706df40e96802b2ed65a3"
+        }
+      }
+    },
+    {
+      "id": "65c58324444e0e1aa6089a70c432c00a9c805d47643b72f367dad04c4b00cab0",
+      "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 491,
+      "started": "2026-09-21T06:25:16.6107881Z",
+      "finished": "2026-09-21T05:26:06.261841923Z",
+      "command": [
+        "postgres"
+      ],
+      "project": "resolveflow",
+      "networks": {
+        "resolveflow_default": {
+          "Aliases": [
+            "resolveflow-db-1",
+            "db"
+          ],
+          "DNSNames": [
+            "resolveflow-db-1",
+            "db",
+            "65c58324444e"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "c665cf9c6f63bb1551d0671ee0af0e55882c27ab882dbfe62a78ecaacdffc8aa",
+          "Gateway": "172.18.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.18.0.4",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "e2:8c:02:9a:93:61",
+          "NetworkID": "28fa8cb500dccbb732d8a7eb396e6d496e4da87dc4a706df40e96802b2ed65a3"
+        }
+      }
+    }
+  ],
+  "qa_final": {
+    "step15": {
+      "resolveflow-qa-step15-resolveflow-1": "exited",
+      "resolveflow-qa-step15-worker-1": "exited",
+      "resolveflow-qa-step15-db-1": "exited"
+    },
+    "step16": {
+      "resolveflow-qa-step16-resolveflow-1": "exited",
+      "resolveflow-qa-step16-worker-1": "exited",
+      "resolveflow-qa-step16-db-1": "exited"
+    },
+    "step17": {
+      "resolveflow-qa-step17-resolveflow-1": "exited",
+      "resolveflow-qa-step17-worker-1": "exited",
+      "resolveflow-qa-step17-db-1": "exited"
+    },
+    "step18": {
+      "resolveflow-qa-step18-resolveflow-1": "exited",
+      "resolveflow-qa-step18-worker-1": "exited",
+      "resolveflow-qa-step18-db-1": "exited"
+    },
+    "step19": {
+      "resolveflow-qa-step19-resolveflow-1": "exited",
+      "resolveflow-qa-step19-worker-1": "exited",
+      "resolveflow-qa-step19-db-1": "exited",
+      "resolveflow-qa-step19-worker-2": "exited"
+    },
+    "step110": {
+      "resolveflow-qa-step110-resolveflow-1": "exited",
+      "resolveflow-qa-step110-worker-1": "exited",
+      "resolveflow-qa-step110-db-1": "exited"
+    }
+  },
+  "checks": {
+    "frontend": 12,
+    "unit": 42,
+    "postgres": 14,
+    "business_samples": 12,
+    "rag_samples": 12,
+    "fault_assertions": 199,
+    "persistence_tables": 14
+  },
+  "next_step": "2.1 not started",
+  "remote_ci": "Verify this commit on GitHub Actions before final delivery"
+}

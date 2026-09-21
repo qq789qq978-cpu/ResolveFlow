@@ -3,6 +3,7 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     services:
       postgres:
         image: postgres:17
@@ -52,6 +53,8 @@ jobs:
           python smoke_async.py --url http://127.0.0.1:8005
       - name: Recreate containers and resume checkpoint
         run: python verify_persistence.py --url http://127.0.0.1:8005 --report validation/persistence-ci.json
+      - name: Real Worker crashes, database outage and multi-worker timeouts
+        run: python scripts/stage1_qa.py --reports validation/stage1-ci
       - name: Container logs
         if: failure()
         run: docker compose logs --no-color --tail=100
@@ -66,3 +69,5 @@ jobs:
             evaluation_v3.json
             evaluation_rag.json
             validation/persistence-ci.json
+            async_live_report.json
+            validation/stage1-ci/*.json

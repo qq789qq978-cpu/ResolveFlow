@@ -2,7 +2,9 @@
 
 更新日期：2026-09-21。主目录 `D:/AgentProjects/ResolveFlow`，私有仓库 `qq789qq978-cpu/ResolveFlow`。本文替代此前“没有 Git / Docker 尚未实跑”的过期交接说明。验证结果见 [VALIDATION.md](VALIDATION.md)，后续计划见 [ROADMAP.md](ROADMAP.md)。
 
-执行进度（2026-09-21）：1.1–1.9完成，最新 [1.9报告](validation/step-1.9-2026-09-21/REPORT.md) 包含28项双Worker/停滞/超时检查、42项基础测试、14项PG集成测试。修复管理员重试等锁、MCP超时后的残留查询及长事务下重试间隔失效。用户要求每次对话只完成一步，每步本地提交、阶段末统一推送并确认CI；完整清单见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。下一步1.10尚未执行。
+执行进度（2026-09-21）：第一阶段1.1–1.10收口，最新 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md) 汇总阶段回归、CI入口、交付核验方式与已知边界。12项前端、42项基础、14项PG集成、两组12条合成评测、三条API业务流、14表重建持久化及五类真实故障场景均复验。最终交付须确认远程main等于本地提交且该提交Actions成功；不引用旧提交的绿色结果代替。用户要求每次对话一步、阶段末推送；下一步2.1尚未启动，见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
+
+1.10新增 `scripts/stage1_qa.py`，串行调用1.5–1.9独立故障环境，CI同样调用并保存JSON附件。本机另以 `resolveflow-qa-step110`（8011）验证PG集成、角色权限/业务流和容器重建，主环境13表保持只读不变。没有更改业务代码或替换主环境镜像。下文1.1–1.9的数量均为各步当时的历史快照，最新QA数量与状态以1.10报告为准；不要删除历史卷。
 
 1.9使用独立 `resolveflow-qa-step19`（8010），Compose扩展两个真实Worker，测试保持其PID不变。一个任务退款写入受阻35.016秒时，另一Worker完成无关工单；同订单两条并发工单只有一条退款。MCP SQL超时后每次约10.9秒退出，实际间隔2.045/4.070秒；三次失败后无残留受阻查询，管理员重试恢复原checkpoint。旧版残留查询复现的历史失败任务另经一次管理员重试恢复。复验用 `python scripts/multi_worker_qa.py --report validation/multi-worker-recheck.json`，新增两张合成订单、五条工单、两条退款；勿与同库测试并行。全部demo、无模型调用。
 
@@ -15,6 +17,8 @@
 既有QA：8006的 `resolveflow-qa-step15` 在1.6共享脚本回归后共4条工单、4条done任务、1条29900分退款（1.5初验2条工单，1.6回归新增2条），原退款内容不变。复验1.5不加 `--step`，仍使用8006。原8004保持1.1–1.4的11条工单、3条审批、2条核查、2条退款，用 `scripts/operator-qa.ps1 -Action Start` 恢复。所有QA已停止并保留卷；后续新增合成样例，不删除历史数据。
 
 ## 当前架构
+
+1.10沿用1.9已部署镜像，主环境三服务healthy；五类故障脚本只在各自QA项目操作，8011重建也不影响8003。全部demo，未调用付费模型、未接真实退款。远程交付状态见 [Actions](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)，本机同提交核对结果保存在已忽略的 `validation/github-actions-local.json`，避免为了把新SHA写入报告而再次改变受测提交。
 
 1.9收尾状态：修复镜像为 `sha256:77aed6dc7dafa9cbef5b53bc24fa54748adad342d5bceadcfec8bdd9b7b864f9`。本机更新和主库13张表核对记录见 [部署证据](validation/step-1.9-2026-09-21/main-deployment.json)。8010及其他QA停止并保留卷。阶段中途不推送，1.10尚未开始。以下1.4–1.8为各步当时的历史状态。
 

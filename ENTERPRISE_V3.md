@@ -85,7 +85,7 @@ docker compose down
 
 Compose 启动 PostgreSQL、API、Worker 三个服务，数据库与运行数据使用命名卷。不要用 `down -v` 删除数据。容器数据库是独立新数据库，不会自动迁入便携 PostgreSQL 的历史记录。若本地版仍占用 8003，先停止本地版，或设置 `$env:APP_PORT='8005'` 后启动容器。
 
-`.github/workflows/ci.yml` 包含 Python 测试、PostgreSQL 集成测试、离线评测、Docker 构建和 HTTP 冒烟验证。代码已推送私有 GitHub 仓库；远程 CI 状态以具体提交的 Actions 结果为准。工作流增加 RAG 评测和容器重建恢复验证。
+`.github/workflows/ci.yml` 包含前端延迟/断线回归、Python/MCP、PostgreSQL集成、离线业务/RAG、Docker构建、HTTP权限/业务流及容器重建恢复。1.10增加 `scripts/stage1_qa.py` 串行执行1.5–1.9真实Worker强杀、退款重放、PG停机和双Worker超时验收，结果上传为Actions附件。远程CI以具体提交SHA的Actions结果为准，不能用本地通过代替。阶段入口、环境要求和全部边界见 [README](README.md) 与 [阶段报告](validation/step-1.10-2026-09-21/REPORT.md)。
 
 本机 Docker 已完成安装并实际运行，程序在 D:/Programs/DockerDesktop，数据在 D:/DockerData。Compose 已通过保留命名卷的容器重建、表内容核对与待审批工单恢复。当前使用 demo，不调用付费模型。完整证据见 VALIDATION.md；历史 WSL 安装故障不代表当前状态。
 

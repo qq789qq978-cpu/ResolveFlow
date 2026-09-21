@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "url": "http://127.0.0.1:8011",
+  "cases": [
+    {
+      "order": "RF-1001",
+      "run_id": "c4b489ec-f1a0-4d31-bbb5-903f91f63b7a",
+      "status": "refunded",
+      "enqueue_ms": 63,
+      "elapsed_ms": 1093,
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "order": "RF-1002",
+      "run_id": "e5ed8418-0a45-4527-8694-3e33ad194ad4",
+      "status": "auto_rejected",
+      "enqueue_ms": 110,
+      "elapsed_ms": 927,
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "order": "RF-1004",
+      "run_id": "7588bef0-1854-4128-8327-33ffd175f515",
+      "status": "awaiting_approval",
+      "enqueue_ms": 47,
+      "elapsed_ms": 899,
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "human_final": "rejected"
+    }
+  ],
+  "metrics": {
+    "runs": {
+      "rejected": 1,
+      "refunded": 1,
+      "auto_rejected": 1
+    },
+    "attempts": {
+      "total": 4,
+      "failed": 0,
+      "avg_ms": 739,
+      "p95_ms": 1068.1
+    },
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "workers_online": 1,
+    "refund_execution": "simulated"
+  },
+  "limitations": "Synthetic orders and simulated refunds; not real payment integration."
+}
