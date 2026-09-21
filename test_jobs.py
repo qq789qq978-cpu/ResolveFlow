@@ -152,6 +152,11 @@ def test_rag_postgres_reindex_and_invalid_input_rollback(system,tmp_path):
     directory=tmp_path/'knowledge';directory.mkdir()
     doc=directory/'replacement.md'
     doc.write_text("---\nid: test-v1\ntitle: 售后政策\nversion: '1'\n---\n保修凭证需要人工核查。",encoding='utf-8')
+    import json
+    from rag import read_documents
+    meta = read_documents()[0][0]['governance'].copy()
+    meta['document_sha256'] = read_documents(directory)[0][0]['sha256']
+    (directory/'governance.json').write_text(json.dumps({'schema':1,'policies':{'test-v1':meta}}),encoding='utf-8')
     with store.connect() as connection:sync_index(connection,directory)
     result=retrieve('保修凭证')
     assert result[0]['id']=='test-v1'
@@ -159,7 +164,85 @@ def test_rag_postgres_reindex_and_invalid_input_rollback(system,tmp_path):
     doc.write_text('invalid metadata',encoding='utf-8')
     with pytest.raises(ValueError):
         with store.connect() as connection:sync_index(connection,directory)
-    assert retrieve('保修凭证')==result
+    after = retrieve('保修凭证')
+    for hit in after+result: hit['policy'].pop('checked_at')
+    assert after==result
+
+
+@pytest.mark.parametrize('change', ['revoked','expired','draft','not_yet_effective'])
+def test_policy_change_during_persisted_approval_blocks_refund(system, change):
+    from psycopg.types.json import Jsonb
+    from datetime import datetime, timezone, timedelta
+    from rag import retrieve
+    store, engine, client = system
+    rid = submit(client)
+    jobs.process_one(store, engine, rid)
+    assert store.get(rid)['status'] == 'awaiting_approval'
+    now = datetime.now(timezone.utc)
+    with store.connect() as conn:
+        row = conn.execute("SELECT * FROM rf_knowledge_documents WHERE id='refund-v2'").fetchone()
+        meta = row['governance']
+        if change in {'revoked','draft'}: meta['status'] = change
+        if change == 'expired': meta['effective_until'] = now.isoformat()
+        if change == 'not_yet_effective': meta['effective_from'] = (now+timedelta(days=1)).isoformat()
+        conn.execute("UPDATE rf_knowledge_documents SET governance=%s WHERE id='refund-v2'",(Jsonb(meta),))
+    store.setup()  # Restart/bootstrap must not silently re-approve the policy.
+    assert all(hit['id'] != 'refund-v2' for hit in retrieve('退款'))
+    assert client.post('/api/runs/'+rid+'/approval',headers=headers('reviewer'),
+        json={'approved':True,'reason':'Governance acceptance fixture'}).status_code == 202
+    jobs.process_one(store, engine, rid)
+    row = store.get(rid)
+    assert row['status'] == 'escalated' and row['approval']['approved'] is True
+    assert 'policy_'+change in row['state']['result']['grounding']['errors']
+    with store.connect() as conn:
+        assert conn.execute('SELECT count(*) AS n FROM rf_refunds').fetchone()['n'] == 0
+
+
+def test_refund_transaction_rechecks_after_engine_validation(system, monkeypatch):
+    store, engine, client = system
+    original = store.refund
+    def revoke_then_refund(*args):
+        with store.connect() as conn:
+            conn.execute("UPDATE rf_knowledge_documents SET governance=jsonb_set(governance,'{status}','\"revoked\"') WHERE id='refund-v2'")
+        return original(*args)
+    monkeypatch.setattr(store,'refund',revoke_then_refund)
+    rid = submit(client,'RF-1001')
+    jobs.process_one(store,engine,rid)
+    assert store.get(rid)['status'] == 'escalated'
+    assert 'policy_revoked' in store.get(rid)['state']['result']['grounding']['errors']
+    with store.connect() as conn:
+        assert conn.execute('SELECT count(*) AS n FROM rf_refunds').fetchone()['n'] == 0
+
+
+def test_existing_index_upgrade_is_idempotent_and_requires_explicit_review_import(system, tmp_path):
+    from rag import retrieve, sync_index
+    import json
+    import shutil
+    from rag import KNOWLEDGE
+    store, engine, client = system
+    with store.connect() as conn:
+        original = conn.execute('SELECT chunk_id,text FROM rf_knowledge_chunks ORDER BY chunk_id').fetchall()
+        conn.execute('ALTER TABLE rf_knowledge_documents DROP COLUMN governance')
+    store.setup(); store.setup()
+    assert retrieve('退款') == []
+    with store.connect() as conn:
+        assert original == conn.execute('SELECT chunk_id,text FROM rf_knowledge_chunks ORDER BY chunk_id').fetchall()
+        sync_index(conn)
+    assert retrieve('退款')
+    directory = tmp_path/'governance-fixture'
+    shutil.copytree(KNOWLEDGE,directory)
+    p = directory/'governance.json'
+    data = json.loads(p.read_text())
+    data['policies']['refund-v2']['effective_until'] = 'no timezone'
+    p.write_text(json.dumps(data))
+    with store.connect() as conn:
+        before = conn.execute('SELECT * FROM rf_knowledge_documents ORDER BY id').fetchall()
+    with pytest.raises(ValueError):
+        with store.connect() as conn: sync_index(conn,directory)
+    with store.connect() as conn:
+        assert before == conn.execute('SELECT * FROM rf_knowledge_documents ORDER BY id').fetchall()
+    policies = client.get('/api/knowledge',params={'query':'退款'},headers=headers()).json()['policies']
+    assert len(policies) == 3 and all(p['policy']['usable'] for p in policies)
 
 def test_manual_approval_true_with_document_evidence(system):
     store,engine,c=system

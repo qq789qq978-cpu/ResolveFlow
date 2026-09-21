@@ -150,3 +150,15 @@ test('new proposals never expose an unverified model reason while awaiting valid
     assert.equal(h.elements.proposal.textContent,'处理建议尚未完成依据核验。');
     assert.equal(h.elements.proposal.textContent.includes('999'),false);
 });
+
+test('expired policy remains an authentic historical quote without claiming usability',async()=>{
+    const h=harness(); await h.login('operator');
+    const source={chunk_id:'refund-v2:abc:0',source:'refund.md',version:'2',line_start:8,line_end:8,text:'policy',
+        policy:{reason:'expired',review_basis:'demo_fixture',effective_from:'2026-09-21T00:00:00Z',effective_until:'2026-09-22T00:00:00Z'}};
+    h.runs.get('A').state={proposal:{citation_schema:2},evidence:[source],result:{grounding:{usable:false,verified:[{...source,quote:source.text}]}}};
+    await h.show('A');
+    assert.match(h.elements.citationstatus.textContent,/需要人工核查/);
+    assert.match(h.elements.citationquotes.textContent,/已过期/);
+    assert.match(h.elements.citationquotes.textContent,/演示样例，非人工审核/);
+    assert.match(h.elements.evidence.textContent,/截止时刻起不可用/);
+});

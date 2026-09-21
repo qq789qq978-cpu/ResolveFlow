@@ -13,6 +13,7 @@ import re
 import unicodedata
 
 import yaml
+from policy_governance import availability, read_manifest, utcnow
 
 KNOWLEDGE = Path(__file__).parent / 'knowledge'
 STOP_WORDS = {'申请','请问','如何','怎么','是否','可以','需要','处理','问题','进行','什么','the','a','an','is','to'}
@@ -26,6 +27,7 @@ CREATE TABLE IF NOT EXISTS rf_knowledge_chunks (
  position INTEGER NOT NULL, text TEXT NOT NULL,
  line_start INTEGER NOT NULL, line_end INTEGER NOT NULL);
 CREATE INDEX IF NOT EXISTS rf_chunks_document ON rf_knowledge_chunks(document_id);
+ALTER TABLE rf_knowledge_documents ADD COLUMN IF NOT EXISTS governance JSONB NOT NULL DEFAULT '{}';
 """
 
 def tokens(text):
@@ -96,9 +98,18 @@ def read_documents(directory=KNOWLEDGE):
                 if start+500 >= len(text): break
         if not any(c['document_id'] == doc_id for c in chunks):
             raise ValueError('Document has no evidence paragraphs: ' + doc_id)
+    manifest = read_manifest(directory)
+    if set(manifest) - seen:
+        raise ValueError('Policy governance refers to an unknown document')
+    for document in documents:
+        metadata = manifest.get(document['id'], {})
+        if metadata and metadata['document_sha256'] != document['sha256']:
+            raise ValueError('Policy governance hash does not match document: '+document['id'])
+        document['governance'] = metadata
     return documents, chunks
 
 def sync_index(connection, directory=KNOWLEDGE, *, only_if_empty=False):
+    from psycopg.types.json import Jsonb
     documents, chunks = read_documents(directory)  # validate before any mutation
     connection.execute(SCHEMA)
     # Schema-local relation lock serializes bootstrap/reindex, including two
@@ -109,10 +120,11 @@ def sync_index(connection, directory=KNOWLEDGE, *, only_if_empty=False):
         return {'seeded': False, 'documents': existing['n']}
     for document in documents:
         connection.execute('''INSERT INTO rf_knowledge_documents
-            (id,title,source,version,sha256,body) VALUES (%s,%s,%s,%s,%s,%s)
+            (id,title,source,version,sha256,body,governance) VALUES (%s,%s,%s,%s,%s,%s,%s)
             ON CONFLICT(id) DO UPDATE SET title=EXCLUDED.title,source=EXCLUDED.source,
-            version=EXCLUDED.version,sha256=EXCLUDED.sha256,body=EXCLUDED.body''',
-            tuple(document[k] for k in ('id','title','source','version','sha256','body')))
+            version=EXCLUDED.version,sha256=EXCLUDED.sha256,body=EXCLUDED.body,
+            governance=EXCLUDED.governance''',
+            tuple(document[k] for k in ('id','title','source','version','sha256','body'))+(Jsonb(document['governance']),))
     connection.execute('DELETE FROM rf_knowledge_chunks')
     for chunk in chunks:
         connection.execute('INSERT INTO rf_knowledge_chunks VALUES (%s,%s,%s,%s,%s,%s)',
@@ -121,11 +133,16 @@ def sync_index(connection, directory=KNOWLEDGE, *, only_if_empty=False):
                        ([d['id'] for d in documents],))
     return {'seeded': True, 'documents': len(documents), 'chunks': len(chunks)}
 
-def rank(query, documents, chunks, top_k=4):
+def rank(query, documents, chunks, top_k=4, *, now=None, mode=None):
     if not isinstance(query, str) or len(query) > 4000:
         raise ValueError('Query must be a string of at most 4000 characters')
     if not 1 <= top_k <= 8:
         raise ValueError('top_k must be between 1 and 8')
+    now = now if now is not None else utcnow()
+    policies = {d['id']: availability(d, now=now, mode=mode) for d in documents}
+    documents = [d for d in documents if policies[d['id']]['usable']]
+    allowed = {d['id'] for d in documents}
+    chunks = [c for c in chunks if c['document_id'] in allowed]
     query_tokens = set(tokens(query))
     if not query_tokens or not chunks: return []
     documents = {d['id']: d for d in documents}
@@ -148,10 +165,19 @@ def rank(query, documents, chunks, top_k=4):
             'text': chunk['text'], 'title': document['title'], 'source': document['source'],
             'version': document['version'], 'document_sha256': document['sha256'],
             'line_start': chunk['line_start'], 'line_end': chunk['line_end'],
-            'score': round(score, 6), 'retrieval': 'bm25'})
+            'score': round(score, 6), 'retrieval': 'bm25', 'policy': policies[document['id']]})
     return sorted(ranked, key=lambda r: (-r['score'], r['chunk_id']))[:top_k]
 
-def retrieve(query, top_k=4):
+def current_documents():
+    """Reload current governance for every decision; saved evidence is not authority."""
+    if os.getenv('DATABASE_URL'):
+        from storage import Store
+        with Store(os.environ['DATABASE_URL']).connect() as connection:
+            return connection.execute('SELECT * FROM rf_knowledge_documents').fetchall()
+    return read_documents()[0]
+
+
+def search(query, top_k=4):
     if os.getenv('DATABASE_URL'):
         from storage import Store
         with Store(os.environ['DATABASE_URL']).connect() as connection:
@@ -161,7 +187,14 @@ def retrieve(query, top_k=4):
             chunks = connection.execute('SELECT * FROM rf_knowledge_chunks ORDER BY document_id,position').fetchall()
     else:
         documents, chunks = read_documents()
-    return rank(query, documents, chunks, top_k)
+    now = utcnow()
+    return {'results': rank(query, documents, chunks, top_k, now=now),
+            'policies': [{'id': d['id'], 'title': d['title'], 'version': d['version'],
+                          'policy': availability(d, now=now)} for d in documents]}
+
+
+def retrieve(query, top_k=4):
+    return search(query, top_k)['results']
 
 def main():
     import argparse

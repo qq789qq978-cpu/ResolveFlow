@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "policies": {
+    "refund-v2": {
+      "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+      "status": "approved",
+      "review_basis": "demo_fixture",
+      "reviewed_by": "resolveflow-demo-fixture",
+      "reviewed_at": "2026-09-21T00:00:00Z",
+      "review_note": "Synthetic project fixture for demo only; no human policy sign-off is claimed.",
+      "effective_from": "2026-09-21T00:00:00Z",
+      "effective_until": null
+    },
+    "shipping-v1": {
+      "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+      "status": "approved",
+      "review_basis": "demo_fixture",
+      "reviewed_by": "resolveflow-demo-fixture",
+      "reviewed_at": "2026-09-21T00:00:00Z",
+      "review_note": "Synthetic project fixture for demo only; no human policy sign-off is claimed.",
+      "effective_from": "2026-09-21T00:00:00Z",
+      "effective_until": null
+    },
+    "unknown-v1": {
+      "document_sha256": "2bb36483d2ad07b11672344b29d8ce605e6a6e16768453610e21043458b32b78",
+      "status": "approved",
+      "review_basis": "demo_fixture",
+      "reviewed_by": "resolveflow-demo-fixture",
+      "reviewed_at": "2026-09-21T00:00:00Z",
+      "review_note": "Synthetic project fixture for demo only; no human policy sign-off is claimed.",
+      "effective_from": "2026-09-21T00:00:00Z",
+      "effective_until": null
+    }
+  }
+}

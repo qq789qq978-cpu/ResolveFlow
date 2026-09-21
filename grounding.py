@@ -2,7 +2,8 @@
 from functools import lru_cache
 import re
 
-from rag import read_documents
+from rag import read_documents, current_documents
+from policy_governance import availability, utcnow
 
 # Bind automatic actions to the reviewed clause, not merely its document ID.
 # A policy edit needs an explicit rule/evidence binding review (roadmap 2.5).
@@ -40,7 +41,7 @@ def requested_action(ticket):
     return None
 
 
-def check_grounding(proposal, evidence):
+def check_grounding(proposal, evidence, *, mode=None, documents=None, now=None):
     """Validate the saved snapshot and verbatim excerpts, never free-text entailment."""
     errors, verified = [], []
     citations = proposal.get('citations', [])
@@ -89,10 +90,23 @@ def check_grounding(proposal, evidence):
             continue
         verified.append({**saved, 'quote': excerpt})
     valid = not errors
+    now = now if now is not None else utcnow()
+    current = {d['id']: d for d in (current_documents() if documents is None else documents)} if verified else {}
+    policy_checks = []
+    for saved in verified:
+        document = current.get(saved['id'], {})
+        policy = availability(document, now=now, mode=mode)
+        if document.get('sha256') != saved['document_sha256']:
+            policy = {**policy, 'usable': False, 'reason': 'policy_removed_or_changed'}
+        policy_checks.append({'id': saved['id'], 'chunk_id': saved['chunk_id'], **policy})
+        saved['policy'] = policy
+        if not policy['usable']:
+            errors.append('policy_'+policy['reason'])
     complete = proposal.get('evidence_status') == 'supported'
     if not complete:
         errors.append('partial_or_insufficient_basis')
-    return {'schema': 2, 'reference_valid': valid, 'usable': valid and complete,
+    return {'schema': 2, 'reference_valid': valid, 'usable': not errors,
+            'policy_checks': policy_checks, 'checked_at': now.isoformat(),
             'evidence_status': proposal.get('evidence_status', 'insufficient'),
             'errors': sorted(set(errors)), 'verified': verified,
             'claim_entailment': 'not_assessed'}

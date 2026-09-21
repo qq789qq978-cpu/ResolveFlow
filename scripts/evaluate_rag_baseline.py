@@ -11,6 +11,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from rag import rank, read_documents
+from policy_governance import timestamp
 from scripts.freeze_rag_split import SPLIT, digest, validate_split
 from scripts.validate_rag_dataset import DATASET, validate_dataset
 
@@ -127,7 +128,8 @@ def aggregate(rows):
 
 
 def source_fingerprints():
-    paths = ['rag.py', 'engine.py', 'grounding.py', 'skill_loader.py', 'scripts/evaluate_rag_baseline.py',
+    paths = ['rag.py', 'engine.py', 'grounding.py', 'policy_governance.py', 'knowledge/governance.json',
+             'evals/rag/GOVERNANCE_PROTOCOL.md', 'skill_loader.py', 'scripts/evaluate_rag_baseline.py',
              'scripts/freeze_rag_split.py', 'scripts/validate_rag_dataset.py', 'evals/rag/PROTOCOL.md',
              'evals/rag/SNIPPET_PROTOCOL.md']
     paths += [p.relative_to(ROOT).as_posix() for p in sorted((ROOT / 'skills').glob('*/SKILL.md'))]
@@ -141,11 +143,14 @@ def evaluate(data, split, *, proposer=demo_proposal):
     documents, chunks = read_documents()
     partitions = {'tuning': [], 'held_out': []}
     for case in data['cases']:
-        hits = rank(case['query'], documents, chunks, TOP_K)
+        hits = rank(case['query'], documents, chunks, TOP_K,
+                    now=timestamp('2026-09-21T12:00:00Z'), mode='demo')
         proposal = proposer(case['query'], hits)
         partitions[split['assignments'][case['id']]].append(score_case(case, hits, proposal, data['evidence_catalog']))
     return {'completed': True, 'quality_gate': 'not_set; baseline_measurement_only',
             'metric_schema': 2, 'snippet_protocol': 'evals/rag/SNIPPET_PROTOCOL.md',
+            'governance_protocol': 'evals/rag/GOVERNANCE_PROTOCOL.md',
+            'policy_evaluation_time': '2026-09-21T12:00:00Z', 'policy_evaluation_mode': 'demo',
             'protocol': 'evals/rag/PROTOCOL.md', 'retriever': 'unchanged_bm25', 'top_k': TOP_K,
             'mode': 'offline_retrieval_and_real_demo_investigation_node_with_stubbed_tool_transport',
             'model_api_calls': 0, 'production_db_access': False, 'business_execution': False,

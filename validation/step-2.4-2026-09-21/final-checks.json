@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "checked_deliverables": 36,
+  "local_links": 91,
+  "actual_env_secret_scan": "passed; values never printed",
+  "baseline_source_fingerprints_match": true,
+  "metrics_equal_step23": true,
+  "frozen_files_unchanged": [
+    "knowledge/refund.md",
+    "knowledge/shipping.md",
+    "knowledge/escalation.md",
+    "evals/rag/cases.v1.json",
+    "evals/rag/split.v1.json",
+    "evals/rag/PROTOCOL.md",
+    "evals/rag/SNIPPET_PROTOCOL.md"
+  ],
+  "deployed_sources": {
+    "engine.py": "7474797da20ffcd8b550f8aa2fd4a5f2a4942bf693a956d0b9614668172cd64a",
+    "grounding.py": "b4b90f5a157e6fa19778e8a28527f767e2b345e26db10c5f0d9f4eed5a9d94e9",
+    "rag.py": "cb21b0f546fd763f7aa808b1f8a3914c994c60495de109adab921cd1e0009a7a",
+    "policy_governance.py": "4742899644c359c3921cb1bbc75a514538cfaa459c80129da45e3c04b90c77cb",
+    "storage.py": "42e50df1cb9a630df7e72b890a939c44fb7c7b4eb66a52cc98c5cc2c06834d41",
+    "operations.py": "a02c30004b8da12a0603c71985525eac811f04313a30db0c7173ce5d652d8538",
+    "knowledge/governance.json": "276e871728a60ce52260daeeac9cc16c14c5a251f212797284a70059ecdb6e1e",
+    "frontend/dist/app.js": "7d7ded642efdfdce145aad3e9b585ddd32da3d54f197b64a60b6507ccb5f8d56",
+    "frontend/dist/index.html": "cde0a4eea27b0647a1b024dc590757175b80b864916a12e209932b7a4c35a1e9"
+  }
+}

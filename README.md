@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，RAG当前进度见 [2.3报告](validation/step-2.3-2026-09-21/REPORT.md)。已接入 [片段引用与无依据处理](GROUNDING.md)：引用附原文、版本和位置，证据不足转人工，退款执行前再次核验；本机8003已更新。97项基础/引用、16项PG及15项前端测试通过。demo采取保守业务分流，政策问答大量转人工，不能宣称回答质量提升；真实模型质量未测。下一步2.4未开始，2.12统一推送。上方徽章表示远程main的历史工作流状态，不代表当前未推送改动已通过远程CI。
+第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，RAG当前进度见 [2.4报告](validation/step-2.4-2026-09-21/REPORT.md)。已接入片段引用、无依据处理及 [政策审核状态与有效期](POLICY_GOVERNANCE.md)：失效政策不参与检索，审批恢复和退款写入前重新核验。本机8003已更新，三个服务healthy；126项基础/治理覆盖、22项PG、16项前端和8条API/Worker流程通过。当前政策为演示样例，非人工审核；demo政策问答仍保守转人工，未宣称质量提升。下一步2.5未开始，2.12统一推送。上方徽章仅表示远程main历史状态，不代表未推送改动已通过远程CI。
 
 ## Docker 快速启动
 
@@ -32,6 +32,7 @@ docker compose ps
 
 - demo：真实 PostgreSQL、MCP、文档检索、队列和审批，以规则生成演示建议，不调用模型、不消耗 DeepSeek token。
 - live：额外调用模型调查和生成建议，需配置有效的 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`MODEL_NAME`。这几个兼容接口变量在本项目中用于 DeepSeek，不是 Codex 登录配置。
+- 内置政策审核来源为demo_fixture，live模式不可直接采用；需维护人员完成实际审核、声明来源与有效期并显式导入，见 [政策治理](POLICY_GOVERNANCE.md)。
 - 两种模式都只使用合成订单和模拟退款，不调用真实支付。
 
 确认模型配置后，可设置 `$env:MODE='live'` 再运行 `docker compose up -d --wait`。API 与 Worker 必须同模式；切换前先处理完旧模式的排队任务。本次容器验收使用 demo，没有付费模型请求。

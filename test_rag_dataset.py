@@ -32,7 +32,7 @@ def test_reject_corpus_changed_since_annotation(dataset,tmp_path):
     shutil.copytree(source,tmp_path/'knowledge')
     p = tmp_path/'knowledge/refund.md'
     p.write_text(p.read_text(encoding='utf-8').replace('7天','14天'),encoding='utf-8')
-    with pytest.raises(ValueError,match='Corpus snapshot drift'):
+    with pytest.raises(ValueError,match='Corpus snapshot drift|governance hash'):
         validate_dataset(dataset,tmp_path/'knowledge')
 
 

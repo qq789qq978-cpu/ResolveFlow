@@ -1,0 +1,42 @@
+ResolveFlow step 2.4, 2026-09-21. Local Docker Python 3.12 / locked dependencies.
+All Python checks used an isolated source snapshot under ignored work/step24-src,
+without .env, with PYTHONPATH=/qa-src:/app and MODE=demo.
+
+python -m pytest -p no:cacheprovider test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py -q
+125 passed in 36.25s
+After adding strict timezone minute-offset rejection and one extra case:
+python -m pytest -p no:cacheprovider test_policy_governance.py -q
+29 passed in 5.13s
+Combined final unique test coverage: 126; not a claim that a single command printed 126.
+Initial run had 124 passed / 1 old live-fixture expectation failed. Updated that
+expectation to require demo-only policy rejection; the full rerun above passed.
+
+RUN_PG_TESTS=1 python -m pytest -p no:cacheprovider test_jobs.py -q
+22 passed, 1 warning in 40.08s
+DB: resolveflow-qa-step24 network, random per-test schemas; main DB never used.
+Existing AnyIO BlockingPortal alias deprecation warning only.
+An initial collection attempt lacked frontend/dist in the isolated snapshot;
+copied that directory and reran successfully. No product code change for this.
+
+node --test test_frontend.cjs
+tests 16; pass 16; fail 0
+
+python scripts/policy_qa.py --report validation/step-2.4-2026-09-21/api-worker.json
+passed: true; cases: 8; main_data_unchanged: true
+
+python scripts/evaluate_rag_baseline.py --report /qa-out/baseline.json
+completed: true; dataset/split/corpus digests unchanged; both split aggregates
+equal step-2.3 baseline.json exactly. This is a descriptive comparison, no quality gate.
+
+evaluate_v3.py in an isolated temporary directory:
+mode: demo; samples: 12; correct: 12; routing_accuracy: 1.0
+Its per-case output was in the disposable container; retained evidence is this
+terminal summary only, not a newly retained evaluation_v3.json.
+
+evaluate_rag.py with output isolated to /qa-out:
+samples: 12; passed: true; recall_at_4: 1.0; mrr_at_4: 0.9444444444444444
+unrelated_abstention: 1.0
+
+Guarded main deployment:
+passed: true; unchanged_tables: 12; knowledge_content_unchanged: true;
+services_healthy: 3. See main-deployment.json for intended metadata changes.

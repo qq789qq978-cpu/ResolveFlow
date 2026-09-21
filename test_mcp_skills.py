@@ -48,7 +48,8 @@ def test_skill_reaches_model(tmp_path):
     try:
         result = engine.start(str(uuid.uuid4()), "我要退款", "RF-1004")
         assert result["state"]["skill"]["name"] == "refund-handling"
-        assert result["pending"]
+        assert not result["pending"]
+        assert 'policy_demo_only' in result['state']['result']['grounding']['errors']
         assert any(t.get("transport") == "mcp-stdio" for t in result["state"]["trace"])
     finally:
         engine.close()

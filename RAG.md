@@ -6,7 +6,7 @@
 
 ```mermaid
 flowchart LR
-  Docs[受审核 Markdown 政策] --> Import[元数据校验与分块]
+  Docs[Markdown 政策与审核清单] --> Import[元数据校验与分块]
   Import --> PG[(PostgreSQL 文档与片段)]
   Query[用户诉求] --> Search[BM25 文本检索]
   PG --> Search
@@ -18,7 +18,7 @@ flowchart LR
 
 ## 已实现
 
-- `knowledge/*.md`：带 id/title/version 的受审核政策，默认 3 份文档。
+- `knowledge/*.md`：带 id/title/version 的政策原文，默认 3 份演示文档；审核来源与有效期见 knowledge/governance.json。
 - 按段落切分；长段落最多 500 字符，重叠 60 字符，保留文件名、行号、版本和 SHA-256。当前内置语料生成 7 个片段。
 - 中文字符 bigram 与英文词分词，去除少量常见问句词，文档标题加权的 BM25 排序，默认返回 4 个片段。
 - 生产索引保存在 `rf_knowledge_documents`、`rf_knowledge_chunks`，与业务共用 PostgreSQL 命名卷。
@@ -43,7 +43,7 @@ version: '1'
 这里写经过业务审核的政策原文。
 ```
 
-将文件放入 `knowledge/`，构建镜像，再显式重新导入：
+将文件放入 `knowledge/`，在 `governance.json` 中填写绑定原文SHA的审核来源和有效期（缺失时不可检索/授权，详见 [治理说明](POLICY_GOVERNANCE.md)），构建镜像，再显式重新导入：
 
 ```powershell
 $env:MODE='demo'
@@ -94,4 +94,11 @@ demo固定reason不是政策问答；转人工是拒答代理指标，引用覆�
 
 已实现 [片段引用契约](GROUNDING.md)，citations与quotes一一对应并保存来源，退款只能使用资格规则整段，部分/无依据或无效引用转人工。执行前重查快照，旧文档ID不静默升级。页面单列核对过的引用和候选原文，新模型理由未核验前不展示；最终处理说明来自规则/订单模板。
 
-[2.3报告](validation/step-2.3-2026-09-21/REPORT.md) 记录97项基础/引用、16项PG、15项前端及5条真实API/Worker流程通过，本机8003已更新。新 [计分补充](evals/rag/SNIPPET_PROTOCOL.md) 区分文档引用和片段/摘录有效率，原80条/45对35划分未改。检索完整命中仍15/20，但保留集20条可答题全部转人工、引用覆盖0/20；demo现在限制为明确业务请求，不宣称问答质量改善。原文匹配也不代表模型断言语义正确，真实模型评测仍未进行。下一步2.4尚未开始。
+[2.3报告](validation/step-2.3-2026-09-21/REPORT.md) 记录97项基础/引用、16项PG、15项前端及5条真实API/Worker流程通过，本机8003已更新。新 [计分补充](evals/rag/SNIPPET_PROTOCOL.md) 区分文档引用和片段/摘录有效率，原80条/45对35划分未改。检索完整命中仍15/20，但保留集20条可答题全部转人工、引用覆盖0/20；demo现在限制为明确业务请求，不宣称问答质量改善。原文匹配也不代表模型断言语义正确，真实模型评测仍未进行。以上为2.3历史结果；当前2.4治理能力见下文。
+
+
+### 2.4：政策审核状态与有效期
+
+[治理说明](POLICY_GOVERNANCE.md) 定义审核状态、明确时区的生效区间、演示/维护人员审核来源、缺失信息拒绝使用和旧库升级。检索仅排名有效政策，引用检查/审批恢复读取当前状态，退款事务再次校验并与政策修改互斥；旧工单证据保留。网页查询显示当前状态，工单显示检索时与核验时状态。
+
+三份仓库政策为demo_fixture，非人工审核，live模式不能直接采用。原文哈希和80条历史标签未改；[冻结评测补充协议](evals/rag/GOVERNANCE_PROTOCOL.md) 固定比较时间，当前指标与2.3相同。步骤[2.4验收](validation/step-2.4-2026-09-21/REPORT.md)完成，2.5版本发布/回滚未开始。

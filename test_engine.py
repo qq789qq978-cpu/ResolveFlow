@@ -72,7 +72,9 @@ class FakeModel:
 def test_live_contract(tmp_path):
     e = Engine(str(tmp_path), "live", FakeModel())
     result = e.start(uid(), "申请退款", "RF-1004")
-    assert result["pending"]
+    assert not result["pending"]
+    assert result['state']['result']['status'] == 'escalated'
+    assert 'policy_demo_only' in result['state']['result']['grounding']['errors']
     assert any(t.get("tool") == "search_policy" for t in result["state"]["trace"])
     e.close()
 

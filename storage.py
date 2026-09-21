@@ -91,8 +91,18 @@ class Store:
                 raise ValueError('当前工单不允许退款审批')
             c.execute("INSERT INTO rf_approvals VALUES (%s,%s,%s,%s,DEFAULT)",(run_id,approved,actor,reason))
 
-    def refund(self, order_id, run_id, amount):
+    def refund(self, order_id, run_id, amount, authorization):
+        from grounding import action_supported, check_grounding
+        from policy_governance import PolicyUnavailable
         with self.connect() as c:
+            # Serialize policy changes/reindex against this authorization and ledger
+            # transaction. A saved approval cannot override current policy state.
+            c.execute('LOCK TABLE rf_knowledge_documents IN SHARE MODE')
+            documents = c.execute('SELECT * FROM rf_knowledge_documents').fetchall()
+            proposal, evidence, mode = authorization
+            grounded = check_grounding(proposal, evidence, mode=mode, documents=documents)
+            if not action_supported('refund', grounded):
+                raise PolicyUnavailable(grounded)
             result = c.execute("INSERT INTO rf_refunds VALUES (%s,%s,%s,DEFAULT) ON CONFLICT(order_id) DO NOTHING RETURNING order_id",(order_id,run_id,amount)).fetchone()
             return bool(result)
 

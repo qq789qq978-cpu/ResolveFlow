@@ -7,6 +7,12 @@ const names = {queued:'已排队',approval_queued:'审批已入队',retrying:'�
 const terminal = new Set(['auto_rejected','answered','refunded','already_refunded','rejected','closed','failed','escalated','awaiting_approval']);
 const message = text => $('message').textContent = text;
 const pendingEvidenceMessage = '处理建议尚未完成依据核验。';
+function policyLabel(policy) {
+    if (!policy) return '历史快照未记录审核与有效期；再次执行时会重新检查。';
+    const statuses = {active:'有效',draft:'草稿',in_review:'待审核',approved:'审核通过',rejected:'审核不通过',revoked:'已撤销',expired:'已过期',not_yet_effective:'尚未生效',demo_only:'仅限演示',review_in_future:'审核时间异常',missing_or_invalid_metadata:'审核信息缺失或无效',content_changed:'原文已变更',policy_removed_or_changed:'政策已移除或变更'};
+    const basis = policy.review_basis === 'demo_fixture' ? '演示样例，非人工审核' : policy.review_basis === 'operator_attested' ? '维护人员声明已审核' : '未提供审核来源';
+    return `${statuses[policy.reason] || '状态未知'} · ${basis} · 生效 ${policy.effective_from || '未设置'} · 截止 ${policy.effective_until || '未设截止时间'}（截止时刻起不可用）`;
+}
 function renderEvidence(state) {
     const result = state.result?.grounding;
     $('citationquotes').replaceChildren();
@@ -18,6 +24,7 @@ function renderEvidence(state) {
         const box = add($('citationquotes'),'article','','evidence-chunk');
         add(box,'strong','已核对的引用原文');
         add(box,'div',`${quote.source} · 版本 ${quote.version} · 第 ${quote.line_start}–${quote.line_end} 行`);
+        add(box,'small',`核验时状态：${policyLabel(quote.policy)}`);
         add(box,'p',quote.quote);
         const index = (state.evidence || []).findIndex(e=>e.chunk_id===quote.chunk_id);
         if (index >= 0) add(box,'a','查看完整片段').href = '#evidence-'+index;
@@ -28,6 +35,7 @@ function renderEvidence(state) {
         add(box,'strong',e.title||e.id);
         add(box,'small','检索候选原文（不等于已采用的处理依据）');
         add(box,'div',`${e.source||e.id}${e.line_start?' · 第 '+e.line_start+'–'+e.line_end+' 行':''} · 版本 ${e.version||e.id}`);
+        add(box,'small',`检索时状态：${policyLabel(e.policy)}`);
         add(box,'p',e.text);
         if(e.chunk_id)add(box,'small',`片段 ${e.chunk_id}`);
     });
@@ -245,10 +253,12 @@ $('knowledgeform').onsubmit = async event => {
         const result = await api('/knowledge?query=' + encodeURIComponent(query),undefined,owner);
         if (owner !== session || token !== searchRequest) return;
         $('knowledgeresults').replaceChildren();
+        for (const item of result.policies || []) add($('knowledgeresults'),'p',`${item.title} · ${policyLabel(item.policy)}`);
         if (!result.results.length) add($('knowledgeresults'),'p','没有检索到相关政策，请转人工核查。');
         for (const hit of result.results) {
             const box = add($('knowledgeresults'),'article','','evidence-chunk');
             add(box,'h3',hit.title); add(box,'small',`${hit.source} · 版本 ${hit.version} · 第 ${hit.line_start}–${hit.line_end} 行`);
+            add(box,'small',policyLabel(hit.policy));
             add(box,'p',hit.text);
         }
     } catch (error) { if (token === searchRequest) report(error,owner); }

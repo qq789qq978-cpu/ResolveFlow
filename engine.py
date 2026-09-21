@@ -149,7 +149,7 @@ class Engine:
     def validate(self, state):
         p, order = state["proposal"], state["order"]
         conflicts = detect_conflicts(state["ticket"], order) if "ticket" in state else []
-        grounding = check_grounding(p, state['evidence'])
+        grounding = check_grounding(p, state['evidence'], mode=getattr(self, 'mode', 'demo'))
         requested = requested_action(state.get('ticket', ''))
         supported = p['action'] == requested and action_supported(p['action'], grounding)
         if not supported or p['action'] == 'escalate':
@@ -186,12 +186,21 @@ class Engine:
                 return {**checked, 'decision': False, 'validated': False}
             # Business uniqueness survives replay even if checkpoint commit fails.
             if self.repository:
-                inserted = self.repository.refund(state["order_id"], state["run_id"], state["order"]["amount"])
+                from policy_governance import PolicyUnavailable
+                try:
+                    inserted = self.repository.refund(state["order_id"], state["run_id"], state["order"]["amount"],
+                        (state['proposal'], state['evidence'], self.mode))
+                except PolicyUnavailable as error:
+                    result = {**checked['result'], 'status': 'escalated', 'grounding': error.grounding,
+                              'policy_supported': False, 'reason': SAFE_NO_BASIS, 'response': SAFE_NO_BASIS,
+                              'decision_source': 'system'}
+                    return {'result': result, 'route': 'escalated', 'decision': False, 'validated': False,
+                            'trace': state['trace']+[{'node': 'execute', 'status': 'escalated'}]}
             else:
                 with self.db:
                     cursor = self.db.execute("INSERT OR IGNORE INTO refunds VALUES (?, ?, ?)", (state["order_id"], state["run_id"], state["order"]["amount"]))
                 inserted = cursor.rowcount
-            result = {**state.get("result", {}), "decision_source": "automatic" if state.get("route")=="auto_approved" else "human", "status": "refunded" if inserted else "already_refunded", "amount_cents": state["order"]["amount"], "simulated": True, "response": "模拟退款已完成。" if inserted else "该订单已经退款，已拦截重复执行。"}
+            result = {**checked['result'], "decision_source": "automatic" if state.get("route")=="auto_approved" else "human", "status": "refunded" if inserted else "already_refunded", "amount_cents": state["order"]["amount"], "simulated": True, "response": "模拟退款已完成。" if inserted else "该订单已经退款，已拦截重复执行。"}
         result["reason"] = result["response"]
         return {"result": result, "trace": state["trace"] + [{"node": "execute", **result}]}
 
