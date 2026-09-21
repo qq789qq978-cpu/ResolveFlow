@@ -64,6 +64,14 @@ python scripts/worker_crash_qa.py --report validation/worker-crash-recheck.json
 
 宿主Python只需标准库。脚本使用固定独立Compose项目 `resolveflow-qa-step15` 和公开测试凭据，不读取主环境 `.env`，不构建镜像；在真实MCP调查查询中强杀测试Worker，显式启动后检查原任务恢复及重复退款拦截。主环境只读取数据指纹。结束时停止QA并保留卷；复验新增两条合成工单，已有退款会按幂等路径验证，报告路径须未存在。此场景尚未加入远程CI，阶段末统一收口。
 
+审批保存后强杀与恢复已完成 [步骤1.6验收](validation/step-1.6-2026-09-21/REPORT.md)。相同前置条件，8007可用时运行：
+
+```powershell
+python scripts/worker_crash_qa.py --step 1.6 --report validation/approval-crash-recheck.json
+```
+
+此选项固定使用 `resolveflow-qa-step16` 独立环境，依次验证拒绝/同意已保存、Worker领取任务后强杀、按原决定恢复、重复/反向审批409及后续工单重复退款拦截。每次新增三条合成工单和审批，结束后停止QA保留卷。它不验证退款提交与checkpoint保存之间的故障窗口，该项为后续1.7。
+
 ## 交接与计划
 
 - [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md)：架构、恢复设计和已知问题。

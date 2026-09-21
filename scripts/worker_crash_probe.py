@@ -1,6 +1,6 @@
-"""Container-side observer for step 1.5; invoked by worker_crash_qa.py.
+"""Container-side observer for steps 1.5/1.6; invoked by worker_crash_qa.py.
 
-The only fault is a bounded QA rf_orders table lock. Never executes a job.
+Uses a bounded QA orders (1.5) or approvals (1.6) table lock. Never runs a job.
 JSON line protocol keeps the blocker connection alive across Docker commands.
 """
 import hashlib
@@ -43,11 +43,14 @@ def main():
         if sys.argv[1:] == ["--fingerprints"]:
             print(json.dumps(fingerprints(observer)))
             return
-        if os.environ.get("APP_API_KEY") != "qa-step15-operator":
-            raise RuntimeError("Fault injection requires the dedicated step 1.5 QA fixture")
+        fixture = os.environ.get("APP_API_KEY")
+        if fixture not in {"qa-step15-operator", "qa-step16-operator"}:
+            raise RuntimeError("Fault injection requires a dedicated crash QA fixture")
+        approval_test = fixture == "qa-step16-operator"
+        gate_table = "rf_approvals" if approval_test else "rf_orders"
         from engine import Engine
         from storage import Store
-        with tempfile.TemporaryDirectory(prefix="rf-step15-") as directory:
+        with tempfile.TemporaryDirectory(prefix="rf-crash-") as directory:
             engine = Engine(directory, "demo", repository=Store(url))
             gate = None
 
@@ -58,9 +61,13 @@ def main():
                     "SELECT run_id FROM rf_jobs WHERE run_id=%s FOR UPDATE SKIP LOCKED", (run_id,)
                 ).fetchone() is not None
                 graph = engine.graph.get_state(engine.config(run_id))
+                # During 1.6, only the lock-owning connection can read approvals.
+                approval_reader = gate if approval_test and gate is not None else observer
                 return {
                     "run": run, "job": job, "job_lock_available": available,
                     "graph_next": graph.next, "graph_state": graph.values,
+                    "graph_interrupts": [item.value for task in graph.tasks for item in task.interrupts],
+                    "approval": approval_reader.execute("SELECT * FROM rf_approvals WHERE run_id=%s", (run_id,)).fetchone(),
                     "checkpoint_ids": [row["checkpoint_id"] for row in observer.execute(
                         "SELECT checkpoint_id FROM checkpoints WHERE thread_id=%s ORDER BY checkpoint_id", (run_id,))],
                     "attempts": observer.execute("SELECT * FROM rf_job_attempts WHERE run_id=%s ORDER BY id", (run_id,)).fetchall(),
@@ -77,24 +84,25 @@ def main():
                         if command == "gate":
                             if gate is not None:
                                 raise RuntimeError("Gate already held")
-                            gate = psycopg.connect(url)
+                            gate = psycopg.connect(url, row_factory=dict_row)
                             gate.execute("SET idle_in_transaction_session_timeout='30s'")
                             gate.execute("SET lock_timeout='3s'")
-                            gate.execute("LOCK TABLE rf_orders IN ACCESS EXCLUSIVE MODE")
-                            result = {"gate_pid": gate.info.backend_pid, "auto_release_seconds": 30}
+                            gate.execute(sql.SQL("LOCK TABLE {} IN ACCESS EXCLUSIVE MODE").format(sql.Identifier(gate_table)))
+                            result = {"gate_pid": gate.info.backend_pid, "table": gate_table, "auto_release_seconds": 30}
                         elif command == "blocked":
                             deadline = time.monotonic() + 10
                             while True:
                                 blockers = observer.execute(
                                     "SELECT pid,host(client_addr) AS client_addr,state,wait_event_type,wait_event,query "
                                     "FROM pg_stat_activity WHERE %s=ANY(pg_blocking_pids(pid)) "
-                                    "AND query LIKE 'SELECT * FROM rf_orders WHERE%%'", (gate.info.backend_pid,)
+                                    "AND query LIKE %s", (gate.info.backend_pid, "SELECT * FROM " + gate_table + " WHERE%")
                                 ).fetchall()
                                 if blockers:
-                                    result = {"blocked_order_reads": blockers, **snapshot(request["run_id"])}
+                                    key = "blocked_approval_reads" if approval_test else "blocked_order_reads"
+                                    result = {key: blockers, **snapshot(request["run_id"])}
                                     break
                                 if time.monotonic() >= deadline:
-                                    raise TimeoutError("No real MCP order read observed")
+                                    raise TimeoutError("No matching Worker read observed")
                                 time.sleep(0.05)
                         elif command == "unlock":
                             if gate is not None:
