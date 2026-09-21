@@ -116,6 +116,18 @@ def test_matching_document_id_does_not_prove_required_chunk_was_retrieved(data):
     assert not row['cited_required_complete']
 
 
+@pytest.mark.parametrize('quote,valid', [('original', 1), ('fabricated quoted evidence', 0)])
+def test_chunk_reference_validity_is_separate_from_verbatim_excerpt(data, quote, valid):
+    evidence = hit(data, 'R1')
+    p = proposal([evidence['chunk_id']])
+    p['quotes'] = [{'chunk_id': evidence['chunk_id'], 'quote': evidence['text'] if quote == 'original' else quote}]
+    row = score_case(case([['R1']]), [evidence], p, data['evidence_catalog'])
+    summary = aggregate([row])['citations']
+    assert summary['document_citation_validity']['value'] == 0
+    assert summary['reference_validity']['value'] == 1
+    assert summary['verbatim_quote_validity']['value'] == valid
+
+
 def test_corrupt_quote_cannot_get_relevance_or_source_credit(data):
     corrupt = hit(data, 'R1')
     corrupt['text'] = 'invented text'
@@ -149,6 +161,7 @@ def test_actual_demo_probe_uses_no_engine_storage_or_model(data, monkeypatch):
     monkeypatch.setattr(engine, 'build_model', forbidden)
     monkeypatch.setattr(engine, 'call_tools', forbidden)
     output = demo_proposal('refund please', [hit(data, 'R1')])
-    assert output['action'] == 'refund' and output['citations'] == ['refund-v2']
+    assert output['action'] == 'refund' and output['citations'] == [hit(data, 'R1')['chunk_id']]
+    assert output['quotes'][0]['quote'] == hit(data, 'R1')['text']
     assert demo_proposal('zzzzzz', [])['action'] == 'escalate'
     assert engine.call_tools is forbidden  # Temporary stub is always restored.

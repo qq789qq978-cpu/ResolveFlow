@@ -275,3 +275,38 @@ def test_slow_failure_backoff_starts_after_failure(system):
         remaining=connection.execute('SELECT extract(epoch FROM available_at-clock_timestamp()) AS seconds FROM rf_jobs WHERE run_id=%s',(rid,)).fetchone()['seconds']
     assert 0.5 < float(remaining) <= 1
     assert not jobs.process_one(store,engine,rid)
+
+
+def test_chunk_quotes_survive_durable_approval(system):
+    store, engine, client = system
+    rid = submit(client)
+    jobs.process_one(store, engine, rid)
+    before = store.get(rid)['state']
+    assert before['result']['grounding']['reference_valid']
+    assert before['proposal']['citations'][0].startswith('refund-v2:')
+    assert client.post(f'/api/runs/{rid}/approval', headers=headers('reviewer'),
+                       json={'approved': True, 'reason': '片段依据审批验收'}).status_code == 202
+    jobs.process_one(store, engine, rid)
+    after = store.get(rid)
+    assert after['status'] == 'refunded'
+    assert after['state']['proposal']['quotes'] == before['proposal']['quotes']
+
+
+def test_legacy_approval_checkpoint_cannot_bypass_new_citation_gate(system):
+    store, engine, client = system
+    rid = submit(client)
+    jobs.process_one(store, engine, rid)
+    legacy = {'action': 'refund', 'reason': '旧版待审批记录', 'citations': ['refund-v2']}
+    engine.graph.update_state(engine.config(rid), {'proposal': legacy}, as_node='validate')
+    # update_state clears the prior interrupt: materialize the legacy approval
+    # interrupt again before simulating the already-persisted human decision.
+    engine.graph.invoke(None, engine.config(rid))
+    assert any(task.interrupts for task in engine.graph.get_state(engine.config(rid)).tasks)
+    assert client.post(f'/api/runs/{rid}/approval', headers=headers('reviewer'),
+                       json={'approved': True, 'reason': '旧快照防绕过验收'}).status_code == 202
+    jobs.process_one(store, engine, rid)
+    after = store.get(rid)
+    assert after['status'] == 'escalated' and after['state']['proposal'] == legacy
+    assert 'legacy_document_citations' in after['state']['result']['grounding']['errors']
+    with store.connect() as connection:
+        assert connection.execute('SELECT count(*) AS n FROM rf_refunds').fetchone()['n'] == 0

@@ -2,7 +2,7 @@ FROM python:3.12-slim
 WORKDIR /app
 COPY requirements.lock ./requirements.lock
 RUN pip install --no-cache-dir -r requirements.lock
-COPY operations.py auth.py jobs.py worker.py worker_health.py engine.py storage.py refund_policy.py conflicts.py model_config.py support_data.py mcp_server.py mcp_gateway.py skill_loader.py rag.py ./
+COPY operations.py auth.py jobs.py worker.py worker_health.py engine.py grounding.py storage.py refund_policy.py conflicts.py model_config.py support_data.py mcp_server.py mcp_gateway.py skill_loader.py rag.py ./
 COPY knowledge ./knowledge
 COPY skills ./skills
 COPY frontend/dist ./frontend/dist

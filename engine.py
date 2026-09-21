@@ -20,11 +20,19 @@ from refund_policy import decide, VERSION
 from model_config import build_model
 from skill_loader import select_skill
 from mcp_gateway import call_tools
+from grounding import SAFE_NO_BASIS, action_supported, check_grounding, demo_suggestion, requested_action
+
+class EvidenceQuote(BaseModel):
+    chunk_id: str = Field(min_length=1, max_length=160)
+    quote: str = Field(min_length=12, max_length=1000)
 
 class Proposal(BaseModel):
     action: Literal["refund", "reply", "escalate"]
     reason: str = Field(max_length=1500)
-    citations: list[str] = Field(max_length=3)
+    citation_schema: Literal[2] = 2
+    evidence_status: Literal['supported', 'partial', 'insufficient'] = 'insufficient'
+    citations: list[str] = Field(max_length=8)
+    quotes: list[EvidenceQuote] = Field(default_factory=list, max_length=8)
 
 class State(TypedDict, total=False):
     ticket: str
@@ -96,10 +104,7 @@ class Engine:
             order = {}
         trace.append({"node": "investigate", "event": "baseline_evidence", "sources": [e["id"] for e in evidence], "chunks": [e.get("chunk_id") for e in evidence], "retrieval": "bm25"})
         if self.mode == "demo":
-            refund = skill["name"] == "refund-handling"
-            shipping = skill["name"] == "shipping-handling"
-            action = "refund" if refund else "reply" if shipping else "escalate"
-            proposal = Proposal(action=action, reason="演示规则提出处理建议，最终资格由校验节点判定。", citations=["refund-v2"] if refund else ["shipping-v1"] if shipping else [])
+            proposal = Proposal(**demo_suggestion(state['ticket'], evidence))
         else:
             @tool
             def search_policy(query: str) -> str:
@@ -131,7 +136,7 @@ class Engine:
                     messages.append(ToolMessage(content=output, tool_call_id=call["id"]))
                     trace.append({"node": "investigate", "tool": call["name"], "round": step + 1})
             real_model = self.model.__class__.__module__.startswith('langchain_openai')
-            structured = self.model.with_structured_output(Proposal, **({'method': 'function_calling', 'include_raw': True} if real_model else {})).invoke(messages + [HumanMessage(content="输出处理建议，citations 必须使用实际检索到的政策 ID；不确定时 escalate。")])
+            structured = self.model.with_structured_output(Proposal, **({'method': 'function_calling', 'include_raw': True} if real_model else {})).invoke(messages + [HumanMessage(content="输出处理建议。citations必须逐项使用本次检索到的完整chunk_id，不能用政策文档ID。quotes为每项引用给出chunk_id和逐字原文quote，不改写。标记evidence_status为supported、partial或insufficient；部分有据或无依据必须escalate，不作额外承诺。退款或物流状态处理须引用对应处理规则整段原文，其他段落不能代替。reason不能添加证据或订单中没有的事实。")])
             if real_model:
                 count_usage(structured['raw'])
                 if structured.get('parsing_error') or structured.get('parsed') is None:
@@ -144,17 +149,21 @@ class Engine:
     def validate(self, state):
         p, order = state["proposal"], state["order"]
         conflicts = detect_conflicts(state["ticket"], order) if "ticket" in state else []
-        available = {e["id"] for e in state["evidence"]}
-        supported = bool(p["citations"]) and set(p["citations"]).issubset(available)
-        refund_intent = state.get("skill", {}).get("name") == "refund-handling" or p["action"] == "refund"
-        if refund_intent:
-            outcome = decide(order, supported and VERSION in p["citations"], conflicts)
+        grounding = check_grounding(p, state['evidence'])
+        requested = requested_action(state.get('ticket', ''))
+        supported = p['action'] == requested and action_supported(p['action'], grounding)
+        if not supported or p['action'] == 'escalate':
+            outcome = {'route': 'escalated', 'policy_version': VERSION, 'checks': [], 'reason': SAFE_NO_BASIS}
+        elif requested == 'refund':
+            outcome = decide(order, True, conflicts)
         else:
-            status = "answered" if p["action"] == "reply" and supported and order and not conflicts else "escalated"
-            outcome = {"route": status, "policy_version": VERSION, "checks": [], "reason": p["reason"]}
+            order_status = {'shipping': '运输中', 'delivered': '已签收'}.get(order.get('status'))
+            status = 'answered' if order_status and not conflicts else 'escalated'
+            reason = ('当前订单状态：' + order_status + '。仅确认已查到的状态；未提供预计送达时间或赔付承诺。') if status == 'answered' else SAFE_NO_BASIS
+            outcome = {'route': status, 'policy_version': VERSION, 'checks': [], 'reason': reason}
         route = outcome["route"]
         result = {"status": route, "response": outcome["reason"], "reason": outcome["reason"],
-                  "policy_supported": supported, "policy_version": VERSION, "checks": outcome["checks"],
+                  "policy_supported": supported, "grounding": grounding, "policy_version": VERSION, "checks": outcome["checks"],
                   "decision_source": "automatic" if route in {"auto_approved", "auto_rejected"} else "manual_required" if route=="awaiting_approval" else "system"}
         return {"conflicts": conflicts, "validated": route in {"auto_approved", "awaiting_approval"},
                 "route": route, "decision": route=="auto_approved", "result": result,
@@ -170,6 +179,11 @@ class Engine:
         if not state["decision"]:
             result = {**state.get("result", {}), "status": "rejected", "response": "人工审批拒绝退款。", "decision_source": "human"}
         else:
+            # Pending pre-upgrade checkpoints and replayed execute nodes must
+            # pass the current citation gate before any ledger write.
+            checked = self.validate(state)
+            if checked['route'] not in {'auto_approved', 'awaiting_approval'}:
+                return {**checked, 'decision': False, 'validated': False}
             # Business uniqueness survives replay even if checkpoint commit fails.
             if self.repository:
                 inserted = self.repository.refund(state["order_id"], state["run_id"], state["order"]["amount"])

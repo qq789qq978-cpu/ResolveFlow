@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-第一阶段的演示与可靠性记录已汇总到 [1.10阶段报告](validation/step-1.10-2026-09-21/REPORT.md)。远程验证按提交SHA核对Actions，徽章仅表示main最新工作流状态；私有仓库需有访问权限。2.1–2.2已完成 [80条RAG候选查询](evals/rag/CASES.md)、[45/35冻结划分与协议](evals/rag/PROTOCOL.md) 和 [基线报告](validation/step-2.2-2026-09-21/REPORT.md)。保留集必要证据完整命中15/20，MRR@4为0.8917；demo引用证据完整覆盖9/20，不能当作真实模型回答支持准确率。全部标签仍为模型生成/自查、人工待复核；69项测试通过。下一步2.3尚未启动，本阶段到2.12再推送并核对新提交CI。
+第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，RAG当前进度见 [2.3报告](validation/step-2.3-2026-09-21/REPORT.md)。已接入 [片段引用与无依据处理](GROUNDING.md)：引用附原文、版本和位置，证据不足转人工，退款执行前再次核验；本机8003已更新。97项基础/引用、16项PG及15项前端测试通过。demo采取保守业务分流，政策问答大量转人工，不能宣称回答质量提升；真实模型质量未测。下一步2.4未开始，2.12统一推送。上方徽章表示远程main的历史工作流状态，不代表当前未推送改动已通过远程CI。
 
 ## Docker 快速启动
 

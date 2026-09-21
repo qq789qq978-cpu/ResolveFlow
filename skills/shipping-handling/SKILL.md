@@ -9,4 +9,4 @@ description: 调查物流或快递状态工单，依据当前订单事实答复�
 仅说明工具返回的配送状态；缺少运单或预计送达时间时明确未知，不编造日期。
 信息足够时输出 reply 并引用物流政策，订单缺失或诉求涉及未覆盖的赔付时输出 escalate。
 退款属于另一处理流程，不能通过物流答复绕过审批。
-输出符合 Proposal 的 action、reason、citations。
+输出符合 Proposal 的 action、reason、citation_schema=2、evidence_status、citations、quotes。citations只含本次检索到的完整chunk_id，quotes记录同一chunk_id和逐字原文quote；物流状态处理引用处理规则整段。只有部分有据标记partial，无依据标记insufficient，两者均escalate，不把“不可编造”的说明当作具体时效或赔偿依据。

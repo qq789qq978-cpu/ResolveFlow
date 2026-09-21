@@ -121,3 +121,32 @@ test('pending actions cannot be duplicated after switching away and back',async(
     await h.show('B'); await h.show('A'); h.elements.resolution.value='结案'; await h.elements.closecase.onclick();
     assert.equal(h.calls.filter(c=>c.path==='/runs/A/review').length,1); delayed.release(); await first;
 });
+
+test('verified quotes and retrieved candidates are visibly distinct and escaped',async()=>{
+    const h=harness(); await h.login('operator');
+    const source={chunk_id:'refund-v2:abc:0',source:'refund.md',version:'2',line_start:8,line_end:8,text:'<script>alert(1)</script>'};
+    h.runs.get('A').state={proposal:{citation_schema:2},evidence:[source],result:{grounding:{usable:true,verified:[{...source,quote:source.text}]}}};
+    await h.show('A');
+    assert.match(h.elements.citationstatus.textContent,/引用已匹配/);
+    assert.match(h.elements.citationquotes.textContent,/<script>alert\(1\)<\/script>/);
+    assert.match(h.elements.evidence.textContent,/检索候选原文/);
+    assert.equal(h.elements.citationquotes.children[0].children.at(-1).href,'#evidence-0');
+    assert.equal(h.elements.evidence.children[0].id,'evidence-0');
+    await h.show('B'); assert.equal(h.elements.citationquotes.textContent,'');
+});
+
+test('legacy and insufficient evidence cannot display a successful citation check',async()=>{
+    const h=harness(); await h.login('operator');
+    h.runs.get('A').state={proposal:{citations:['refund-v2']},evidence:[]};
+    await h.show('A'); assert.match(h.elements.citationstatus.textContent,/历史工单/);
+    h.runs.get('A').state.result={grounding:{usable:false,verified:[]}};
+    await h.show('A'); assert.match(h.elements.citationstatus.textContent,/需要人工核查/);
+});
+
+test('new proposals never expose an unverified model reason while awaiting validation',async()=>{
+    const h=harness(); await h.login('operator');
+    h.runs.get('A').state={proposal:{citation_schema:2,reason:'保证999元立即到账',citations:[]}};
+    await h.show('A');
+    assert.equal(h.elements.proposal.textContent,'处理建议尚未完成依据核验。');
+    assert.equal(h.elements.proposal.textContent.includes('999'),false);
+});

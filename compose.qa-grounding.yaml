@@ -1,0 +1,51 @@
+# Isolated demo acceptance only. These public fixture credentials are not secrets.
+name: resolveflow-qa-step23
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: resolveflow
+      POSTGRES_DB: resolveflow
+      POSTGRES_PASSWORD: qa-step23-database
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resolveflow -d resolveflow"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  resolveflow:
+    image: resolveflow:step23
+    environment: &qa-env
+      DATABASE_URL: postgresql://resolveflow:qa-step23-database@db:5432/resolveflow
+      APP_API_KEY: qa-step23-operator
+      REVIEWER_API_KEY: qa-step23-reviewer
+      ADMIN_API_KEY: qa-step23-admin
+      MODE: demo
+      OPENAI_API_KEY: ''
+      DATA_DIR: /data
+    ports:
+      - "127.0.0.1:8012:8000"
+    volumes:
+      - agent-data:/data
+    depends_on:
+      db:
+        condition: service_healthy
+  worker:
+    image: resolveflow:step23
+    command: ["python", "worker.py"]
+    environment: *qa-env
+    volumes:
+      - worker-data:/data
+    depends_on:
+      resolveflow:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "worker_health.py"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+volumes:
+  postgres-data:
+  agent-data:
+  worker-data:

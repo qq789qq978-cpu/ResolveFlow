@@ -70,6 +70,11 @@ def score_case(case, hits, proposal, catalog):
     cited_evidence = {eid for h, eid in zip(hits, ids) if eid is not None
                       and (h['id'] in citations or h['chunk_id'] in citations)}
     citation_complete = bool(groups) and all(set(group) & cited_evidence for group in groups)
+    quotes = proposal.get('quotes', [])
+    valid_quotes = sum(any(h['chunk_id'] == q.get('chunk_id') and eid is not None
+                          and h['chunk_id'] in citations and isinstance(q.get('quote'), str)
+                          and len(q['quote'].strip()) >= 12 and q['quote'] in h['text']
+                          for h, eid in zip(hits, ids)) for q in quotes)
     return {'id': case['id'], 'category': case['category'], 'answerability': expected['answerability'],
             'retrieved_evidence': ids, 'hits': hits, 'proposal': proposal,
             'groups_hit': sum(p is not None for p in positions), 'groups_total': len(groups),
@@ -81,6 +86,8 @@ def score_case(case, hits, proposal, catalog):
             'citations_count': len(citations),
             'valid_document_citations': sum(c in available_documents for c in citations),
             'chunk_citations': sum(c in available_chunks for c in citations),
+            'valid_references': sum(c in available_documents or c in available_chunks for c in citations),
+            'quote_count': len(quotes), 'valid_quotes': valid_quotes,
             'cited_required_complete': bool(citation_complete)}
 
 
@@ -109,6 +116,8 @@ def aggregate(rows):
             'abstention': {'by_no_answer_type': by_type,
                            'demo_over_escalation_rate': mean('demo_escalated', answerable)},
             'citations': {'document_citation_validity': ratio(sum(r['valid_document_citations'] for r in rows), total_citations),
+                          'reference_validity': ratio(sum(r['valid_references'] for r in rows), total_citations),
+                          'verbatim_quote_validity': ratio(sum(r['valid_quotes'] for r in rows), sum(r['quote_count'] for r in rows)),
                           'cited_required_coverage': mean('cited_required_complete', answerable),
                           'unsupported_citation_rate': ratio(sum(bool(r['citations_count']) for r in no_answer), len(no_answer)),
                           'chunk_citation_rate': ratio(sum(r['chunk_citations'] for r in rows), total_citations)},
@@ -118,8 +127,9 @@ def aggregate(rows):
 
 
 def source_fingerprints():
-    paths = ['rag.py', 'engine.py', 'skill_loader.py', 'scripts/evaluate_rag_baseline.py',
-             'scripts/freeze_rag_split.py', 'scripts/validate_rag_dataset.py', 'evals/rag/PROTOCOL.md']
+    paths = ['rag.py', 'engine.py', 'grounding.py', 'skill_loader.py', 'scripts/evaluate_rag_baseline.py',
+             'scripts/freeze_rag_split.py', 'scripts/validate_rag_dataset.py', 'evals/rag/PROTOCOL.md',
+             'evals/rag/SNIPPET_PROTOCOL.md']
     paths += [p.relative_to(ROOT).as_posix() for p in sorted((ROOT / 'skills').glob('*/SKILL.md'))]
     return {name: hashlib.sha256((ROOT / name).read_text(encoding='utf-8-sig').encode('utf-8')).hexdigest()
             for name in paths}
@@ -135,6 +145,7 @@ def evaluate(data, split, *, proposer=demo_proposal):
         proposal = proposer(case['query'], hits)
         partitions[split['assignments'][case['id']]].append(score_case(case, hits, proposal, data['evidence_catalog']))
     return {'completed': True, 'quality_gate': 'not_set; baseline_measurement_only',
+            'metric_schema': 2, 'snippet_protocol': 'evals/rag/SNIPPET_PROTOCOL.md',
             'protocol': 'evals/rag/PROTOCOL.md', 'retriever': 'unchanged_bm25', 'top_k': TOP_K,
             'mode': 'offline_retrieval_and_real_demo_investigation_node_with_stubbed_tool_transport',
             'model_api_calls': 0, 'production_db_access': False, 'business_execution': False,

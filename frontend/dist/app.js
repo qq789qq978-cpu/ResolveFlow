@@ -6,6 +6,32 @@ const requests = new Set(), pending = new Set();
 const names = {queued:'已排队',approval_queued:'审批已入队',retrying:'等待自动重试',auto_rejected:'自动拒绝退款',auto_approved:'自动批准',running:'调查中',awaiting_approval:'等待审批',escalated:'转人工核查',answered:'已答复',refunded:'已模拟退款',already_refunded:'已拦截重复退款',rejected:'已拒绝',closed:'人工已关闭',failed:'调查失败'};
 const terminal = new Set(['auto_rejected','answered','refunded','already_refunded','rejected','closed','failed','escalated','awaiting_approval']);
 const message = text => $('message').textContent = text;
+const pendingEvidenceMessage = '处理建议尚未完成依据核验。';
+function renderEvidence(state) {
+    const result = state.result?.grounding;
+    $('citationquotes').replaceChildren();
+    $('evidence').replaceChildren();
+    $('citationstatus').textContent = result
+        ? (result.usable ? '引用已匹配政策原文；问题适用性仍须结合订单和处理结论核对。' : '引用缺失或证据不足，需要人工核查；部分原文不代表完整处理依据。')
+        : (state.proposal ? '历史工单：旧版引用未按片段核验，原处理记录保留。' : '等待调查与引用核对。');
+    for (const quote of result?.verified || []) {
+        const box = add($('citationquotes'),'article','','evidence-chunk');
+        add(box,'strong','已核对的引用原文');
+        add(box,'div',`${quote.source} · 版本 ${quote.version} · 第 ${quote.line_start}–${quote.line_end} 行`);
+        add(box,'p',quote.quote);
+        const index = (state.evidence || []).findIndex(e=>e.chunk_id===quote.chunk_id);
+        if (index >= 0) add(box,'a','查看完整片段').href = '#evidence-'+index;
+    }
+    (state.evidence || []).forEach((e,index)=>{
+        const box=add($('evidence'),'div','','evidence-chunk');
+        box.id='evidence-'+index;
+        add(box,'strong',e.title||e.id);
+        add(box,'small','检索候选原文（不等于已采用的处理依据）');
+        add(box,'div',`${e.source||e.id}${e.line_start?' · 第 '+e.line_start+'–'+e.line_end+' 行':''} · 版本 ${e.version||e.id}`);
+        add(box,'p',e.text);
+        if(e.chunk_id)add(box,'small',`片段 ${e.chunk_id}`);
+    });
+}
 class StaleResponse extends Error {}
 function connectionLost() {
     disconnected = true;
@@ -87,7 +113,7 @@ async function refresh(owner = session) {
     $('page').textContent = `第 ${pageOffset / 20 + 1} 页`;
     $('prev').disabled = pageOffset === 0; $('next').disabled = rows.length < 20;
 }
-function renderDetails(r,preserveInputs=false){current=r;$('detail').hidden=false;$('detailstatus').textContent=names[r.status]||r.status;$('description').textContent=r.ticket;const s=r.state||{};$('checks').replaceChildren();for(const check of s.result?.checks||[])add($('checks'),'p',`${check.passed?'满足':'不满足'}：${check.name}`);if(s.result?.decision_source)add($('checks'),'p',`决策方式：${{automatic:'自动处理',human:'人工审批',manual_required:'等待人工审批',system:'系统分流'}[s.result.decision_source]||s.result.decision_source} · ${s.result.policy_version||'旧版规则'}`);$('facts').textContent=s.order?`${s.order.id||'未知订单'} · ¥${((s.order.amount||0)/100).toFixed(2)} · 签收 ${s.order.days??'未知'} 天 · ${s.order.used?'已使用':'未使用'}`:'调查尚无订单结果';$('proposal').textContent=r.status==='closed'&&r.review?`人工核查已结案：${r.review.resolution}`:s.result?.reason||s.proposal?.reason||r.error||'尚无处理建议';$('conflicts').hidden=!s.conflicts?.length;$('conflicts').textContent=(s.conflicts||[]).join('；');$('evidence').replaceChildren();for(const e of s.evidence||[]){const box=add($('evidence'),'div','','evidence-chunk');add(box,'strong',e.title||e.id);add(box,'div',`${e.source||e.id}${e.line_start?' · 第 '+e.line_start+'–'+e.line_end+' 行':''} · 版本 ${e.version||e.id}`);add(box,'p',e.text);if(e.chunk_id)add(box,'small',`片段 ${e.chunk_id}`)};$('trace').replaceChildren();if(s.skill)add($('trace'),'p',`已加载技能：${s.skill.name} · ${s.skill.sha256.slice(0,12)}`);for(const t of s.trace||[])add($('trace'),'p',[t.node,t.transport,t.tool,(t.tools||[]).join(' / '),names[t.status]||t.status].filter(Boolean).join(' · '));$('approval').hidden=r.status!=='awaiting_approval'||!['reviewer','admin'].includes(role);$('review').hidden=r.status!=='escalated'||!['reviewer','admin'].includes(role);$('audit').textContent=r.approval?`审批记录：${r.approval.approved?'同意':'拒绝'} · ${r.approval.reason}`:r.review?`人工处理：${r.review.resolution}`:'';if(!preserveInputs){$('reason').value='';$('resolution').value='';}$('jobinfo').textContent=r.job?`任务类型：${r.job.kind==='approval'?'审批执行':'调查'} · 已完成尝试 ${r.job.attempts} 次${r.job.last_error?' · '+r.job.last_error:''}`:'';$('retry').hidden=role!=='admin'||r.status!=='failed';}
+function renderDetails(r,preserveInputs=false){current=r;$('detail').hidden=false;$('detailstatus').textContent=names[r.status]||r.status;$('description').textContent=r.ticket;const s=r.state||{};$('checks').replaceChildren();for(const check of s.result?.checks||[])add($('checks'),'p',`${check.passed?'满足':'不满足'}：${check.name}`);if(s.result?.decision_source)add($('checks'),'p',`决策方式：${{automatic:'自动处理',human:'人工审批',manual_required:'等待人工审批',system:'系统分流'}[s.result.decision_source]||s.result.decision_source} · ${s.result.policy_version||'旧版规则'}`);$('facts').textContent=s.order?`${s.order.id||'未知订单'} · ¥${((s.order.amount||0)/100).toFixed(2)} · 签收 ${s.order.days??'未知'} 天 · ${s.order.used?'已使用':'未使用'}`:'调查尚无订单结果';$('proposal').textContent=r.status==='closed'&&r.review?`人工核查已结案：${r.review.resolution}`:s.result?.reason||(s.proposal?.citation_schema===2?pendingEvidenceMessage:s.proposal?.reason)||r.error||'尚无处理建议';$('conflicts').hidden=!s.conflicts?.length;$('conflicts').textContent=(s.conflicts||[]).join('；');renderEvidence(s);$('trace').replaceChildren();if(s.skill)add($('trace'),'p',`已加载技能：${s.skill.name} · ${s.skill.sha256.slice(0,12)}`);for(const t of s.trace||[])add($('trace'),'p',[t.node,t.transport,t.tool,(t.tools||[]).join(' / '),names[t.status]||t.status].filter(Boolean).join(' · '));$('approval').hidden=r.status!=='awaiting_approval'||!['reviewer','admin'].includes(role);$('review').hidden=r.status!=='escalated'||!['reviewer','admin'].includes(role);$('audit').textContent=r.approval?`审批记录：${r.approval.approved?'同意':'拒绝'} · ${r.approval.reason}`:r.review?`人工处理：${r.review.resolution}`:'';if(!preserveInputs){$('reason').value='';$('resolution').value='';}$('jobinfo').textContent=r.job?`任务类型：${r.job.kind==='approval'?'审批执行':'调查'} · 已完成尝试 ${r.job.attempts} 次${r.job.last_error?' · '+r.job.last_error:''}`:'';$('retry').hidden=role!=='admin'||r.status!=='failed';}
 function updateActionButtons() {
     const prefix = `${session}:${selectedId}:`;
     $('accept').disabled = $('reject').disabled = pending.has(prefix + 'approval');

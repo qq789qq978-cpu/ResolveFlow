@@ -64,7 +64,9 @@ class FakeModel:
     def with_structured_output(self, schema):
         class Structured:
             def invoke(self, messages):
-                return Proposal(action="refund", reason="符合政策", citations=["refund-v2"])
+                from grounding import demo_suggestion
+                from rag import retrieve
+                return Proposal(**demo_suggestion('申请退款', retrieve('退款')))
         return Structured()
 
 def test_live_contract(tmp_path):

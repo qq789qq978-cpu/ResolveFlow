@@ -1,0 +1,13 @@
+Execution summary (isolated source mounts; no real .env or model calls)
+Python unit/MCP/RAG/grounding suite: 97 passed in 29.49s
+PostgreSQL integration suite: 16 passed, 1 warning in 29.28s
+Node frontend suite: 15 passed, 0 failed, duration 330.4272 ms
+Original business demo evaluation: 12/12 correct
+Original document retrieval smoke evaluation: 12 samples, passed
+
+An earlier PostgreSQL run had 15 passed and one failure in the new legacy
+checkpoint fixture. graph.update_state cleared the previous interrupt; the
+fixture was corrected to materialize the old approval interrupt before saving
+the decision. The full 16-test suite above then passed; application recovery
+code was not changed to accommodate the fixture. The warning is Starlette's
+existing anyio BlockingPortal deprecation.
