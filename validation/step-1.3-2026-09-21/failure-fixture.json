@@ -1,0 +1,27 @@
+{
+  "run_id": "6cd74078-2752-43ae-b4e1-f2bbb5e203ef",
+  "fixture": "injected investigator TimeoutError",
+  "observations": [
+    {
+      "run_status": "retrying",
+      "job_status": "queued",
+      "attempts": 1,
+      "error": "任务失败：TimeoutError",
+      "last_error": "TimeoutError"
+    },
+    {
+      "run_status": "retrying",
+      "job_status": "queued",
+      "attempts": 2,
+      "error": "任务失败：TimeoutError",
+      "last_error": "TimeoutError"
+    },
+    {
+      "run_status": "failed",
+      "job_status": "failed",
+      "attempts": 3,
+      "error": "任务失败：TimeoutError",
+      "last_error": "TimeoutError"
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "phase": "before",
+  "run_id": "6cd74078-2752-43ae-b4e1-f2bbb5e203ef",
+  "checks": [
+    {
+      "role": "anonymous",
+      "path": "/api/metrics",
+      "method": "GET",
+      "status": 401,
+      "response": {
+        "detail": "授权码不正确"
+      }
+    },
+    {
+      "role": "invalid",
+      "path": "/api/metrics",
+      "method": "GET",
+      "status": 401,
+      "response": {
+        "detail": "授权码不正确"
+      }
+    },
+    {
+      "role": "operator",
+      "path": "/api/metrics",
+      "method": "GET",
+      "status": 403,
+      "response": {
+        "detail": "当前角色没有此操作权限"
+      }
+    },
+    {
+      "role": "reviewer",
+      "path": "/api/metrics",
+      "method": "GET",
+      "status": 403,
+      "response": {
+        "detail": "当前角色没有此操作权限"
+      }
+    },
+    {
+      "role": "admin",
+      "path": "/api/metrics",
+      "method": "GET",
+      "status": 200,
+      "response": {
+        "runs": {
+          "closed": 1,
+          "already_refunded": 1,
+          "rejected": 1,
+          "refunded": 2,
+          "failed": 1,
+          "auto_rejected": 1
+        },
+        "attempts": {
+          "total": 11,
+          "failed": 3,
+          "avg_ms": 522,
+          "p95_ms": 1081.5
+        },
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "workers_online": 0,
+        "refund_execution": "simulated"
+      }
+    },
+    {
+      "role": "anonymous",
+      "path": "/api/runs/6cd74078-2752-43ae-b4e1-f2bbb5e203ef/retry",
+      "method": "POST",
+      "status": 401,
+      "response": {
+        "detail": "授权码不正确"
+      }
+    },
+    {
+      "role": "invalid",
+      "path": "/api/runs/6cd74078-2752-43ae-b4e1-f2bbb5e203ef/retry",
+      "method": "POST",
+      "status": 401,
+      "response": {
+        "detail": "授权码不正确"
+      }
+    },
+    {
+      "role": "operator",
+      "path": "/api/runs/6cd74078-2752-43ae-b4e1-f2bbb5e203ef/retry",
+      "method": "POST",
+      "status": 403,
+      "response": {
+        "detail": "当前角色没有此操作权限"
+      }
+    },
+    {
+      "role": "reviewer",
+      "path": "/api/runs/6cd74078-2752-43ae-b4e1-f2bbb5e203ef/retry",
+      "method": "POST",
+      "status": 403,
+      "response": {
+        "detail": "当前角色没有此操作权限"
+      }
+    },
+    {
+      "role": "reviewer",
+      "path": "/api/runs",
+      "method": "POST",
+      "status": 403,
+      "response": {
+        "detail": "当前角色没有此操作权限"
+      }
+    },
+    {
+      "role": "operator",
+      "path": "/api/runs/6cd74078-2752-43ae-b4e1-f2bbb5e203ef/approval",
+      "method": "POST",
+      "status": 403,
+      "response": {
+        "detail": "当前角色没有此操作权限"
+      }
+    },
+    {
+      "role": "operator",
+      "path": "/api/runs/6cd74078-2752-43ae-b4e1-f2bbb5e203ef/review",
+      "method": "POST",
+      "status": 403,
+      "response": {
+        "detail": "当前角色没有此操作权限"
+      }
+    }
+  ],
+  "target_unchanged": true,
+  "target": {
+    "id": "6cd74078-2752-43ae-b4e1-f2bbb5e203ef",
+    "ticket": "步骤1.3管理员重试验收：商品已使用，签收12天，申请退款",
+    "order_id": "RF-1002",
+    "status": "failed",
+    "mode": "demo",
+    "model": "deepseek-flash",
+    "state": null,
+    "error": "任务失败：TimeoutError",
+    "elapsed_ms": null,
+    "created_at": "2026-09-21T03:14:00.021322+00:00",
+    "updated_at": "2026-09-21T03:14:24.045230+00:00",
+    "created_by": "admin",
+    "approval": null,
+    "review": null,
+    "job": {
+      "run_id": "6cd74078-2752-43ae-b4e1-f2bbb5e203ef",
+      "kind": "investigate",
+      "status": "failed",
+      "attempts": 3,
+      "available_at": "2026-09-21T03:14:24.045230+00:00",
+      "last_error": "TimeoutError",
+      "updated_at": "2026-09-21T03:14:24.045230+00:00"
+    },
+    "audit": [
+      {
+        "actor": "admin",
+        "action": "create",
+        "created_at": "2026-09-21T03:14:00.021322+00:00"
+      }
+    ]
+  }
+}
