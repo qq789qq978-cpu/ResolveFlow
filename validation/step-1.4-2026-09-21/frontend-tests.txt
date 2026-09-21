@@ -1,0 +1,20 @@
+✔ a previous role cannot publish a delayed created ticket into the new session (6.8055ms)
+✔ review completion cannot replace a newly selected ticket (3.0437ms)
+✔ retry completion cannot replace a newly selected ticket (2.0918ms)
+✔ approval completion cannot replace a newly selected ticket (2.1795ms)
+✔ a previous filter response cannot replace the latest filter results (1.9566ms)
+✔ out of order detail requests keep the last selected ticket (1.8499ms)
+✔ old polling detail cannot overwrite a completed mutation (3.0026ms)
+✔ a network failure keeps draft input and polling recovers without replaying writes (1.9408ms)
+✔ a stale login response cannot restore the older role (1.8161ms)
+✔ reconnection replaces obsolete read-error text while preserving the draft (1.9206ms)
+✔ an old search does not clear the busy state of a new session search (2.6686ms)
+✔ pending actions cannot be duplicated after switching away and back (2.0894ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 178.5262

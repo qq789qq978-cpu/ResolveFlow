@@ -1,0 +1,26 @@
+{
+  "rf_runs": {
+    "count": 9,
+    "sha256": "849bb9116ff288b9b6392c6c5f453c35e6dc549948c2729b69484ebcc31a6d72"
+  },
+  "rf_jobs": {
+    "count": 9,
+    "sha256": "e8e5009c54a2323d793ff86a64c7426efa227e1fa7b2042e88ab8773aea2bf7a"
+  },
+  "rf_approvals": {
+    "count": 3,
+    "sha256": "f677cf615defb8c816f547bf6a7af2be43b569e5ed8dd9d015a65e71e38693c3"
+  },
+  "rf_reviews": {
+    "count": 0,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "rf_refunds": {
+    "count": 1,
+    "sha256": "a3254363600c84c7b4ebbcbc4e67f76daf8cc87b8bc7331b6fb9eba3c215c2c7"
+  },
+  "rf_audit": {
+    "count": 12,
+    "sha256": "3b61206afa1218cac538f55af6dff8fe7bd6f6122bee1e9ebfc7cae2a405c114"
+  }
+}

@@ -30,6 +30,11 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock
       - run: pip install -r requirements.lock
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Frontend delayed-response and reconnect tests
+        run: node --test test_frontend.cjs
       - name: Unit and MCP tests (synthetic fixtures)
         run: env -u DATABASE_URL python -m pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py -q
       - name: PostgreSQL queue, RBAC and crash recovery

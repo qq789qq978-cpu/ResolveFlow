@@ -1,0 +1,402 @@
+{"time": "2026-09-21T04:03:41.457484+00:00", "event": "upstream", "path": "/", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:03:41.458487+00:00", "event": "delivered", "path": "/", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:03:41.487485+00:00", "event": "upstream", "path": "/style.css", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:03:41.488485+00:00", "event": "upstream", "path": "/app.js", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:03:41.489484+00:00", "event": "delivered", "path": "/style.css", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:03:41.489484+00:00", "event": "delivered", "path": "/app.js", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:03:41.555512+00:00", "event": "upstream", "path": "/favicon.ico", "method": "GET", "status": 404, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:03:41.556512+00:00", "event": "delivered", "path": "/favicon.ico", "method": "GET", "status": 404, "scenario": null}
+{"time": "2026-09-21T04:06:02.870708+00:00", "event": "upstream", "path": "/", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:02.871707+00:00", "event": "delivered", "path": "/", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:02.898617+00:00", "event": "upstream", "path": "/app.js?v=1.4", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:02.899143+00:00", "event": "upstream", "path": "/style.css?v=1.4", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:02.899680+00:00", "event": "delivered", "path": "/app.js?v=1.4", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:02.900737+00:00", "event": "delivered", "path": "/style.css?v=1.4", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:02.984258+00:00", "event": "upstream", "path": "/api/config", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:02.984791+00:00", "event": "delivered", "path": "/api/config", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:03.003316+00:00", "event": "upstream", "path": "/api/orders", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:03.003846+00:00", "event": "delivered", "path": "/api/orders", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:03.023219+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:03.024288+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:06.940631+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:06.941735+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:10.932017+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:10.933018+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:14.931161+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:14.932718+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:18.930303+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:18.931360+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:22.925985+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:22.927040+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:26.946647+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:26.947765+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:30.934595+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:30.935640+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:34.932066+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:34.933114+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:38.923792+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:38.925176+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:42.685095+00:00", "event": "upstream", "path": "/api/knowledge?query=%E5%8C%85%E8%A3%B9%E4%B8%A2%E5%A4%B1%E6%80%8E%E4%B9%88%E5%8A%9E", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:42.685623+00:00", "event": "delivered", "path": "/api/knowledge?query=%E5%8C%85%E8%A3%B9%E4%B8%A2%E5%A4%B1%E6%80%8E%E4%B9%88%E5%8A%9E", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:42.940440+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:42.942176+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:46.924275+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:46.924798+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:50.930961+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:50.931493+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:54.930290+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:54.931398+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:06:58.937156+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:06:58.938205+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:02.937932+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:02.939000+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:08.974908+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:08.975968+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:07:12.959281+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:12.960274+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:07:16.960784+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:16.961299+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:07:20.951082+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:20.952079+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:07:24.960237+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:24.961238+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:07:28.983154+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:28.984156+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:07:30.913149+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:30.914307+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:07:34.925682+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:34.926729+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:38.934043+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:38.935100+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:42.931436+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:42.932510+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:46.925649+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:46.926779+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:50.678499+00:00", "event": "upstream", "path": "/api/runs", "method": "POST", "status": 202, "scenario": "create-then-switch-role", "delay": 8.0}
+{"time": "2026-09-21T04:07:51.186456+00:00", "event": "upstream", "path": "/api/config", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:51.187073+00:00", "event": "delivered", "path": "/api/config", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:51.204688+00:00", "event": "upstream", "path": "/api/orders", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:51.205733+00:00", "event": "delivered", "path": "/api/orders", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:51.225129+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:51.226184+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:54.932692+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:54.933751+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:07:58.682034+00:00", "event": "client-disconnected", "path": "/api/runs", "method": "POST", "scenario": "create-then-switch-role"}
+{"time": "2026-09-21T04:07:58.927016+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:07:58.928016+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:02.933259+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:02.934313+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:06.923192+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:06.924247+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:10.944652+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:10.945652+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:14.925752+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:14.926315+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:18.922147+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:18.923738+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:21.707328+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=escalated", "method": "GET", "status": 200, "scenario": "slow-filter", "delay": 6.0}
+{"time": "2026-09-21T04:08:21.990549+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:21.992164+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:22.924760+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:22.925811+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:26.936029+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:26.937070+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:27.708341+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=escalated", "method": "GET", "status": 200, "scenario": "slow-filter"}
+{"time": "2026-09-21T04:08:30.923381+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:30.924431+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:34.929082+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:34.930117+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:38.933657+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:38.934732+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:42.927241+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:42.928294+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:46.935715+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:46.936783+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:50.924782+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:50.925830+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:54.935334+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:54.936542+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:08:58.930506+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:08:58.932060+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:02.928593+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:02.929116+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:06.929116+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:06.930156+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:10.945848+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:10.947498+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:14.929980+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:14.931054+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:18.930624+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:18.931691+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:18.982039+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=escalated", "method": "GET", "status": 200, "scenario": "slow-filter-with-row", "delay": 6.0}
+{"time": "2026-09-21T04:09:19.249943+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:19.250993+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:22.925120+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:22.925653+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:24.984009+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=escalated", "method": "GET", "status": 200, "scenario": "slow-filter-with-row"}
+{"time": "2026-09-21T04:09:26.937915+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:26.939001+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:30.924667+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:30.925706+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:34.931514+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:34.932038+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:38.935813+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:38.936811+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:42.931481+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:42.932003+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:46.928160+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:46.929235+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:50.930842+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:50.932808+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=failed", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:53.615630+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:53.617235+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:53.909455+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:53.911055+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:54.932212+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:54.933866+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:54.969275+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:54.969811+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:58.933941+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:58.935006+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:09:58.986238+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:09:58.987238+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:02.934832+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:02.936397+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:02.974747+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:02.975879+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:06.924819+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:06.925854+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:06.980916+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:06.981442+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:10.935613+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:10.936671+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:10.973978+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:10.975048+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:11.892308+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161/review", "method": "POST", "status": 200, "scenario": "close-then-switch-ticket", "delay": 8.0}
+{"time": "2026-09-21T04:10:12.148160+00:00", "event": "upstream", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:12.149220+00:00", "event": "delivered", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:14.934167+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:14.935209+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:14.964878+00:00", "event": "upstream", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:14.965393+00:00", "event": "delivered", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:18.936268+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:18.937847+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:18.978635+00:00", "event": "upstream", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:18.979696+00:00", "event": "delivered", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:19.894401+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161/review", "method": "POST", "status": 200, "scenario": "close-then-switch-ticket"}
+{"time": "2026-09-21T04:10:19.911429+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:19.912555+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:22.941807+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:22.942854+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:22.973521+00:00", "event": "upstream", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:22.974648+00:00", "event": "delivered", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:26.931223+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:26.932223+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:26.961486+00:00", "event": "upstream", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:26.962544+00:00", "event": "delivered", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:30.923226+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:30.924276+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:30.955289+00:00", "event": "upstream", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:30.956333+00:00", "event": "delivered", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:34.929632+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:34.930251+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:34.982882+00:00", "event": "upstream", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:34.984069+00:00", "event": "delivered", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:38.935767+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:38.936825+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:38.968325+00:00", "event": "upstream", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:38.968865+00:00", "event": "delivered", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:40.601996+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:40.603087+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:41.174193+00:00", "event": "upstream", "path": "/api/config", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:41.175278+00:00", "event": "delivered", "path": "/api/config", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:41.195882+00:00", "event": "upstream", "path": "/api/orders", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:41.196903+00:00", "event": "delivered", "path": "/api/orders", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:41.219427+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:41.219427+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:42.930422+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:42.932054+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:46.932390+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:46.933467+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:50.932151+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:50.933611+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:54.929582+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:54.930653+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:10:58.931065+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:10:58.932133+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:02.930692+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:02.931746+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:04.501550+00:00", "event": "upstream", "path": "/api/runs", "method": "POST", "status": 202, "scenario": "accepted-response-lost", "delay": 0.0}
+{"time": "2026-09-21T04:11:04.502618+00:00", "event": "response-dropped", "path": "/api/runs", "method": "POST", "status": 202, "scenario": "accepted-response-lost"}
+{"time": "2026-09-21T04:11:06.929129+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:06.929659+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:10.930930+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:10.932029+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:14.934311+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:14.935361+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:18.935341+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:18.936904+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:22.928477+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:22.929477+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:26.050957+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:26.052025+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:26.935591+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:26.936639+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:26.967721+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:26.968786+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:30.935670+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:30.936719+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:30.973306+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:30.974388+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:34.935297+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:34.936955+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:34.967799+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:34.968860+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:38.923969+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:38.925023+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:38.956240+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:38.956240+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:42.927076+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:42.927906+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:42.960933+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:42.961997+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:46.929036+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:46.930089+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:46.958811+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:46.959857+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:50.938188+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:50.939771+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:50.975290+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:50.976435+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:54.936716+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:54.937715+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:54.968820+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:54.969357+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:58.924610+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:58.925680+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:11:58.960796+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:11:58.961860+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:02.929998+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:02.932002+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:02.971298+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:02.971834+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:06.935896+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:06.936895+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:06.988780+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:06.989840+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:10.992000+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:10.993588+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:11.040622+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:11.041670+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:14.937002+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:14.938067+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:14.975349+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:14.976688+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:18.939351+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:18.939880+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:18.980009+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:18.981075+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:22.930820+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:22.931348+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:22.963268+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:22.963803+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:26.935206+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:26.936307+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:26.967602+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:26.969258+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:30.929176+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:30.930230+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:30.959519+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:30.960045+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:34.935102+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:34.936162+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:34.970499+00:00", "event": "upstream", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:34.971534+00:00", "event": "delivered", "path": "/api/runs/958e8983-df66-4e9a-b43b-846f0315805b", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:35.442434+00:00", "event": "upstream", "path": "/", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:35.443485+00:00", "event": "delivered", "path": "/", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:35.475999+00:00", "event": "upstream", "path": "/app.js?v=1.4.1", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:35.477001+00:00", "event": "upstream", "path": "/style.css?v=1.4.1", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:35.478000+00:00", "event": "delivered", "path": "/app.js?v=1.4.1", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:35.479000+00:00", "event": "delivered", "path": "/style.css?v=1.4.1", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:35.598360+00:00", "event": "upstream", "path": "/api/config", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:35.599423+00:00", "event": "delivered", "path": "/api/config", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:35.618086+00:00", "event": "upstream", "path": "/api/orders", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:35.619148+00:00", "event": "delivered", "path": "/api/orders", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:35.638536+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:35.639598+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:35.912443+00:00", "event": "upstream", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": "slow-detail", "delay": 6.0}
+{"time": "2026-09-21T04:12:36.179056+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:36.180125+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:39.546188+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:39.546708+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:39.577485+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:39.578540+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:41.914075+00:00", "event": "delivered", "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255", "method": "GET", "status": 200, "scenario": "slow-detail"}
+{"time": "2026-09-21T04:12:43.541862+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:43.542404+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:43.573714+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:43.574265+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:47.544179+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:47.545278+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:47.582274+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:47.583357+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:51.553261+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:51.554353+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:51.591963+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:51.593034+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:55.555449+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:55.558452+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:55.710995+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:55.712044+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:59.543583+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:59.544648+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:12:59.599524+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:12:59.600125+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:03.546438+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:03.547499+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:03.582658+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:03.583783+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:07.542052+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:07.543349+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:07.575560+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:07.576099+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:11.530944+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:11.532521+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:11.561634+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:11.562681+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:15.541478+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:15.543375+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:15.580456+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:15.581499+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:19.530459+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:19.531504+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:13:25.585951+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:25.587965+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:13:29.570271+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:29.571268+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:13:33.554774+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:33.556770+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 503, "scenario": null}
+{"time": "2026-09-21T04:13:35.558095+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:35.559709+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:35.593733+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:35.594799+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:39.539527+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:39.541095+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:39.573308+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:39.574373+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:43.535575+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:43.536639+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:43.567887+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:43.568423+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:47.541030+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:47.542625+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:47.592014+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:47.593510+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:51.546829+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:51.547894+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:51.579875+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:51.580931+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:55.535932+00:00", "event": "upstream", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:55.537492+00:00", "event": "delivered", "path": "/api/runs?limit=20&offset=0&status=", "method": "GET", "status": 200, "scenario": null}
+{"time": "2026-09-21T04:13:55.568175+00:00", "event": "upstream", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null, "delay": 0}
+{"time": "2026-09-21T04:13:55.568704+00:00", "event": "delivered", "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161", "method": "GET", "status": 200, "scenario": null}

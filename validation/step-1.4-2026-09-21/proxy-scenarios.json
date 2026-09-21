@@ -1,0 +1,103 @@
+[
+  {
+    "time": "2026-09-21T04:07:50.678499+00:00",
+    "event": "upstream",
+    "path": "/api/runs",
+    "method": "POST",
+    "status": 202,
+    "scenario": "create-then-switch-role",
+    "delay": 8.0
+  },
+  {
+    "time": "2026-09-21T04:07:58.682034+00:00",
+    "event": "client-disconnected",
+    "path": "/api/runs",
+    "method": "POST",
+    "scenario": "create-then-switch-role"
+  },
+  {
+    "time": "2026-09-21T04:08:21.707328+00:00",
+    "event": "upstream",
+    "path": "/api/runs?limit=20&offset=0&status=escalated",
+    "method": "GET",
+    "status": 200,
+    "scenario": "slow-filter",
+    "delay": 6.0
+  },
+  {
+    "time": "2026-09-21T04:08:27.708341+00:00",
+    "event": "delivered",
+    "path": "/api/runs?limit=20&offset=0&status=escalated",
+    "method": "GET",
+    "status": 200,
+    "scenario": "slow-filter"
+  },
+  {
+    "time": "2026-09-21T04:09:18.982039+00:00",
+    "event": "upstream",
+    "path": "/api/runs?limit=20&offset=0&status=escalated",
+    "method": "GET",
+    "status": 200,
+    "scenario": "slow-filter-with-row",
+    "delay": 6.0
+  },
+  {
+    "time": "2026-09-21T04:09:24.984009+00:00",
+    "event": "delivered",
+    "path": "/api/runs?limit=20&offset=0&status=escalated",
+    "method": "GET",
+    "status": 200,
+    "scenario": "slow-filter-with-row"
+  },
+  {
+    "time": "2026-09-21T04:10:11.892308+00:00",
+    "event": "upstream",
+    "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161/review",
+    "method": "POST",
+    "status": 200,
+    "scenario": "close-then-switch-ticket",
+    "delay": 8.0
+  },
+  {
+    "time": "2026-09-21T04:10:19.894401+00:00",
+    "event": "delivered",
+    "path": "/api/runs/ce970994-d09c-4c0b-a285-ad5a332a3161/review",
+    "method": "POST",
+    "status": 200,
+    "scenario": "close-then-switch-ticket"
+  },
+  {
+    "time": "2026-09-21T04:11:04.501550+00:00",
+    "event": "upstream",
+    "path": "/api/runs",
+    "method": "POST",
+    "status": 202,
+    "scenario": "accepted-response-lost",
+    "delay": 0.0
+  },
+  {
+    "time": "2026-09-21T04:11:04.502618+00:00",
+    "event": "response-dropped",
+    "path": "/api/runs",
+    "method": "POST",
+    "status": 202,
+    "scenario": "accepted-response-lost"
+  },
+  {
+    "time": "2026-09-21T04:12:35.912443+00:00",
+    "event": "upstream",
+    "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255",
+    "method": "GET",
+    "status": 200,
+    "scenario": "slow-detail",
+    "delay": 6.0
+  },
+  {
+    "time": "2026-09-21T04:12:41.914075+00:00",
+    "event": "delivered",
+    "path": "/api/runs/37c2196e-f227-496e-8f0b-ee011dae0255",
+    "method": "GET",
+    "status": 200,
+    "scenario": "slow-detail"
+  }
+]

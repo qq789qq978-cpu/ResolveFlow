@@ -1,0 +1,269 @@
+{
+  "step": "1.4",
+  "read_only": true,
+  "runs": [
+    {
+      "id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "ticket": "步骤1.1验收：商品没有使用过，签收3天，申请退款",
+      "order_id": "RF-1001",
+      "status": "refunded",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "2cb9a7b6-5a4a-4d56-a847-ff6e4ea2ba24",
+      "ticket": "步骤1.1验收：商品已使用，签收12天，申请退款",
+      "order_id": "RF-1002",
+      "status": "auto_rejected",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "ticket": "步骤1.1验收：商品已使用，签收3天，申请退款",
+      "order_id": "RF-1004",
+      "status": "rejected",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "7ef0fd0a-8f08-4a9f-b6cd-adb0c3f756f8",
+      "ticket": "步骤1.1验收：商品已使用，申请退款",
+      "order_id": "RF-1001",
+      "status": "closed",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "45447c95-30e6-496b-9ad1-d0c534ac03c1",
+      "ticket": "步骤1.1验收：重复申请退款",
+      "order_id": "RF-1001",
+      "status": "already_refunded",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "050edebd-e556-41f9-96e6-158440811410",
+      "ticket": "步骤1.2审批同意验收：商品已使用，签收3天，申请例外退款",
+      "order_id": "RF-1004",
+      "status": "refunded",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "6cd74078-2752-43ae-b4e1-f2bbb5e203ef",
+      "ticket": "步骤1.3管理员重试验收：商品已使用，签收12天，申请退款",
+      "order_id": "RF-1002",
+      "status": "auto_rejected",
+      "mode": "demo",
+      "created_by": "admin",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "37c2196e-f227-496e-8f0b-ee011dae0255",
+      "ticket": "步骤1.4手机审批验收：商品已使用，签收3天，申请退款",
+      "order_id": "RF-1004",
+      "status": "rejected",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "4ad119b4-08e7-4f8b-9761-5eabe37f387c",
+      "ticket": "步骤1.4延迟提交后切换角色验收",
+      "order_id": "RF-1002",
+      "status": "escalated",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "ce970994-d09c-4c0b-a285-ad5a332a3161",
+      "ticket": "步骤1.4核查结案切换工单验收：未签收，申请退款",
+      "order_id": "RF-1003",
+      "status": "closed",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "958e8983-df66-4e9a-b43b-846f0315805b",
+      "ticket": "步骤1.4响应丢失验收：商品已使用，签收12天，申请退款",
+      "order_id": "RF-1002",
+      "status": "auto_rejected",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    }
+  ],
+  "refunds": [
+    {
+      "order_id": "RF-1001",
+      "run_id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "amount": 29900,
+      "created_at": "2026-09-21 02:23:34.866003+00:00"
+    },
+    {
+      "order_id": "RF-1004",
+      "run_id": "050edebd-e556-41f9-96e6-158440811410",
+      "amount": 15900,
+      "created_at": "2026-09-21 02:37:23.427764+00:00"
+    }
+  ],
+  "approvals": [
+    {
+      "run_id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "approved": false,
+      "actor": "reviewer",
+      "reason": "步骤1.2：商品已使用，不批准例外退款",
+      "created_at": "2026-09-21 02:35:59.504263+00:00"
+    },
+    {
+      "run_id": "050edebd-e556-41f9-96e6-158440811410",
+      "approved": true,
+      "actor": "reviewer",
+      "reason": "步骤1.2：测试角色批准本次合成订单例外模拟退款",
+      "created_at": "2026-09-21 02:37:23.295278+00:00"
+    },
+    {
+      "run_id": "37c2196e-f227-496e-8f0b-ee011dae0255",
+      "approved": false,
+      "actor": "reviewer",
+      "reason": "步骤1.4手机验收拒绝例外退款",
+      "created_at": "2026-09-21 04:05:43.579244+00:00"
+    }
+  ],
+  "reviews": [
+    {
+      "run_id": "7ef0fd0a-8f08-4a9f-b6cd-adb0c3f756f8",
+      "actor": "reviewer",
+      "resolution": "步骤1.2：核对合成订单与描述存在冲突，记录核查结论并关闭；本次不执行退款。",
+      "created_at": "2026-09-21 02:36:36.104197+00:00"
+    },
+    {
+      "run_id": "ce970994-d09c-4c0b-a285-ad5a332a3161",
+      "actor": "reviewer",
+      "resolution": "步骤1.4已核查未签收情况，记录结论并关闭，不执行退款",
+      "created_at": "2026-09-21 04:10:11.859025+00:00"
+    }
+  ],
+  "jobs": [
+    {
+      "run_id": "050edebd-e556-41f9-96e6-158440811410",
+      "status": "done",
+      "kind": "approval",
+      "attempts": 1
+    },
+    {
+      "run_id": "2cb9a7b6-5a4a-4d56-a847-ff6e4ea2ba24",
+      "status": "done",
+      "kind": "investigate",
+      "attempts": 1
+    },
+    {
+      "run_id": "37c2196e-f227-496e-8f0b-ee011dae0255",
+      "status": "done",
+      "kind": "approval",
+      "attempts": 1
+    },
+    {
+      "run_id": "45447c95-30e6-496b-9ad1-d0c534ac03c1",
+      "status": "done",
+      "kind": "investigate",
+      "attempts": 1
+    },
+    {
+      "run_id": "4ad119b4-08e7-4f8b-9761-5eabe37f387c",
+      "status": "done",
+      "kind": "investigate",
+      "attempts": 1
+    },
+    {
+      "run_id": "6cd74078-2752-43ae-b4e1-f2bbb5e203ef",
+      "status": "done",
+      "kind": "investigate",
+      "attempts": 1
+    },
+    {
+      "run_id": "7ef0fd0a-8f08-4a9f-b6cd-adb0c3f756f8",
+      "status": "done",
+      "kind": "investigate",
+      "attempts": 1
+    },
+    {
+      "run_id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "status": "done",
+      "kind": "investigate",
+      "attempts": 1
+    },
+    {
+      "run_id": "958e8983-df66-4e9a-b43b-846f0315805b",
+      "status": "done",
+      "kind": "investigate",
+      "attempts": 1
+    },
+    {
+      "run_id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "status": "done",
+      "kind": "approval",
+      "attempts": 1
+    },
+    {
+      "run_id": "ce970994-d09c-4c0b-a285-ad5a332a3161",
+      "status": "done",
+      "kind": "investigate",
+      "attempts": 1
+    }
+  ],
+  "assertions": "passed: four UI-created runs only, lost-response submission unique, drafts not submitted, expected terminal/human-routing states, no new refunds, zero model usage"
+}
