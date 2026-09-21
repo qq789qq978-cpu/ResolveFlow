@@ -37,9 +37,11 @@ jobs:
       - name: Frontend delayed-response and reconnect tests
         run: node --test test_frontend.cjs
       - name: Unit and MCP tests (synthetic fixtures)
-        run: env -u DATABASE_URL python -m pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py test_rag_dataset.py -q
+        run: env -u DATABASE_URL python -m pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py test_rag_dataset.py test_rag_baseline.py -q
       - name: Validate frozen RAG candidate annotations (no quality scoring)
         run: python scripts/validate_rag_dataset.py --report validation/rag-candidates-ci.json
+      - name: Frozen RAG baseline (descriptive metrics, not a quality pass)
+        run: env -u DATABASE_URL python scripts/evaluate_rag_baseline.py --report validation/rag-baseline-ci.json
       - name: PostgreSQL queue, RBAC and crash recovery
         run: RUN_PG_TESTS=1 python -m pytest test_jobs.py -q
       - name: Offline evaluation
@@ -74,3 +76,4 @@ jobs:
             async_live_report.json
             validation/stage1-ci/*.json
             validation/rag-candidates-ci.json
+            validation/rag-baseline-ci.json
