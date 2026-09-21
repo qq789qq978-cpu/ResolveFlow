@@ -2,6 +2,8 @@
 
 更新日期：2026-09-18。主目录 `D:/AgentProjects/ResolveFlow`，私有仓库 `qq789qq978-cpu/ResolveFlow`。本文替代此前“没有 Git / Docker 尚未实跑”的过期交接说明。验证结果见 [VALIDATION.md](VALIDATION.md)，后续计划见 [ROADMAP.md](ROADMAP.md)。
 
+执行进度（2026-09-21）：1.1运营浏览器验收完成，详见 [报告](validation/step-1.1-2026-09-21/REPORT.md)。用户要求每次对话只完成一步，每步本地提交、阶段末统一推送并确认CI；完整清单见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。下一步1.2尚未执行。独立QA环境位于8004，与主环境使用同一镜像、独立卷；用 `scripts/operator-qa.ps1 -Action Start` 恢复，保留了待审批和人工核查样例。1.1结束时该QA环境停止，主环境8003继续运行。
+
 ## 当前架构
 
 - 正式入口 `operations:app` + `worker.py`，前端是 `frontend/dist` 原生 HTML/CSS/JS。

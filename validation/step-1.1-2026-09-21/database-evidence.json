@@ -1,0 +1,100 @@
+{
+  "step": "1.1",
+  "date": "2026-09-21",
+  "base_commit": "cb795f8246259498b15e340014eb4bf4cd932643",
+  "browser_url": "http://127.0.0.1:8004/",
+  "database_read_only_verification": true,
+  "containers": [
+    {
+      "name": "resolveflow-resolveflow-1",
+      "image": "sha256:a4f0b1774945607c0f007ae82521dcab9d6786662a803a03d9413dcd03b0b28c",
+      "health": "healthy"
+    },
+    {
+      "name": "resolveflow-qa-step11-resolveflow-1",
+      "image": "sha256:a4f0b1774945607c0f007ae82521dcab9d6786662a803a03d9413dcd03b0b28c",
+      "health": "healthy"
+    },
+    {
+      "name": "resolveflow-qa-step11-worker-1",
+      "image": "sha256:a4f0b1774945607c0f007ae82521dcab9d6786662a803a03d9413dcd03b0b28c",
+      "health": "healthy"
+    }
+  ],
+  "runs": [
+    {
+      "id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "order_id": "RF-1001",
+      "status": "refunded",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "2cb9a7b6-5a4a-4d56-a847-ff6e4ea2ba24",
+      "order_id": "RF-1002",
+      "status": "auto_rejected",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "b0e2e4db-835b-424b-bebb-b3ad78357292",
+      "order_id": "RF-1004",
+      "status": "awaiting_approval",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "7ef0fd0a-8f08-4a9f-b6cd-adb0c3f756f8",
+      "order_id": "RF-1001",
+      "status": "escalated",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "45447c95-30e6-496b-9ad1-d0c534ac03c1",
+      "order_id": "RF-1001",
+      "status": "already_refunded",
+      "mode": "demo",
+      "created_by": "operator",
+      "usage": {
+        "model_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    }
+  ],
+  "refunds": [
+    {
+      "order_id": "RF-1001",
+      "run_id": "85f6955f-4e79-471c-a86b-25cbe625ba02",
+      "amount": 29900
+    }
+  ],
+  "approval_count": 0,
+  "jobs": [
+    {
+      "status": "done",
+      "count": 5
+    }
+  ]
+}
