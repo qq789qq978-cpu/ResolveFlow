@@ -57,7 +57,12 @@ def queue_approval(store, run_id, approved, actor, reason):
 
 def retry(store, run_id, actor):
     with store.connect() as c:
-        job = c.execute('SELECT * FROM rf_jobs WHERE run_id=%s FOR UPDATE', (run_id,)).fetchone()
+        try:
+            # A Worker keeps this lock across external calls. Never wait for
+            # that task to finish just to reject an ineligible manual retry.
+            job = c.execute('SELECT * FROM rf_jobs WHERE run_id=%s FOR UPDATE NOWAIT', (run_id,)).fetchone()
+        except psycopg.errors.LockNotAvailable:
+            raise ValueError('任务正在处理或状态更新中，请稍后查询状态') from None
         if not job:
             raise KeyError(run_id)
         if job['status'] != 'failed':
@@ -114,7 +119,9 @@ def process_one(store, engine, run_id=None, max_attempts=3, retry_delay=2):
             elapsed = int((time.monotonic()-started)*1000)
             error_type = type(error).__name__  # Never persist raw provider responses / keys.
             exhausted = job['attempts']+1 >= max_attempts
-            c.execute("UPDATE rf_jobs SET status=%s,attempts=attempts+1,last_error=%s,available_at=now()+(%s * interval '1 second'),updated_at=now() WHERE run_id=%s", ('failed' if exhausted else 'queued',error_type,retry_delay*2**job['attempts'],rid))
+            # now() is the transaction START; after a slow call its retry
+            # deadline can already be in the past. Back off from failure time.
+            c.execute("UPDATE rf_jobs SET status=%s,attempts=attempts+1,last_error=%s,available_at=clock_timestamp()+(%s * interval '1 second'),updated_at=clock_timestamp() WHERE run_id=%s", ('failed' if exhausted else 'queued',error_type,retry_delay*2**job['attempts'],rid))
             c.execute("UPDATE rf_runs SET status=%s,error=%s,updated_at=now() WHERE id=%s", ('failed' if exhausted else 'retrying','任务失败：'+error_type,rid))
             success = False
         c.execute('INSERT INTO rf_job_attempts(run_id,kind,success,error_type,elapsed_ms) VALUES (%s,%s,%s,%s,%s)', (rid,job['kind'],success,error_type,elapsed))

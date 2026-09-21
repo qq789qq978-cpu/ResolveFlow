@@ -45,7 +45,7 @@ def main():
             print(json.dumps(fingerprints(observer)))
             return
         fixture = os.environ.get("APP_API_KEY")
-        if fixture not in {"qa-step15-operator", "qa-step16-operator", "qa-step17-operator", "qa-step18-operator"}:
+        if fixture not in {"qa-step15-operator", "qa-step16-operator", "qa-step17-operator", "qa-step18-operator", "qa-step19-operator"}:
             raise RuntimeError("Fault injection requires a dedicated crash QA fixture")
         approval_test = fixture == "qa-step16-operator"
         gate_table = "rf_approvals" if approval_test else "rf_orders"
@@ -55,6 +55,10 @@ def main():
             engine = Engine(directory, "demo", repository=Store(url))
             gate = None
             replay = None
+            multi = None
+            if fixture == "qa-step19-operator":
+                from multi_worker_probe import MultiGate
+                multi = MultiGate(url, observer)
             if fixture == "qa-step17-operator":
                 from refund_replay_probe import ReplayGate
                 replay = ReplayGate(url, observer)
@@ -89,7 +93,9 @@ def main():
                     request = json.loads(line)
                     command = request["command"]
                     try:
-                        if command.startswith("replay_") and replay is not None:
+                        if command.startswith("multi_") and multi is not None:
+                            result = multi.command(command, request)
+                        elif command.startswith("replay_") and replay is not None:
                             if command == "replay_seed":
                                 result = replay.seed(request["source"])
                             elif command == "replay_install":
@@ -108,15 +114,16 @@ def main():
                         elif command == "gate":
                             if gate is not None:
                                 raise RuntimeError("Gate already held")
-                            if fixture == "qa-step18-operator":
+                            if fixture in {"qa-step18-operator", "qa-step19-operator"}:
                                 gate_table = request.get("table", "rf_orders")
                                 if gate_table not in {"rf_orders", "rf_approvals"}:
                                     raise ValueError("Only QA order/approval read gates allowed")
                             gate = psycopg.connect(url, row_factory=dict_row)
-                            gate.execute("SET idle_in_transaction_session_timeout='30s'")
+                            gate_seconds = 180 if multi is not None else 30
+                            gate.execute(f"SET idle_in_transaction_session_timeout='{gate_seconds}s'")
                             gate.execute("SET lock_timeout='3s'")
                             gate.execute(sql.SQL("LOCK TABLE {} IN ACCESS EXCLUSIVE MODE").format(sql.Identifier(gate_table)))
-                            result = {"gate_pid": gate.info.backend_pid, "table": gate_table, "auto_release_seconds": 30}
+                            result = {"gate_pid": gate.info.backend_pid, "table": gate_table, "auto_release_seconds": gate_seconds}
                         elif command == "blocked":
                             deadline = time.monotonic() + 10
                             while True:
@@ -154,6 +161,8 @@ def main():
                     gate.close()
                 if replay is not None:
                     replay.close()
+                if multi is not None:
+                    multi.close()
                 engine.close()
 
 

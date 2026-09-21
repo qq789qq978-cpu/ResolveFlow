@@ -1,0 +1,523 @@
+.......FEEEEEE                                                           [100%]
+==================================== ERRORS ====================================
+____ ERROR at teardown of test_manual_approval_true_with_document_evidence _____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x72b645ac6ae0>
+tmp_path = PosixPath('/tmp/pytest-of-appuser/pytest-0/test_manual_approval_true_with0')
+
+    @pytest.fixture
+    def system(monkeypatch,tmp_path):
+        load_dotenv(Path(__file__).with_name('.env'),encoding='utf-8-sig')
+        base=os.environ['DATABASE_URL']
+        schema='test_'+uuid.uuid4().hex
+        with psycopg.connect(base) as c:c.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(schema)))
+        url=make_conninfo(base,options=f'-c search_path={schema}')
+        monkeypatch.setenv('DATABASE_URL',url)
+        monkeypatch.setenv('MODE','demo')
+        for name,value in [('APP_API_KEY','test-operator'),('REVIEWER_API_KEY','test-reviewer'),('ADMIN_API_KEY','test-admin')]:monkeypatch.setenv(name,value)
+        store=Store(url)
+        store.setup();jobs.setup(store)
+        engine=Engine(str(tmp_path),'demo',repository=store)
+        try:
+            with TestClient(create_app()) as client:yield store,engine,client
+        finally:
+            engine.close()
+            # Only the random schema created above is removed; never public/data.
+>           with psycopg.connect(base) as c:c.execute(sql.SQL('DROP SCHEMA {} CASCADE').format(sql.Identifier(schema)))
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+/qa-tests/test_jobs.py:40:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/local/lib/python3.12/site-packages/psycopg/connection.py:100: in connect
+    attempts = conninfo_attempts(params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+params = {'user': 'resolveflow', 'password': 'qa-step19-database', 'dbname': 'resolveflow', 'host': 'db', ...}
+
+    def conninfo_attempts(params: ConnMapping) -> list[ConnDict]:
+        """Split a set of connection params on the single attempts to perform.
+
+        A connection param can perform more than one attempt more than one ``host``
+        is provided.
+
+        Also perform async resolution of the hostname into hostaddr. Because a host
+        can resolve to more than one address, this can lead to yield more attempts
+        too. Raise `OperationalError` if no host could be resolved.
+
+        Because the libpq async function doesn't honour the timeout, we need to
+        reimplement the repeated attempts.
+        """
+        last_exc = None
+        attempts = []
+        if prefer_standby := (
+            get_param(params, "target_session_attrs") == "prefer-standby"
+        ):
+            params = {k: v for k, v in params.items() if k != "target_session_attrs"}
+
+        for attempt in split_attempts(params):
+            try:
+                attempts.extend(_resolve_hostnames(attempt))
+            except OSError as ex:
+                last_exc = e.OperationalError(
+                    f"failed to resolve host {attempt.get('host')!r}: {ex}"
+                )
+                logger.debug("%s", last_exc)
+
+        if not attempts:
+            assert last_exc
+            # We couldn't resolve anything
+>           raise last_exc
+E           psycopg.OperationalError: failed to resolve host 'db': [Errno -2] Name or service not known
+
+/usr/local/lib/python3.12/site-packages/psycopg/_conninfo_attempts.py:55: OperationalError
+----------------------------- Captured stderr call -----------------------------
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+------------------------------ Captured log call -------------------------------
+WARNING  psycopg:_pipeline.py:77 error ignored terminating <psycopg.Pipeline [BAD] at 0x72b645b02360>: the connection is lost
+WARNING  psycopg.transaction:transaction.py:130 error ignored in rollback of <psycopg.Transaction '_pg3_1' (rolled_back_with_error) [BAD] at 0x72b645b03cb0>: terminating connection due to administrator command
+__ ERROR at setup of test_sql_failure_records_retry_after_savepoint_rollback ___
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x72b645b1a630>
+tmp_path = PosixPath('/tmp/pytest-of-appuser/pytest-0/test_sql_failure_records_retry0')
+
+    @pytest.fixture
+    def system(monkeypatch,tmp_path):
+        load_dotenv(Path(__file__).with_name('.env'),encoding='utf-8-sig')
+        base=os.environ['DATABASE_URL']
+        schema='test_'+uuid.uuid4().hex
+>       with psycopg.connect(base) as c:c.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(schema)))
+             ^^^^^^^^^^^^^^^^^^^^^
+
+/qa-tests/test_jobs.py:27:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/local/lib/python3.12/site-packages/psycopg/connection.py:100: in connect
+    attempts = conninfo_attempts(params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+params = {'user': 'resolveflow', 'password': 'qa-step19-database', 'dbname': 'resolveflow', 'host': 'db', ...}
+
+    def conninfo_attempts(params: ConnMapping) -> list[ConnDict]:
+        """Split a set of connection params on the single attempts to perform.
+
+        A connection param can perform more than one attempt more than one ``host``
+        is provided.
+
+        Also perform async resolution of the hostname into hostaddr. Because a host
+        can resolve to more than one address, this can lead to yield more attempts
+        too. Raise `OperationalError` if no host could be resolved.
+
+        Because the libpq async function doesn't honour the timeout, we need to
+        reimplement the repeated attempts.
+        """
+        last_exc = None
+        attempts = []
+        if prefer_standby := (
+            get_param(params, "target_session_attrs") == "prefer-standby"
+        ):
+            params = {k: v for k, v in params.items() if k != "target_session_attrs"}
+
+        for attempt in split_attempts(params):
+            try:
+                attempts.extend(_resolve_hostnames(attempt))
+            except OSError as ex:
+                last_exc = e.OperationalError(
+                    f"failed to resolve host {attempt.get('host')!r}: {ex}"
+                )
+                logger.debug("%s", last_exc)
+
+        if not attempts:
+            assert last_exc
+            # We couldn't resolve anything
+>           raise last_exc
+E           psycopg.OperationalError: failed to resolve host 'db': [Errno -2] Name or service not known
+
+/usr/local/lib/python3.12/site-packages/psycopg/_conninfo_attempts.py:55: OperationalError
+____ ERROR at setup of test_dead_checkpoint_connection_does_not_exhaust_job ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x72b645b1b800>
+tmp_path = PosixPath('/tmp/pytest-of-appuser/pytest-0/test_dead_checkpoint_connectio0')
+
+    @pytest.fixture
+    def system(monkeypatch,tmp_path):
+        load_dotenv(Path(__file__).with_name('.env'),encoding='utf-8-sig')
+        base=os.environ['DATABASE_URL']
+        schema='test_'+uuid.uuid4().hex
+>       with psycopg.connect(base) as c:c.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(schema)))
+             ^^^^^^^^^^^^^^^^^^^^^
+
+/qa-tests/test_jobs.py:27:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/local/lib/python3.12/site-packages/psycopg/connection.py:100: in connect
+    attempts = conninfo_attempts(params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+params = {'user': 'resolveflow', 'password': 'qa-step19-database', 'dbname': 'resolveflow', 'host': 'db', ...}
+
+    def conninfo_attempts(params: ConnMapping) -> list[ConnDict]:
+        """Split a set of connection params on the single attempts to perform.
+
+        A connection param can perform more than one attempt more than one ``host``
+        is provided.
+
+        Also perform async resolution of the hostname into hostaddr. Because a host
+        can resolve to more than one address, this can lead to yield more attempts
+        too. Raise `OperationalError` if no host could be resolved.
+
+        Because the libpq async function doesn't honour the timeout, we need to
+        reimplement the repeated attempts.
+        """
+        last_exc = None
+        attempts = []
+        if prefer_standby := (
+            get_param(params, "target_session_attrs") == "prefer-standby"
+        ):
+            params = {k: v for k, v in params.items() if k != "target_session_attrs"}
+
+        for attempt in split_attempts(params):
+            try:
+                attempts.extend(_resolve_hostnames(attempt))
+            except OSError as ex:
+                last_exc = e.OperationalError(
+                    f"failed to resolve host {attempt.get('host')!r}: {ex}"
+                )
+                logger.debug("%s", last_exc)
+
+        if not attempts:
+            assert last_exc
+            # We couldn't resolve anything
+>           raise last_exc
+E           psycopg.OperationalError: failed to resolve host 'db': [Errno -2] Name or service not known
+
+/usr/local/lib/python3.12/site-packages/psycopg/_conninfo_attempts.py:55: OperationalError
+_________ ERROR at setup of test_api_database_unavailable_is_safe_503 __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x72b645b1b1a0>
+tmp_path = PosixPath('/tmp/pytest-of-appuser/pytest-0/test_api_database_unavailable_0')
+
+    @pytest.fixture
+    def system(monkeypatch,tmp_path):
+        load_dotenv(Path(__file__).with_name('.env'),encoding='utf-8-sig')
+        base=os.environ['DATABASE_URL']
+        schema='test_'+uuid.uuid4().hex
+>       with psycopg.connect(base) as c:c.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(schema)))
+             ^^^^^^^^^^^^^^^^^^^^^
+
+/qa-tests/test_jobs.py:27:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/local/lib/python3.12/site-packages/psycopg/connection.py:100: in connect
+    attempts = conninfo_attempts(params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+params = {'user': 'resolveflow', 'password': 'qa-step19-database', 'dbname': 'resolveflow', 'host': 'db', ...}
+
+    def conninfo_attempts(params: ConnMapping) -> list[ConnDict]:
+        """Split a set of connection params on the single attempts to perform.
+
+        A connection param can perform more than one attempt more than one ``host``
+        is provided.
+
+        Also perform async resolution of the hostname into hostaddr. Because a host
+        can resolve to more than one address, this can lead to yield more attempts
+        too. Raise `OperationalError` if no host could be resolved.
+
+        Because the libpq async function doesn't honour the timeout, we need to
+        reimplement the repeated attempts.
+        """
+        last_exc = None
+        attempts = []
+        if prefer_standby := (
+            get_param(params, "target_session_attrs") == "prefer-standby"
+        ):
+            params = {k: v for k, v in params.items() if k != "target_session_attrs"}
+
+        for attempt in split_attempts(params):
+            try:
+                attempts.extend(_resolve_hostnames(attempt))
+            except OSError as ex:
+                last_exc = e.OperationalError(
+                    f"failed to resolve host {attempt.get('host')!r}: {ex}"
+                )
+                logger.debug("%s", last_exc)
+
+        if not attempts:
+            assert last_exc
+            # We couldn't resolve anything
+>           raise last_exc
+E           psycopg.OperationalError: failed to resolve host 'db': [Errno -2] Name or service not known
+
+/usr/local/lib/python3.12/site-packages/psycopg/_conninfo_attempts.py:55: OperationalError
+_ ERROR at setup of test_admin_retry_does_not_wait_for_another_transaction[queued] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x72b645ac7a10>
+tmp_path = PosixPath('/tmp/pytest-of-appuser/pytest-0/test_admin_retry_does_not_wait0')
+
+    @pytest.fixture
+    def system(monkeypatch,tmp_path):
+        load_dotenv(Path(__file__).with_name('.env'),encoding='utf-8-sig')
+        base=os.environ['DATABASE_URL']
+        schema='test_'+uuid.uuid4().hex
+>       with psycopg.connect(base) as c:c.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(schema)))
+             ^^^^^^^^^^^^^^^^^^^^^
+
+/qa-tests/test_jobs.py:27:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/local/lib/python3.12/site-packages/psycopg/connection.py:100: in connect
+    attempts = conninfo_attempts(params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+params = {'user': 'resolveflow', 'password': 'qa-step19-database', 'dbname': 'resolveflow', 'host': 'db', ...}
+
+    def conninfo_attempts(params: ConnMapping) -> list[ConnDict]:
+        """Split a set of connection params on the single attempts to perform.
+
+        A connection param can perform more than one attempt more than one ``host``
+        is provided.
+
+        Also perform async resolution of the hostname into hostaddr. Because a host
+        can resolve to more than one address, this can lead to yield more attempts
+        too. Raise `OperationalError` if no host could be resolved.
+
+        Because the libpq async function doesn't honour the timeout, we need to
+        reimplement the repeated attempts.
+        """
+        last_exc = None
+        attempts = []
+        if prefer_standby := (
+            get_param(params, "target_session_attrs") == "prefer-standby"
+        ):
+            params = {k: v for k, v in params.items() if k != "target_session_attrs"}
+
+        for attempt in split_attempts(params):
+            try:
+                attempts.extend(_resolve_hostnames(attempt))
+            except OSError as ex:
+                last_exc = e.OperationalError(
+                    f"failed to resolve host {attempt.get('host')!r}: {ex}"
+                )
+                logger.debug("%s", last_exc)
+
+        if not attempts:
+            assert last_exc
+            # We couldn't resolve anything
+>           raise last_exc
+E           psycopg.OperationalError: failed to resolve host 'db': [Errno -2] Name or service not known
+
+/usr/local/lib/python3.12/site-packages/psycopg/_conninfo_attempts.py:55: OperationalError
+_ ERROR at setup of test_admin_retry_does_not_wait_for_another_transaction[failed] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x72b645b014f0>
+tmp_path = PosixPath('/tmp/pytest-of-appuser/pytest-0/test_admin_retry_does_not_wait1')
+
+    @pytest.fixture
+    def system(monkeypatch,tmp_path):
+        load_dotenv(Path(__file__).with_name('.env'),encoding='utf-8-sig')
+        base=os.environ['DATABASE_URL']
+        schema='test_'+uuid.uuid4().hex
+>       with psycopg.connect(base) as c:c.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(schema)))
+             ^^^^^^^^^^^^^^^^^^^^^
+
+/qa-tests/test_jobs.py:27:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/local/lib/python3.12/site-packages/psycopg/connection.py:100: in connect
+    attempts = conninfo_attempts(params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+params = {'user': 'resolveflow', 'password': 'qa-step19-database', 'dbname': 'resolveflow', 'host': 'db', ...}
+
+    def conninfo_attempts(params: ConnMapping) -> list[ConnDict]:
+        """Split a set of connection params on the single attempts to perform.
+
+        A connection param can perform more than one attempt more than one ``host``
+        is provided.
+
+        Also perform async resolution of the hostname into hostaddr. Because a host
+        can resolve to more than one address, this can lead to yield more attempts
+        too. Raise `OperationalError` if no host could be resolved.
+
+        Because the libpq async function doesn't honour the timeout, we need to
+        reimplement the repeated attempts.
+        """
+        last_exc = None
+        attempts = []
+        if prefer_standby := (
+            get_param(params, "target_session_attrs") == "prefer-standby"
+        ):
+            params = {k: v for k, v in params.items() if k != "target_session_attrs"}
+
+        for attempt in split_attempts(params):
+            try:
+                attempts.extend(_resolve_hostnames(attempt))
+            except OSError as ex:
+                last_exc = e.OperationalError(
+                    f"failed to resolve host {attempt.get('host')!r}: {ex}"
+                )
+                logger.debug("%s", last_exc)
+
+        if not attempts:
+            assert last_exc
+            # We couldn't resolve anything
+>           raise last_exc
+E           psycopg.OperationalError: failed to resolve host 'db': [Errno -2] Name or service not known
+
+/usr/local/lib/python3.12/site-packages/psycopg/_conninfo_attempts.py:55: OperationalError
+=================================== FAILURES ===================================
+_______________ test_manual_approval_true_with_document_evidence _______________
+  + Exception Group Traceback (most recent call last):
+  |   File "/app/jobs.py", line 109, in process_one
+  |     result = engine.recover(rid, row['ticket'], row['order_id'], row['approval'] if job['kind']=='approval' else None)
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/app/engine.py", line 212, in recover
+  |     return self.start(run_id, ticket, order_id)
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/app/engine.py", line 189, in start
+  |     self.graph.invoke({"run_id": run_id, "ticket": ticket, "order_id": order_id, "owner": owner}, self.config(run_id))
+  |   File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/main.py", line 3913, in invoke
+  |     for chunk in self.stream(
+  |                  ^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/main.py", line 2967, in stream
+  |     for _ in runner.tick(
+  |              ^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 207, in tick
+  |     run_with_retry(
+  |   File "/usr/local/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 617, in run_with_retry
+  |     return task.proc.invoke(task.input, config)
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 707, in invoke
+  |     input = context.run(step.invoke, input, config, **kwargs)
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 447, in invoke
+  |     ret = self.func(*args, **kwargs)
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/app/engine.py", line 92, in investigate
+  |     evidence, order = call_tools(state["order_id"], state["owner"], [("search_policy", {"query": state["ticket"]}), ("lookup_order", {})])
+  |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/app/mcp_gateway.py", line 48, in call_tools
+  |     return asyncio.run(exchange(order_id, owner, calls))
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/asyncio/runners.py", line 195, in run
+  |     return runner.run(main)
+  |            ^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+  |     return self._loop.run_until_complete(task)
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+  |     return future.result()
+  |            ^^^^^^^^^^^^^^^
+  |   File "/app/mcp_gateway.py", line 23, in exchange
+  |     async with stdio_client(parameters) as (read, write):
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/contextlib.py", line 231, in __aexit__
+  |     await self.gen.athrow(value)
+  |   File "/usr/local/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 183, in stdio_client
+  |     anyio.create_task_group() as tg,
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  | During task with name 'investigate' and id 'f4f41876-dd4a-402c-821e-ade11de4129c'
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "/usr/local/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 189, in stdio_client
+    |     yield read_stream, write_stream
+    |   File "/app/mcp_gateway.py", line 24, in exchange
+    |     async with ClientSession(read, write, read_timeout_seconds=timedelta(seconds=15)) as session:
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/usr/local/lib/python3.12/site-packages/mcp/shared/session.py", line 238, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/usr/local/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 847, in __aexit__
+    |     raise BaseExceptionGroup(
+    | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "/app/mcp_gateway.py", line 36, in exchange
+      |     raise RuntimeError(f"MCP tool failed: {name}")
+      | RuntimeError: MCP tool failed: search_policy
+      +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/qa-tests/test_jobs.py", line 167, in test_manual_approval_true_with_document_evidence
+    jobs.process_one(store,engine,rid)
+  File "/app/jobs.py", line 122, in process_one
+    c.execute("UPDATE rf_jobs SET status=%s,attempts=attempts+1,last_error=%s,available_at=now()+(%s * interval '1 second'),updated_at=now() WHERE run_id=%s", ('failed' if exhausted else 'queued',error_type,retry_delay*2**job['attempts'],rid))
+  File "/usr/local/lib/python3.12/site-packages/psycopg/connection.py", line 300, in execute
+    raise ex.with_traceback(None)
+psycopg.OperationalError: the connection is closed
+
+During handling of the above exception, another exception occurred:
+
+system = (<storage.Store object at 0x72b6475091c0>, <engine.Engine object at 0x72b645ac77d0>, <starlette.testclient.TestClient object at 0x72b645ac5700>)
+
+    def test_manual_approval_true_with_document_evidence(system):
+        store,engine,c=system
+        rid=submit(c,'RF-1004')
+>       jobs.process_one(store,engine,rid)
+
+/qa-tests/test_jobs.py:167:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+jobs.py:122: in process_one
+    c.execute("UPDATE rf_jobs SET status=%s,attempts=attempts+1,last_error=%s,available_at=now()+(%s * interval '1 second'),updated_at=now() WHERE run_id=%s", ('failed' if exhausted else 'queued',error_type,retry_delay*2**job['attempts'],rid))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Connection [BAD] at 0x72b645ac7f80>
+query = "UPDATE rf_jobs SET status=%s,attempts=attempts+1,last_error=%s,available_at=now()+(%s * interval '1 second'),updated_at=now() WHERE run_id=%s"
+params = ('queued', 'ExceptionGroup', 2, 'a260346c-c321-42e1-8de6-0d1d2c00d6bd')
+prepare = None, binary = False
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool = False,
+    ) -> Cursor[Row]:
+        """Execute a query and return a cursor to read its results."""
+        try:
+            cur = self.cursor()
+            if binary:
+                cur.format = BINARY
+
+            if isinstance(query, Template):
+                if params is not None:
+                    raise TypeError(
+                        "'execute()' with string template query doesn't support parameters"
+                    )
+                return cur.execute(query, prepare=prepare)
+            else:
+                return cur.execute(query, params, prepare=prepare)
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.OperationalError: the connection is closed
+
+/usr/local/lib/python3.12/site-packages/psycopg/connection.py:300: OperationalError
+----------------------------- Captured stderr call -----------------------------
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+------------------------------ Captured log call -------------------------------
+WARNING  psycopg:_pipeline.py:77 error ignored terminating <psycopg.Pipeline [BAD] at 0x72b645b02360>: the connection is lost
+WARNING  psycopg.transaction:transaction.py:130 error ignored in rollback of <psycopg.Transaction '_pg3_1' (rolled_back_with_error) [BAD] at 0x72b645b03cb0>: terminating connection due to administrator command
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:53
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ../qa-tests/test_jobs.py::test_manual_approval_true_with_document_evidence
+ERROR ../qa-tests/test_jobs.py::test_manual_approval_true_with_document_evidence
+ERROR ../qa-tests/test_jobs.py::test_sql_failure_records_retry_after_savepoint_rollback
+ERROR ../qa-tests/test_jobs.py::test_dead_checkpoint_connection_does_not_exhaust_job
+ERROR ../qa-tests/test_jobs.py::test_api_database_unavailable_is_safe_503 - p...
+ERROR ../qa-tests/test_jobs.py::test_admin_retry_does_not_wait_for_another_transaction[queued]
+ERROR ../qa-tests/test_jobs.py::test_admin_retry_does_not_wait_for_another_transaction[failed]
+1 failed, 7 passed, 1 warning, 6 errors in 130.18s (0:02:10)

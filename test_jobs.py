@@ -227,3 +227,51 @@ def test_api_database_unavailable_is_safe_503(system,monkeypatch):
         assert response.status_code==503
         assert response.json()=={'detail':'数据库暂时不可用，请稍后查询状态再重试。'}
         assert 'private' not in response.text
+
+
+@pytest.mark.parametrize('status', ['queued', 'failed'])
+def test_admin_retry_does_not_wait_for_another_transaction(system,status):
+    store,engine,client=system
+    rid=submit(client,'RF-1002')
+    with store.connect() as connection:
+        connection.execute('UPDATE rf_jobs SET status=%s WHERE run_id=%s',(status,rid))
+    before=jobs.details(store,rid)
+    responses=[]
+    errors=[]
+    def request():
+        try:
+            responses.append(client.post(f'/api/runs/{rid}/retry',headers=headers('admin'),json={}))
+        except Exception as error:
+            errors.append(error)
+    thread=threading.Thread(target=request)
+    try:
+        with store.connect() as blocker:
+            blocker.execute('SELECT * FROM rf_jobs WHERE run_id=%s FOR UPDATE',(rid,))
+            thread.start()
+            thread.join(timeout=2)
+            assert not thread.is_alive(), 'busy retry waited on the active job transaction'
+            assert not errors
+            assert responses[0].status_code==409
+            assert responses[0].json()=={'detail':'任务正在处理或状态更新中，请稍后查询状态'}
+            assert jobs.details(store,rid)==before
+    finally:
+        # Release the lock before joining even when testing a regressed version.
+        thread.join(timeout=5)
+    response=client.post(f'/api/runs/{rid}/retry',headers=headers('admin'),json={})
+    assert response.status_code==(202 if status=='failed' else 409)
+    assert jobs.process_one(store,engine,rid)
+    assert store.get(rid)['status']=='auto_rejected'
+
+
+def test_slow_failure_backoff_starts_after_failure(system):
+    store,engine,client=system
+    rid=submit(client,'RF-1002')
+    class SlowFailure:
+        def recover(self,*args):
+            time.sleep(1.2)  # Longer than the requested retry delay.
+            raise TimeoutError('synthetic slow failure')
+    assert jobs.process_one(store,SlowFailure(),rid,retry_delay=1)
+    with store.connect() as connection:
+        remaining=connection.execute('SELECT extract(epoch FROM available_at-clock_timestamp()) AS seconds FROM rf_jobs WHERE run_id=%s',(rid,)).fetchone()['seconds']
+    assert 0.5 < float(remaining) <= 1
+    assert not jobs.process_one(store,engine,rid)

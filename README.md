@@ -88,6 +88,18 @@ python scripts/database_outage_qa.py --report validation/database-outage-recheck
 
 固定使用 `resolveflow-qa-step18`，分别在调查和审批任务已领取时停止/启动其PostgreSQL，保持API和Worker进程不变。每次新增三条工单、两条审批；已有RF-1004退款时验证台账不变。数据库不可用期间接口返回503；Worker重建失效checkpoint连接，数据库连接故障不消耗工单的业务重试次数，普通业务异常仍最多重试3次。结束后停止QA保留卷；服务重启造成的连接断开不等于静默丢包或任意网络故障已全部覆盖。
 
+## 多 Worker 与超时边界
+
+步骤1.9的双Worker故障验收脚本使用独立 `resolveflow-qa-step19`（8010），主环境仅做只读数据指纹比较：
+
+```powershell
+python scripts/multi_worker_qa.py --report validation/multi-worker-recheck.json
+```
+
+需要已有 `resolveflow:local` 镜像和运行中的demo主环境。脚本新增两张合成订单、五条工单，验证一个Worker停滞时另一个继续处理、同订单并发退款唯一、MCP数据库查询超时、三次失败后的管理员恢复。两个真实Worker使用Compose的 `--scale worker=2`；结束时删除测试触发器并停止QA，保留全部卷和历史。不要与其他使用同一QA数据库的测试并行运行。
+
+管理员重试遇到任务锁立即返回409；普通失败从失败时刻起等待2秒、4秒再重试。MCP子进程的单条SQL限制10秒，早于MCP读取15秒和会话30秒限制，避免子进程退出后数据库查询继续等锁。这些是局部超时，不是整张工单的执行期限；退款写入、checkpoint等连接目前没有统一SQL超时。长事务持锁期间心跳和健康检查仍可正常，不能据此判断任务有进展。整体超时和停滞告警继续安排在3.7、3.8，实测边界见 [1.9报告](validation/step-1.9-2026-09-21/REPORT.md)。
+
 ## 交接与计划
 
 - [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md)：架构、恢复设计和已知问题。

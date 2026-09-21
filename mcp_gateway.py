@@ -17,7 +17,14 @@ async def exchange(order_id, owner, calls):
     env.update(RESOLVEFLOW_ORDER_ID=order_id, RESOLVEFLOW_OWNER=owner, PYTHONPATH=sysconfig.get_paths()["purelib"])
     bootstrap = "import site,runpy,sys,pathlib; site.addsitedir(sys.argv[1]); sys.path.insert(0,str(pathlib.Path(sys.argv[2]).parent)); runpy.run_path(sys.argv[2],run_name='__main__')"
     if os.getenv("DATABASE_URL"):
-        env["DATABASE_URL"] = os.environ["DATABASE_URL"]
+        from psycopg.conninfo import conninfo_to_dict, make_conninfo
+        url = os.environ["DATABASE_URL"]
+        # Bound SQL inside the child before the 15s MCP client deadline. Killing
+        # a blocked stdio child alone can leave its PostgreSQL query waiting.
+        # Preserve existing options (including test-schema search_path).
+        options = conninfo_to_dict(url).get("options", "")
+        env["DATABASE_URL"] = make_conninfo(url, connect_timeout=5,
+            options=options + " -c statement_timeout=10000")
     parameters = StdioServerParameters(command=getattr(sys, "_base_executable", sys.executable), args=["-c", bootstrap, str(Path(mcp.__file__).parent.parent), str(Path(__file__).with_name("mcp_server.py"))], env=env)
     async with asyncio.timeout(30):
         async with stdio_client(parameters) as (read, write):

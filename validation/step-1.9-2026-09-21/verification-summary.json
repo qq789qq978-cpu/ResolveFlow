@@ -1,0 +1,21 @@
+{
+  "scenario_checks": 28,
+  "unit_tests": 42,
+  "postgres_tests": 14,
+  "secret_scan": {
+    "passed": true,
+    "files_scanned": 23,
+    "sensitive_settings_checked": 6,
+    "matches": []
+  },
+  "main_data_unchanged": true,
+  "qa_stopped": {
+    "resolveflow-qa-step19-resolveflow-1": "exited",
+    "resolveflow-qa-step19-worker-1": "exited",
+    "resolveflow-qa-step19-worker-2": "exited",
+    "resolveflow-qa-step19-db-1": "exited"
+  },
+  "local_image": "sha256:77aed6dc7dafa9cbef5b53bc24fa54748adad342d5bceadcfec8bdd9b7b864f9",
+  "remote_push": false,
+  "next_step": "1.10 not started"
+}

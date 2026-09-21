@@ -88,6 +88,8 @@ class Observer:
         docker("cp", str(PROBE), API + ":/tmp/worker_crash_probe.py")
         if PROJECT == "resolveflow-qa-step17":
             docker("cp", str(PROBE.with_name("refund_replay_probe.py")), API + ":/tmp/refund_replay_probe.py")
+        if PROJECT == "resolveflow-qa-step19":
+            docker("cp", str(PROBE.with_name("multi_worker_probe.py")), API + ":/tmp/multi_worker_probe.py")
         self.process = subprocess.Popen(
             ["docker", "exec", "-i", API, "python", "-u", "/tmp/worker_crash_probe.py"],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
