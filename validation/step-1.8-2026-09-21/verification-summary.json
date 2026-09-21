@@ -1,0 +1,16 @@
+{
+  "fault_checks": 34,
+  "unit_tests": 42,
+  "postgres_tests": 11,
+  "baseline_failure_reproduced": true,
+  "historical_failed_ticket_recovered_separately": true,
+  "main_tables_unchanged": 13,
+  "deployed_core_source_matches_workspace": {
+    "engine.py": "f16fd71b419dc2c96c31c65fe87e6d3357eb473b038ce17f0a7599bc384bad7c",
+    "jobs.py": "6afbbc4fe9759216493bd8f8b6754b71d635f33e2aa2acb2557ce79dfc2debde",
+    "operations.py": "9db81bfd267f0024d168748f2cebb1bb753eaba73eebe89d12ec6f1a17a3ee30",
+    "worker.py": "9fa260e9d7dc695b175dff7473fe610820317e090ce570dbe7402d4ffeffe577"
+  },
+  "syntax": "valid",
+  "secret_scan": "passed"
+}

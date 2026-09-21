@@ -45,7 +45,7 @@ def main():
             print(json.dumps(fingerprints(observer)))
             return
         fixture = os.environ.get("APP_API_KEY")
-        if fixture not in {"qa-step15-operator", "qa-step16-operator", "qa-step17-operator"}:
+        if fixture not in {"qa-step15-operator", "qa-step16-operator", "qa-step17-operator", "qa-step18-operator"}:
             raise RuntimeError("Fault injection requires a dedicated crash QA fixture")
         approval_test = fixture == "qa-step16-operator"
         gate_table = "rf_approvals" if approval_test else "rf_orders"
@@ -67,7 +67,7 @@ def main():
                 ).fetchone() is not None
                 graph = engine.graph.get_state(engine.config(run_id))
                 # During 1.6, only the lock-owning connection can read approvals.
-                approval_reader = gate if approval_test and gate is not None else observer
+                approval_reader = gate if gate_table == "rf_approvals" and gate is not None else observer
                 result = {
                     "run": run, "job": job, "job_lock_available": available,
                     "graph_next": graph.next, "graph_state": graph.values,
@@ -108,6 +108,10 @@ def main():
                         elif command == "gate":
                             if gate is not None:
                                 raise RuntimeError("Gate already held")
+                            if fixture == "qa-step18-operator":
+                                gate_table = request.get("table", "rf_orders")
+                                if gate_table not in {"rf_orders", "rf_approvals"}:
+                                    raise ValueError("Only QA order/approval read gates allowed")
                             gate = psycopg.connect(url, row_factory=dict_row)
                             gate.execute("SET idle_in_transaction_session_timeout='30s'")
                             gate.execute("SET lock_timeout='3s'")
@@ -122,7 +126,7 @@ def main():
                                     "AND query LIKE %s", (gate.info.backend_pid, "SELECT * FROM " + gate_table + " WHERE%")
                                 ).fetchall()
                                 if blockers:
-                                    key = "blocked_approval_reads" if approval_test else "blocked_order_reads"
+                                    key = "blocked_approval_reads" if gate_table == "rf_approvals" else "blocked_order_reads"
                                     result = {key: blockers, **snapshot(request["run_id"])}
                                     break
                                 if time.monotonic() >= deadline:

@@ -1,0 +1,569 @@
+{
+  "step": "1.8",
+  "started_utc": "2026-09-21T07:12:09.161959+00:00",
+  "project": "resolveflow-qa-step18",
+  "url": "http://127.0.0.1:8009",
+  "mode": "demo",
+  "passed": false,
+  "checks": [
+    {
+      "check": "dedicated QA executes real Worker",
+      "passed": true
+    },
+    {
+      "check": "QA API and Worker use the same image",
+      "passed": true
+    },
+    {
+      "check": "demo mode",
+      "passed": true
+    },
+    {
+      "check": "real Worker owns the active job at the database outage boundary",
+      "passed": true
+    },
+    {
+      "check": "original workflow checkpoint is durable",
+      "passed": true
+    },
+    {
+      "check": "QA database really stopped",
+      "passed": true
+    },
+    {
+      "check": "Worker remains alive while DB is unavailable",
+      "passed": true
+    },
+    {
+      "check": "original job recovers without restarting Worker or admin retry",
+      "passed": false
+    }
+  ],
+  "scenarios": [
+    {
+      "manual_approval": false,
+      "db_before": {
+        "id": "73b19456586aacd68e9574027af57d39da91dd8aea4e859eb71ee738911d7ede",
+        "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+        "state": "running",
+        "health": "healthy",
+        "exit_code": 0,
+        "pid": 28949,
+        "started": "2026-09-21T07:12:11.499981411Z",
+        "finished": "0001-01-01T00:00:00Z",
+        "command": [
+          "postgres"
+        ],
+        "project": "resolveflow-qa-step18",
+        "networks": {
+          "resolveflow-qa-step18_default": {
+            "Aliases": [
+              "resolveflow-qa-step18-db-1",
+              "db"
+            ],
+            "DNSNames": [
+              "resolveflow-qa-step18-db-1",
+              "db",
+              "73b19456586a"
+            ],
+            "DriverOpts": null,
+            "EndpointID": "7e43dea18c8643211689f2c9c88acc444d25e8228a54ad3e21b6b9c30626cb73",
+            "Gateway": "172.24.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "GwPriority": 0,
+            "IPAMConfig": null,
+            "IPAddress": "172.24.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "Links": null,
+            "MacAddress": "3e:04:5e:e5:d1:7b",
+            "NetworkID": "6c70b5aa81e5229ccaed8402d929dcc584d0f969171c1ff06bf9cbbeeaa74205"
+          }
+        }
+      },
+      "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1",
+      "gate": {
+        "gate_pid": 170,
+        "table": "rf_orders",
+        "auto_release_seconds": 30
+      },
+      "before_outage": {
+        "blocked_order_reads": [
+          {
+            "pid": 183,
+            "client_addr": "172.24.0.4",
+            "state": "active",
+            "wait_event_type": "Lock",
+            "wait_event": "relation",
+            "query": "SELECT * FROM rf_orders WHERE id=$1 AND owner=$2"
+          }
+        ],
+        "run": {
+          "id": "f006b4ba-391e-4068-a632-920b7903c9c1",
+          "ticket": "申请退款",
+          "order_id": "RF-1002",
+          "status": "running",
+          "mode": "demo",
+          "model": "deepseek-flash",
+          "state": null,
+          "error": null,
+          "elapsed_ms": null,
+          "created_at": "2026-09-21 07:13:01.877946+00:00",
+          "updated_at": "2026-09-21 07:13:02.578252+00:00",
+          "created_by": "operator"
+        },
+        "job": {
+          "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1",
+          "kind": "investigate",
+          "status": "queued",
+          "attempts": 0,
+          "available_at": "2026-09-21 07:13:01.877946+00:00",
+          "last_error": null,
+          "updated_at": "2026-09-21 07:13:01.877946+00:00"
+        },
+        "job_lock_available": false,
+        "graph_next": [
+          "investigate"
+        ],
+        "graph_state": {
+          "ticket": "申请退款",
+          "order_id": "RF-1002",
+          "owner": "demo",
+          "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1"
+        },
+        "graph_interrupts": [],
+        "approval": null,
+        "checkpoint_ids": [
+          "1f1b58be-23c0-653a-bfff-42196b37e4dd",
+          "1f1b58be-23c4-6d9d-8000-0fa47eeb3a76"
+        ],
+        "attempts": [],
+        "audit": [
+          {
+            "action": "create"
+          }
+        ],
+        "refunds": []
+      },
+      "db_offline": {
+        "id": "73b19456586aacd68e9574027af57d39da91dd8aea4e859eb71ee738911d7ede",
+        "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+        "state": "exited",
+        "health": "unhealthy",
+        "exit_code": 0,
+        "pid": 0,
+        "started": "2026-09-21T07:12:11.499981411Z",
+        "finished": "2026-09-21T07:13:03.683651495Z",
+        "command": [
+          "postgres"
+        ],
+        "project": "resolveflow-qa-step18",
+        "networks": {
+          "resolveflow-qa-step18_default": {
+            "Aliases": [
+              "resolveflow-qa-step18-db-1",
+              "db"
+            ],
+            "DNSNames": [
+              "resolveflow-qa-step18-db-1",
+              "db",
+              "73b19456586a"
+            ],
+            "DriverOpts": null,
+            "EndpointID": "",
+            "Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "GwPriority": 0,
+            "IPAMConfig": null,
+            "IPAddress": "",
+            "IPPrefixLen": 0,
+            "IPv6Gateway": "",
+            "Links": null,
+            "MacAddress": "",
+            "NetworkID": "6c70b5aa81e5229ccaed8402d929dcc584d0f969171c1ff06bf9cbbeeaa74205"
+          }
+        }
+      },
+      "offline_http": {
+        "health": {
+          "status": 500,
+          "body": "Internal Server Error"
+        },
+        "read": {
+          "status": 500,
+          "body": "Internal Server Error"
+        },
+        "create": {
+          "status": 500,
+          "body": "Internal Server Error"
+        }
+      },
+      "offline_seconds": 11.735,
+      "worker_while_db_down": {
+        "id": "9d7add0ba7780c7290f07451080357ec663b17c0bb064c98b5218791a713b9e3",
+        "image": "sha256:6412f843e00996f04c6b42a4dc357d9b0355e33db973351c0d21d42b3aa17a5a",
+        "state": "running",
+        "health": "unhealthy",
+        "exit_code": 0,
+        "pid": 29560,
+        "started": "2026-09-21T07:12:47.978364738Z",
+        "finished": "0001-01-01T00:00:00Z",
+        "command": [
+          "python",
+          "worker.py"
+        ],
+        "project": "resolveflow-qa-step18",
+        "networks": {
+          "resolveflow-qa-step18_default": {
+            "Aliases": [
+              "resolveflow-qa-step18-worker-1",
+              "worker"
+            ],
+            "DNSNames": [
+              "resolveflow-qa-step18-worker-1",
+              "worker",
+              "9d7add0ba778"
+            ],
+            "DriverOpts": null,
+            "EndpointID": "2e2c1c1b3ade2094027b6a297ab4e793ee76f93fa7c7bf501fc35bf2a2644e8a",
+            "Gateway": "172.24.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "GwPriority": 0,
+            "IPAMConfig": null,
+            "IPAddress": "172.24.0.4",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "Links": null,
+            "MacAddress": "26:52:47:8a:bb:01",
+            "NetworkID": "6c70b5aa81e5229ccaed8402d929dcc584d0f969171c1ff06bf9cbbeeaa74205"
+          }
+        }
+      },
+      "db_after": {
+        "id": "73b19456586aacd68e9574027af57d39da91dd8aea4e859eb71ee738911d7ede",
+        "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+        "state": "running",
+        "health": "healthy",
+        "exit_code": 0,
+        "pid": 30042,
+        "started": "2026-09-21T07:13:15.392511229Z",
+        "finished": "2026-09-21T07:13:03.683651495Z",
+        "command": [
+          "postgres"
+        ],
+        "project": "resolveflow-qa-step18",
+        "networks": {
+          "resolveflow-qa-step18_default": {
+            "Aliases": [
+              "resolveflow-qa-step18-db-1",
+              "db"
+            ],
+            "DNSNames": [
+              "resolveflow-qa-step18-db-1",
+              "db",
+              "73b19456586a"
+            ],
+            "DriverOpts": null,
+            "EndpointID": "db889b43c584f325f6faaca7b7afcb671159f2d43caca5bd2b63eeb9d890b16d",
+            "Gateway": "172.24.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "GwPriority": 0,
+            "IPAMConfig": null,
+            "IPAddress": "172.24.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "Links": null,
+            "MacAddress": "a2:a0:d4:85:ed:d4",
+            "NetworkID": "6c70b5aa81e5229ccaed8402d929dcc584d0f969171c1ff06bf9cbbeeaa74205"
+          }
+        }
+      },
+      "recovery_seconds": 10.609,
+      "recovered": {
+        "run": {
+          "id": "f006b4ba-391e-4068-a632-920b7903c9c1",
+          "ticket": "申请退款",
+          "order_id": "RF-1002",
+          "status": "failed",
+          "mode": "demo",
+          "model": "deepseek-flash",
+          "state": null,
+          "error": "任务失败：OperationalError",
+          "elapsed_ms": null,
+          "created_at": "2026-09-21 07:13:01.877946+00:00",
+          "updated_at": "2026-09-21 07:13:25.813380+00:00",
+          "created_by": "operator"
+        },
+        "job": {
+          "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1",
+          "kind": "investigate",
+          "status": "failed",
+          "attempts": 3,
+          "available_at": "2026-09-21 07:13:33.813380+00:00",
+          "last_error": "OperationalError",
+          "updated_at": "2026-09-21 07:13:25.813380+00:00"
+        },
+        "job_lock_available": true,
+        "graph_next": [
+          "investigate"
+        ],
+        "graph_state": {
+          "ticket": "申请退款",
+          "order_id": "RF-1002",
+          "owner": "demo",
+          "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1"
+        },
+        "graph_interrupts": [],
+        "approval": null,
+        "checkpoint_ids": [
+          "1f1b58be-23c0-653a-bfff-42196b37e4dd",
+          "1f1b58be-23c4-6d9d-8000-0fa47eeb3a76"
+        ],
+        "attempts": [
+          {
+            "id": 1,
+            "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1",
+            "kind": "investigate",
+            "success": false,
+            "error_type": "OperationalError",
+            "elapsed_ms": 18,
+            "created_at": "2026-09-21 07:13:19.652960+00:00"
+          },
+          {
+            "id": 2,
+            "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1",
+            "kind": "investigate",
+            "success": false,
+            "error_type": "OperationalError",
+            "elapsed_ms": 17,
+            "created_at": "2026-09-21 07:13:21.723942+00:00"
+          },
+          {
+            "id": 3,
+            "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1",
+            "kind": "investigate",
+            "success": false,
+            "error_type": "OperationalError",
+            "elapsed_ms": 15,
+            "created_at": "2026-09-21 07:13:25.813380+00:00"
+          }
+        ],
+        "audit": [
+          {
+            "action": "create"
+          }
+        ],
+        "refunds": []
+      }
+    }
+  ],
+  "cleanup_errors": [],
+  "main_before": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 9,
+      "sha256": "30e2a18fa4de3ec10aef8691c85980a7af9d5fcbd9bcbe764eeaf5a6038d40b3"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "sha256": "34022e839b50bfe464e65c63c0112cccefbdd73f661c02e5cc429675de0012d3"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "0729bcc573fcab694609b02a911044ad3895a40b3d1e0abe2e7cb9bc59fa7860"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "cd6ea8e96928fbb1227210766146ccfaf900f628591707fd0e7697eb88723233"
+    },
+    "rf_audit": {
+      "count": 12,
+      "sha256": "5ccdb411bc2d049ae12406dfed2002b5588f1cd6b0c686a9f96d169f41e2c893"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "sha256": "2d40c98b86ee1205b5e24f1f9031d6f67c3b0001f5ef79aa5ed0412b30fb3166"
+    },
+    "checkpoints": {
+      "count": 43,
+      "sha256": "9d9dce4cf984cd9000410d53331fbe5fae3fede4325638f4d962eafa01bfd2be"
+    },
+    "checkpoint_blobs": {
+      "count": 101,
+      "sha256": "439bbd8ce447b31cad22c03da6c880491705e5e327d91d8bd7c726804cedc063"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "sha256": "b36a5ee91c3ffc72a88dae759dbddf56c2eb9a9f2b123dbe1ff7492a9eb6954f"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "3e8b7227960b57f0f64114420d397e0b86db1c92086975b8ffb7e474b2f48762"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "main_image": "sha256:6412f843e00996f04c6b42a4dc357d9b0355e33db973351c0d21d42b3aa17a5a",
+  "worker_before": {
+    "id": "9d7add0ba7780c7290f07451080357ec663b17c0bb064c98b5218791a713b9e3",
+    "image": "sha256:6412f843e00996f04c6b42a4dc357d9b0355e33db973351c0d21d42b3aa17a5a",
+    "state": "running",
+    "health": "healthy",
+    "exit_code": 0,
+    "pid": 29560,
+    "started": "2026-09-21T07:12:47.978364738Z",
+    "finished": "0001-01-01T00:00:00Z",
+    "command": [
+      "python",
+      "worker.py"
+    ],
+    "project": "resolveflow-qa-step18",
+    "networks": {
+      "resolveflow-qa-step18_default": {
+        "Aliases": [
+          "resolveflow-qa-step18-worker-1",
+          "worker"
+        ],
+        "DNSNames": [
+          "resolveflow-qa-step18-worker-1",
+          "worker",
+          "9d7add0ba778"
+        ],
+        "DriverOpts": null,
+        "EndpointID": "2e2c1c1b3ade2094027b6a297ab4e793ee76f93fa7c7bf501fc35bf2a2644e8a",
+        "Gateway": "172.24.0.1",
+        "GlobalIPv6Address": "",
+        "GlobalIPv6PrefixLen": 0,
+        "GwPriority": 0,
+        "IPAMConfig": null,
+        "IPAddress": "172.24.0.4",
+        "IPPrefixLen": 16,
+        "IPv6Gateway": "",
+        "Links": null,
+        "MacAddress": "26:52:47:8a:bb:01",
+        "NetworkID": "6c70b5aa81e5229ccaed8402d929dcc584d0f969171c1ff06bf9cbbeeaa74205"
+      }
+    }
+  },
+  "api_before": {
+    "id": "22eace56a18d020a5665411d328a3284c2d5b440b822500aa246df1be67cd7ef",
+    "image": "sha256:6412f843e00996f04c6b42a4dc357d9b0355e33db973351c0d21d42b3aa17a5a",
+    "state": "running",
+    "health": "healthy",
+    "exit_code": 0,
+    "pid": 29112,
+    "started": "2026-09-21T07:12:17.241105545Z",
+    "finished": "0001-01-01T00:00:00Z",
+    "command": [
+      "uvicorn",
+      "operations:app",
+      "--host",
+      "0.0.0.0",
+      "--port",
+      "8000",
+      "--workers",
+      "1"
+    ],
+    "project": "resolveflow-qa-step18",
+    "networks": {
+      "resolveflow-qa-step18_default": {
+        "Aliases": [
+          "resolveflow-qa-step18-resolveflow-1",
+          "resolveflow"
+        ],
+        "DNSNames": [
+          "resolveflow-qa-step18-resolveflow-1",
+          "resolveflow",
+          "22eace56a18d"
+        ],
+        "DriverOpts": null,
+        "EndpointID": "10fb6a90de9f8b5f6daf6254b0fe7acf256413b7e52f76c170c2c336fed0133a",
+        "Gateway": "172.24.0.1",
+        "GlobalIPv6Address": "",
+        "GlobalIPv6PrefixLen": 0,
+        "GwPriority": 0,
+        "IPAMConfig": null,
+        "IPAddress": "172.24.0.3",
+        "IPPrefixLen": 16,
+        "IPv6Gateway": "",
+        "Links": null,
+        "MacAddress": "86:d4:30:ef:96:14",
+        "NetworkID": "6c70b5aa81e5229ccaed8402d929dcc584d0f969171c1ff06bf9cbbeeaa74205"
+      }
+    }
+  },
+  "qa_before": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_jobs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_approvals": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_audit": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_job_attempts": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoints": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_blobs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_writes": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "3e8b7227960b57f0f64114420d397e0b86db1c92086975b8ffb7e474b2f48762"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "error_type": "AssertionError",
+  "qa_final": {
+    "resolveflow": "exited",
+    "worker": "exited",
+    "db": "exited"
+  },
+  "finished_utc": "2026-09-21T07:13:29.299268+00:00"
+}

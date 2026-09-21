@@ -67,12 +67,18 @@ class Engine:
         graph.add_conditional_edges("validate", lambda s: "execute" if s.get("route")=="auto_approved" else "approval" if s.get("route")=="awaiting_approval" else END)
         graph.add_edge("approval", "execute")
         graph.add_edge("execute", END)
-        saver = SqliteSaver(self.checkpoint_db)
-        if repository:
-            from langgraph.checkpoint.postgres import PostgresSaver
-            saver = self.resources.enter_context(PostgresSaver.from_conn_string(repository.url))
-            saver.setup()
-        self.graph = graph.compile(checkpointer=saver)
+        try:
+            saver = SqliteSaver(self.checkpoint_db)
+            if repository:
+                from langgraph.checkpoint.postgres import PostgresSaver
+                from psycopg.conninfo import make_conninfo
+                saver = self.resources.enter_context(PostgresSaver.from_conn_string(
+                    make_conninfo(repository.url, connect_timeout=5)))
+                saver.setup()
+            self.graph = graph.compile(checkpointer=saver)
+        except Exception:
+            self.close()
+            raise
 
     def investigate(self, state):
         trace = []

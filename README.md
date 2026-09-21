@@ -80,6 +80,14 @@ python scripts/worker_crash_qa.py --step 1.7 --report validation/refund-replay-r
 
 固定使用 `resolveflow-qa-step17`，每次新增两张合成订单、四条工单和两笔模拟退款。测试库临时触发器控制提交窗口；强杀Worker后，还会终止被该测试锁阻塞的checkpoint写连接，确保它不能在解锁后补写完成。恢复前删除测试触发器与函数，重启后验证自动/人工批准两条路径重放和退款幂等。原工单显示already_refunded表示重放的再次插入被拦截，首次退款仍属于原工单。主环境只读指纹，结束后QA停止、卷及历史保留。
 
+PostgreSQL短时停机后的恢复已完成 [步骤1.8验收](validation/step-1.8-2026-09-21/REPORT.md)。相同前置条件，8009可用时运行：
+
+```powershell
+python scripts/database_outage_qa.py --report validation/database-outage-recheck.json
+```
+
+固定使用 `resolveflow-qa-step18`，分别在调查和审批任务已领取时停止/启动其PostgreSQL，保持API和Worker进程不变。每次新增三条工单、两条审批；已有RF-1004退款时验证台账不变。数据库不可用期间接口返回503；Worker重建失效checkpoint连接，数据库连接故障不消耗工单的业务重试次数，普通业务异常仍最多重试3次。结束后停止QA保留卷；服务重启造成的连接断开不等于静默丢包或任意网络故障已全部覆盖。
+
 ## 交接与计划
 
 - [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md)：架构、恢复设计和已知问题。

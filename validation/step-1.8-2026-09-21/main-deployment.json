@@ -1,0 +1,135 @@
+{
+  "passed": true,
+  "main_data_unchanged": true,
+  "tables": 13,
+  "containers": {
+    "resolveflow": {
+      "id": "f97d1f368afa9b47c88db3ce426560edfad107578c0eb2699c551b55b688370c",
+      "image": "sha256:e90cbe09ef2a60cd74b762373c71dcb6b93c2780a61ae0e610f1e328d975d30a",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 35448,
+      "started": "2026-09-21T07:18:50.357122691Z",
+      "finished": "0001-01-01T00:00:00Z",
+      "command": [
+        "uvicorn",
+        "operations:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--workers",
+        "1"
+      ],
+      "project": "resolveflow",
+      "networks": {
+        "resolveflow_default": {
+          "Aliases": [
+            "resolveflow-resolveflow-1",
+            "resolveflow"
+          ],
+          "DNSNames": [
+            "resolveflow-resolveflow-1",
+            "resolveflow",
+            "f97d1f368afa"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "7d8fde31bc3abaaccf970a346f34ce34f8601998fd27739f576ca0fdf12f26df",
+          "Gateway": "172.18.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.18.0.2",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "06:c1:0b:26:be:f3",
+          "NetworkID": "28fa8cb500dccbb732d8a7eb396e6d496e4da87dc4a706df40e96802b2ed65a3"
+        }
+      }
+    },
+    "worker": {
+      "id": "05abf262395a332146a7c6eb39b8cf274c9a52b2eb332943c507f95e4b5b0061",
+      "image": "sha256:e90cbe09ef2a60cd74b762373c71dcb6b93c2780a61ae0e610f1e328d975d30a",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 35780,
+      "started": "2026-09-21T07:19:21.089775051Z",
+      "finished": "0001-01-01T00:00:00Z",
+      "command": [
+        "python",
+        "worker.py"
+      ],
+      "project": "resolveflow",
+      "networks": {
+        "resolveflow_default": {
+          "Aliases": [
+            "resolveflow-worker-1",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-worker-1",
+            "worker",
+            "05abf262395a"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "406400d38c665fae9c1743cb27d02ef20f57d82d7bdb0f6fcba22021ff7cb2e3",
+          "Gateway": "172.18.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.18.0.3",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "ca:59:f6:c7:33:02",
+          "NetworkID": "28fa8cb500dccbb732d8a7eb396e6d496e4da87dc4a706df40e96802b2ed65a3"
+        }
+      }
+    },
+    "db": {
+      "id": "65c58324444e0e1aa6089a70c432c00a9c805d47643b72f367dad04c4b00cab0",
+      "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 491,
+      "started": "2026-09-21T06:25:16.6107881Z",
+      "finished": "2026-09-21T05:26:06.261841923Z",
+      "command": [
+        "postgres"
+      ],
+      "project": "resolveflow",
+      "networks": {
+        "resolveflow_default": {
+          "Aliases": [
+            "resolveflow-db-1",
+            "db"
+          ],
+          "DNSNames": [
+            "resolveflow-db-1",
+            "db",
+            "65c58324444e"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "c665cf9c6f63bb1551d0671ee0af0e55882c27ab882dbfe62a78ecaacdffc8aa",
+          "Gateway": "172.18.0.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "172.18.0.4",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "e2:8c:02:9a:93:61",
+          "NetworkID": "28fa8cb500dccbb732d8a7eb396e6d496e4da87dc4a706df40e96802b2ed65a3"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+2026-09-21T07:13:03.260517743Z Processing request of type ListToolsRequest
+2026-09-21T07:13:03.263489768Z Processing request of type CallToolRequest
+2026-09-21T07:13:03.377112935Z Processing request of type CallToolRequest
+2026-09-21T07:13:03.634719142Z error ignored terminating <psycopg.Pipeline [BAD] at 0x7ee8a410e030>: the connection is lost
+2026-09-21T07:13:03.635617380Z Worker connection failed: AdminShutdown
+2026-09-21T07:13:09.092959448Z Worker heartbeat failed: OperationalError
+2026-09-21T07:13:10.161266871Z Worker connection failed: OperationalError
+2026-09-21T07:13:16.643767738Z Worker connection failed: OperationalError
+2026-09-21T07:13:17.613766406Z Worker heartbeat failed: OperationalError
+2026-09-21T07:13:19.688287687Z {"event": "job_finished", "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1", "kind": "investigate", "success": false, "error_type": "OperationalError", "elapsed_ms": 18}
+2026-09-21T07:13:21.758245601Z {"event": "job_finished", "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1", "kind": "investigate", "success": false, "error_type": "OperationalError", "elapsed_ms": 17}
+2026-09-21T07:13:25.842631882Z {"event": "job_finished", "run_id": "f006b4ba-391e-4068-a632-920b7903c9c1", "kind": "investigate", "success": false, "error_type": "OperationalError", "elapsed_ms": 15}

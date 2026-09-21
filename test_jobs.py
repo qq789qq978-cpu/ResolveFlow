@@ -173,3 +173,57 @@ def test_manual_approval_true_with_document_evidence(system):
     assert store.get(rid)['state']['result']['reason']=='模拟退款已完成。'
     with store.connect() as connection:
         assert connection.execute('SELECT count(*) AS n FROM rf_refunds').fetchone()['n']==1
+
+
+def test_sql_failure_records_retry_after_savepoint_rollback(system):
+    store,engine,client=system
+    rid=submit(client,'RF-1002')
+    class InvalidResult:
+        def recover(self,*args):
+            # Real NOT NULL failure in the queue transaction, not a Python error.
+            return {'state':{'result':{'status':None}}}
+    assert jobs.process_one(store,InvalidResult(),rid,retry_delay=0)
+    detail=jobs.details(store,rid)
+    assert detail['job']['status']=='queued'
+    assert detail['job']['attempts']==1
+    assert detail['job']['last_error']=='NotNullViolation'
+    assert store.get(rid)['status']=='retrying'
+    assert jobs.process_one(store,engine,rid)
+    assert store.get(rid)['status']=='auto_rejected'
+    with store.connect() as connection:
+        attempts=connection.execute('SELECT success,error_type FROM rf_job_attempts WHERE run_id=%s ORDER BY id',(rid,)).fetchall()
+    assert attempts==[{'success':False,'error_type':'NotNullViolation'},{'success':True,'error_type':None}]
+
+
+def test_dead_checkpoint_connection_does_not_exhaust_job(system,tmp_path):
+    store,engine,client=system
+    rid=submit(client,'RF-1002')
+    pid=engine.graph.checkpointer.conn.info.backend_pid
+    with store.connect() as connection:
+        assert connection.execute('SELECT pg_terminate_backend(%s,5000) AS stopped',(pid,)).fetchone()['stopped']
+    with pytest.raises((psycopg.OperationalError,psycopg.InterfaceError)):
+        jobs.process_one(store,engine,rid)
+    job=jobs.details(store,rid)['job']
+    assert job['status']=='queued' and job['attempts']==0
+    with store.connect() as connection:
+        assert connection.execute('SELECT count(*) AS n FROM rf_job_attempts WHERE run_id=%s',(rid,)).fetchone()['n']==0
+    replacement=Engine(str(tmp_path/'replacement'),'demo',repository=store)
+    try:
+        assert jobs.process_one(store,replacement,rid)
+        assert store.get(rid)['status']=='auto_rejected'
+        assert jobs.details(store,rid)['job']['attempts']==1
+    finally:
+        replacement.close()
+
+
+def test_api_database_unavailable_is_safe_503(system,monkeypatch):
+    store,engine,client=system
+    def unavailable():
+        raise psycopg.OperationalError('postgresql://private-user:private-password@private-host/db')
+    monkeypatch.setattr(client.app.state.store,'connect',unavailable)
+    responses=[client.get('/health'),client.get('/api/runs',headers=headers()),
+               client.post('/api/runs',headers=headers(),json={'order_id':'RF-1002','ticket':'申请退款'})]
+    for response in responses:
+        assert response.status_code==503
+        assert response.json()=={'detail':'数据库暂时不可用，请稍后查询状态再重试。'}
+        assert 'private' not in response.text

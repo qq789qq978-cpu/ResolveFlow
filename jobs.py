@@ -7,6 +7,7 @@ Business refunds independently have a unique order key to tolerate replay.
 import json
 import logging
 import time
+import psycopg
 from psycopg.types.json import Jsonb
 
 QUEUE_SCHEMA = """
@@ -95,13 +96,20 @@ def process_one(store, engine, run_id=None, max_attempts=3, retry_delay=2):
         with store.connect() as update:
             update.execute("UPDATE rf_runs SET status='running',updated_at=now() WHERE id=%s", (rid,))
         try:
-            if getattr(engine,'mode',row['mode']) != row['mode']:
-                raise ValueError('Worker mode differs from queued run')
-            result = engine.recover(rid, row['ticket'], row['order_id'], row['approval'] if job['kind']=='approval' else None)
-            elapsed = int((time.monotonic()-started)*1000)
-            c.execute("UPDATE rf_runs SET state=%s,status=%s,error=NULL,elapsed_ms=%s,updated_at=now() WHERE id=%s", (Jsonb(result['state']),result['state']['result']['status'],elapsed,rid))
-            c.execute("UPDATE rf_jobs SET status='done',attempts=attempts+1,last_error=NULL,updated_at=now() WHERE run_id=%s", (rid,))
+            # Keep the queue row lock in the outer transaction. A failed SQL
+            # statement rolls back this savepoint before we record a retry.
+            with c.transaction():
+                if getattr(engine,'mode',row['mode']) != row['mode']:
+                    raise ValueError('Worker mode differs from queued run')
+                result = engine.recover(rid, row['ticket'], row['order_id'], row['approval'] if job['kind']=='approval' else None)
+                elapsed = int((time.monotonic()-started)*1000)
+                c.execute("UPDATE rf_runs SET state=%s,status=%s,error=NULL,elapsed_ms=%s,updated_at=now() WHERE id=%s", (Jsonb(result['state']),result['state']['result']['status'],elapsed,rid))
+                c.execute("UPDATE rf_jobs SET status='done',attempts=attempts+1,last_error=NULL,updated_at=now() WHERE run_id=%s", (rid,))
             success, error_type = True, None
+        except (psycopg.OperationalError, psycopg.InterfaceError):
+            # Infrastructure outages must not exhaust a ticket's business retry
+            # budget. Roll back the claim and let the Worker rebuild its saver.
+            raise
         except Exception as error:
             elapsed = int((time.monotonic()-started)*1000)
             error_type = type(error).__name__  # Never persist raw provider responses / keys.

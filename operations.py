@@ -1,11 +1,14 @@
 """Operations API: validates and enqueues; execution belongs to worker.py."""
 import os
 import uuid
+import logging
+import psycopg
 from contextlib import asynccontextmanager
 from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field, StrictBool
 from storage import Store
 from auth import authenticate, allow, validate_keys
@@ -32,6 +35,11 @@ def create_app():
         app.state.store=store
         yield
     app=FastAPI(title='ResolveFlow Operations',version='3.0.0',lifespan=lifespan)
+    @app.exception_handler(psycopg.OperationalError)
+    @app.exception_handler(psycopg.InterfaceError)
+    async def database_unavailable(request, error):
+        logging.getLogger('resolveflow').warning('Database unavailable: %s',type(error).__name__)
+        return JSONResponse(status_code=503,content={'detail':'数据库暂时不可用，请稍后查询状态再重试。'})
     def get(run_id):
         return {**app.state.store.get(run_id), **jobs.details(app.state.store,run_id)}
     @app.get('/health')

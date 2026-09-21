@@ -16,8 +16,6 @@ def main():
     load_dotenv(root/'.env',encoding='utf-8-sig')
     logging.basicConfig(level=logging.INFO,format='%(message)s')
     store=Store(os.environ['DATABASE_URL'])
-    store.setup()
-    jobs.setup(store)
     stop=threading.Event()
     for sig in (signal.SIGINT,signal.SIGTERM):
         signal.signal(sig,lambda *_:stop.set())
@@ -29,18 +27,32 @@ def main():
             stop.wait(5)
     thread=threading.Thread(target=pulse,daemon=True)
     thread.start()
-    engine=Engine(os.getenv('DATA_DIR',str(root/'data')),os.getenv('MODE','live'),repository=store)
+    engine=None
+    setup_complete=False
     try:
         while not stop.is_set():
             try:
+                if not setup_complete:
+                    store.setup()
+                    jobs.setup(store)
+                    setup_complete=True
+                if engine is None:
+                    engine=Engine(os.getenv('DATA_DIR',str(root/'data')),os.getenv('MODE','live'),repository=store)
                 if not jobs.process_one(store,engine):stop.wait(1)
             except Exception as error:
-                logging.error('Worker connection failed: %s',type(error).__name__)
+                logging.error('Worker cycle failed; rebuilding engine: %s',type(error).__name__)
+                if engine is not None:
+                    try:engine.close()
+                    except Exception as close_error:logging.error('Worker engine close failed: %s',type(close_error).__name__)
+                    engine=None
                 stop.wait(3)
     finally:
         stop.set()
         thread.join(timeout=6)
-        engine.close()
-        with store.connect() as c:c.execute('DELETE FROM rf_worker_heartbeats WHERE worker_id=%s',(worker_id,))
+        if engine is not None:engine.close()
+        try:
+            with store.connect() as c:c.execute('DELETE FROM rf_worker_heartbeats WHERE worker_id=%s',(worker_id,))
+        except Exception as error:
+            logging.error('Worker heartbeat cleanup failed: %s',type(error).__name__)
 
 if __name__=='__main__':main()
