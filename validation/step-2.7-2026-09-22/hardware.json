@@ -1,0 +1,10 @@
+{
+  "observed_at": "2026-09-22T07:34:29.9049041Z",
+  "cpu": "Intel(R) Core(TM) i7-10870H CPU @ 2.20GHz",
+  "physical_cores": 8.0,
+  "logical_processors": 16.0,
+  "ram_gib": 15.82,
+  "free_ram_gib": 2.68,
+  "d_free_gib": 375.23,
+  "docker": "16 8228859904"
+}

@@ -1,0 +1,18 @@
+{
+  "documents": 3,
+  "chunks": 7,
+  "chunk_characters": [
+    72,
+    88,
+    122,
+    80,
+    68,
+    92,
+    66
+  ],
+  "characters_not_tokens": true,
+  "vector_384_storage_bytes": 10808,
+  "vector_storage_excludes_rows_indexes_metadata": true,
+  "frozen_cases": 80,
+  "new_model_inferences": 0
+}

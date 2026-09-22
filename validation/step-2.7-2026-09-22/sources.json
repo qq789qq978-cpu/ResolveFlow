@@ -1,0 +1,170 @@
+{
+  "retrieval_kind": "public documentation and metadata GET only",
+  "fetches": [
+    {
+      "name": "e5-card",
+      "url": "https://huggingface.co/intfloat/multilingual-e5-small/raw/main/README.md",
+      "final_url": "https://huggingface.co/intfloat/multilingual-e5-small/raw/main/README.md",
+      "status": 200,
+      "bytes": 497538,
+      "sha256": "0038de97aee16258cecbad7ffda4b4febd6953e747a00e0ddbc8e6ed241e9c1c",
+      "retrieved_at": "2026-09-22T07:32:14.071358+00:00"
+    },
+    {
+      "name": "e5-api",
+      "url": "https://huggingface.co/api/models/intfloat/multilingual-e5-small?blobs=true",
+      "final_url": "https://huggingface.co/api/models/intfloat/multilingual-e5-small?blobs=true",
+      "status": 200,
+      "bytes": 1067278,
+      "sha256": "25cc3b2ca4c5493e5a5b121ad9097e36e8d1d6bee89d4573587a7eff4b06de87",
+      "retrieved_at": "2026-09-22T07:32:14.757643+00:00"
+    },
+    {
+      "name": "e5-config",
+      "url": "https://huggingface.co/intfloat/multilingual-e5-small/raw/main/config.json",
+      "final_url": "https://huggingface.co/intfloat/multilingual-e5-small/raw/main/config.json",
+      "status": 200,
+      "bytes": 655,
+      "sha256": "69137736cab8b8903a07fe8afaafdda25aac55415a12a55d1bffa9f581abf959",
+      "retrieved_at": "2026-09-22T07:32:13.808996+00:00"
+    },
+    {
+      "name": "bge-card",
+      "url": "https://huggingface.co/BAAI/bge-m3/raw/main/README.md",
+      "final_url": "https://huggingface.co/BAAI/bge-m3/raw/main/README.md",
+      "status": 200,
+      "bytes": 15822,
+      "sha256": "0b81ccf9134e5874d620a86e6905062ea999e779c34eb1a7e65eaeb7fe00e450",
+      "retrieved_at": "2026-09-22T07:32:14.004781+00:00"
+    },
+    {
+      "name": "bge-api",
+      "url": "https://huggingface.co/api/models/BAAI/bge-m3?blobs=true",
+      "final_url": "https://huggingface.co/api/models/BAAI/bge-m3?blobs=true",
+      "status": 200,
+      "bytes": 8230,
+      "sha256": "6717ab97c2d4cf34f223d4331f13aeb3526c1353c37947a4143eab89cd3f9735",
+      "retrieved_at": "2026-09-22T07:32:13.920601+00:00"
+    },
+    {
+      "name": "ali-embedding",
+      "url": "https://help.aliyun.com/zh/model-studio/text-embedding-v4",
+      "final_url": "https://help.aliyun.com/zh/model-studio/text-embedding-v4",
+      "status": 200,
+      "bytes": 59116,
+      "sha256": "7939ac2b3edcff678449323dadaec37a711b7dfc8152b7937a68a74e392055f1",
+      "retrieved_at": "2026-09-22T07:32:15.691149+00:00"
+    },
+    {
+      "name": "ali-pricing",
+      "url": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "final_url": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "status": 200,
+      "bytes": 1950568,
+      "sha256": "1a3ae5013b85aaed23a147e6c964c95456f7bade3b05e476197afa0811d3dd4e",
+      "retrieved_at": "2026-09-22T07:32:17.099879+00:00"
+    },
+    {
+      "name": "pgvector",
+      "url": "https://raw.githubusercontent.com/pgvector/pgvector/master/README.md",
+      "final_url": "https://raw.githubusercontent.com/pgvector/pgvector/master/README.md",
+      "status": 200,
+      "bytes": 42305,
+      "sha256": "54cb3a5f4344308476cb2378469ac77d10fbff415d1b5be66608bb386ce8f527",
+      "retrieved_at": "2026-09-22T07:32:14.265152+00:00"
+    },
+    {
+      "name": "e5-pinned-card",
+      "url": "https://huggingface.co/intfloat/multilingual-e5-small/raw/614241f622f53c4eeff9890bdc4f31cfecc418b3/README.md",
+      "status": 200,
+      "bytes": 497538,
+      "sha256": "0038de97aee16258cecbad7ffda4b4febd6953e747a00e0ddbc8e6ed241e9c1c",
+      "retrieved_at": "2026-09-22T07:33:49.646163+00:00"
+    },
+    {
+      "name": "e5-pinned-pooling",
+      "url": "https://huggingface.co/intfloat/multilingual-e5-small/raw/614241f622f53c4eeff9890bdc4f31cfecc418b3/1_Pooling/config.json",
+      "status": 200,
+      "bytes": 200,
+      "sha256": "987f7a67a38fa564c849bb5d277c52ab9088a84368fc0be31a354125aebb12a0",
+      "retrieved_at": "2026-09-22T07:33:50.021136+00:00"
+    },
+    {
+      "name": "e5-pinned-sentence",
+      "url": "https://huggingface.co/intfloat/multilingual-e5-small/raw/614241f622f53c4eeff9890bdc4f31cfecc418b3/sentence_bert_config.json",
+      "status": 200,
+      "bytes": 57,
+      "sha256": "948201d8329907aae938fa62f9ceeed53f5694dacc2b87b9f3b78b37ee986529",
+      "retrieved_at": "2026-09-22T07:33:50.369643+00:00"
+    }
+  ],
+  "models": [
+    {
+      "id": "intfloat/multilingual-e5-small",
+      "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+      "license_from_official_metadata": "mit",
+      "weight_filename": "model.safetensors",
+      "weight_bytes": 470641600,
+      "weight_sha256_from_lfs_metadata": "1a55775f53449dac10a2bcbc312469fac40b96d53198c407081a831f81c98477",
+      "weight_downloaded": false
+    },
+    {
+      "id": "BAAI/bge-m3",
+      "revision": "5617a9f61b028005a4858fdac845db406aefb181",
+      "license_from_official_metadata": "mit",
+      "weight_filename": "pytorch_model.bin",
+      "weight_bytes": 2271145830,
+      "weight_sha256_from_lfs_metadata": "b5e0ce3470abf5ef3831aa1bd5553b486803e83251590ab7ff35a117cf6aad38",
+      "weight_downloaded": false
+    }
+  ],
+  "e5_config": {
+    "_name_or_path": "tmp/",
+    "architectures": [
+      "BertModel"
+    ],
+    "attention_probs_dropout_prob": 0.1,
+    "classifier_dropout": null,
+    "hidden_act": "gelu",
+    "hidden_dropout_prob": 0.1,
+    "hidden_size": 384,
+    "initializer_range": 0.02,
+    "intermediate_size": 1536,
+    "layer_norm_eps": 1e-12,
+    "max_position_embeddings": 512,
+    "model_type": "bert",
+    "num_attention_heads": 12,
+    "num_hidden_layers": 12,
+    "pad_token_id": 0,
+    "position_embedding_type": "absolute",
+    "tokenizer_class": "XLMRobertaTokenizer",
+    "torch_dtype": "float32",
+    "transformers_version": "4.29.0",
+    "type_vocab_size": 2,
+    "use_cache": true,
+    "vocab_size": 250037
+  },
+  "e5_pooling": {
+    "word_embedding_dimension": 384,
+    "pooling_mode_cls_token": false,
+    "pooling_mode_mean_tokens": true,
+    "pooling_mode_max_tokens": false,
+    "pooling_mode_mean_sqrt_len_tokens": false
+  },
+  "e5_sentence_config": {
+    "max_seq_length": 512,
+    "do_lower_case": false
+  },
+  "prices": {
+    "provider": "Alibaba Cloud Model Studio",
+    "model": "text-embedding-v4",
+    "currency": "CNY",
+    "unit": "per 1,000,000 input tokens",
+    "beijing_standard": 0.5,
+    "singapore_international_standard": 0.514,
+    "beijing_batch_file": 0.25,
+    "checked_date": "2026-09-22",
+    "discounts_free_quotas_excluded": true,
+    "account_endpoint_quota_verified": false
+  }
+}

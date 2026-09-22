@@ -1,0 +1,37 @@
+{
+  "measured_tokens": false,
+  "not_a_bill_or_maximum": true,
+  "scenarios": [
+    {
+      "name": "initial_demo",
+      "document_chunks": 7,
+      "assumed_tokens_per_chunk": 512,
+      "queries": 80,
+      "assumed_tokens_per_query": 128,
+      "total_assumed_input_tokens": 13824,
+      "local_provider_api_cny": 0,
+      "beijing_standard_cny": 0.006912,
+      "singapore_international_standard_cny": 0.007105536
+    },
+    {
+      "name": "illustrative_month",
+      "document_chunks": 1000,
+      "assumed_tokens_per_chunk": 512,
+      "queries": 10000,
+      "assumed_tokens_per_query": 128,
+      "total_assumed_input_tokens": 1792000,
+      "local_provider_api_cny": 0,
+      "beijing_standard_cny": 0.896,
+      "singapore_international_standard_cny": 0.921088
+    }
+  ],
+  "excluded": [
+    "retries",
+    "repeat experiments",
+    "electricity",
+    "hardware",
+    "network",
+    "generation model"
+  ],
+  "selected_local_paid_api_budget_cny": 0
+}

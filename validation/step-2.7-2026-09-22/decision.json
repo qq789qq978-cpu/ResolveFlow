@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "step": "2.7",
+  "date": "2026-09-22",
+  "planning_only": true,
+  "base_commit": "5a30e3e",
+  "decision": "proceed_to_local_only_step_2_8_experiment",
+  "runtime_default": "expanded_bm25",
+  "selected_model": {
+    "id": "intfloat/multilingual-e5-small",
+    "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "license_from_official_metadata": "mit",
+    "weight_filename": "model.safetensors",
+    "weight_bytes": 470641600,
+    "weight_sha256_from_lfs_metadata": "1a55775f53449dac10a2bcbc312469fac40b96d53198c407081a831f81c98477",
+    "weight_downloaded": false,
+    "dimensions": 384,
+    "max_tokens_including_prefix": 512,
+    "pooling": "attention_mask_mean",
+    "normalize": "L2",
+    "dtype": "float32",
+    "device": "cpu",
+    "query_template": "query: {query}",
+    "passage_template": "passage: {title}\n{text}",
+    "trust_remote_code": false,
+    "use_safetensors": true,
+    "silent_truncation": false
+  },
+  "planned_storage": {
+    "engine": "PostgreSQL 17 + pgvector",
+    "image_candidate": "pgvector/pgvector:0.8.6-pg17-trixie",
+    "image_not_pulled_or_verified": true,
+    "type": "vector(384)",
+    "search": "exact_cosine",
+    "ann_index": null,
+    "runtime_schema_changed": false
+  },
+  "experiment_budget": {
+    "cpu_limit": 2,
+    "memory_gib_limit": 2,
+    "disk_reserve_gib": 5,
+    "inference_concurrency": 1,
+    "batch_size": 1,
+    "paid_api_cny": 0,
+    "latency_measured": false,
+    "p95_warm_ms_target": 1000,
+    "timeout_seconds": 5,
+    "automatic_retries": 0
+  },
+  "data": {
+    "external_inference_fields": [],
+    "initial_local_fields": [
+      "demo_policy_title",
+      "demo_policy_chunk_text",
+      "synthetic_query_text"
+    ],
+    "no_full_orders_approvals_checkpoints_credentials": true,
+    "raw_query_may_contain_user_entered_pii": true,
+    "query_vectors_persisted": false,
+    "public_downloads_only_during_provisioning": true
+  },
+  "step28_candidates": {
+    "baseline": "expanded_bm25",
+    "dense_only": "diagnostic",
+    "rrf_k": 60,
+    "dense_weights": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "per_branch_top_k": 4,
+    "final_top_k": 4
+  },
+  "enablement_gate": {
+    "held_out_complete_required_min": 16,
+    "held_out_answerable_denominator": 20,
+    "held_out_minimum_retrieval": {
+      "required_group_recall_at_4": 0.8416666666666666,
+      "all_required_at_4": 0.75,
+      "mrr_at_4": 0.8916666666666666,
+      "complete_evidence_rr_at_4": 0.6416666666666667,
+      "context_precision_at_4": 0.2755102040816326,
+      "source_integrity": 1.0
+    },
+    "tuning_complete_required_min": 40,
+    "no_answer_action_and_citation_risk_increase": false,
+    "answerable_over_escalation_increase": false,
+    "source_integrity_required": 1,
+    "held_out_runs_after_selection": 1,
+    "held_out_details_used_for_tuning": false,
+    "failure_action": "retain BM25 default; report experiment without claiming improvement"
+  },
+  "not_completed": [
+    "model download",
+    "model inference",
+    "token count",
+    "embedding service",
+    "vector table",
+    "hybrid retrieval",
+    "offline network enforcement validation",
+    "quality or latency benchmark",
+    "cloud API account verification"
+  ]
+}

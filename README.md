@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，RAG当前进度见 [2.6报告](validation/step-2.6-2026-09-22/REPORT.md)。已支持 [政策发布/回滚与规则绑定](POLICY_RELEASES.md)，并完成六种BM25配置比较和有限中英词扩展。调优完整证据命中36/40→40/40；保留集仍15/20，上下文精确率27/97→27/98，未证明泛化或真实回答质量提升。147项基础、34项PG、17项前端和六条真实Worker流程通过；8003已更新、三个服务健康，原17张表不变。下一步2.7未开始，2.12统一推送；上方徽章仅代表远程main历史状态。
+第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，当前进度为 [2.7选型完成](validation/step-2.7-2026-09-22/REPORT.md)。下一步拟在本机用multilingual-e5-small与PostgreSQL精确向量检索做混合实验，模型API预算0元，详见 [模型、费用和数据范围](SEMANTIC_RETRIEVAL.md)；尚未安装或启用。8003仍运行2.6的expanded BM25，三服务健康、17张表保留。2.6调优完整命中36/40→40/40，保留仍15/20且上下文精确率略降，未证明泛化改善。2.8未开始，2.12统一推送；上方徽章仅代表远程main历史状态。
 
 ## Docker 快速启动
 

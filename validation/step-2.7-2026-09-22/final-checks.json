@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "changed_files": [
+    "EXECUTION_PLAN.md",
+    "PROJECT_HANDOFF.md",
+    "RAG.md",
+    "README.md",
+    "ROADMAP.md",
+    "SEMANTIC_RETRIEVAL.md",
+    "VALIDATION.md",
+    "validation/step-2.7-2026-09-22/REPORT.md",
+    "validation/step-2.7-2026-09-22/SOURCES.md",
+    "validation/step-2.7-2026-09-22/cost-estimate.json",
+    "validation/step-2.7-2026-09-22/decision.json",
+    "validation/step-2.7-2026-09-22/final-checks.json",
+    "validation/step-2.7-2026-09-22/hardware.json",
+    "validation/step-2.7-2026-09-22/inventory.json",
+    "validation/step-2.7-2026-09-22/runtime-after.json",
+    "validation/step-2.7-2026-09-22/runtime-before.json",
+    "validation/step-2.7-2026-09-22/sources.json"
+  ],
+  "checked_deliverables": 17,
+  "local_links": 109,
+  "official_source_fetches_checked": 11,
+  "source_response_hashes_match": true,
+  "specification_cost_arithmetic_and_baseline_thresholds_match": true,
+  "actual_env_secret_scan": "passed; values never printed",
+  "runtime_dependencies_corpus_labels_split_unchanged": true,
+  "main_17_tables_and_runtime_image_unchanged": true,
+  "new_embedding_or_held_out_evaluations": 0,
+  "regression_tests": "not rerun; documentation and planning evidence only"
+}
