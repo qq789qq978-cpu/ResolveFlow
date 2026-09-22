@@ -10,17 +10,6 @@ from urllib.parse import urlsplit
 from embedding_contract import CONTRACT_ID, validate_vector, vector_digest
 from policy_governance import availability, utcnow
 
-SCHEMA='''
-CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public;
-CREATE TABLE IF NOT EXISTS rf_vector_batches (
- id TEXT PRIMARY KEY, release_sha TEXT NOT NULL, contract TEXT NOT NULL,
- manifest JSONB NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
-CREATE TABLE IF NOT EXISTS rf_policy_vectors (
- batch_id TEXT NOT NULL REFERENCES rf_vector_batches(id) ON DELETE CASCADE,
- chunk_id TEXT NOT NULL, document_sha TEXT NOT NULL, text_sha TEXT NOT NULL,
- embedding public.vector(384) NOT NULL, vector_sha TEXT NOT NULL,
- PRIMARY KEY(batch_id,chunk_id));
-'''
 
 
 class SemanticUnavailable(Exception):pass
@@ -71,6 +60,8 @@ def encode(text,*,kind='query',title='',timeout=5):
 
 
 def build_index(store):
+    from database_state import require_ready
+    require_ready(store.url, profile='hybrid')
     from rag import read_index
     from policy_releases import active_context
     from psycopg.types.json import Jsonb
@@ -87,7 +78,6 @@ def build_index(store):
     manifest=sorted([{**identity,'vector_sha':vector_digest(v)} for identity,v in vectors],key=lambda r:r['chunk_id'])
     bid=batch_id(release)
     with store.connect() as c:
-        c.execute(SCHEMA)
         c.execute('LOCK TABLE rf_knowledge_documents IN SHARE MODE')
         current_docs=c.execute('SELECT * FROM rf_knowledge_documents').fetchall()
         current=active_context(c,current_docs,c.execute('SELECT * FROM rf_knowledge_chunks').fetchall())

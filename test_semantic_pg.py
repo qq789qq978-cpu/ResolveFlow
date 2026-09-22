@@ -20,6 +20,10 @@ pytestmark=pytest.mark.skipif(os.getenv('RUN_PG_TESTS')!='1',reason='Isolated pg
 @pytest.fixture
 def indexed(system,monkeypatch):
     store,engine,client=system
+    from db_migrate import migrate
+    with store.connect() as c:
+        c.execute('CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public')
+    migrate(store.url, profile='hybrid')
     async def synthetic(text,**kwargs):
         return {'vector':[1.]+[0.]*383,'tokens':10,'contract':CONTRACT_ID}
     monkeypatch.setattr(semantic,'_encode',synthetic)

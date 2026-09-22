@@ -16,6 +16,7 @@ def main():
     load_dotenv(root/'.env',encoding='utf-8-sig')
     logging.basicConfig(level=logging.INFO,format='%(message)s')
     store=Store(os.environ['DATABASE_URL'])
+    store.setup()  # Refuse missing/outdated schema before starting a heartbeat.
     stop=threading.Event()
     for sig in (signal.SIGINT,signal.SIGTERM):
         signal.signal(sig,lambda *_:stop.set())
@@ -28,14 +29,9 @@ def main():
     thread=threading.Thread(target=pulse,daemon=True)
     thread.start()
     engine=None
-    setup_complete=False
     try:
         while not stop.is_set():
             try:
-                if not setup_complete:
-                    store.setup()
-                    jobs.setup(store)
-                    setup_complete=True
                 if engine is None:
                     engine=Engine(os.getenv('DATA_DIR',str(root/'data')),os.getenv('MODE','live'),repository=store)
                 if not jobs.process_one(store,engine):stop.wait(1)

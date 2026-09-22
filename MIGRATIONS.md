@@ -1,72 +1,94 @@
-# 数据库迁移边界与基线（3.1）
+# 数据库迁移与运行说明（3.2）
 
-2026-09-22：已建立 Alembic 框架及冻结基线，在独立 PostgreSQL 17 / pgvector 0.8.6 环境验证，并只读核对主库。**主库未迁移、未 stamp，API/Worker 启动仍沿用既有 setup DDL。** 新装流程切换、旧库接管及部署顺序由 3.2 完成；失败恢复方案由 3.3 完成。本页命令用于隔离验证，不是当前主环境升级手册。
+2026-09-22：应用 PostgreSQL DDL 已集中到独立迁移入口。API、Worker、知识库导入及向量构建不再建表；API/Worker 启动检查应用结构、版本和 LangGraph 版本。**先完成数据库准备，再启动应用。** `Store.setup()` 保留兼容方法名，但只做只读检查，不播种数据。
 
 ## 管理归属
 
 |归属|对象|管理方式|
 |---|---|---|
-|应用 core|`rf_orders`、`rf_runs`、`rf_approvals`、`rf_refunds`、`rf_reviews`|Alembic core 基线|
-|应用 core|`rf_jobs`、`rf_job_attempts`、`rf_worker_heartbeats`、`rf_audit`|Alembic core 基线|
-|应用 core|`rf_knowledge_documents`、`rf_knowledge_chunks`|Alembic core 基线|
-|应用 core|`rf_policy_releases`、`rf_policy_head`、`rf_policy_reviews`、`rf_policy_events`|Alembic core 基线|
-|应用 vector|`rf_vector_batches`、`rf_policy_vectors`（384 维）|显式选择 vector 基线|
-|应用迁移元数据|`rf_schema_version`|Alembic 版本记录，不属于业务表|
-|LangGraph|`checkpoint_migrations`、`checkpoints`、`checkpoint_blobs`、`checkpoint_writes`|锁定的 langgraph-checkpoint-postgres 3.1.2 / `PostgresSaver.setup()`|
-|平台扩展|`public.vector`|数据库管理方预先安装；应用 migration 不创建、不删除扩展|
+|core，15张|`rf_orders`、`rf_runs`、`rf_approvals`、`rf_refunds`、`rf_reviews`、`rf_jobs`、`rf_job_attempts`、`rf_worker_heartbeats`、`rf_audit`、`rf_knowledge_documents`、`rf_knowledge_chunks`、`rf_policy_releases`、`rf_policy_head`、`rf_policy_reviews`、`rf_policy_events`|Alembic rf_core_0001|
+|vector，可选2张|`rf_vector_batches`、`rf_policy_vectors`（384维）|Alembic rf_vector_0001，依赖core|
+|应用迁移元数据|`rf_schema_version`|仅Alembic写入|
+|LangGraph，4张|`checkpoint_migrations`、`checkpoints`、`checkpoint_blobs`、`checkpoint_writes`|迁移入口调用锁定的PostgresSaver.setup；API/Worker不调用setup|
+|平台扩展|`public.vector`|维护人员显式安装，应用迁移不安装/卸载|
 
-core 共 15 张表，vector 可选增加 2 张。主库目前共 21 张表（17 张应用表 + 4 张 LangGraph 表），没有 `rf_schema_version`。此前报告的“19 表指纹”排除了持续变化的 `rf_worker_heartbeats` 和库自身的 `checkpoint_migrations`，并非主库全部表数。core 的 3 个 BIGSERIAL 序列也纳入结构核对。
+core新库为20张表，hybrid为22张，均含心跳、4张checkpoint表和应用版本表。历史“19表指纹”不包含心跳、checkpoint_migrations和后来新增的应用版本表；本次升级另核对20张原有非心跳表。
 
-## 版本设计
+基线冻结自ba17859，不导入会变化的运行时代码。不启用autogenerate；新增修订须显式编写并审核归属。core/vector为独立版本线，vector通过depends_on依赖core；hybrid库仅记录rf_vector_0001是依赖满足后的正常结果。未来core修订不应依赖可选vector分支。当前入口支持本次基线接管和core→hybrid扩展；新增revision时必须同时更新就绪契约和测试，不能用未知版本启动旧应用。
 
-- `rf_core_0001` 是 core 独立版本线起点。
-- `rf_vector_0001` 是 vector 独立版本线起点，通过 `depends_on` 依赖 core 基线。
-- 只需 BM25 的库升级 `core@head`，不需要安装 pgvector。混合检索库显式升级 `vector@head`；Alembic 会先执行 core 依赖。
-- 两个分支存在时，不使用有歧义的 `head`。未来 core 修订接在 core 分支，vector 修订接在 vector 分支；不能把可选向量表串入所有库都必须经过的 core 链。
-- 依赖被满足后，Alembic 可以只保留 `rf_vector_0001` 一条版本记录；这不表示 core 未执行。应结合版本依赖图理解状态。
-- 基线从提交 `ba17859` 的实际 DDL 冻结而来，历史 revision 不导入会变化的运行时代码。保留原字段顺序、默认值、约束、索引和序列。
-- 严格建表；已有表会报错并事务回滚，不能用 `IF NOT EXISTS` 掩盖结构漂移。业务订单、政策内容、发布和向量均不由迁移播种；唯一初始化内容是 `rf_policy_head` 的空指针（generation=0）及迁移版本记录。
-- 暂不提供基线删除式 downgrade；命令会明确拒绝。不能借 downgrade 删除工单或 checkpoint。3.3 会定义恢复路径。
-- 不启用 autogenerate：`target_metadata=None`。新增修订必须显式编写、审阅所有权；绝不把共享库的 LangGraph 表导入应用迁移。
+## 新库：Docker Compose
 
-## 隔离环境使用
+按README配置.env，演示使用MODE=demo，然后运行：
 
-使用 Python 3.12，安装 `requirements.lock`。连接从环境变量 `DATABASE_URL` 读取，不写进 ini 或提交记录。`RF_MIGRATION_SCHEMA` 默认为 `public`；测试可指定已创建的随机 schema。名称只接受小写字母、数字、下划线，拒绝系统 schema。连接内部显式设置 search_path，不把别的 schema 的同名表当成本地表。
-
-下列命令假定连接已指向**可丢弃的隔离数据库**，该 schema 尚无应用表：
-
-```text
-python -m alembic history --verbose
-python -m alembic upgrade core@head --sql
-python -m alembic upgrade core@head
-python -m alembic current
+```powershell
+docker compose up --build -d --wait --wait-timeout 180
+docker compose ps -a
 ```
 
-需要向量表时，先由数据库管理方安装 pgvector 到 public（当前验证版本 0.8.6），再执行：
+顺序为DB healthy → migrate成功退出 → API healthy → Worker。migrate是一次性任务，**Exited (0)正常**，不要求它healthy；失败时Compose不启动依赖它的API。它执行`python db_migrate.py prepare`，根据RETRIEVAL_MODE选择core/hybrid。
 
-```text
-python -m alembic upgrade vector@head --sql
-python -m alembic upgrade vector@head
+新装demo初始化4条合成订单及内置政策发布；新装live不植入演示订单或政策。已有库的prepare/adopt均不自动重新播种，避免更改历史内容和审核状态。live数据导入和真实审核不在本步范围。
+
+hybrid新库先使用带pgvector的PG17镜像启动DB，并显式安装扩展：
+
+```powershell
+docker compose up -d --wait db
+docker compose exec -T db psql -U resolveflow -d resolveflow -c 'CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public;'
+docker compose up --build -d --wait --wait-timeout 180
+docker compose exec -T resolveflow python scripts/build_vector_index.py --report /tmp/vector-build-001.json
 ```
 
-离线 SQL 不连接数据库，也不自动安装扩展；执行向量 SQL 前同样需要扩展。在线执行会检查扩展所在 schema。运行版本不兼容时 PostgreSQL 会报错并回滚；本步未声明对其他 PG/pgvector 版本的兼容性。
+先配置模型与encoder，见[混合检索说明](SEMANTIC_IMPLEMENTATION.md)。prepare创建向量表但不编码；没有有效批次时按原规则回退BM25。core不需要pgvector。
 
-Dockerfile 已包含迁移文件和只读工具；3.1 未把新镜像部署到 8003，也未把迁移加入启动命令。现有应用 setup 仍负责演示数据和 checkpoint 初始化，单独应用基线不等于应用新装交付。
+## 已有旧库：显式接管
+
+适用于startup DDL建立、结构与冻结基线一致的库。先停接单、等待在途任务结束，保留备份及旧镜像，在维护窗口运行：
+
+```powershell
+docker compose build
+docker compose stop resolveflow worker
+docker compose run --rm --no-deps migrate python db_migrate.py adopt
+docker compose up -d --wait --wait-timeout 180
+docker compose exec -T resolveflow python db_migrate.py check
+```
+
+adopt锁住该schema的应用表，再对照列、默认值、约束、索引和序列，成功才在同一事务内stamp。业务/知识/政策/向量表不重建、不清空；checkpoint由库自身维护。旧core要求hybrid时，接管core后在同一应用事务内增加向量表；扩展须提前安装。
+
+默认prepare拒绝无版本旧库。结构漂移、部分旧表、未知应用版本、部分checkpoint schema及不支持的checkpoint版本均拒绝。不能绕过错误手工stamp。更早、缺少governance等字段的库不属于本次基线，需另写显式迁移，不能依赖启动补列。
+
+入口使用schema范围的advisory lock，第二个迁移进程立即拒绝。接管锁表等待最多5秒；忙库失败并保留应用事务原状，停写后重试。此锁不防护任意外部DDL，数据库权限分工留到3.6。
+
+## 非Docker运行
+
+使用Python 3.12安装requirements.lock，配置.env的本机DATABASE_URL。迁移命令读取.env，已有进程环境变量优先，不输出密钥：
+
+```powershell
+.venv\Scripts\python db_migrate.py prepare
+# 若提示现有无版本库，停服务并备份后改用adopt：
+.venv\Scripts\python db_migrate.py adopt
+.venv\Scripts\python db_migrate.py check
+./start-local.ps1
+```
+
+prepare/adopt按库的情况选一个，不是连续执行的固定流程。start-local/run_local只检查就绪，再启动API/Worker。3.2未更新或启动便携PostgreSQL，容器主库升级不代表所有历史库都已升级。
+
+测试可设置RF_MIGRATION_SCHEMA为已有的独立schema；准备命令将后续连接限制在该schema。应用连接的search_path也须指向同一schema；就绪检查按current_schema读取。拒绝系统schema和不合法名称。
 
 ## 只读结构核对
 
 ```text
 python scripts/schema_catalog.py --profile hybrid --baseline migrations/baselines/hybrid.json --report schema-report.json
+python db_migrate.py check --profile hybrid
 ```
 
-BM25-only 库使用 `--profile core --baseline migrations/baselines/core.json`。工具在只读、可重复读事务中读取 catalog，核对列顺序/类型/非空/默认/identity/generated、约束、索引、用户触发器、RLS 开关和序列定义/归属；报告迁移版本、扩展版本、LangGraph 表名和未知表名。core 模式发现向量表也会报告，不会默默忽略。
+catalog工具要求连接已在环境变量DATABASE_URL中提供；core-only使用`--profile core --baseline migrations/baselines/core.json`。工具只读、不stamp。已版本化hybrid库可在BM25模式运行，但core-only不能当作hybrid-ready。
 
-退出 0 表示所核对应用结构相符，退出 1 表示有漂移。报告只含结构，不含工单、文档、密钥或连接地址。它不会 stamp，也不会写任何数据库对象；**结构相符不等于旧库接管完成**。用户/授权、RLS 策略内容、数据语义、非表对象和扩展兼容性不属于该结构比较器的完整审计范围。
+报告包含列顺序/类型/非空/默认/identity/generated、约束、索引、用户触发器、RLS开关、序列定义/归属、扩展、迁移版本与未知表名；不含业务行或连接地址。结构相符不代替数据验收；授权、RLS策略内容、数据语义、非表对象和扩展兼容性不属于完整审计范围。历史基线JSON不随新版本覆盖。
 
-`migrations/baselines/*.json` 是从隔离库实际执行冻结 revision 得到的参考结构；未来修订新增对应基线和测试，不能为了消除差异而覆盖历史基线。库升级不能修改应用或 LangGraph 的历史迁移文件。
+原始Alembic的history和离线SQL可供审阅。部署统一使用db_migrate.py，不绕过检查/互斥锁直接操作主库。基线downgrade明确拒绝删除数据。
 
-## 验证与后续
+## 验证与边界
 
-本步证据：[3.1 报告](validation/step-3.1-2026-09-22/REPORT.md)。测试包括离线渲染、分支依赖、无扩展 core、向量前置条件、真实旧 setup 对照、已有表拒绝、结构漂移和真实 checkpoint 保留。CI 已纳入新增测试；依约 3.9 统一推送前不宣称新提交远程 CI 成功。
+见[3.1报告](validation/step-3.1-2026-09-22/REPORT.md)与[3.2报告](validation/step-3.2-2026-09-22/REPORT.md)。本步验收新装、旧库接管、数据保留、真实待审批恢复、版本持久化和本机服务更新。
 
-下一步 **3.2**：基于这里的框架完成空库新装、现有库保留数据接管、应用启动与迁移的分工，并独立验收旧工单和待审批恢复。此步骤尚未执行。
+应用Alembic事务与LangGraph自身的autocommit setup分开执行，后者包含并发索引；演示播种也是独立事务。正常重复prepare不重新播种旧数据。跨阶段中断后的恢复/继续、不可逆变更回退和失败演练留到**3.3**，不宣称所有初始化故障都能自动恢复。

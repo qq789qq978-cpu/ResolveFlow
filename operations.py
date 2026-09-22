@@ -31,7 +31,6 @@ def create_app():
         validate_keys()
         store=Store(os.environ['DATABASE_URL'])
         store.setup()
-        jobs.setup(store)
         app.state.store=store
         yield
     app=FastAPI(title='ResolveFlow Operations',version='3.0.0',lifespan=lifespan)

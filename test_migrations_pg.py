@@ -38,6 +38,20 @@ def baseline(profile):
     return json.loads((BASELINES/f'{profile}.json').read_text())
 
 
+def legacy_setup(store, vector=False):
+    with store.connect() as c:
+        c.execute((Path(__file__).parent/'tests/fixtures/legacy_v3.sql').read_text())
+        c.execute("INSERT INTO rf_orders VALUES ('RF-9001','qa',100,1,FALSE,'delivered')")
+        if vector:
+            import importlib.util
+            path = Path(__file__).parent/'migrations/versions/rf_vector_0001.py'
+            spec = importlib.util.spec_from_file_location('vector_fixture',path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            c.execute('CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public')
+            c.execute(module.SQL)
+
+
 def test_core_baseline_and_no_business_seeding(database):
     dsn, schema = database
     command.upgrade(config(), 'core@head')
@@ -69,14 +83,9 @@ def test_vector_baseline_and_dependency(database):
 
 def test_legacy_structure_matches_without_stamp(database):
     from storage import Store
-    import jobs
-    import semantic
     dsn, schema = database
     store = Store(dsn)
-    store.setup()
-    jobs.setup(store)
-    with store.connect() as c:
-        c.execute(semantic.SCHEMA)
+    legacy_setup(store, vector=True)
     cat = snapshot(dsn, schema)
     assert differences(cat, baseline('hybrid'), 'hybrid') == []
     assert cat['revisions'] == [] and 'rf_schema_version' not in cat['tables']
@@ -86,11 +95,9 @@ def test_legacy_structure_matches_without_stamp(database):
 
 def test_existing_tables_reject_baseline_and_rollback(database):
     from storage import Store
-    import jobs
     dsn, schema = database
     store = Store(dsn)
-    store.setup()
-    jobs.setup(store)
+    legacy_setup(store)
     before = snapshot(dsn, schema)
     with store.connect() as c:
         orders = c.execute('SELECT * FROM rf_orders ORDER BY id').fetchall()

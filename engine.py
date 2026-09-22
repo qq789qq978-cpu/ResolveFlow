@@ -78,11 +78,12 @@ class Engine:
         try:
             saver = SqliteSaver(self.checkpoint_db)
             if repository:
+                from database_state import require_checkpoints
+                require_checkpoints(repository.url)
                 from langgraph.checkpoint.postgres import PostgresSaver
                 from psycopg.conninfo import make_conninfo
                 saver = self.resources.enter_context(PostgresSaver.from_conn_string(
                     make_conninfo(repository.url, connect_timeout=5)))
-                saver.setup()
             self.graph = graph.compile(checkpointer=saver)
         except Exception:
             self.close()

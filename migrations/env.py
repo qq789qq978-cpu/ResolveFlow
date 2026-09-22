@@ -7,7 +7,7 @@ from alembic import context
 from sqlalchemy import create_engine
 from sqlalchemy.pool import NullPool
 
-schema = os.environ.get('RF_MIGRATION_SCHEMA', 'public')
+schema = context.config.attributes.get('schema') or os.environ.get('RF_MIGRATION_SCHEMA', 'public')
 if not re.fullmatch(r'[a-z][a-z0-9_]{0,62}', schema) or schema.startswith('pg_') or schema == 'information_schema':
     raise ValueError('Invalid application migration schema')
 
@@ -18,6 +18,11 @@ if context.is_offline_mode():
     context.configure(url='postgresql+psycopg://', literal_binds=True, **options)
     with context.begin_transaction():
         context.execute(f'SET LOCAL search_path TO "{schema}"')
+        context.run_migrations()
+elif context.config.attributes.get('connection') is not None:
+    # The deployment runner owns locking, checks, stamp/upgrade and transaction.
+    context.configure(connection=context.config.attributes['connection'], **options)
+    with context.begin_transaction():
         context.run_migrations()
 else:
     dsn = os.environ.get('DATABASE_URL')

@@ -10,30 +10,6 @@ import time
 import psycopg
 from psycopg.types.json import Jsonb
 
-QUEUE_SCHEMA = """
-CREATE TABLE IF NOT EXISTS rf_jobs (
- run_id UUID PRIMARY KEY REFERENCES rf_runs(id),
- kind TEXT NOT NULL CHECK(kind IN ('investigate','approval')),
- status TEXT NOT NULL DEFAULT 'queued' CHECK(status IN ('queued','done','failed')),
- attempts INTEGER NOT NULL DEFAULT 0,
- available_at TIMESTAMPTZ NOT NULL DEFAULT now(),
- last_error TEXT, updated_at TIMESTAMPTZ NOT NULL DEFAULT now());
-CREATE INDEX IF NOT EXISTS rf_jobs_ready ON rf_jobs(status,available_at);
-CREATE TABLE IF NOT EXISTS rf_job_attempts (
- id BIGSERIAL PRIMARY KEY, run_id UUID NOT NULL REFERENCES rf_runs(id),
- kind TEXT NOT NULL, success BOOLEAN NOT NULL, error_type TEXT,
- elapsed_ms INTEGER NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
-CREATE TABLE IF NOT EXISTS rf_worker_heartbeats (
- worker_id TEXT PRIMARY KEY, seen_at TIMESTAMPTZ NOT NULL DEFAULT now());
-CREATE TABLE IF NOT EXISTS rf_audit (
- id BIGSERIAL PRIMARY KEY, run_id UUID REFERENCES rf_runs(id),
- actor TEXT NOT NULL, action TEXT NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
-ALTER TABLE rf_runs ADD COLUMN IF NOT EXISTS created_by TEXT NOT NULL DEFAULT 'operator';
-"""
-
-def setup(store):
-    with store.connect() as c:
-        c.execute(QUEUE_SCHEMA)
 
 def enqueue(store, run_id, ticket, order_id, mode, model, actor):
     with store.connect() as c:

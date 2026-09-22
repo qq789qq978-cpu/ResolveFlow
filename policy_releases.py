@@ -20,21 +20,6 @@ ACTION_CLAUSES = {
 # modified refund implementation. A new rule needs a reviewed code deployment.
 RULE_BINDING = {'version': 'refund-v2',
                 'sha256': '060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5'}
-SCHEMA = """
-CREATE TABLE IF NOT EXISTS rf_policy_releases (
- id TEXT PRIMARY KEY, sha256 TEXT NOT NULL, payload JSONB NOT NULL,
- actor TEXT NOT NULL, reason TEXT NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
-CREATE TABLE IF NOT EXISTS rf_policy_head (
- singleton BOOLEAN PRIMARY KEY DEFAULT TRUE CHECK(singleton),
- release_id TEXT REFERENCES rf_policy_releases(id), generation BIGINT NOT NULL DEFAULT 0);
-INSERT INTO rf_policy_head(singleton) VALUES(TRUE) ON CONFLICT DO NOTHING;
-CREATE TABLE IF NOT EXISTS rf_policy_reviews (
- document_sha256 TEXT PRIMARY KEY, governance JSONB NOT NULL);
-CREATE TABLE IF NOT EXISTS rf_policy_events (
- id BIGSERIAL PRIMARY KEY, action TEXT NOT NULL, previous_release TEXT,
- target_release TEXT, generation BIGINT NOT NULL, actor TEXT NOT NULL,
- reason TEXT NOT NULL, details JSONB NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
-"""
 
 
 def digest(value):

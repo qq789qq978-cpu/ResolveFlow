@@ -42,11 +42,14 @@ SEMANTIC_WEIGHT=0.25
 
 ```powershell
 docker compose build
+docker compose up -d --wait db
+docker compose exec -T db psql -U resolveflow -d resolveflow -c 'CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public;'
+# 旧无版本库先按MIGRATIONS.md停服务、备份并adopt；已版本化库会自动prepare。
 docker compose up -d --wait --wait-timeout 180
 docker compose exec -T resolveflow python scripts/build_vector_index.py --report /tmp/vector-build-001.json
 ```
 
-新库由API初始化政策发布，随后运行显式向量构建；构建前hybrid回退BM25。报告文件须不存在。维护窗口内等待批次完成，再恢复业务访问。API知识库查询的`retrieval.used=hybrid`说明本次确实走混合检索，仅容器healthy不足以证明索引有效。
+3.2起由一次性migrate任务创建向量表，且仅全新demo库初始化演示政策发布；API/Worker与向量构建不再建表或安装扩展。随后运行显式向量构建，构建前hybrid回退BM25。live新库须自行完成真实数据导入/审核发布。报告文件须不存在。维护窗口内等待批次完成，再恢复业务访问。API知识库查询的`retrieval.used=hybrid`说明实际使用混合检索，仅healthy不足以证明索引有效。迁移命令见[MIGRATIONS.md](MIGRATIONS.md)。
 
 发布新的政策内容后重新执行向量构建，使用新的报告名。索引缺失时继续安全回退；不会在请求路径中自动下载模型或偷偷编码全库。治理状态变化实时过滤；全部政策可用才允许重新构建完整批次。撤销/过期不会自动删除历史批次；以后做数据运维时再设计清理策略。
 

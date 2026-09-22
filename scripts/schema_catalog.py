@@ -27,43 +27,51 @@ def snapshot(dsn, schema='public'):
         c.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY')
         c.execute('SET LOCAL statement_timeout = 10000')
         c.execute(sql.SQL('SET LOCAL search_path TO {}').format(sql.Identifier(schema)))
-        def rows(query, params=()):
-            return [list(r) for r in c.execute(query, params).fetchall()]
-        def normalize(value):
-            if isinstance(value, str):
-                return value.replace('"'+schema+'".', '').replace(schema+'.', '').replace('public.vector', 'vector')
-            if isinstance(value, list):
-                return [normalize(v) for v in value]
-            return value
-        names = [r[0] for r in rows("SELECT tablename FROM pg_tables WHERE schemaname=%s ORDER BY tablename", (schema,))]
-        tables = {}
-        for name in names:
-            rel = c.execute('SELECT to_regclass(%s)::oid', (f'{schema}.{name}',)).fetchone()[0]
-            tables[name] = {
-                'columns': normalize(rows("""SELECT a.attname,format_type(a.atttypid,a.atttypmod),
-                    a.attnotnull,pg_get_expr(d.adbin,d.adrelid),a.attidentity,a.attgenerated
-                    FROM pg_attribute a LEFT JOIN pg_attrdef d ON d.adrelid=a.attrelid AND d.adnum=a.attnum
-                    WHERE a.attrelid=%s AND a.attnum>0 AND NOT a.attisdropped ORDER BY a.attnum""", (rel,))),
-                'constraints': normalize(rows('SELECT conname,pg_get_constraintdef(oid) FROM pg_constraint WHERE conrelid=%s ORDER BY conname', (rel,))),
-                'indexes': normalize(rows('SELECT indexname,indexdef FROM pg_indexes WHERE schemaname=%s AND tablename=%s ORDER BY indexname', (schema,name))),
-                'triggers': normalize(rows('SELECT tgname,pg_get_triggerdef(oid) FROM pg_trigger WHERE tgrelid=%s AND NOT tgisinternal ORDER BY tgname', (rel,))),
-                'row_security': rows('SELECT relrowsecurity,relforcerowsecurity FROM pg_class WHERE oid=%s', (rel,))[0],
-            }
-        sequences = normalize(rows("""SELECT s.relname,t.relname,a.attname,format_type(q.seqtypid,NULL),
-            q.seqstart,q.seqincrement,q.seqmax,q.seqmin,q.seqcache,q.seqcycle
-            FROM pg_class s JOIN pg_namespace n ON n.oid=s.relnamespace JOIN pg_sequence q ON q.seqrelid=s.oid
-            LEFT JOIN pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.deptype IN ('a','i')
-            LEFT JOIN pg_class t ON t.oid=d.refobjid
-            LEFT JOIN pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid
-            WHERE n.nspname=%s ORDER BY s.relname""", (schema,)))
-        return {
-            'tables': tables, 'sequences': sequences,
-            'application_tables': sorted(set(names) & set(CORE+VECTOR)),
-            'langgraph_tables': sorted(set(names) & set(CHECKPOINT)),
-            'unknown_tables': sorted(set(names)-set(CORE+VECTOR+CHECKPOINT+(VERSION_TABLE,))),
-            'revisions': [r[0] for r in rows('SELECT version_num FROM rf_schema_version ORDER BY version_num')] if VERSION_TABLE in names else [],
-            'extensions': rows('SELECT e.extname,e.extversion,n.nspname FROM pg_extension e JOIN pg_namespace n ON n.oid=e.extnamespace ORDER BY e.extname'),
+        return read_catalog(c, schema)
+
+
+def read_catalog(c, schema):
+    """Read within a caller-owned transaction (also used under migration locks)."""
+    if not re.fullmatch(r'[a-z][a-z0-9_]{0,62}', schema):
+        raise ValueError('Invalid schema name')
+    c.execute(sql.SQL('SET LOCAL search_path TO {}').format(sql.Identifier(schema)))
+    def rows(query, params=()):
+        return [list(r) for r in c.execute(query, params).fetchall()]
+    def normalize(value):
+        if isinstance(value, str):
+            return value.replace('"'+schema+'".', '').replace(schema+'.', '').replace('public.vector', 'vector')
+        if isinstance(value, list):
+            return [normalize(v) for v in value]
+        return value
+    names = [r[0] for r in rows("SELECT tablename FROM pg_tables WHERE schemaname=%s ORDER BY tablename", (schema,))]
+    tables = {}
+    for name in names:
+        rel = c.execute('SELECT to_regclass(%s)::oid', (f'{schema}.{name}',)).fetchone()[0]
+        tables[name] = {
+            'columns': normalize(rows("""SELECT a.attname,format_type(a.atttypid,a.atttypmod),
+                a.attnotnull,pg_get_expr(d.adbin,d.adrelid),a.attidentity,a.attgenerated
+                FROM pg_attribute a LEFT JOIN pg_attrdef d ON d.adrelid=a.attrelid AND d.adnum=a.attnum
+                WHERE a.attrelid=%s AND a.attnum>0 AND NOT a.attisdropped ORDER BY a.attnum""", (rel,))),
+            'constraints': normalize(rows('SELECT conname,pg_get_constraintdef(oid) FROM pg_constraint WHERE conrelid=%s ORDER BY conname', (rel,))),
+            'indexes': normalize(rows('SELECT indexname,indexdef FROM pg_indexes WHERE schemaname=%s AND tablename=%s ORDER BY indexname', (schema,name))),
+            'triggers': normalize(rows('SELECT tgname,pg_get_triggerdef(oid) FROM pg_trigger WHERE tgrelid=%s AND NOT tgisinternal ORDER BY tgname', (rel,))),
+            'row_security': rows('SELECT relrowsecurity,relforcerowsecurity FROM pg_class WHERE oid=%s', (rel,))[0],
         }
+    sequences = normalize(rows("""SELECT s.relname,t.relname,a.attname,format_type(q.seqtypid,NULL),
+        q.seqstart,q.seqincrement,q.seqmax,q.seqmin,q.seqcache,q.seqcycle
+        FROM pg_class s JOIN pg_namespace n ON n.oid=s.relnamespace JOIN pg_sequence q ON q.seqrelid=s.oid
+        LEFT JOIN pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.deptype IN ('a','i')
+        LEFT JOIN pg_class t ON t.oid=d.refobjid
+        LEFT JOIN pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid
+        WHERE n.nspname=%s ORDER BY s.relname""", (schema,)))
+    return {
+        'tables': tables, 'sequences': sequences,
+        'application_tables': sorted(set(names) & set(CORE+VECTOR)),
+        'langgraph_tables': sorted(set(names) & set(CHECKPOINT)),
+        'unknown_tables': sorted(set(names)-set(CORE+VECTOR+CHECKPOINT+(VERSION_TABLE,))),
+        'revisions': [r[0] for r in rows('SELECT version_num FROM rf_schema_version ORDER BY version_num')] if VERSION_TABLE in names else [],
+        'extensions': rows('SELECT e.extname,e.extversion,n.nspname FROM pg_extension e JOIN pg_namespace n ON n.oid=e.extnamespace ORDER BY e.extname'),
+    }
 
 
 def application(catalog, profile):

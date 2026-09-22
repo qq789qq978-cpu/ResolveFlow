@@ -18,6 +18,10 @@ def command(module, args):
     return [sys.executable,'-m',module,*args]
 
 def main():
+    from dotenv import load_dotenv
+    from database_state import require_ready
+    load_dotenv(ROOT/'.env', override=False, encoding='utf-8-sig')
+    require_ready(os.environ['DATABASE_URL'])
     children=[]
     try:
         children.append(subprocess.Popen(command('uvicorn',['operations:app','--host','127.0.0.1','--port','8003','--workers','1']),cwd=ROOT))

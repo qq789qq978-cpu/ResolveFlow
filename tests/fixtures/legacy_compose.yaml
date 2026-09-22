@@ -1,3 +1,4 @@
+# Frozen pre-migration Compose fixture (dc7648c), image configurable for QA.
 services:
   db:
     image: ${POSTGRES_IMAGE:-postgres:17}
@@ -15,7 +16,7 @@ services:
     restart: unless-stopped
   resolveflow:
     build: .
-    image: ${RESOLVEFLOW_IMAGE:-resolveflow:local}
+    image: ${LEGACY_IMAGE:?Set LEGACY_IMAGE}
     ports:
       - "127.0.0.1:${APP_PORT:-8003}:8000"
     environment: &application-env
@@ -35,27 +36,11 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      migrate:
-        condition: service_completed_successfully
     volumes:
       - agent-data:/data
     restart: unless-stopped
-  migrate:
-    image: ${RESOLVEFLOW_IMAGE:-resolveflow:local}
-    build: .
-    command: ["python", "db_migrate.py", "prepare"]
-    environment:
-      DATABASE_URL: postgresql://resolveflow:${POSTGRES_PASSWORD}@db:5432/resolveflow
-      MODE: ${MODE:-live}
-      RETRIEVAL_MODE: ${RETRIEVAL_MODE:-bm25}
-    depends_on:
-      db:
-        condition: service_healthy
-    healthcheck:
-      disable: true
-    restart: "no"
   worker:
-    image: ${RESOLVEFLOW_IMAGE:-resolveflow:local}
+    image: ${LEGACY_IMAGE:?Set LEGACY_IMAGE}
     build: .
     command: ["python", "worker.py"]
     environment: *application-env

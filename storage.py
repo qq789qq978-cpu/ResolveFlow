@@ -5,26 +5,6 @@ import psycopg
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
-SCHEMA = """
-CREATE TABLE IF NOT EXISTS rf_orders (
- id TEXT PRIMARY KEY, owner TEXT NOT NULL, amount INTEGER NOT NULL CHECK(amount > 0),
- days INTEGER NOT NULL CHECK(days >= 0), used BOOLEAN NOT NULL, status TEXT NOT NULL);
-CREATE TABLE IF NOT EXISTS rf_runs (
- id UUID PRIMARY KEY, ticket TEXT NOT NULL, order_id TEXT NOT NULL,
- status TEXT NOT NULL DEFAULT 'running', mode TEXT NOT NULL, model TEXT,
- state JSONB, error TEXT, elapsed_ms INTEGER,
- created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now());
-CREATE INDEX IF NOT EXISTS rf_runs_status_created ON rf_runs(status, created_at DESC);
-CREATE TABLE IF NOT EXISTS rf_approvals (
- run_id UUID PRIMARY KEY REFERENCES rf_runs(id), approved BOOLEAN NOT NULL,
- actor TEXT NOT NULL, reason TEXT NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
-CREATE TABLE IF NOT EXISTS rf_refunds (
- order_id TEXT PRIMARY KEY REFERENCES rf_orders(id), run_id UUID NOT NULL REFERENCES rf_runs(id),
- amount INTEGER NOT NULL CHECK(amount > 0), created_at TIMESTAMPTZ NOT NULL DEFAULT now());
-CREATE TABLE IF NOT EXISTS rf_reviews (
- run_id UUID PRIMARY KEY REFERENCES rf_runs(id), actor TEXT NOT NULL,
- resolution TEXT NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now());
-"""
 
 class Store:
     def __init__(self, url):
@@ -36,17 +16,9 @@ class Store:
             yield connection
 
     def setup(self):
-        from support_data import ORDERS
-        from rag import sync_index
-        with self.connect() as c:
-            c.execute(SCHEMA)
-            for order in ORDERS.values():
-                c.execute("INSERT INTO rf_orders VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING", tuple(order[k] for k in ('id','owner','amount','days','used','status')))
-            seeded = sync_index(c, only_if_empty=True)
-            if seeded['seeded']:
-                from policy_releases import activate, prepare
-                activate(c, payload=prepare(), expected_generation=0, actor='demo-bootstrap',
-                         reason='Initial bundled policy release for a new empty database', mode='demo')
+        """Compatibility entry point: readiness only, never DDL or data seeding."""
+        from database_state import require_ready
+        require_ready(self.url)
 
     def order(self, order_id, owner):
         with self.connect() as c:

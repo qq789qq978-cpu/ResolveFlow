@@ -4,7 +4,9 @@
 
 第一阶段历史交付（2026-09-21）：1.1–1.10收口，[1.10报告](validation/step-1.10-2026-09-21/REPORT.md) 汇总阶段回归、CI入口、交付核验方式与已知边界。12项前端、42项基础、14项PG集成、两组12条合成评测、三条API业务流、14表重建持久化及五类真实故障场景均复验。该阶段提交 e15ea5355d95384b76ac22715fa7c8d1fa82328e 已推送，对应 [Actions运行](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35577421865) 成功。用户要求每次对话一步、阶段末推送，见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
-最新进度：**3.1 数据库迁移框架与结构基线完成**，见 [报告](validation/step-3.1-2026-09-22/REPORT.md) 与 [迁移说明](MIGRATIONS.md)。Alembic core/vector 独立版本线覆盖15+2张应用表，LangGraph独立维护4张checkpoint表；主库实际共21张表，原19表数据指纹口径排除心跳和checkpoint_migrations。主库只读结构与基线一致，但没有rf_schema_version，未迁移、未stamp、未切换启动DDL。187基础/56PG通过，主环境19表、4服务镜像/启动时间/demo-hybrid配置保持不变。独立QA停止保留卷。本步本地提交，3.9统一推送；下一步3.2未开始。
+最新进度：**3.2 空库新装与旧库保留数据升级完成**，见 [报告](validation/step-3.2-2026-09-22/REPORT.md) 与 [迁移说明](MIGRATIONS.md)。API/Worker/导入/向量构建不再执行PostgreSQL DDL，由独立migrate任务准备；runtime只读检查版本。187基础/68PG通过；真实旧容器产生工单后接管、18张非心跳表保留、容器重建及旧待审批批准恢复通过。主库备份在独立库恢复并验证20表不变，再在8003维护窗口显式adopt；主库现在22张表，版本rf_vector_0001，原20张非心跳表（含checkpoint_migrations）保持一致，7条向量保留。API/Worker更新为resolveflow:step32，resolveflow:local指向同镜像；DB/encoder镜像与启动时间不变。4常驻服务healthy，migrate正常Exited (0)，demo/hybrid配置不变；未在主库新增测试工单。QA停止保留卷，无付费模型调用。本步本地提交，3.9统一推送；下一步3.3未开始。
+
+升级前私有备份在忽略目录work/step32-main：before-adoption.dump（用于隔离恢复验证）、pre-deploy.dump（停API/Worker后的备份）；摘要在本步报告中。旧镜像保留resolveflow:pre-step32。它们是本次升级保障，不代表3.4备份机制或3.5完整恢复演练已完成。便携PG和历史QA库未自动接管；旧无版本库运行新版时须先显式adopt。
 
 2.12第二阶段已完成推送：最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，181基础/47PG/17前端及5类故障198项断言通过。先前失败由QA把Worker多网卡地址误当成多个Worker造成，已修复并加入5项测试。阶段报告见 [2.12](validation/step-2.12-2026-09-22/REPORT.md)，本机同SHA与附件核验回执在忽略的work/step212。此成功记录不代表3.1新提交的远程CI。
 

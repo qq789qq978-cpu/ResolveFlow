@@ -18,18 +18,6 @@ from policy_governance import availability, read_manifest, utcnow
 
 KNOWLEDGE = Path(__file__).parent / 'knowledge'
 STOP_WORDS = {'申请','请问','如何','怎么','是否','可以','需要','处理','问题','进行','什么','the','a','an','is','to'}
-SCHEMA = """
-CREATE TABLE IF NOT EXISTS rf_knowledge_documents (
- id TEXT PRIMARY KEY, title TEXT NOT NULL, source TEXT NOT NULL,
- version TEXT NOT NULL, sha256 TEXT NOT NULL, body TEXT NOT NULL);
-CREATE TABLE IF NOT EXISTS rf_knowledge_chunks (
- chunk_id TEXT PRIMARY KEY,
- document_id TEXT NOT NULL REFERENCES rf_knowledge_documents(id) ON DELETE CASCADE,
- position INTEGER NOT NULL, text TEXT NOT NULL,
- line_start INTEGER NOT NULL, line_end INTEGER NOT NULL);
-CREATE INDEX IF NOT EXISTS rf_chunks_document ON rf_knowledge_chunks(document_id);
-ALTER TABLE rf_knowledge_documents ADD COLUMN IF NOT EXISTS governance JSONB NOT NULL DEFAULT '{}';
-"""
 
 def tokens(text):
     text = unicodedata.normalize('NFKC', text).lower()
@@ -115,10 +103,8 @@ def read_documents(directory=KNOWLEDGE):
     return documents, chunks
 
 def sync_index(connection, directory=KNOWLEDGE, *, only_if_empty=False):
-    from policy_releases import SCHEMA as RELEASE_SCHEMA, invalidate
+    from policy_releases import invalidate
     documents, chunks = read_documents(directory)  # validate before any mutation
-    connection.execute(SCHEMA)
-    connection.execute(RELEASE_SCHEMA)
     # Schema-local relation lock serializes bootstrap/reindex, including two
     # services starting together. One transaction exposes a complete index.
     connection.execute('LOCK TABLE rf_knowledge_documents IN EXCLUSIVE MODE')

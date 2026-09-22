@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-最新完成 **3.1：数据库迁移框架与基线**，见 [迁移说明](MIGRATIONS.md) 和 [验证报告](validation/step-3.1-2026-09-22/REPORT.md)。Alembic 分别管理 15 张基础应用表与 2 张可选向量表，4 张 checkpoint 表继续由 LangGraph 管理。187 项基础、56 项 PostgreSQL 检查通过；主库只读核对相符，未执行迁移或 stamp，8003 仍为原 demo/hybrid 服务。下一步 **3.2：空库新装与旧库保留数据升级**，未开始。本步仅本地提交，3.9 统一推送。
+最新完成 **3.2：空库新装与旧库保留数据升级**，见 [迁移说明](MIGRATIONS.md) 和 [验证报告](validation/step-3.2-2026-09-22/REPORT.md)。数据库准备由一次性迁移任务完成，API/Worker启动只读检查版本。187项基础、68项PostgreSQL检查通过；真实旧容器升级、待审批恢复及主库副本接管通过。本机8003已更新，原20张非心跳表完整保留，主库新增迁移版本表，共22张表。下一步 **3.3：迁移失败、回滚/继续与恢复方案**，未开始。本步仅本地提交，3.9统一推送。
 
 第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF 解析、reranker 仍按条件暂缓。旧 CI 成功和上方徽章均不替代当前未推送提交的 CI 验证。
 
@@ -23,10 +23,12 @@ Copy-Item .env.example .env
 ```powershell
 $env:MODE='demo'
 docker compose up --build -d --wait
-docker compose ps
+docker compose ps -a
 ```
 
-打开 http://127.0.0.1:8003/，输入角色授权码。默认BM25的三个服务应均为 healthy；显式启用semantic profile时还有embedding服务。API 和 Worker 使用 `db:5432` 的容器数据库；Compose 不使用 `.env` 中供本机 Python 使用的 `DATABASE_URL`。
+打开 http://127.0.0.1:8003/，输入角色授权码。默认BM25的DB/API/Worker应均为healthy；额外的一次性migrate任务应为Exited (0)，semantic profile还有embedding服务。Compose先等数据库健康和迁移成功再启动应用。API/Worker使用`db:5432`的容器数据库，不使用.env中供本机Python使用的DATABASE_URL。
+
+**已有3.1以前的数据库**须先备份、停API/Worker并显式接管，不能直接用新版启动覆盖：见 [旧库接管命令](MIGRATIONS.md#已有旧库显式接管)。默认prepare会拒绝无版本旧库或结构漂移；不会删除数据重建。
 
 本机源码在 `D:/AgentProjects/ResolveFlow`，Docker 程序在 `D:/Programs/DockerDesktop`，Docker 数据在 `D:/DockerData`；其他机器无需沿用这些路径。本机 Python/便携 PostgreSQL 运行方式见 [运行说明](ENTERPRISE_V3.md)。
 
@@ -34,6 +36,7 @@ docker compose ps
 
 - demo：真实 PostgreSQL、MCP、文档检索、队列和审批，以规则生成演示建议，不调用生成模型、不消耗 DeepSeek token；hybrid模式会执行本地embedding推理。
 - live：额外调用模型调查和生成建议，需配置有效的 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`MODEL_NAME`。这几个兼容接口变量在本项目中用于 DeepSeek，不是 Codex 登录配置。
+- 3.2起，只有全新demo库会播种演示订单和政策；全新live库不自动植入演示数据，已有库升级也不重新播种。
 - 内置政策审核来源为demo_fixture，live模式不可直接采用；需维护人员完成实际审核、声明来源与有效期并显式导入，见 [政策治理](POLICY_GOVERNANCE.md)。
 - 两种模式都只使用合成订单和模拟退款，不调用真实支付。
 

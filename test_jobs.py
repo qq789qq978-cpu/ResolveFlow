@@ -28,9 +28,12 @@ def system(monkeypatch,tmp_path):
     url=make_conninfo(base,options=f'-c search_path={schema}')
     monkeypatch.setenv('DATABASE_URL',url)
     monkeypatch.setenv('MODE','demo')
+    monkeypatch.setenv('RETRIEVAL_MODE','bm25')
     for name,value in [('APP_API_KEY','test-operator'),('REVIEWER_API_KEY','test-reviewer'),('ADMIN_API_KEY','test-admin')]:monkeypatch.setenv(name,value)
     store=Store(url)
-    store.setup();jobs.setup(store)
+    from db_migrate import migrate
+    migrate(url, demo=True)
+    store.setup()
     engine=Engine(str(tmp_path),'demo',repository=store)
     try:
         with TestClient(create_app()) as client:yield store,engine,client
@@ -224,6 +227,13 @@ def test_existing_index_upgrade_is_idempotent_and_requires_explicit_review_impor
     with store.connect() as conn:
         original = conn.execute('SELECT chunk_id,text FROM rf_knowledge_chunks ORDER BY chunk_id').fetchall()
         conn.execute('ALTER TABLE rf_knowledge_documents DROP COLUMN governance')
+    from database_state import SchemaNotReady
+    with pytest.raises(SchemaNotReady, match='drift'):
+        store.setup()
+    # Startup no longer repairs legacy columns. Restore this test's deliberate
+    # damage explicitly, without re-approving the old policy metadata.
+    with store.connect() as conn:
+        conn.execute("ALTER TABLE rf_knowledge_documents ADD COLUMN governance JSONB NOT NULL DEFAULT '{}'::jsonb")
     store.setup(); store.setup()
     assert retrieve('退款') == []
     with store.connect() as conn:
