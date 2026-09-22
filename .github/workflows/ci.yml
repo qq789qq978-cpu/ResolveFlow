@@ -37,13 +37,13 @@ jobs:
       - name: Frontend delayed-response and reconnect tests
         run: node --test test_frontend.cjs
       - name: Unit and MCP tests (synthetic fixtures)
-        run: env -u DATABASE_URL python -m pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py test_policy_releases.py test_bm25.py test_semantic.py test_reranker_assessment.py test_live_eval_budget.py test_live_rag_evaluation.py test_multi_worker_qa.py -q --junitxml=validation/unit-ci.xml
+        run: env -u DATABASE_URL python -m pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py test_policy_releases.py test_bm25.py test_semantic.py test_reranker_assessment.py test_live_eval_budget.py test_live_rag_evaluation.py test_multi_worker_qa.py test_migrations.py -q --junitxml=validation/unit-ci.xml
       - name: Validate frozen RAG candidate annotations (no quality scoring)
         run: python scripts/validate_rag_dataset.py --report validation/rag-candidates-ci.json
       - name: Frozen RAG baseline (descriptive metrics, not a quality pass)
         run: env -u DATABASE_URL python scripts/evaluate_rag_baseline.py --report validation/rag-baseline-ci.json
       - name: PostgreSQL queue, RBAC and crash recovery
-        run: RUN_PG_TESTS=1 python -m pytest test_jobs.py test_policy_releases_pg.py test_semantic_pg.py -q --junitxml=validation/postgres-ci.xml
+        run: RUN_PG_TESTS=1 python -m pytest test_jobs.py test_policy_releases_pg.py test_semantic_pg.py test_migrations_pg.py -q --junitxml=validation/postgres-ci.xml
       - name: Offline evaluation
         run: python evaluate_v3.py
       - name: Document retrieval evaluation

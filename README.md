@@ -4,7 +4,9 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-第二阶段 **2.1–2.12本地收尾完成**，见 [阶段报告与同提交CI核验条件](validation/step-2.12-2026-09-22/REPORT.md)。181项基础、47项PG、17项前端、7条混合检索Worker流程、4种降级及19表重建/审批恢复通过。现有RAG支持本地E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11真实生成保留集有据引用覆盖16/20，语义正确性仍待人工复核。主环境8003保持demo/hybrid。阶段推送后的交付状态以对应提交CI为准，上方徽章不替代同SHA核验。下一步 **3.1：数据库迁移框架与基线**；PDF解析、reranker仍按条件暂缓。
+最新完成 **3.1：数据库迁移框架与基线**，见 [迁移说明](MIGRATIONS.md) 和 [验证报告](validation/step-3.1-2026-09-22/REPORT.md)。Alembic 分别管理 15 张基础应用表与 2 张可选向量表，4 张 checkpoint 表继续由 LangGraph 管理。187 项基础、56 项 PostgreSQL 检查通过；主库只读核对相符，未执行迁移或 stamp，8003 仍为原 demo/hybrid 服务。下一步 **3.2：空库新装与旧库保留数据升级**，未开始。本步仅本地提交，3.9 统一推送。
+
+第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF 解析、reranker 仍按条件暂缓。旧 CI 成功和上方徽章均不替代当前未推送提交的 CI 验证。
 
 ## Docker 快速启动
 

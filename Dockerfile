@@ -6,6 +6,9 @@ COPY operations.py auth.py jobs.py worker.py worker_health.py engine.py groundin
 COPY knowledge ./knowledge
 COPY semantic.py embedding_contract.py ./
 COPY scripts/build_vector_index.py ./scripts/build_vector_index.py
+COPY alembic.ini ./alembic.ini
+COPY migrations ./migrations
+COPY scripts/schema_catalog.py ./scripts/schema_catalog.py
 COPY skills ./skills
 COPY frontend/dist ./frontend/dist
 RUN useradd --create-home appuser && mkdir /data && chown appuser /data

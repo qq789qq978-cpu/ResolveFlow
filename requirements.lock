@@ -1,3 +1,4 @@
+alembic==1.20.0
 aiosqlite==0.22.1
 annotated-doc==0.0.5
 annotated-types==0.8.0
@@ -77,3 +78,5 @@ uvicorn==0.52.4
 websockets==16.1.1
 xxhash==4.0.1
 zstandard==0.25.0
+Mako==1.4.1
+MarkupSafe==3.0.3

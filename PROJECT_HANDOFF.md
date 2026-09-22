@@ -4,7 +4,9 @@
 
 第一阶段历史交付（2026-09-21）：1.1–1.10收口，[1.10报告](validation/step-1.10-2026-09-21/REPORT.md) 汇总阶段回归、CI入口、交付核验方式与已知边界。12项前端、42项基础、14项PG集成、两组12条合成评测、三条API业务流、14表重建持久化及五类真实故障场景均复验。该阶段提交 e15ea5355d95384b76ac22715fa7c8d1fa82328e 已推送，对应 [Actions运行](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35577421865) 成功。用户要求每次对话一步、阶段末推送，见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
-最新进度：**2.12第二阶段本地回归与文档收尾完成**，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。181项基础、47项PG、17项前端通过，两组12条离线样例通过；独立QA的7条Worker流程、4种检索降级、19表重建及审批resume通过。主环境4服务healthy、demo/hybrid，19表/镜像/启动时间/配置完全不变。QA停止保留卷。本阶段提交统一推送，最终交付须本地HEAD=远程main且同SHA CI成功，原始证据见GitHub Actions；本机回执在忽略的work/step212目录，不在提交后改报告制造新SHA。下一步3.1，未开始。
+最新进度：**3.1 数据库迁移框架与结构基线完成**，见 [报告](validation/step-3.1-2026-09-22/REPORT.md) 与 [迁移说明](MIGRATIONS.md)。Alembic core/vector 独立版本线覆盖15+2张应用表，LangGraph独立维护4张checkpoint表；主库实际共21张表，原19表数据指纹口径排除心跳和checkpoint_migrations。主库只读结构与基线一致，但没有rf_schema_version，未迁移、未stamp、未切换启动DDL。187基础/56PG通过，主环境19表、4服务镜像/启动时间/demo-hybrid配置保持不变。独立QA停止保留卷。本步本地提交，3.9统一推送；下一步3.2未开始。
+
+2.12第二阶段已完成推送：最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，181基础/47PG/17前端及5类故障198项断言通过。先前失败由QA把Worker多网卡地址误当成多个Worker造成，已修复并加入5项测试。阶段报告见 [2.12](validation/step-2.12-2026-09-22/REPORT.md)，本机同SHA与附件核验回执在忽略的work/step212。此成功记录不代表3.1新提交的远程CI。
 
 2.11既有真实DeepSeek评测：80条RAG+12条业务、280次调用、保守费用3.103362元；保留有据引用覆盖16/20、79项引用/摘录匹配。此次2.12不增加付费调用。私有账本和保留逐题输出仍在work/step211/run，演示政策仍不可授权live；语义蕴含与人工复核待办。2.9暂缓reranker，2.10暂缓PDF解析且明确拒绝PDF输入。
 

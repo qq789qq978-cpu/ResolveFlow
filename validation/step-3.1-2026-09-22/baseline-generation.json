@@ -1,0 +1,24 @@
+{
+  "core_without_vector_extension": true,
+  "missing_extension_rejected_atomically": true,
+  "core_tables": 15,
+  "hybrid_tables": 17,
+  "core_revisions": [
+    "rf_core_0001"
+  ],
+  "hybrid_revisions": [
+    "rf_vector_0001"
+  ],
+  "extensions": [
+    [
+      "plpgsql",
+      "1.0",
+      "pg_catalog"
+    ],
+    [
+      "vector",
+      "0.8.6",
+      "public"
+    ]
+  ]
+}

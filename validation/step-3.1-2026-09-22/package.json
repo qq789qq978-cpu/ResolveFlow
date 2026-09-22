@@ -1,0 +1,12 @@
+{
+  "image": "sha256:9ee26abde8146aa354b3d75f96e361914a7bf13d02d1680cdd34dfd7018632df",
+  "tag": "resolveflow:step31-framework",
+  "deployed_to_main": false,
+  "pip_check": "No broken requirements found.",
+  "packaged_offline_vector_sql_sha256": "b00e938bff3258caa97f78301413a98356fb58c57fc4490304280124b94b6ca9",
+  "catalog_cli_help": true,
+  "qa_stopped": true,
+  "qa_volumes_preserved": [
+    "resolveflow-qa-step31_postgres-data"
+  ]
+}
