@@ -10,3 +10,5 @@ models/
 *.zip
 .sites-runtime/
 validation/github-actions-local.json
+backups/
+*.dump

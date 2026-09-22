@@ -1,0 +1,447 @@
+{
+  "passed": true,
+  "backups": [
+    {
+      "private_path": "work/backups/20260922T113146Z-64f530752909",
+      "started_at_utc": "2026-09-22T11:31:46.552741+00:00",
+      "completed_at_utc": "2026-09-22T11:31:50.037610+00:00",
+      "snapshot_observed_at_utc": "2026-09-22T11:31:48.751616+00:00",
+      "archive": {
+        "format": "PostgreSQL custom",
+        "file": "database.dump",
+        "bytes": 79375,
+        "sha256": "e2dd7913ccaa7e64c1c2b752d9614d298efbb2efefe8eafe3f8374bb4d3c92b8",
+        "full_decode_passed": true
+      },
+      "pg_dump_version": "pg_dump (PostgreSQL) 17.11 (Debian 17.11-1.pgdg13+2)",
+      "pg_restore_version": "pg_restore (PostgreSQL) 17.11 (Debian 17.11-1.pgdg13+2)",
+      "database": "resolveflow",
+      "postgres_version": "17.11 (Debian 17.11-1.pgdg13+2)",
+      "application_revisions": [
+        "rf_vector_0001"
+      ],
+      "checkpoint_migrations": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "extensions": [
+        [
+          "plpgsql",
+          "1.0",
+          "pg_catalog"
+        ],
+        [
+          "vector",
+          "0.8.6",
+          "public"
+        ]
+      ],
+      "packages": {
+        "langgraph-checkpoint-postgres": "3.1.2",
+        "psycopg": "3.3.5",
+        "alembic": "1.20.0",
+        "SQLAlchemy": "2.0.52"
+      },
+      "table_count": 22,
+      "tables": {
+        "checkpoint_blobs": {
+          "count": 101,
+          "sha256": "272650fb081ea24e0618012bf23833ebfcd5941609f5035017ca0047d34771ee"
+        },
+        "checkpoint_migrations": {
+          "count": 10,
+          "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+        },
+        "checkpoint_writes": {
+          "count": 192,
+          "sha256": "b292e9a6d65ab81de601c05dabad7e8f4f5e1e106a17443f951d07294102b52d"
+        },
+        "checkpoints": {
+          "count": 43,
+          "sha256": "4f1704630002c5488659302d595434571254a61489ea1a03872767f3f05d6943"
+        },
+        "rf_approvals": {
+          "count": 3,
+          "sha256": "faa757a815b82ab84686b2e6fa7b56039ab29145874b227ab947a757bdf66cd3"
+        },
+        "rf_audit": {
+          "count": 12,
+          "sha256": "702ee622388cf19e64b01febae8cff51fbe413978e8e2fa5d67c384bc305f8bf"
+        },
+        "rf_job_attempts": {
+          "count": 12,
+          "sha256": "4713ee9b6573e8f38ef9bbf80c160c908f95f81a20dea867dff1279949ced152"
+        },
+        "rf_jobs": {
+          "count": 9,
+          "sha256": "2fec1dbccdfdbeb9e521d6c826f9c2e047c16d54c897cfa88ed5e4813ca31c11"
+        },
+        "rf_knowledge_chunks": {
+          "count": 7,
+          "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+        },
+        "rf_knowledge_documents": {
+          "count": 3,
+          "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+        },
+        "rf_orders": {
+          "count": 4,
+          "sha256": "3b626a90d3531b0c5042be1c1529280a50971c04956db3ca383956412e54b9b5"
+        },
+        "rf_policy_events": {
+          "count": 1,
+          "sha256": "82bf70cfecaebfd40aef9811145a3b258cb1b73121b94b06b04afbac1aaf992c"
+        },
+        "rf_policy_head": {
+          "count": 1,
+          "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+        },
+        "rf_policy_releases": {
+          "count": 1,
+          "sha256": "914a6635e3874dd5c25601211dfe7f3d18702a4da7f475406304c1e058a15ab4"
+        },
+        "rf_policy_reviews": {
+          "count": 3,
+          "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+        },
+        "rf_policy_vectors": {
+          "count": 7,
+          "sha256": "66907ce03e72d143dd3f59170f39467e14f0f507fc19793350dc7c4f16b3ad49"
+        },
+        "rf_refunds": {
+          "count": 1,
+          "sha256": "f0cbe2170af4c2850c2e56cff80de607db677c534b475c972796eb4ed7a9df39"
+        },
+        "rf_reviews": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "rf_runs": {
+          "count": 9,
+          "sha256": "9aad2b80c49243f3586f55294e5c5676f00b288a4fc038d36a9d8a801efd239c"
+        },
+        "rf_schema_version": {
+          "count": 1,
+          "sha256": "2ce13ef6c8910e75de647f7e5d1277554815422dd21b3de83d150860d4a4d511"
+        },
+        "rf_vector_batches": {
+          "count": 1,
+          "sha256": "bd0768de79c89ba67e1bd3c6e69569a16c059705ed3237eea47e9bf5379bb938"
+        },
+        "rf_worker_heartbeats": {
+          "count": 8,
+          "sha256": "233aaba538271e9a17f085e02464a346ea5a88577aaf62ba352d28cf99647c70"
+        }
+      },
+      "source_checkout": {
+        "base_commit": "ca14464748f19ff6c7dc0711f0f79c77c3582a34",
+        "dirty": true
+      },
+      "tool_sha256": {
+        "database_backup.py": "15849fb7c0aab57404712bac5bd90e32ce01b01135ee30d1e53c5193f3177b5c",
+        "backup_snapshot.py": "77cb2958902d0d6eaa09ef1e8e8218d9ab8eb56a3e9a5b913bad9d23cbb5597c"
+      },
+      "runtime_source_sha256": {
+        "engine.py": "d5a63b46f1cc9a94613ccbec086f1d6b63d42a0311fd1a689a751127384d281f",
+        "storage.py": "401bf7bb77b6f643e17f10c9e174d96d024e426303d477ba89ea3b21f07bffe5",
+        "db_migrate.py": "ad335ee6335a222941156c209a16ad9b69b0789d6552bd967082ae6cba528ada",
+        "requirements.lock": "83d1ba5ecef737f03075a2bb107bc9621c197c964a0661321e64553895babf84"
+      }
+    },
+    {
+      "private_path": "work/backups/20260922T113706Z-dff0eaa57542",
+      "started_at_utc": "2026-09-22T11:37:06.669909+00:00",
+      "completed_at_utc": "2026-09-22T11:37:10.885229+00:00",
+      "snapshot_observed_at_utc": "2026-09-22T11:37:09.339954+00:00",
+      "archive": {
+        "format": "PostgreSQL custom",
+        "file": "database.dump",
+        "bytes": 79376,
+        "sha256": "ae7bdf5d3e478e55ec8a8644857ce695ec0053ee98ba6e149fd984720bcd6c8f",
+        "full_decode_passed": true
+      },
+      "pg_dump_version": "pg_dump (PostgreSQL) 17.11 (Debian 17.11-1.pgdg13+2)",
+      "pg_restore_version": "pg_restore (PostgreSQL) 17.11 (Debian 17.11-1.pgdg13+2)",
+      "database": "resolveflow",
+      "postgres_version": "17.11 (Debian 17.11-1.pgdg13+2)",
+      "application_revisions": [
+        "rf_vector_0001"
+      ],
+      "checkpoint_migrations": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "extensions": [
+        [
+          "plpgsql",
+          "1.0",
+          "pg_catalog"
+        ],
+        [
+          "vector",
+          "0.8.6",
+          "public"
+        ]
+      ],
+      "packages": {
+        "langgraph-checkpoint-postgres": "3.1.2",
+        "psycopg": "3.3.5",
+        "alembic": "1.20.0",
+        "SQLAlchemy": "2.0.52"
+      },
+      "table_count": 22,
+      "tables": {
+        "checkpoint_blobs": {
+          "count": 101,
+          "sha256": "272650fb081ea24e0618012bf23833ebfcd5941609f5035017ca0047d34771ee"
+        },
+        "checkpoint_migrations": {
+          "count": 10,
+          "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+        },
+        "checkpoint_writes": {
+          "count": 192,
+          "sha256": "b292e9a6d65ab81de601c05dabad7e8f4f5e1e106a17443f951d07294102b52d"
+        },
+        "checkpoints": {
+          "count": 43,
+          "sha256": "4f1704630002c5488659302d595434571254a61489ea1a03872767f3f05d6943"
+        },
+        "rf_approvals": {
+          "count": 3,
+          "sha256": "faa757a815b82ab84686b2e6fa7b56039ab29145874b227ab947a757bdf66cd3"
+        },
+        "rf_audit": {
+          "count": 12,
+          "sha256": "702ee622388cf19e64b01febae8cff51fbe413978e8e2fa5d67c384bc305f8bf"
+        },
+        "rf_job_attempts": {
+          "count": 12,
+          "sha256": "4713ee9b6573e8f38ef9bbf80c160c908f95f81a20dea867dff1279949ced152"
+        },
+        "rf_jobs": {
+          "count": 9,
+          "sha256": "2fec1dbccdfdbeb9e521d6c826f9c2e047c16d54c897cfa88ed5e4813ca31c11"
+        },
+        "rf_knowledge_chunks": {
+          "count": 7,
+          "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+        },
+        "rf_knowledge_documents": {
+          "count": 3,
+          "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+        },
+        "rf_orders": {
+          "count": 4,
+          "sha256": "3b626a90d3531b0c5042be1c1529280a50971c04956db3ca383956412e54b9b5"
+        },
+        "rf_policy_events": {
+          "count": 1,
+          "sha256": "82bf70cfecaebfd40aef9811145a3b258cb1b73121b94b06b04afbac1aaf992c"
+        },
+        "rf_policy_head": {
+          "count": 1,
+          "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+        },
+        "rf_policy_releases": {
+          "count": 1,
+          "sha256": "914a6635e3874dd5c25601211dfe7f3d18702a4da7f475406304c1e058a15ab4"
+        },
+        "rf_policy_reviews": {
+          "count": 3,
+          "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+        },
+        "rf_policy_vectors": {
+          "count": 7,
+          "sha256": "66907ce03e72d143dd3f59170f39467e14f0f507fc19793350dc7c4f16b3ad49"
+        },
+        "rf_refunds": {
+          "count": 1,
+          "sha256": "f0cbe2170af4c2850c2e56cff80de607db677c534b475c972796eb4ed7a9df39"
+        },
+        "rf_reviews": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "rf_runs": {
+          "count": 9,
+          "sha256": "9aad2b80c49243f3586f55294e5c5676f00b288a4fc038d36a9d8a801efd239c"
+        },
+        "rf_schema_version": {
+          "count": 1,
+          "sha256": "2ce13ef6c8910e75de647f7e5d1277554815422dd21b3de83d150860d4a4d511"
+        },
+        "rf_vector_batches": {
+          "count": 1,
+          "sha256": "bd0768de79c89ba67e1bd3c6e69569a16c059705ed3237eea47e9bf5379bb938"
+        },
+        "rf_worker_heartbeats": {
+          "count": 8,
+          "sha256": "3f1165dbb5f5fa27e5d0bbbc3e17207f8a71af5654b55f88c040fb799d14a127"
+        }
+      },
+      "source_checkout": {
+        "base_commit": "ca14464748f19ff6c7dc0711f0f79c77c3582a34",
+        "dirty": true
+      },
+      "tool_sha256": {
+        "database_backup.py": "15849fb7c0aab57404712bac5bd90e32ce01b01135ee30d1e53c5193f3177b5c",
+        "backup_snapshot.py": "77cb2958902d0d6eaa09ef1e8e8218d9ab8eb56a3e9a5b913bad9d23cbb5597c"
+      },
+      "runtime_source_sha256": {
+        "engine.py": "d5a63b46f1cc9a94613ccbec086f1d6b63d42a0311fd1a689a751127384d281f",
+        "storage.py": "401bf7bb77b6f643e17f10c9e174d96d024e426303d477ba89ea3b21f07bffe5",
+        "db_migrate.py": "ad335ee6335a222941156c209a16ad9b69b0789d6552bd967082ae6cba528ada",
+        "requirements.lock": "83d1ba5ecef737f03075a2bb107bc9621c197c964a0661321e64553895babf84"
+      }
+    }
+  ],
+  "two_backups_nonheartbeat_tables_equal": true,
+  "equal_table_count_including_application_version": 21,
+  "corrupt_real_archive_copy_refused": true,
+  "missing_project_left_only_failed_partial": true,
+  "preserved_original_nonheartbeat_tables": 20,
+  "historical_fingerprints": {
+    "checkpoint_blobs": {
+      "count": 101,
+      "sha256": "7e5576fc021563f80cfad93b5061d9b0ebde6e104f78ac0e03a38d7c7c8f2654"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "sha256": "6bd31f9bfde196c60b82960c4cf588eb94584d1f55b53d774af73e9c0a851870"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "sha256": "e6e63227b1da7a58fa74863e5fe9c09589923b89fd12e6ab93f79517c1606aca"
+    },
+    "checkpoints": {
+      "count": 43,
+      "sha256": "9d9dce4cf984cd9000410d53331fbe5fae3fede4325638f4d962eafa01bfd2be"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "d5b52d3cfd52d0995dd5ad9064bfd00194a521c0044d328f6b63427b562b97c8"
+    },
+    "rf_audit": {
+      "count": 12,
+      "sha256": "08c0c1cf4330e3236617a8bfeb9fd00e06e64786289932935294504181a53503"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "sha256": "f7f0bc4bc73df13547955c9251585fe05127f79a75374552d0dcc8ccd1093796"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "sha256": "fba0986207ac89e38f6eb0b7be2266d3e342c5c6969a43bbc2db05772e7a67d5"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_policy_events": {
+      "count": 1,
+      "sha256": "6cf1f3a9b22ca00683d09d5c33af1cd0f903cbdae838980ad8cf1b5a8340dce9"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "sha256": "0de6f2749f1f207268f6071a8ce4eb175d175f0d2d9419e4e73ffbbf002cbc15"
+    },
+    "rf_policy_releases": {
+      "count": 1,
+      "sha256": "0ab4139dbea55378173a6f0c34d40945ad2032a2e3e663ff56d9c53f125076ea"
+    },
+    "rf_policy_reviews": {
+      "count": 3,
+      "sha256": "1ec45803b868ffa8b619cb25a9c643cebcbf1cf87a4764b212f7d349a2a9c1e0"
+    },
+    "rf_policy_vectors": {
+      "count": 7,
+      "sha256": "a80efbce98b6790be3431636876dfdf0b25018d8781730440b9cc38e09966607"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "48f921b055a6e53191ec31a36380de6d240ab2d5ec7f07ddc9196c0b4d6f8c47"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_runs": {
+      "count": 9,
+      "sha256": "94439c1d69e96bed3df62209f3847161a208576d082aae1b2267b24a0fde1eb4"
+    },
+    "rf_vector_batches": {
+      "count": 1,
+      "sha256": "009d7bddc666f96834b09dfbec402e722b192d88dd27d4554778503f1359b483"
+    }
+  },
+  "main_schema_unchanged": true,
+  "runtime": {
+    "db": {
+      "id": "c7ab8ba59fcfe899128e9197b7d9a1fc62e26aa2a2b420e4dbd2580eff24cfe7",
+      "image": "sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6",
+      "health": "healthy",
+      "started_at": "2026-09-22T08:25:42.471811505Z"
+    },
+    "resolveflow": {
+      "id": "c9c5230cb5907061389663cd75e237612da87c34d242804deec599dab543caab",
+      "image": "sha256:5220f7560290cc7cf85e9172d1733c9140dc3ac6df5883078a3a96a040d1fcc0",
+      "health": "healthy",
+      "started_at": "2026-09-22T11:20:59.237253045Z"
+    },
+    "worker": {
+      "id": "993a5edad00ec01cb605345973868a49ae3e231c1c7a4ca77f2bc182b42c1815",
+      "image": "sha256:5220f7560290cc7cf85e9172d1733c9140dc3ac6df5883078a3a96a040d1fcc0",
+      "health": "healthy",
+      "started_at": "2026-09-22T11:21:30.06559422Z"
+    },
+    "embedding": {
+      "id": "fb32bd28e5b9d2f80e9d88ff50e6f25f277a48880137750e8164986003c741c4",
+      "image": "sha256:6889b83d5748525639d336a4f526f5183e77e640cb6cc33c1a7221420cca77b9",
+      "health": "healthy",
+      "started_at": "2026-09-22T08:25:42.69883739Z"
+    }
+  },
+  "main_business_writes": 0,
+  "main_services_restarted": false,
+  "paid_model_calls": 0,
+  "restore_executed": false,
+  "tests": {
+    "unit-step34.xml": {
+      "tests": 206,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "postgres-step34.xml": {
+      "tests": 104,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    }
+  }
+}
