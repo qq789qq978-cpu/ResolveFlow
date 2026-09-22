@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-最新完成 **3.2：空库新装与旧库保留数据升级**，见 [迁移说明](MIGRATIONS.md) 和 [验证报告](validation/step-3.2-2026-09-22/REPORT.md)。数据库准备由一次性迁移任务完成，API/Worker启动只读检查版本。187项基础、68项PostgreSQL检查通过；真实旧容器升级、待审批恢复及主库副本接管通过。本机8003已更新，原20张非心跳表完整保留，主库新增迁移版本表，共22张表。下一步 **3.3：迁移失败、回滚/继续与恢复方案**，未开始。本步仅本地提交，3.9统一推送。
+最新完成 **3.3：迁移失败、回滚/继续与恢复方案**，见 [恢复手册](MIGRATION_RECOVERY.md) 和 [验证报告](validation/step-3.3-2026-09-22/REPORT.md)。已验证事务失败回滚、真实进程强杀、LangGraph受校验续跑、无效索引修复、空demo显式补齐及不可逆模拟恢复。187项基础、98项不同PostgreSQL检查通过（含30项恢复专项）。本机8003已更新，原20张非心跳表和7条向量保留，结构与版本不变，共22张表。下一步 **3.4：备份脚本、版本时间和校验信息**，未开始。本步仅本地提交，3.9统一推送。
 
 第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF 解析、reranker 仍按条件暂缓。旧 CI 成功和上方徽章均不替代当前未推送提交的 CI 验证。
 

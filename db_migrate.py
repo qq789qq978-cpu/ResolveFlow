@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import re
+from contextlib import contextmanager
 
 from alembic import command
 from alembic.config import Config
@@ -22,24 +23,27 @@ from scripts.schema_catalog import CORE, VECTOR, CHECKPOINT, VERSION_TABLE, diff
 ROOT = Path(__file__).resolve().parent
 
 
-def seed_demo(dsn):
-    """Explicit deployment bootstrap; never replace an existing policy bundle."""
+def _write_demo(c):
     from support_data import ORDERS
     from rag import sync_index
     from policy_releases import activate, prepare
+    for order in ORDERS.values():
+        c.execute('INSERT INTO rf_orders VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING',
+                  tuple(order[k] for k in ('id','owner','amount','days','used','status')))
+    seeded = sync_index(c, only_if_empty=True)
+    if seeded['seeded']:
+        activate(c, payload=prepare(), expected_generation=0, actor='demo-bootstrap',
+                 reason='Initial bundled policy release for a new empty database', mode='demo')
+
+
+def seed_demo(dsn):
+    """Fresh install only. All demo orders, policy and release commit together."""
     with psycopg.connect(dsn, row_factory=dict_row) as c:
-        for order in ORDERS.values():
-            c.execute('INSERT INTO rf_orders VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING',
-                      tuple(order[k] for k in ('id','owner','amount','days','used','status')))
-        seeded = sync_index(c, only_if_empty=True)
-        if seeded['seeded']:
-            activate(c, payload=prepare(), expected_generation=0, actor='demo-bootstrap',
-                     reason='Initial bundled policy release for a new empty database', mode='demo')
+        _write_demo(c)
 
 
-def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
-    if profile not in ('core','hybrid'):
-        raise ValueError('Unknown schema profile')
+@contextmanager
+def migration_session(dsn, schema=None):
     # One session lock covers Alembic, the library's autocommit migrations and
     # demo bootstrap. Use this runner for deployment, not raw Alembic commands.
     with psycopg.connect(dsn, autocommit=True, connect_timeout=5) as guard:
@@ -50,10 +54,51 @@ def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
         acquired = guard.execute('SELECT pg_try_advisory_lock(hashtextextended(%s,0))', (lock_key,)).fetchone()[0]
         if not acquired:
             raise SchemaNotReady('Another migration is running; retry after it finishes')
-        scoped = make_conninfo(dsn, options=f'-c search_path={schema}')
+        try:
+            yield make_conninfo(dsn, options=f'-c search_path={schema}'), schema
+        finally:
+            guard.execute('SELECT pg_advisory_unlock(hashtextextended(%s,0))', (lock_key,))
+
+
+def bootstrap_empty_demo(dsn, *, demo=False, schema=None, profile=None):
+    """Explicit recovery after a fresh demo install stopped before seeding.
+
+    No attempt is made to infer an existing database's original mode or intent.
+    """
+    if not demo:
+        raise SchemaNotReady('bootstrap-demo requires MODE=demo')
+    with migration_session(dsn, schema) as (scoped, schema):
+        require_ready(scoped, profile)
+        with psycopg.connect(scoped) as c:
+            c.execute('SET LOCAL lock_timeout=5000')
+            cat = read_catalog(c, schema)
+            names = sorted(cat['application_tables']+cat['langgraph_tables'])
+            for name in names:
+                c.execute(sql.SQL('LOCK TABLE {} IN ACCESS EXCLUSIVE MODE').format(sql.Identifier(name)))
+            check_application(read_catalog(c, schema), 'core')
+            from checkpoint_state import checkpoint_status
+            checkpoint_status(c)
+            for name in names:
+                if name == 'checkpoint_migrations':
+                    continue
+                if name == 'rf_policy_head':
+                    if c.execute('SELECT singleton,release_id,generation FROM rf_policy_head').fetchall() != [(True,None,0)]:
+                        raise SchemaNotReady('Demo bootstrap requires untouched empty policy state')
+                elif c.execute(sql.SQL('SELECT EXISTS(SELECT 1 FROM {})').format(sql.Identifier(name))).fetchone()[0]:
+                    raise SchemaNotReady('Demo bootstrap refuses nonempty data; use check instead of reseeding')
+            c.row_factory = dict_row
+            _write_demo(c)
+        return {**require_ready(scoped, profile), 'action':'demo_bootstrapped', 'demo_seeded':True}
+
+
+def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
+    if profile not in ('core','hybrid'):
+        raise ValueError('Unknown schema profile')
+    with migration_session(dsn, schema) as (scoped, schema):
         engine = create_engine('postgresql+psycopg://', poolclass=NullPool,
                                creator=lambda: psycopg.connect(scoped, connect_timeout=5), hide_parameters=True)
         action = 'unchanged'
+        phase = 'application_transaction'
         try:
             with engine.begin() as connection:
                 raw = connection.connection.driver_connection
@@ -84,14 +129,8 @@ def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
                     check_application(cat, 'core')
                 elif cat['unknown_tables']:
                     raise SchemaNotReady('Unexpected tables in target schema')
-                # Refuse newer/partial LangGraph histories before application DDL.
-                present = set(cat['langgraph_tables'])
-                if present and present != set(CHECKPOINT):
-                    raise SchemaNotReady('Partial LangGraph schema requires manual recovery')
-                if present:
-                    versions = [r[0] for r in raw.execute('SELECT v FROM checkpoint_migrations ORDER BY v')]
-                    if versions != list(range(len(versions))) or len(versions) > len(PostgresSaver.MIGRATIONS):
-                        raise SchemaNotReady('Unsupported LangGraph migration history')
+                from checkpoint_state import checkpoint_status
+                checkpoint_status(raw, allow_partial=True, catalog=cat)
                 cfg = Config(str(ROOT/'alembic.ini'))
                 cfg.attributes.update(connection=connection, schema=schema)
                 target = 'vector@head' if profile == 'hybrid' else 'core@head'
@@ -103,39 +142,52 @@ def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
                     action += '+vector'
             # PostgresSaver owns its DDL, including concurrent indexes, so it
             # must use its own autocommit connection after the app transaction.
+            phase = 'checkpoint_setup'
             with PostgresSaver.from_conn_string(scoped) as saver:
                 saver.setup()
             # Existing/adopted data must never be implicitly reseeded on upgrade.
             if demo and action == 'installed':
+                phase = 'demo_seed'
                 seed_demo(scoped)
+            phase = 'readiness'
             result = require_ready(scoped, profile)
             return {**result, 'action':action, 'demo_seeded':bool(demo and action == 'installed')}
+        except Exception as error:
+            error.migration_phase = phase
+            raise
         finally:
             engine.dispose()
-            guard.execute('SELECT pg_advisory_unlock(hashtextextended(%s,0))', (lock_key,))
 
 
 def main():
     from dotenv import load_dotenv
     load_dotenv(ROOT/'.env', override=False, encoding='utf-8-sig')
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['prepare','adopt','check'])
+    parser.add_argument('action', choices=['prepare','adopt','check','bootstrap-demo'])
     parser.add_argument('--profile', choices=['core','hybrid'],
                         default='hybrid' if os.getenv('RETRIEVAL_MODE') == 'hybrid' else 'core')
     args = parser.parse_args()
+    entry_phase = 'demo_recovery' if args.action == 'bootstrap-demo' else 'preflight'
     try:
         dsn = os.environ['DATABASE_URL']
-        result = require_ready(dsn, args.profile) if args.action == 'check' else migrate(
-            dsn, profile=args.profile, adopt=args.action == 'adopt', demo=os.getenv('MODE') == 'demo',
-            schema=os.getenv('RF_MIGRATION_SCHEMA'))
+        if args.action == 'check':
+            result = require_ready(dsn, args.profile)
+        elif args.action == 'bootstrap-demo':
+            result = bootstrap_empty_demo(dsn, demo=os.getenv('MODE') == 'demo',
+                                          schema=os.getenv('RF_MIGRATION_SCHEMA'), profile=args.profile)
+        else:
+            result = migrate(dsn, profile=args.profile, adopt=args.action == 'adopt',
+                             demo=os.getenv('MODE') == 'demo', schema=os.getenv('RF_MIGRATION_SCHEMA'))
         print(json.dumps(result))
         return 0
-    except (SchemaNotReady, ValueError) as error:
-        print(json.dumps({'ready':False,'reason':str(error)}))
+    except SchemaNotReady as error:
+        print(json.dumps({'ready':False,'reason':str(error),
+                          'phase':getattr(error,'migration_phase',entry_phase)}))
         return 1
     except Exception as error:
         # Provider/driver messages can contain connection details; print type only.
-        print(json.dumps({'ready':False,'error_type':type(error).__name__}))
+        print(json.dumps({'ready':False,'error_type':type(error).__name__,
+                          'phase':getattr(error,'migration_phase',entry_phase)}))
         return 1
 
 

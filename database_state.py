@@ -32,13 +32,8 @@ def check_application(catalog, profile):
 
 
 def check_checkpoints(c):
-    from langgraph.checkpoint.postgres import PostgresSaver
-    names = {r[0] for r in c.execute('SELECT tablename FROM pg_tables WHERE schemaname=current_schema()')}
-    if not set(CHECKPOINT) <= names:
-        raise SchemaNotReady('LangGraph schema missing; run db_migrate.py prepare')
-    versions = [r[0] for r in c.execute('SELECT v FROM checkpoint_migrations ORDER BY v')]
-    if versions != list(range(len(PostgresSaver.MIGRATIONS))):
-        raise SchemaNotReady('LangGraph revision incompatible; run db_migrate.py prepare with the matching package')
+    from checkpoint_state import checkpoint_status
+    return checkpoint_status(c)
 
 
 def require_checkpoints(dsn):

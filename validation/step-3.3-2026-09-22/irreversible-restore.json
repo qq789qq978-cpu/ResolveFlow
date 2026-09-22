@@ -1,0 +1,187 @@
+{
+  "passed": true,
+  "project": "resolveflow-qa-step33",
+  "damaged_database": "rf_recovery33_damaged",
+  "restored_database": "rf_recovery33_restored",
+  "backup_private_path": "work/rf_recovery33/before-destructive-change.dump",
+  "backup_sha256": "87ae45dabcb16c3da2f69e29e4c1831a5f7da09841254bf6acc79522519999ba",
+  "backup_bytes": 36873,
+  "before": {
+    "checkpoint_blobs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "sha256": "6bd31f9bfde196c60b82960c4cf588eb94584d1f55b53d774af73e9c0a851870"
+    },
+    "checkpoint_writes": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoints": {
+      "count": 1,
+      "sha256": "c975431e3a6d5b7b56749df92a6801b1e7bf1cd352fccc8ec9749f062ea4229d"
+    },
+    "rf_approvals": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_audit": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_job_attempts": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_jobs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_policy_events": {
+      "count": 1,
+      "sha256": "d3d5e38013933c65e8ba62f6205be26b88477cc20e549b4216874b89ce863a7b"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "sha256": "0de6f2749f1f207268f6071a8ce4eb175d175f0d2d9419e4e73ffbbf002cbc15"
+    },
+    "rf_policy_releases": {
+      "count": 1,
+      "sha256": "ab89d6a2386eaf98bf11381dade098c1004a05cc5c9631f9a53458eae9f10c22"
+    },
+    "rf_policy_reviews": {
+      "count": 3,
+      "sha256": "1ec45803b868ffa8b619cb25a9c643cebcbf1cf87a4764b212f7d349a2a9c1e0"
+    },
+    "rf_refunds": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_runs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_schema_version": {
+      "count": 1,
+      "sha256": "3b75b62e38a0f4a4e1d78c651b59e8728cad8263027ed17530f2ea89b21764a4"
+    },
+    "rf_worker_heartbeats": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "after": {
+    "checkpoint_blobs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "sha256": "6bd31f9bfde196c60b82960c4cf588eb94584d1f55b53d774af73e9c0a851870"
+    },
+    "checkpoint_writes": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoints": {
+      "count": 1,
+      "sha256": "c975431e3a6d5b7b56749df92a6801b1e7bf1cd352fccc8ec9749f062ea4229d"
+    },
+    "rf_approvals": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_audit": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_job_attempts": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_jobs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_policy_events": {
+      "count": 1,
+      "sha256": "d3d5e38013933c65e8ba62f6205be26b88477cc20e549b4216874b89ce863a7b"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "sha256": "0de6f2749f1f207268f6071a8ce4eb175d175f0d2d9419e4e73ffbbf002cbc15"
+    },
+    "rf_policy_releases": {
+      "count": 1,
+      "sha256": "ab89d6a2386eaf98bf11381dade098c1004a05cc5c9631f9a53458eae9f10c22"
+    },
+    "rf_policy_reviews": {
+      "count": 3,
+      "sha256": "1ec45803b868ffa8b619cb25a9c643cebcbf1cf87a4764b212f7d349a2a9c1e0"
+    },
+    "rf_refunds": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_runs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_schema_version": {
+      "count": 1,
+      "sha256": "3b75b62e38a0f4a4e1d78c651b59e8728cad8263027ed17530f2ea89b21764a4"
+    },
+    "rf_worker_heartbeats": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "restored_tables": 20,
+  "schema_readd_failed_to_restore_values": true,
+  "drift_refused": true,
+  "restored_ready": {
+    "ready": true,
+    "profile": "core",
+    "revisions": [
+      "rf_core_0001"
+    ],
+    "checkpoint_readable": true
+  },
+  "main_database_accessed": false,
+  "qa_databases_preserved": true,
+  "model_api_calls": 0
+}

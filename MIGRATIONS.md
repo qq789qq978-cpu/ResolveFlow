@@ -1,4 +1,4 @@
-# 数据库迁移与运行说明（3.2）
+# 数据库迁移与运行说明（3.3）
 
 2026-09-22：应用 PostgreSQL DDL 已集中到独立迁移入口。API、Worker、知识库导入及向量构建不再建表；API/Worker 启动检查应用结构、版本和 LangGraph 版本。**先完成数据库准备，再启动应用。** `Store.setup()` 保留兼容方法名，但只做只读检查，不播种数据。
 
@@ -54,7 +54,7 @@ docker compose exec -T resolveflow python db_migrate.py check
 
 adopt锁住该schema的应用表，再对照列、默认值、约束、索引和序列，成功才在同一事务内stamp。业务/知识/政策/向量表不重建、不清空；checkpoint由库自身维护。旧core要求hybrid时，接管core后在同一应用事务内增加向量表；扩展须提前安装。
 
-默认prepare拒绝无版本旧库。结构漂移、部分旧表、未知应用版本、部分checkpoint schema及不支持的checkpoint版本均拒绝。不能绕过错误手工stamp。更早、缺少governance等字段的库不属于本次基线，需另写显式迁移，不能依赖启动补列。
+默认prepare拒绝无版本旧库。应用结构漂移、部分旧应用表、未知版本均拒绝。3.3起，checkpoint的连续版本和相符中间结构可由库自身继续；缺历史、未知结构、未来版本或无效索引拒绝，见[恢复手册](MIGRATION_RECOVERY.md)。不能手工stamp绕过错误。更早、缺少governance等字段的库不属于本次应用基线，需另写显式迁移。
 
 入口使用schema范围的advisory lock，第二个迁移进程立即拒绝。接管锁表等待最多5秒；忙库失败并保留应用事务原状，停写后重试。此锁不防护任意外部DDL，数据库权限分工留到3.6。
 
@@ -91,4 +91,4 @@ catalog工具要求连接已在环境变量DATABASE_URL中提供；core-only使�
 
 见[3.1报告](validation/step-3.1-2026-09-22/REPORT.md)与[3.2报告](validation/step-3.2-2026-09-22/REPORT.md)。本步验收新装、旧库接管、数据保留、真实待审批恢复、版本持久化和本机服务更新。
 
-应用Alembic事务与LangGraph自身的autocommit setup分开执行，后者包含并发索引；演示播种也是独立事务。正常重复prepare不重新播种旧数据。跨阶段中断后的恢复/继续、不可逆变更回退和失败演练留到**3.3**，不宣称所有初始化故障都能自动恢复。
+应用Alembic事务、LangGraph autocommit setup和演示播种分属不同事务。3.3已验收其失败边界、受校验续跑及显式bootstrap-demo空库恢复，详见[恢复手册](MIGRATION_RECOVERY.md)。prepare仍不重播种已有库；check只表示结构/版本就绪，不代表演示内容已存在。未知结构和不可逆信息损失需人工调查、向前修复或独立备份恢复，不能声称任意故障自动自愈。

@@ -1,0 +1,11 @@
+{
+  "unit_passed": 187,
+  "postgres_runs": {
+    "postgres-step33.xml": 97,
+    "recovery-final.xml": 30
+  },
+  "unique_postgres_tests_passed": 98,
+  "recovery_tests_passed": 30,
+  "model_api_calls": 0,
+  "remote_ci_run": false
+}

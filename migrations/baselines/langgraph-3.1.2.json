@@ -1,0 +1,2231 @@
+{
+  "package_version": "3.1.2",
+  "migrations_sha256": "2b0cc7564b5744b6d068ef8703dfd504f461490fcc8a1b9c0c0119b15ca984dd",
+  "states": {
+    "0": {
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "1": {
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "2": {
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "3": {
+      "checkpoint_blobs": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            false,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_blobs_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_blobs_pkey",
+            "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "4": {
+      "checkpoint_blobs": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            false,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_blobs_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_blobs_pkey",
+            "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_writes": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "idx",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_writes_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_writes_pkey",
+            "CREATE UNIQUE INDEX checkpoint_writes_pkey ON checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "5": {
+      "checkpoint_blobs": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            false,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_blobs_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_blobs_pkey",
+            "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_writes": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "idx",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_writes_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_writes_pkey",
+            "CREATE UNIQUE INDEX checkpoint_writes_pkey ON checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "6": {
+      "checkpoint_blobs": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            false,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_blobs_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_blobs_pkey",
+            "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_writes": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "idx",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_writes_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_writes_pkey",
+            "CREATE UNIQUE INDEX checkpoint_writes_pkey ON checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "7": {
+      "checkpoint_blobs": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            false,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_blobs_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_blobs_pkey",
+            "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_writes": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "idx",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_writes_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_writes_pkey",
+            "CREATE UNIQUE INDEX checkpoint_writes_pkey ON checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ],
+          [
+            "checkpoints_thread_id_idx",
+            "CREATE INDEX checkpoints_thread_id_idx ON checkpoints USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "8": {
+      "checkpoint_blobs": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            false,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_blobs_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_blobs_pkey",
+            "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+          ],
+          [
+            "checkpoint_blobs_thread_id_idx",
+            "CREATE INDEX checkpoint_blobs_thread_id_idx ON checkpoint_blobs USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_writes": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "idx",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_writes_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_writes_pkey",
+            "CREATE UNIQUE INDEX checkpoint_writes_pkey ON checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ],
+          [
+            "checkpoints_thread_id_idx",
+            "CREATE INDEX checkpoints_thread_id_idx ON checkpoints USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "9": {
+      "checkpoint_blobs": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            false,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_blobs_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_blobs_pkey",
+            "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+          ],
+          [
+            "checkpoint_blobs_thread_id_idx",
+            "CREATE INDEX checkpoint_blobs_thread_id_idx ON checkpoint_blobs USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_writes": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "idx",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_writes_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_writes_pkey",
+            "CREATE UNIQUE INDEX checkpoint_writes_pkey ON checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ],
+          [
+            "checkpoint_writes_thread_id_idx",
+            "CREATE INDEX checkpoint_writes_thread_id_idx ON checkpoint_writes USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ],
+          [
+            "checkpoints_thread_id_idx",
+            "CREATE INDEX checkpoints_thread_id_idx ON checkpoints USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "10": {
+      "checkpoint_blobs": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            false,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_blobs_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_blobs_pkey",
+            "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+          ],
+          [
+            "checkpoint_blobs_thread_id_idx",
+            "CREATE INDEX checkpoint_blobs_thread_id_idx ON checkpoint_blobs USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_writes": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "idx",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_path",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_writes_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_writes_pkey",
+            "CREATE UNIQUE INDEX checkpoint_writes_pkey ON checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ],
+          [
+            "checkpoint_writes_thread_id_idx",
+            "CREATE INDEX checkpoint_writes_thread_id_idx ON checkpoint_writes USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ],
+          [
+            "checkpoints_thread_id_idx",
+            "CREATE INDEX checkpoints_thread_id_idx ON checkpoints USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    }
+  }
+}

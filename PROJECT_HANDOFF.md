@@ -4,7 +4,9 @@
 
 第一阶段历史交付（2026-09-21）：1.1–1.10收口，[1.10报告](validation/step-1.10-2026-09-21/REPORT.md) 汇总阶段回归、CI入口、交付核验方式与已知边界。12项前端、42项基础、14项PG集成、两组12条合成评测、三条API业务流、14表重建持久化及五类真实故障场景均复验。该阶段提交 e15ea5355d95384b76ac22715fa7c8d1fa82328e 已推送，对应 [Actions运行](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35577421865) 成功。用户要求每次对话一步、阶段末推送，见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
-最新进度：**3.2 空库新装与旧库保留数据升级完成**，见 [报告](validation/step-3.2-2026-09-22/REPORT.md) 与 [迁移说明](MIGRATIONS.md)。API/Worker/导入/向量构建不再执行PostgreSQL DDL，由独立migrate任务准备；runtime只读检查版本。187基础/68PG通过；真实旧容器产生工单后接管、18张非心跳表保留、容器重建及旧待审批批准恢复通过。主库备份在独立库恢复并验证20表不变，再在8003维护窗口显式adopt；主库现在22张表，版本rf_vector_0001，原20张非心跳表（含checkpoint_migrations）保持一致，7条向量保留。API/Worker更新为resolveflow:step32，resolveflow:local指向同镜像；DB/encoder镜像与启动时间不变。4常驻服务healthy，migrate正常Exited (0)，demo/hybrid配置不变；未在主库新增测试工单。QA停止保留卷，无付费模型调用。本步本地提交，3.9统一推送；下一步3.3未开始。
+最新进度：**3.3 迁移失败、回滚/继续及不可逆变更恢复完成**，见 [报告](validation/step-3.3-2026-09-22/REPORT.md) 与 [恢复手册](MIGRATION_RECOVERY.md)。187基础/98不同PG检查通过，包含30项恢复专项。LangGraph按锁定3.1.2包/SQL指纹和冻结中间结构续跑；未知结构、缺历史、未来版本或无效索引拒绝。新增bootstrap-demo只在显式demo、结构就绪且所有业务/checkpoint内容为空时播种，绝不猜测旧库意图。应用事务失败/进程强杀回滚、20种库迁移中断窗口、无效索引REINDEX、播种原子性、可逆QA修订降级均验证；不可逆合成删列后恢复至独立库，20表相同且checkpoint可读。
+
+本机8003的API/Worker已更新为resolveflow:step33，resolveflow:local指向同镜像；主库20张非心跳表及7向量保留，结构仍22表、版本rf_vector_0001，无新迁移revision、无新主库测试工单。DB/encoder镜像与启动时间不变，4常驻服务healthy、migrate退出0，demo/hybrid配置不变。主库不执行故障注入或bootstrap-demo。备份work/step33-main/pre-deploy.dump、旧镜像resolveflow:pre-step33保留；QA损坏库、恢复库和卷保留并停机。无付费调用；本地提交、3.9推送，下一步3.4未开始。3.4自动化备份和3.5完整待审批灾备恢复没有提前完成。
 
 升级前私有备份在忽略目录work/step32-main：before-adoption.dump（用于隔离恢复验证）、pre-deploy.dump（停API/Worker后的备份）；摘要在本步报告中。旧镜像保留resolveflow:pre-step32。它们是本次升级保障，不代表3.4备份机制或3.5完整恢复演练已完成。便携PG和历史QA库未自动接管；旧无版本库运行新版时须先显式adopt。
 
