@@ -49,3 +49,19 @@ def test_database_failure_is_not_replaced_by_bundled_documents(monkeypatch):
     def fail(*args):raise RuntimeError('DB unavailable')
     monkeypatch.setattr('storage.Store.connect',fail)
     with pytest.raises(RuntimeError,match='DB unavailable'):retrieve('退款')
+
+@pytest.mark.parametrize('filename,mixed', [('policy.pdf',False),('policy.pdf',True),('nested/policy.PdF',True)])
+def test_pdf_inputs_are_explicitly_rejected_before_database_io(tmp_path,filename,mixed):
+    if mixed:write_doc(tmp_path/'valid.md','退款政策')
+    path=tmp_path/filename;path.parent.mkdir(parents=True,exist_ok=True)
+    path.write_bytes(b'%PDF-1.4\nunsupported fixture; not a parsed PDF')
+    class NoDatabaseWrites:
+        def execute(self,*args,**kwargs):pytest.fail('Unsupported input reached the database')
+    with pytest.raises(ValueError,match='PDF policy import is not supported'):
+        sync_index(NoDatabaseWrites(),tmp_path)
+
+def test_directory_name_ending_pdf_does_not_reject_markdown(tmp_path):
+    nested=tmp_path/'manual.pdf';nested.mkdir()
+    write_doc(nested/'policy.md','有效的退款说明')
+    docs,chunks=read_documents(tmp_path)
+    assert len(docs)==len(chunks)==1 and docs[0]['source']=='manual.pdf/policy.md'

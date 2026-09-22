@@ -41,6 +41,11 @@ def tokens(text):
 def read_documents(directory=KNOWLEDGE):
     directory = Path(directory)
     documents, chunks, seen = [], [], set()
+    # Reject unsupported policy inputs before validating or replacing any index.
+    # A mixed bundle must not succeed while silently omitting its PDF policies.
+    if any(path.suffix.casefold() == '.pdf' and not path.is_dir()
+           for path in directory.rglob('*')):
+        raise ValueError('PDF policy import is not supported; provide reviewed Markdown documents instead')
     paths = sorted(directory.rglob('*.md'))
     if not paths or len(paths) > 200:
         raise ValueError('Knowledge directory requires 1 to 200 Markdown documents')

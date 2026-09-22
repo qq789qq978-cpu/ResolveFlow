@@ -1,0 +1,21 @@
+Step 2.10, 2026-09-22. Docker Python3.12, MODE=demo.
+
+Unit/regression -- read-only isolated source snapshot, network none:
+python -m pytest -p no:cacheprovider test_rag.py test_policy_governance.py test_policy_releases.py test_grounding.py test_rag_dataset.py test_rag_baseline.py test_bm25.py test_semantic.py -q
+131 passed in 26.86s.
+
+PostgreSQL -- resolveflow-qa-step210 database, public QA password, random per-test schemas:
+RUN_PG_TESTS=1 python -m pytest -p no:cacheprovider test_policy_releases_pg.py test_semantic_pg.py -q
+25 passed in 27.81s; one existing Starlette/AnyIO deprecation warning.
+Initial collection failed because the isolated snapshot omitted frontend/dist; copied unchanged frontend and reran.
+The app .env was never copied into the test snapshot. No main database tests.
+
+Old resolveflow:step28 versus new resolveflow:step210, both network none:
+Mixed Markdown + additional.PDF accepted/omitted in old image; read_documents and prepare both reject in new image.
+Input is only an extension/signature marker. No claim of parsing a valid PDF or its pages.
+
+Main rollout: same new image for API and Worker, four healthy services; DB and encoder process start times unchanged.
+All 19 stable tables equal to step2.9, no new main ticket or refund, no policy republish or vector rebuild.
+Two local retrieval probes confirmed hybrid via knowledge search and MCP. No paid model API calls.
+No rerun of held-out/tuning model quality metrics or unchanged frontend tests.
+QA database stopped with volume preserved. Remote CI deferred to step2.12 push.

@@ -96,6 +96,20 @@ def test_failed_activation_rolls_back_index_head_archive_and_audit(system,tmp_pa
     with pytest.raises(RuntimeError,match='Injected'): publish(store,payload)
     assert snapshot(store)==before
 
+def test_mixed_pdf_candidate_cannot_partially_replace_or_publish(system,tmp_path):
+    store,engine,client=system
+    candidate=bundle(tmp_path)
+    (candidate/'extra.PDF').write_bytes(b'%PDF-1.4\nunsupported input fixture')
+    before=snapshot(store)
+    # Raw import and governed publication both reject before any state change.
+    with pytest.raises(ValueError,match='PDF policy import is not supported'):
+        with store.connect() as c:sync_index(c,candidate)
+    assert snapshot(store)==before
+    with pytest.raises(ValueError,match='PDF policy import is not supported'):
+        publish(store,prepare(candidate))
+    assert snapshot(store)==before
+    assert retrieve('退款')[0]['release']['generation']==1
+
 
 def test_concurrent_publish_requires_current_generation(system,tmp_path):
     store,engine,client=system

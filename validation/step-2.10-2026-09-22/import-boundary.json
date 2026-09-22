@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "fixture": "extension/signature-only synthetic marker, not a parser test",
+  "old_image": "sha256:8db451e0ca064a41251e5e6875903814f1349463e77d0d0f5769552977ee1f80",
+  "new_image": "sha256:335de0c457397274aeced000852e364cb954137619e16e981669152f7f1e53f8",
+  "before": {
+    "read_documents": {
+      "accepted": true,
+      "document_count": 3
+    },
+    "prepare": {
+      "accepted": true,
+      "document_count": 3
+    }
+  },
+  "after": {
+    "read_documents": {
+      "accepted": false,
+      "error": "PDF policy import is not supported; provide reviewed Markdown documents instead"
+    },
+    "prepare": {
+      "accepted": false,
+      "error": "PDF policy import is not supported; provide reviewed Markdown documents instead"
+    }
+  },
+  "knowledge_inventory": [
+    {
+      "source": "knowledge/escalation.md",
+      "bytes": 597,
+      "sha256": "2bb36483d2ad07b11672344b29d8ce605e6a6e16768453610e21043458b32b78"
+    },
+    {
+      "source": "knowledge/governance.json",
+      "bytes": 1453,
+      "sha256": "7522250754690fe5384f0b6ccd041eb5492163c693004fef7c00df41b9eecf6d"
+    },
+    {
+      "source": "knowledge/refund.md",
+      "bytes": 886,
+      "sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35"
+    },
+    {
+      "source": "knowledge/release.json",
+      "bytes": 295,
+      "sha256": "a62d6f75b1f0660704af2bb0363f37c2f347d401feac37e4538afabd594d09d4"
+    },
+    {
+      "source": "knowledge/shipping.md",
+      "bytes": 562,
+      "sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c"
+    }
+  ],
+  "tracked_pdf_count": 0,
+  "active_knowledge_pdf_count": 0,
+  "pdf_parser_installed": false,
+  "pdf_pages_extracted": 0,
+  "paid_model_api_calls": 0
+}

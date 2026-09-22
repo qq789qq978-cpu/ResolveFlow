@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-当前完成 [2.9 reranker条件评估](validation/step-2.9-2026-09-22/REPORT.md)：暂缓增加重排模型，继续使用2.8本地E5+BM25/RRF。断网调优诊断中，理想重排仍完整命中40/40，并集选取最多多1个上下文相关片段，demo回答边界未改善；这是标签辅助分析，不是reranker实测。8003保持hybrid/demo、四服务健康、原19表及镜像不变。2.8历史保留完整命中17/20、核心检索p95约96毫秒，详见 [实现和运行](SEMANTIC_IMPLEMENTATION.md)。下一步2.10为PDF导入条件评估，2.12统一推送；上方徽章只代表远程main历史状态。第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)。
+当前完成 [2.10 PDF条件评估与输入边界修复](validation/step-2.10-2026-09-22/REPORT.md)：暂不接入PDF解析/OCR/页码体系，当前仍导入经过审核的Markdown；候选目录出现PDF时会明确拒绝，避免静默遗漏。131项相关基础检查、25项PG检查通过。8003继续本地E5+BM25/RRF、demo、四服务健康，原19表保留。2.8历史保留完整命中17/20、核心检索p95约96毫秒，详见 [实现和运行](SEMANTIC_IMPLEMENTATION.md)。下一步2.11为明确模型、费用和数据范围后的真实生成模型评测；2.12统一推送，上方徽章只代表远程main历史状态。第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)。
 
 ## Docker 快速启动
 
