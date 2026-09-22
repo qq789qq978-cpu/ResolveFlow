@@ -77,7 +77,7 @@ def main():
             if version(package) != expected:
                 raise ValueError('Runtime package differs from backup')
         for path, expected in manifest['snapshot']['runtime_source_sha256'].items():
-            if path not in ('engine.py', 'storage.py', 'db_migrate.py', 'requirements.lock'):
+            if path not in ('engine.py', 'storage.py', 'db_migrate.py', 'requirements.lock', 'db_roles.py', 'mcp_gateway.py'):
                 raise ValueError('Unexpected runtime file')
             if hashlib.sha256(Path(path).read_bytes()).hexdigest() != expected:
                 raise ValueError('Runtime source differs from backup')

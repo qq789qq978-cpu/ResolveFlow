@@ -26,7 +26,7 @@
 
 原 `rf_knowledge_documents` / `rf_knowledge_chunks` 仍是当前索引。发布时先核对预期generation、规则绑定和当前审核有效期，再保存快照并替换索引、切换指针、追加事件。任何失败均回滚这个事务。并发发布者使用同一预期序号时仅一个成功，另一个必须重新查看状态。
 
-发布、回滚、审核修改与退款事务采用一致的政策表锁边界。检索使用一致快照；执行退款时在锁内重新核对当前发布与审核。正常重启不重置当前版本。数据库的拥有者仍有直接修改数据的能力，本步的不可变性是应用命令契约，不是防数据库管理员篡改的签名系统；最低权限/migration仍属第三阶段。
+发布、回滚、审核修改与退款事务采用一致的政策表锁边界。检索使用一致快照；执行退款时在锁内重新核对当前发布与审核。正常重启不重置当前版本。数据库的拥有者仍有直接修改数据的能力，本步的不可变性是应用命令契约，不是防数据库管理员篡改的签名系统；3.6已限制普通业务账号修改政策，维护账号仍保留必要权限，见[DATABASE_ROLES.md](DATABASE_ROLES.md)。
 
 ## 审批、回滚和撤销
 
@@ -48,15 +48,17 @@ docker compose exec -T resolveflow python policy_releases.py status
 
 # 以下示例假定刚核对到generation=1。目录须包含完整政策集合、
 # governance.json和release.json，并使用新的发布ID/文档版本。
-docker compose exec -T resolveflow python policy_releases.py publish --directory /data/policy-candidate --expected-generation 1 --actor maintainer --reason "发布已核对的政策集合"
+docker compose run --rm --no-deps -v "${PWD}/work/policy-candidate:/candidate:ro" migrate python policy_releases.py publish --directory /candidate --expected-generation 1 --actor maintainer --reason "发布已核对的政策集合"
 
 # 示例：上一步成功后generation=2，回滚到仓库初始发布。
-docker compose exec -T resolveflow python policy_releases.py rollback --release demo-policy-2026-09-21 --expected-generation 2 --actor maintainer --reason "回退当前政策"
+docker compose run --rm --no-deps migrate python policy_releases.py rollback --release demo-policy-2026-09-21 --expected-generation 2 --actor maintainer --reason "回退当前政策"
 
 # 审核文件是某一文档的完整治理对象，包含document_sha256；
 # 先重新查看generation，再以其当前值执行。示例值为3。
-docker compose exec -T resolveflow python policy_releases.py review --metadata /data/review.json --expected-generation 3 --actor maintainer --reason "记录政策审核变更"
+docker compose run --rm --no-deps -v "${PWD}/work/review.json:/review.json:ro" migrate python policy_releases.py review --metadata /review.json --expected-generation 3 --actor maintainer --reason "记录政策审核变更"
 ```
+
+以上写入命令通过rf_migrator执行，业务账号会被数据库拒绝。宿主work/policy-candidate及work/review.json须先准备好；临时容器只读挂载它们。
 
 候选目录应与正式knowledge分开，不要把另一套同ID文档嵌入knowledge子目录（导入器会递归读取）。首次安装空库自动登记内置演示发布；既有库升级只初始化新表，保留原索引，需要维护人员核对当前原文和审核后显式publish。API/Worker须协调升级：旧2.4程序没有发布门禁，不能依赖它执行2.5的约束。当前部署流程先停止接单、确认队列空闲、停止Worker，登记发布后启动同版本服务。
 

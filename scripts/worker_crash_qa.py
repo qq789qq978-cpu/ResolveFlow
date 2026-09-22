@@ -31,6 +31,9 @@ PUBLIC_ENV = {
     "MODE": "demo", "APP_PORT": "8006", "APP_API_KEY": "qa-step15-operator",
     "REVIEWER_API_KEY": "qa-step15-reviewer", "ADMIN_API_KEY": "qa-step15-admin",
     "POSTGRES_PASSWORD": "qa-step15-database", "OPENAI_API_KEY": "",
+    "RF_MIGRATOR_PASSWORD": "qa-fault-migrator-password-123456",
+    "RF_APP_PASSWORD": "qa-fault-app-password-123456789",
+    "RF_READONLY_PASSWORD": "qa-fault-readonly-password-123456",
     "OPENAI_BASE_URL": "https://api.deepseek.com", "MODEL_NAME": "deepseek-flash",
 }
 
@@ -85,13 +88,17 @@ def wait_for(check, seconds=60):
 
 class Observer:
     def __init__(self):
+        if not PROJECT.startswith('resolveflow-qa-'):
+            raise ValueError('Privileged observer is restricted to dedicated QA')
         docker("cp", str(PROBE), API + ":/tmp/worker_crash_probe.py")
         if PROJECT == "resolveflow-qa-step17":
             docker("cp", str(PROBE.with_name("refund_replay_probe.py")), API + ":/tmp/refund_replay_probe.py")
         if PROJECT == "resolveflow-qa-step19":
             docker("cp", str(PROBE.with_name("multi_worker_probe.py")), API + ":/tmp/multi_worker_probe.py")
         self.process = subprocess.Popen(
-            ["docker", "exec", "-i", API, "python", "-u", "/tmp/worker_crash_probe.py"],
+            ["docker", "exec", "-i", "-e", "DATABASE_URL=postgresql://resolveflow:"+
+             PUBLIC_ENV['POSTGRES_PASSWORD']+"@db:5432/resolveflow", API,
+             "python", "-u", "/tmp/worker_crash_probe.py"],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
             text=True, encoding="utf-8", bufsize=1)
         self.lines = queue.Queue()

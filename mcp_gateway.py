@@ -22,7 +22,10 @@ async def exchange(order_id, owner, calls):
     bootstrap = "import site,runpy,sys,pathlib; site.addsitedir(sys.argv[1]); sys.path.insert(0,str(pathlib.Path(sys.argv[2]).parent)); runpy.run_path(sys.argv[2],run_name='__main__')"
     if os.getenv("DATABASE_URL"):
         from psycopg.conninfo import conninfo_to_dict, make_conninfo
-        url = os.environ["DATABASE_URL"]
+        url = os.getenv('READONLY_DATABASE_URL')
+        if not url and os.getenv('RF_ENFORCE_DB_ROLES') == '1':
+            raise ValueError('Restricted MCP requires READONLY_DATABASE_URL')
+        url = url or os.environ["DATABASE_URL"]
         # Bound SQL inside the child before the 15s MCP client deadline. Killing
         # a blocked stdio child alone can leave its PostgreSQL query waiting.
         # Preserve existing options (including test-schema search_path).

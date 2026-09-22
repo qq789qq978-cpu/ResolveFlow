@@ -52,7 +52,7 @@ docker compose exec -T resolveflow python policy_releases.py status
 # 根据当前generation，按 POLICY_RELEASES.md 显式发布完整候选目录。
 ```
 
-`rag.py --directory PATH` 可指定容器内的文档目录。该操作以目录中的全部文档替换整个政策集合，不是增量追加；请先将需要保留的文档一起放入目录。2.5起原始导入会使当前发布失效；正式使用需走 [版本发布](POLICY_RELEASES.md)。源码模式同样使用policy_releases.py并配置DATABASE_URL。
+`rag.py --directory PATH` 可指定容器内的文档目录。该操作以目录中的全部文档替换整个政策集合，不是增量追加；请先将需要保留的文档一起放入目录。2.5起原始导入会使当前发布失效；正式使用需走 [版本发布](POLICY_RELEASES.md)。3.6起导入/发布/回滚/审核须通过migrate维护账号；源码模式使用policy_releases.py并在专用维护进程配置rf_migrator的DATABASE_URL，普通运行连接不允许改政策。
 
 **修改退款资格必须同步审核 `refund_policy.py` 的规则及版本。** 仅修改文档不会修改程序的两项资格规则。2.3起新建议必须使用chunk_id及逐字原文quotes，原文与工单快照/镜像政策核对。文档ID或缺失依据不能授权退款；这不是自由reason的语义蕴含证明，详见 [GROUNDING.md](GROUNDING.md)。
 

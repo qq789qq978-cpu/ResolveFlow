@@ -1,0 +1,636 @@
+{
+  "passed": true,
+  "preserved_tables": 20,
+  "before": {
+    "checkpoint_blobs": {
+      "count": 101,
+      "sha256": "7e5576fc021563f80cfad93b5061d9b0ebde6e104f78ac0e03a38d7c7c8f2654"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "sha256": "6bd31f9bfde196c60b82960c4cf588eb94584d1f55b53d774af73e9c0a851870"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "sha256": "e6e63227b1da7a58fa74863e5fe9c09589923b89fd12e6ab93f79517c1606aca"
+    },
+    "checkpoints": {
+      "count": 43,
+      "sha256": "9d9dce4cf984cd9000410d53331fbe5fae3fede4325638f4d962eafa01bfd2be"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "d5b52d3cfd52d0995dd5ad9064bfd00194a521c0044d328f6b63427b562b97c8"
+    },
+    "rf_audit": {
+      "count": 12,
+      "sha256": "08c0c1cf4330e3236617a8bfeb9fd00e06e64786289932935294504181a53503"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "sha256": "f7f0bc4bc73df13547955c9251585fe05127f79a75374552d0dcc8ccd1093796"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "sha256": "fba0986207ac89e38f6eb0b7be2266d3e342c5c6969a43bbc2db05772e7a67d5"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_policy_events": {
+      "count": 1,
+      "sha256": "6cf1f3a9b22ca00683d09d5c33af1cd0f903cbdae838980ad8cf1b5a8340dce9"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "sha256": "0de6f2749f1f207268f6071a8ce4eb175d175f0d2d9419e4e73ffbbf002cbc15"
+    },
+    "rf_policy_releases": {
+      "count": 1,
+      "sha256": "0ab4139dbea55378173a6f0c34d40945ad2032a2e3e663ff56d9c53f125076ea"
+    },
+    "rf_policy_reviews": {
+      "count": 3,
+      "sha256": "1ec45803b868ffa8b619cb25a9c643cebcbf1cf87a4764b212f7d349a2a9c1e0"
+    },
+    "rf_policy_vectors": {
+      "count": 7,
+      "sha256": "a80efbce98b6790be3431636876dfdf0b25018d8781730440b9cc38e09966607"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "48f921b055a6e53191ec31a36380de6d240ab2d5ec7f07ddc9196c0b4d6f8c47"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_runs": {
+      "count": 9,
+      "sha256": "94439c1d69e96bed3df62209f3847161a208576d082aae1b2267b24a0fde1eb4"
+    },
+    "rf_vector_batches": {
+      "count": 1,
+      "sha256": "009d7bddc666f96834b09dfbec402e722b192d88dd27d4554778503f1359b483"
+    }
+  },
+  "after": {
+    "checkpoint_blobs": {
+      "count": 101,
+      "sha256": "7e5576fc021563f80cfad93b5061d9b0ebde6e104f78ac0e03a38d7c7c8f2654"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "sha256": "6bd31f9bfde196c60b82960c4cf588eb94584d1f55b53d774af73e9c0a851870"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "sha256": "e6e63227b1da7a58fa74863e5fe9c09589923b89fd12e6ab93f79517c1606aca"
+    },
+    "checkpoints": {
+      "count": 43,
+      "sha256": "9d9dce4cf984cd9000410d53331fbe5fae3fede4325638f4d962eafa01bfd2be"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "d5b52d3cfd52d0995dd5ad9064bfd00194a521c0044d328f6b63427b562b97c8"
+    },
+    "rf_audit": {
+      "count": 12,
+      "sha256": "08c0c1cf4330e3236617a8bfeb9fd00e06e64786289932935294504181a53503"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "sha256": "f7f0bc4bc73df13547955c9251585fe05127f79a75374552d0dcc8ccd1093796"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "sha256": "fba0986207ac89e38f6eb0b7be2266d3e342c5c6969a43bbc2db05772e7a67d5"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_policy_events": {
+      "count": 1,
+      "sha256": "6cf1f3a9b22ca00683d09d5c33af1cd0f903cbdae838980ad8cf1b5a8340dce9"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "sha256": "0de6f2749f1f207268f6071a8ce4eb175d175f0d2d9419e4e73ffbbf002cbc15"
+    },
+    "rf_policy_releases": {
+      "count": 1,
+      "sha256": "0ab4139dbea55378173a6f0c34d40945ad2032a2e3e663ff56d9c53f125076ea"
+    },
+    "rf_policy_reviews": {
+      "count": 3,
+      "sha256": "1ec45803b868ffa8b619cb25a9c643cebcbf1cf87a4764b212f7d349a2a9c1e0"
+    },
+    "rf_policy_vectors": {
+      "count": 7,
+      "sha256": "a80efbce98b6790be3431636876dfdf0b25018d8781730440b9cc38e09966607"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "48f921b055a6e53191ec31a36380de6d240ab2d5ec7f07ddc9196c0b4d6f8c47"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_runs": {
+      "count": 9,
+      "sha256": "94439c1d69e96bed3df62209f3847161a208576d082aae1b2267b24a0fde1eb4"
+    },
+    "rf_vector_batches": {
+      "count": 1,
+      "sha256": "009d7bddc666f96834b09dfbec402e722b192d88dd27d4554778503f1359b483"
+    }
+  },
+  "schema_unchanged": true,
+  "preparation": {
+    "ready": true,
+    "profile": "hybrid",
+    "revisions": [
+      "rf_vector_0001"
+    ],
+    "action": "unchanged",
+    "demo_seeded": false
+  },
+  "provision": {
+    "provisioned": true,
+    "roles": {
+      "migrator": "rf_migrator",
+      "app": "rf_app",
+      "readonly": "rf_readonly"
+    },
+    "tables": 22,
+    "sequences": 3
+  },
+  "identities": {
+    "resolveflow": {
+      "DATABASE_URL": "rf_app",
+      "READONLY_DATABASE_URL": "rf_readonly",
+      "privileged_credentials_absent": true
+    },
+    "worker": {
+      "DATABASE_URL": "rf_app",
+      "READONLY_DATABASE_URL": "rf_readonly",
+      "privileged_credentials_absent": true
+    }
+  },
+  "migrator_identity": "rf_migrator",
+  "privilege_inventory": {
+    "roles": [
+      [
+        "rf_app",
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      [
+        "rf_migrator",
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      [
+        "rf_readonly",
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    ],
+    "memberships": 0,
+    "table_owners": [
+      [
+        "checkpoint_blobs",
+        "rf_migrator"
+      ],
+      [
+        "checkpoint_migrations",
+        "rf_migrator"
+      ],
+      [
+        "checkpoint_writes",
+        "rf_migrator"
+      ],
+      [
+        "checkpoints",
+        "rf_migrator"
+      ],
+      [
+        "rf_approvals",
+        "rf_migrator"
+      ],
+      [
+        "rf_audit",
+        "rf_migrator"
+      ],
+      [
+        "rf_job_attempts",
+        "rf_migrator"
+      ],
+      [
+        "rf_jobs",
+        "rf_migrator"
+      ],
+      [
+        "rf_knowledge_chunks",
+        "rf_migrator"
+      ],
+      [
+        "rf_knowledge_documents",
+        "rf_migrator"
+      ],
+      [
+        "rf_orders",
+        "rf_migrator"
+      ],
+      [
+        "rf_policy_events",
+        "rf_migrator"
+      ],
+      [
+        "rf_policy_head",
+        "rf_migrator"
+      ],
+      [
+        "rf_policy_releases",
+        "rf_migrator"
+      ],
+      [
+        "rf_policy_reviews",
+        "rf_migrator"
+      ],
+      [
+        "rf_policy_vectors",
+        "rf_migrator"
+      ],
+      [
+        "rf_refunds",
+        "rf_migrator"
+      ],
+      [
+        "rf_reviews",
+        "rf_migrator"
+      ],
+      [
+        "rf_runs",
+        "rf_migrator"
+      ],
+      [
+        "rf_schema_version",
+        "rf_migrator"
+      ],
+      [
+        "rf_vector_batches",
+        "rf_migrator"
+      ],
+      [
+        "rf_worker_heartbeats",
+        "rf_migrator"
+      ]
+    ],
+    "visible_grants": [
+      [
+        "rf_app",
+        "checkpoint_blobs",
+        "DELETE"
+      ],
+      [
+        "rf_app",
+        "checkpoint_blobs",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "checkpoint_blobs",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "checkpoint_blobs",
+        "UPDATE"
+      ],
+      [
+        "rf_app",
+        "checkpoint_migrations",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "checkpoint_writes",
+        "DELETE"
+      ],
+      [
+        "rf_app",
+        "checkpoint_writes",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "checkpoint_writes",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "checkpoint_writes",
+        "UPDATE"
+      ],
+      [
+        "rf_app",
+        "checkpoints",
+        "DELETE"
+      ],
+      [
+        "rf_app",
+        "checkpoints",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "checkpoints",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "checkpoints",
+        "UPDATE"
+      ],
+      [
+        "rf_app",
+        "rf_approvals",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "rf_approvals",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_audit",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "rf_audit",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_job_attempts",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "rf_job_attempts",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_jobs",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "rf_jobs",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_jobs",
+        "UPDATE"
+      ],
+      [
+        "rf_app",
+        "rf_knowledge_chunks",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_knowledge_documents",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_orders",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_policy_events",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_policy_head",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_policy_releases",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_policy_reviews",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_policy_vectors",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_refunds",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "rf_refunds",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_reviews",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "rf_reviews",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_runs",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "rf_runs",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_runs",
+        "UPDATE"
+      ],
+      [
+        "rf_app",
+        "rf_schema_version",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_vector_batches",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_worker_heartbeats",
+        "DELETE"
+      ],
+      [
+        "rf_app",
+        "rf_worker_heartbeats",
+        "INSERT"
+      ],
+      [
+        "rf_app",
+        "rf_worker_heartbeats",
+        "SELECT"
+      ],
+      [
+        "rf_app",
+        "rf_worker_heartbeats",
+        "UPDATE"
+      ]
+    ],
+    "lock_helper": [
+      "rf_migrator",
+      true,
+      [
+        "search_path=pg_catalog"
+      ],
+      true,
+      false
+    ],
+    "database_privileges": {
+      "rf_app": {
+        "CONNECT": true,
+        "CREATE": false,
+        "TEMP": false
+      },
+      "rf_readonly": {
+        "CONNECT": true,
+        "CREATE": false,
+        "TEMP": false
+      },
+      "rf_migrator": {
+        "CONNECT": true,
+        "CREATE": false,
+        "TEMP": false
+      }
+    }
+  },
+  "read_only_api_checks": {
+    "workers_online": 1,
+    "retrieval": "hybrid",
+    "results": 4,
+    "visible_runs": 9
+  },
+  "configuration": {
+    "MODE": "demo",
+    "RETRIEVAL_MODE": "hybrid",
+    "SEMANTIC_WEIGHT": "0.25"
+  },
+  "services_before": {
+    "db": {
+      "id": "c7ab8ba59fcfe899128e9197b7d9a1fc62e26aa2a2b420e4dbd2580eff24cfe7",
+      "image": "sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6",
+      "health": "healthy",
+      "started_at": "2026-09-22T08:25:42.471811505Z"
+    },
+    "resolveflow": {
+      "id": "c9c5230cb5907061389663cd75e237612da87c34d242804deec599dab543caab",
+      "image": "sha256:5220f7560290cc7cf85e9172d1733c9140dc3ac6df5883078a3a96a040d1fcc0",
+      "health": "healthy",
+      "started_at": "2026-09-22T11:20:59.237253045Z"
+    },
+    "worker": {
+      "id": "993a5edad00ec01cb605345973868a49ae3e231c1c7a4ca77f2bc182b42c1815",
+      "image": "sha256:5220f7560290cc7cf85e9172d1733c9140dc3ac6df5883078a3a96a040d1fcc0",
+      "health": "healthy",
+      "started_at": "2026-09-22T11:21:30.06559422Z"
+    },
+    "embedding": {
+      "id": "fb32bd28e5b9d2f80e9d88ff50e6f25f277a48880137750e8164986003c741c4",
+      "image": "sha256:6889b83d5748525639d336a4f526f5183e77e640cb6cc33c1a7221420cca77b9",
+      "health": "healthy",
+      "started_at": "2026-09-22T08:25:42.69883739Z"
+    }
+  },
+  "services_after": {
+    "db": {
+      "id": "c7ab8ba59fcfe899128e9197b7d9a1fc62e26aa2a2b420e4dbd2580eff24cfe7",
+      "image": "sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6",
+      "health": "healthy",
+      "started_at": "2026-09-22T08:25:42.471811505Z"
+    },
+    "resolveflow": {
+      "id": "7c1d9643be37c78a3647a7df9ad41963021f70d7a48e033168332c09418359eb",
+      "image": "sha256:ca318ed482147fb2307c6d1b53e95e2a7c93301eef7a35a9b1ee3bb4cc220cec",
+      "health": "healthy",
+      "started_at": "2026-09-22T12:33:16.090162656Z"
+    },
+    "worker": {
+      "id": "e544e193d9b9838f43053173b590e75091f60d2970ec174a18992a5dfe909aa8",
+      "image": "sha256:ca318ed482147fb2307c6d1b53e95e2a7c93301eef7a35a9b1ee3bb4cc220cec",
+      "health": "healthy",
+      "started_at": "2026-09-22T12:33:46.957065162Z"
+    },
+    "embedding": {
+      "id": "fb32bd28e5b9d2f80e9d88ff50e6f25f277a48880137750e8164986003c741c4",
+      "image": "sha256:6889b83d5748525639d336a4f526f5183e77e640cb6cc33c1a7221420cca77b9",
+      "health": "healthy",
+      "started_at": "2026-09-22T08:25:42.69883739Z"
+    }
+  },
+  "backup_private_path": "work/step36-main/pre-deploy.dump",
+  "backup_sha256": "1cd0d8cbf7e706d60697263c56f1de599c43fde914262664ad571913ffd24f12",
+  "backup_bytes": 79335,
+  "new_main_business_runs": 0,
+  "vector_count": 7,
+  "paid_model_calls": 0,
+  "old_image_retained_as": "resolveflow:pre-step36"
+}

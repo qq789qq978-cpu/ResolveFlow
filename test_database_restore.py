@@ -45,6 +45,7 @@ def pipeline(tmp_path,monkeypatch):
     monkeypatch.setattr(restore,'unused_subnet',lambda:'10.240.0.0/24')
     monkeypatch.setattr(restore,'wait_database',lambda n:None)
     monkeypatch.setattr(restore,'validation_source',lambda:'validator')
+    monkeypatch.setattr(restore,'provision_restored_roles',lambda *args:True)
     state={'commands':[],'failure':None}
     def run(cmd,**kwargs):
         state['commands'].append(cmd)

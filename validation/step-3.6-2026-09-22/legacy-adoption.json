@@ -1,0 +1,452 @@
+{
+  "passed": true,
+  "model_api_calls": 0,
+  "permissions": {
+    "passed": true,
+    "denials": [
+      {
+        "role": "app",
+        "statement": "CREATE TABLE public.qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "CREATE TEMP TABLE qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "ALTER TABLE rf_runs ADD COLUMN qa_forbidden int",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "DROP TABLE rf_reviews",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "TRUNCATE rf_jobs",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_orders SET days=days WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_knowledge_documents SET body=body WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_policy_head SET generation=generation WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_schema_version SET version_num=version_num WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "INSERT INTO checkpoint_migrations(v) VALUES(1000)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SELECT setval('rf_audit_id_seq',1,false)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SET ROLE rf_migrator",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SET ROLE resolveflow",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "CREATE ROLE qa_forbidden",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "ALTER ROLE rf_app SUPERUSER",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "CREATE TABLE public.qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "CREATE TEMP TABLE qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "ALTER TABLE rf_runs ADD COLUMN qa_forbidden int",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "DROP TABLE rf_reviews",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "TRUNCATE rf_jobs",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_orders SET days=days WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_knowledge_documents SET body=body WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_policy_head SET generation=generation WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_schema_version SET version_num=version_num WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "INSERT INTO checkpoint_migrations(v) VALUES(1000)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT setval('rf_audit_id_seq',1,false)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SET ROLE rf_migrator",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SET ROLE resolveflow",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "CREATE ROLE qa_forbidden",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "ALTER ROLE rf_app SUPERUSER",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_runs SET status=status WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "INSERT INTO rf_worker_heartbeats(worker_id) VALUES('forbidden')",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT nextval('rf_audit_id_seq')",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT rf_lock_policy_refund()",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "DELETE FROM rf_audit WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "DELETE FROM rf_refunds WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SELECT nextval('rf_policy_events_id_seq')",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "migrator",
+        "statement": "CREATE ROLE qa_forbidden",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "migrator",
+        "statement": "ALTER ROLE rf_migrator SUPERUSER",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "migrator",
+        "statement": "SET ROLE resolveflow",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "INSERT INTO qa_future_grants DEFAULT VALUES",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "INSERT INTO qa_future_grants DEFAULT VALUES",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SELECT qa_future_function()",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT qa_future_function()",
+        "sqlstate": "42501"
+      }
+    ],
+    "identities": {
+      "migrator": [
+        "rf_migrator",
+        "rf_migrator"
+      ],
+      "app": [
+        "rf_app",
+        "rf_app"
+      ],
+      "readonly": [
+        "rf_readonly",
+        "rf_readonly"
+      ]
+    },
+    "privileges": {
+      "migrator": {
+        "elevated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "schema_create": true,
+        "db_create": false,
+        "db_temp": false
+      },
+      "app": {
+        "elevated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "schema_create": false,
+        "db_create": false,
+        "db_temp": false
+      },
+      "readonly": {
+        "elevated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "schema_create": false,
+        "db_create": false,
+        "db_temp": false
+      }
+    }
+  },
+  "before": {
+    "checkpoint_blobs": {
+      "count": 111,
+      "sha256": "de23155dca8ead6c7f1ff6c061e5c9d223ff31e2e6fe1dd24dd32a8c0958fe48"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "sha256": "6bd31f9bfde196c60b82960c4cf588eb94584d1f55b53d774af73e9c0a851870"
+    },
+    "checkpoint_writes": {
+      "count": 212,
+      "sha256": "660071099de4e35f3870439ab7d731ba22e8c140ca0004e8147518e65dd29a1c"
+    },
+    "checkpoints": {
+      "count": 47,
+      "sha256": "2fe53a647484204c4bd0daabcebb37f2e09d1207137cabbb4f4a85a957a3f0d0"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "d5b52d3cfd52d0995dd5ad9064bfd00194a521c0044d328f6b63427b562b97c8"
+    },
+    "rf_audit": {
+      "count": 13,
+      "sha256": "e987a400ea5f7a2b7a64906b7d548d4c383005bdc200008449d6d85e7127ade1"
+    },
+    "rf_job_attempts": {
+      "count": 13,
+      "sha256": "8d9c5a10d53b708f62ae7a992fe82b56eed2fa8dbe8ca7ac92e26367b972b02d"
+    },
+    "rf_jobs": {
+      "count": 10,
+      "sha256": "e45333c7185be78ffea4a7d590dd92edb5a6be9003b3c7cf5926634191139590"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_orders": {
+      "count": 5,
+      "sha256": "3b1f126f5aa9958594aee8fcf8a2c9b5ed77d696fcd748e739cb0952354f1c75"
+    },
+    "rf_policy_events": {
+      "count": 1,
+      "sha256": "6cf1f3a9b22ca00683d09d5c33af1cd0f903cbdae838980ad8cf1b5a8340dce9"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "sha256": "0de6f2749f1f207268f6071a8ce4eb175d175f0d2d9419e4e73ffbbf002cbc15"
+    },
+    "rf_policy_releases": {
+      "count": 1,
+      "sha256": "0ab4139dbea55378173a6f0c34d40945ad2032a2e3e663ff56d9c53f125076ea"
+    },
+    "rf_policy_reviews": {
+      "count": 3,
+      "sha256": "1ec45803b868ffa8b619cb25a9c643cebcbf1cf87a4764b212f7d349a2a9c1e0"
+    },
+    "rf_policy_vectors": {
+      "count": 7,
+      "sha256": "a80efbce98b6790be3431636876dfdf0b25018d8781730440b9cc38e09966607"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "48f921b055a6e53191ec31a36380de6d240ab2d5ec7f07ddc9196c0b4d6f8c47"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_runs": {
+      "count": 10,
+      "sha256": "ec91ed4e1dc258515844a60c34786c2e9f265753069c57b85a6f606a5da6d2a0"
+    },
+    "rf_vector_batches": {
+      "count": 1,
+      "sha256": "009d7bddc666f96834b09dfbec402e722b192d88dd27d4554778503f1359b483"
+    }
+  },
+  "after_adoption": {
+    "checkpoint_blobs": {
+      "count": 111,
+      "sha256": "de23155dca8ead6c7f1ff6c061e5c9d223ff31e2e6fe1dd24dd32a8c0958fe48"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "sha256": "6bd31f9bfde196c60b82960c4cf588eb94584d1f55b53d774af73e9c0a851870"
+    },
+    "checkpoint_writes": {
+      "count": 212,
+      "sha256": "660071099de4e35f3870439ab7d731ba22e8c140ca0004e8147518e65dd29a1c"
+    },
+    "checkpoints": {
+      "count": 47,
+      "sha256": "2fe53a647484204c4bd0daabcebb37f2e09d1207137cabbb4f4a85a957a3f0d0"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "d5b52d3cfd52d0995dd5ad9064bfd00194a521c0044d328f6b63427b562b97c8"
+    },
+    "rf_audit": {
+      "count": 13,
+      "sha256": "e987a400ea5f7a2b7a64906b7d548d4c383005bdc200008449d6d85e7127ade1"
+    },
+    "rf_job_attempts": {
+      "count": 13,
+      "sha256": "8d9c5a10d53b708f62ae7a992fe82b56eed2fa8dbe8ca7ac92e26367b972b02d"
+    },
+    "rf_jobs": {
+      "count": 10,
+      "sha256": "e45333c7185be78ffea4a7d590dd92edb5a6be9003b3c7cf5926634191139590"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_orders": {
+      "count": 5,
+      "sha256": "3b1f126f5aa9958594aee8fcf8a2c9b5ed77d696fcd748e739cb0952354f1c75"
+    },
+    "rf_policy_events": {
+      "count": 1,
+      "sha256": "6cf1f3a9b22ca00683d09d5c33af1cd0f903cbdae838980ad8cf1b5a8340dce9"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "sha256": "0de6f2749f1f207268f6071a8ce4eb175d175f0d2d9419e4e73ffbbf002cbc15"
+    },
+    "rf_policy_releases": {
+      "count": 1,
+      "sha256": "0ab4139dbea55378173a6f0c34d40945ad2032a2e3e663ff56d9c53f125076ea"
+    },
+    "rf_policy_reviews": {
+      "count": 3,
+      "sha256": "1ec45803b868ffa8b619cb25a9c643cebcbf1cf87a4764b212f7d349a2a9c1e0"
+    },
+    "rf_policy_vectors": {
+      "count": 7,
+      "sha256": "a80efbce98b6790be3431636876dfdf0b25018d8781730440b9cc38e09966607"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "48f921b055a6e53191ec31a36380de6d240ab2d5ec7f07ddc9196c0b4d6f8c47"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_runs": {
+      "count": 10,
+      "sha256": "ec91ed4e1dc258515844a60c34786c2e9f265753069c57b85a6f606a5da6d2a0"
+    },
+    "rf_vector_batches": {
+      "count": 1,
+      "sha256": "009d7bddc666f96834b09dfbec402e722b192d88dd27d4554778503f1359b483"
+    }
+  },
+  "preserved_tables": 20,
+  "original_pending_id": "708f5f60-39bd-45cc-8370-24ef0fecaff3",
+  "resumed_status": "refunded",
+  "investigation_unchanged": true,
+  "restricted_backup": "work/role-upgrade/resolveflow-restore-step36-final/backups/20260922T122545Z-685738c03b10",
+  "backup_sha256": "0f807ec17e86daa4bd10a096af2938f0a135fc0557973a5bc777f0cd139082f8",
+  "stopped_volume_preserved": true
+}

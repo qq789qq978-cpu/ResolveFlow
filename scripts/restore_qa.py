@@ -16,6 +16,14 @@ def python_in(project, source):
     return json.loads(run(['docker','exec',project+'-resolveflow-1','python','-c',source]))
 
 
+def maintenance_in(restored,source):
+    project=restored['target']['project']
+    env_file=ROOT/'work/restores'/project/'maintenance.env'
+    if not env_file.exists():env_file=env_file.with_name('runtime.env')
+    return json.loads(run(['docker','run','--rm','--network',restored['target']['network'],
+        '--env-file',str(env_file),restored['images']['resolveflow'],'python','-c',source]))
+
+
 def api(project, path, body=None, role='operator', expected=200):
     source = '''
 import json,os,urllib.request,urllib.error
@@ -99,7 +107,7 @@ def exercise(bundle, prefix, report):
         original=restore_backup(bundle,seed,artifacts/'seed-restore.json')
         owned.append(seed)
         start_runtime(original)
-        python_in(seed,'''import os,json,psycopg
+        maintenance_in(original,'''import os,json,psycopg
 with psycopg.connect(os.environ['DATABASE_URL']) as c:
  for oid in ('RF-3501','RF-3502'):
   assert c.execute("INSERT INTO rf_orders SELECT %s,owner,amount,days,used,status FROM rf_orders WHERE id='RF-1004' RETURNING id",(oid,)).fetchone()

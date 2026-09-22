@@ -83,7 +83,7 @@ def main():
                 'langgraph-checkpoint-postgres', 'psycopg', 'alembic', 'SQLAlchemy')}
             metadata['runtime_source_sha256'] = {
                 p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
-                for p in ('engine.py', 'storage.py', 'db_migrate.py', 'requirements.lock')}
+                for p in ('engine.py', 'storage.py', 'db_migrate.py', 'requirements.lock', 'db_roles.py', 'mcp_gateway.py') if Path(p).exists()}
             print(json.dumps(metadata), flush=True)
             # EOF, a wrong acknowledgement or timeout all release the lock/snapshot.
             if not select.select([sys.stdin], [], [], timeout + 60)[0]:

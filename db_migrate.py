@@ -103,6 +103,10 @@ def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
             with engine.begin() as connection:
                 raw = connection.connection.driver_connection
                 raw.execute('SET LOCAL lock_timeout=5000')
+                if not raw.execute("SELECT has_schema_privilege(current_user,current_schema(),'CREATE')").fetchone()[0]:
+                    raise SchemaNotReady('Migration requires schema owner privileges')
+                if os.getenv('RF_ENFORCE_DB_ROLES') == '1' and raw.execute('SELECT current_user').fetchone()[0] != 'rf_migrator':
+                    raise SchemaNotReady('Migration requires rf_migrator')
                 cat = read_catalog(raw, schema)
                 names = cat['tables']
                 if VERSION_TABLE not in names and cat['application_tables']:
@@ -150,6 +154,9 @@ def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
                 phase = 'demo_seed'
                 seed_demo(scoped)
             phase = 'readiness'
+            if os.getenv('RF_ENFORCE_DB_ROLES') == '1':
+                from db_roles import grant_runtime
+                with psycopg.connect(scoped) as grants:grant_runtime(grants,schema)
             result = require_ready(scoped, profile)
             return {**result, 'action':action, 'demo_seeded':bool(demo and action == 'installed')}
         except Exception as error:

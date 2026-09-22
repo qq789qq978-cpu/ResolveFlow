@@ -49,11 +49,11 @@ def image_ids(manifest):
     return images
 
 
-def unused_subnet():
+def unused_subnet(excluded=()):
     # Many preserved QA networks can exhaust Docker's default address pools.
     # Allocate a small isolated subnet without deleting any historical network.
     ids = run(['docker','network','ls','-q']).decode().split()
-    used = []
+    used = [ipaddress.ip_network(value) for value in excluded]
     if ids:
         for line in run(['docker','network','inspect','--format','{{json .IPAM.Config}}',*ids]).decode().splitlines():
             for config in json.loads(line) or []:
@@ -85,6 +85,37 @@ def validation_source():
     return ('import sys,types\nm=types.ModuleType("scripts.backup_snapshot")\n'
             'sys.modules[m.__name__]=m\nexec('+repr(snapshot)+',m.__dict__)\n'
             'exec('+repr(validator)+',{"__name__":"__main__"})')
+
+
+def provision_restored_roles(work,names,image):
+    """Recreate cluster roles/ACLs, which pg_dump intentionally doesn't restore.
+
+    Historical images without db_roles.py retain the historical QA contract.
+    Never change to a newer image just to make an old backup pass validation.
+    """
+    available=run(['docker','run','--rm','--network','none',image,'python','-c',
+                   "from pathlib import Path; print(int(Path('db_roles.py').exists()))"]).decode().strip()
+    if available!='1':return False
+    env_file=work/'runtime.env'
+    settings=dict(line.split('=',1) for line in env_file.read_text().splitlines() if '=' in line)
+    passwords={kind:secrets.token_hex(24) for kind in ('migrator','app','readonly')}
+    admin={k:v for k,v in settings.items() if k.startswith('POSTGRES_') or k=='DATABASE_URL'}
+    admin.update({'RF_'+k.upper()+'_PASSWORD':v for k,v in passwords.items()})
+    admin_file=work/'admin.env'
+    with admin_file.open('x',encoding='utf-8') as stream:
+        stream.write(''.join(k+'='+v+'\n' for k,v in admin.items()))
+    os.chmod(admin_file,0o600)
+    run(['docker','run','--rm','--network',names['network'],'--env-file',str(admin_file),image,'python','db_roles.py','provision'])
+    settings={k:v for k,v in settings.items() if not k.startswith('POSTGRES_')}
+    settings['DATABASE_URL']='postgresql://rf_app:'+passwords['app']+'@db:5432/resolveflow'
+    settings['READONLY_DATABASE_URL']='postgresql://rf_readonly:'+passwords['readonly']+'@db:5432/resolveflow'
+    settings['RF_ENFORCE_DB_ROLES']='1'
+    env_file.write_text(''.join(k+'='+v+'\n' for k,v in settings.items()),encoding='utf-8')
+    maintenance=work/'maintenance.env'
+    with maintenance.open('x',encoding='utf-8') as stream:
+        stream.write('DATABASE_URL=postgresql://rf_migrator:'+passwords['migrator']+'@db:5432/resolveflow\nMODE=demo\nRETRIEVAL_MODE=bm25\nRF_ENFORCE_DB_ROLES=1\n')
+    os.chmod(maintenance,0o600)
+    return True
 
 
 def restore_backup(bundle, project, report):
@@ -144,6 +175,8 @@ def restore_backup(bundle, project, report):
         with (Path(bundle)/'database.dump').open('rb') as stream:
             run(['docker','exec','-i',names['db'],'pg_restore','-U','resolveflow','-d','resolveflow',
                  '--single-transaction','--exit-on-error','--no-owner','--no-privileges'], stdin=stream)
+        phase = 'database_roles'
+        result['database_role_isolation']=provision_restored_roles(work,names,images['resolveflow'])
         phase = 'validate'
         # Pass the private manifest via stdin; never include credentials in arguments.
         payload = work/'validation-input.json'

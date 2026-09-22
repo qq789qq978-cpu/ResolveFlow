@@ -4,7 +4,7 @@
 
 ## 本地使用
 
-先用Python 3.12安装requirements.lock，并按 [迁移说明](MIGRATIONS.md) 对.env指向的本机数据库执行prepare（空库）或备份停机后的adopt（已有基线库）。再在PowerShell运行`./start-local.ps1`，保持终端打开，访问 http://127.0.0.1:8003/ 。脚本启动本地PostgreSQL（已有便携版时），只读检查版本后启动API和Worker；应用不再自动建表。数据库准备前须确保本机PG已启动。只运行uvicorn不会消费后台队列。3.2只升级了容器主库，未操作便携库。
+先用Python 3.12安装requirements.lock，并按 [迁移说明](MIGRATIONS.md) 对.env指向的本机数据库执行prepare（空库）或备份停机后的adopt（已有基线库）。3.6起还须按[DATABASE_ROLES.md](DATABASE_ROLES.md)配置角色，维护使用rf_migrator，运行使用rf_app及rf_readonly。再在新的PowerShell运行`./start-local.ps1`，保持终端打开，访问 http://127.0.0.1:8003/ 。脚本启动本地PostgreSQL（已有便携版时），只读检查版本后启动API和Worker；应用不再自动建表。数据库准备前须确保本机PG已启动。只运行uvicorn不会消费后台队列。3.2只升级了容器主库，未操作便携库。
 
 页面刷新后输入对应授权码，授权码存放在本机 `.env`：
 
@@ -102,4 +102,4 @@ Compose按PostgreSQL健康→一次性migrate成功退出→API健康→Worker�
 
 ## 文档 RAG 与后续计划
 
-新增受审核 Markdown 政策导入、分块、PostgreSQL 索引、BM25 检索与来源展示。首次启动种入空索引，后续修改文档需运行 `docker compose exec -T resolveflow python rag.py` 显式替换索引。详见 [RAG.md](RAG.md)、[PROJECT_HANDOFF.md](PROJECT_HANDOFF.md) 与 [ROADMAP.md](ROADMAP.md)。
+新增受审核 Markdown 政策导入、分块、PostgreSQL 索引、BM25 检索与来源展示。仅全新demo库由迁移任务播种政策。后续修改须通过migrate维护账号显式发布完整政策集合，见[POLICY_RELEASES.md](POLICY_RELEASES.md)；业务账号不允许修改知识库。详见 [RAG.md](RAG.md)、[PROJECT_HANDOFF.md](PROJECT_HANDOFF.md) 与 [ROADMAP.md](ROADMAP.md)。

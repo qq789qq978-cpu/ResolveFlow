@@ -19,6 +19,10 @@ class Store:
         """Compatibility entry point: readiness only, never DDL or data seeding."""
         from database_state import require_ready
         require_ready(self.url)
+        import os
+        if os.getenv('RF_ENFORCE_DB_ROLES') == '1':
+            from db_roles import require_app
+            require_app(self.url)
 
     def order(self, order_id, owner):
         with self.connect() as c:
@@ -73,7 +77,10 @@ class Store:
         with self.connect() as c:
             # Serialize policy changes/reindex against this authorization and ledger
             # transaction. A saved approval cannot override current policy state.
-            c.execute('LOCK TABLE rf_knowledge_documents IN SHARE MODE')
+            if c.execute("SELECT to_regprocedure('rf_lock_policy_refund()') AS helper").fetchone()['helper']:
+                c.execute('SELECT rf_lock_policy_refund()')
+            else:
+                c.execute('LOCK TABLE rf_knowledge_documents IN SHARE MODE')
             documents = c.execute('SELECT * FROM rf_knowledge_documents').fetchall()
             chunks = c.execute('SELECT * FROM rf_knowledge_chunks').fetchall()
             from policy_releases import active_context

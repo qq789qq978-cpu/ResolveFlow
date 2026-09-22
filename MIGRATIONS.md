@@ -18,14 +18,14 @@ core新库为20张表，hybrid为22张，均含心跳、4张checkpoint表和应�
 
 ## 新库：Docker Compose
 
-按README配置.env，演示使用MODE=demo，然后运行：
+按README配置.env并运行python scripts/setup_db_credentials.py，演示使用MODE=demo，然后运行：
 
 ```powershell
 docker compose up --build -d --wait --wait-timeout 180
 docker compose ps -a
 ```
 
-顺序为DB healthy → migrate成功退出 → API healthy → Worker。migrate是一次性任务，**Exited (0)正常**，不要求它healthy；失败时Compose不启动依赖它的API。它执行`python db_migrate.py prepare`，根据RETRIEVAL_MODE选择core/hybrid。
+顺序为DB healthy → db-roles成功退出 → migrate成功退出 → API healthy → Worker。migrate是一次性任务，**Exited (0)正常**，不要求它healthy；失败时Compose不启动依赖它的API。它执行`python db_migrate.py prepare`，根据RETRIEVAL_MODE选择core/hybrid。
 
 新装demo初始化4条合成订单及内置政策发布；新装live不植入演示订单或政策。已有库的prepare/adopt均不自动重新播种，避免更改历史内容和审核状态。live数据导入和真实审核不在本步范围。
 
@@ -35,7 +35,7 @@ hybrid新库先使用带pgvector的PG17镜像启动DB，并显式安装扩展：
 docker compose up -d --wait db
 docker compose exec -T db psql -U resolveflow -d resolveflow -c 'CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public;'
 docker compose up --build -d --wait --wait-timeout 180
-docker compose exec -T resolveflow python scripts/build_vector_index.py --report /tmp/vector-build-001.json
+docker compose run --rm --no-deps -v "${PWD}/work:/reports" migrate python scripts/build_vector_index.py --report /reports/vector-build-001.json
 ```
 
 先配置模型与encoder，见[混合检索说明](SEMANTIC_IMPLEMENTATION.md)。prepare创建向量表但不编码；没有有效批次时按原规则回退BM25。core不需要pgvector。
@@ -45,8 +45,10 @@ docker compose exec -T resolveflow python scripts/build_vector_index.py --report
 适用于startup DDL建立、结构与冻结基线一致的库。先停接单、等待在途任务结束，保留备份及旧镜像，在维护窗口运行：
 
 ```powershell
+python scripts/setup_db_credentials.py
 docker compose build
 docker compose stop resolveflow worker
+docker compose run --rm --no-deps db-roles
 docker compose run --rm --no-deps migrate python db_migrate.py adopt
 docker compose up -d --wait --wait-timeout 180
 docker compose exec -T resolveflow python db_migrate.py check
@@ -56,19 +58,20 @@ adopt锁住该schema的应用表，再对照列、默认值、约束、索引和
 
 默认prepare拒绝无版本旧库。应用结构漂移、部分旧应用表、未知版本均拒绝。3.3起，checkpoint的连续版本和相符中间结构可由库自身继续；缺历史、未知结构、未来版本或无效索引拒绝，见[恢复手册](MIGRATION_RECOVERY.md)。不能手工stamp绕过错误。更早、缺少governance等字段的库不属于本次应用基线，需另写显式迁移。
 
-入口使用schema范围的advisory lock，第二个迁移进程立即拒绝。接管锁表等待最多5秒；忙库失败并保留应用事务原状，停写后重试。此锁不防护任意外部DDL，数据库权限分工留到3.6。
+入口使用schema范围的advisory lock，第二个迁移进程立即拒绝。接管锁表等待最多5秒；忙库失败并保留应用事务原状，停写后重试。3.6已限制业务/只读账号DDL，迁移账号仍能维护对象；权限不替代维护互斥，见[DATABASE_ROLES.md](DATABASE_ROLES.md)。
 
 ## 非Docker运行
 
-使用Python 3.12安装requirements.lock，配置.env的本机DATABASE_URL。迁移命令读取.env，已有进程环境变量优先，不输出密钥：
+使用Python 3.12安装requirements.lock，先按[DATABASE_ROLES.md](DATABASE_ROLES.md)为目标库配置角色。以下迁移命令须在专用维护进程注入rf_migrator的DATABASE_URL及RF_ENFORCE_DB_ROLES=1；长期运行.env使用rf_app/只读连接。迁移命令读取.env，已有进程环境变量优先，不输出密钥：
 
 ```powershell
 .venv\Scripts\python db_migrate.py prepare
 # 若提示现有无版本库，停服务并备份后改用adopt：
 .venv\Scripts\python db_migrate.py adopt
 .venv\Scripts\python db_migrate.py check
-./start-local.ps1
 ```
+
+退出维护进程后，在已配置rf_app/只读连接的新终端运行`./start-local.ps1`。
 
 prepare/adopt按库的情况选一个，不是连续执行的固定流程。start-local/run_local只检查就绪，再启动API/Worker。3.2未更新或启动便携PostgreSQL，容器主库升级不代表所有历史库都已升级。
 

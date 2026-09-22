@@ -21,6 +21,11 @@ def main():
     from dotenv import load_dotenv
     from database_state import require_ready
     load_dotenv(ROOT/'.env', override=False, encoding='utf-8-sig')
+    from db_roles import require_app
+    require_app(os.environ['DATABASE_URL'])
+    if not os.getenv('READONLY_DATABASE_URL'):
+        raise ValueError('Configure READONLY_DATABASE_URL before starting local services; see DATABASE_ROLES.md')
+    os.environ['RF_ENFORCE_DB_ROLES']='1'
     require_ready(os.environ['DATABASE_URL'])
     children=[]
     try:

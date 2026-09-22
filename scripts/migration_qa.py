@@ -42,6 +42,9 @@ def main():
     env={**os.environ,'MODE':'demo','RETRIEVAL_MODE':'bm25','OPENAI_API_KEY':'',
          'APP_API_KEY':'qa-migration-operator','REVIEWER_API_KEY':'qa-migration-reviewer',
          'ADMIN_API_KEY':'qa-migration-admin','POSTGRES_PASSWORD':'qa-migration-database',
+         'RF_MIGRATOR_PASSWORD':'qa-migration-migrator-password-123',
+         'RF_APP_PASSWORD':'qa-migration-app-password-1234567',
+         'RF_READONLY_PASSWORD':'qa-migration-readonly-password-123',
          'RESOLVEFLOW_IMAGE':args.image,'LEGACY_IMAGE':args.legacy_image,
          'COMPOSE_PROFILES':'','POSTGRES_IMAGE':'pgvector/pgvector:0.8.6-pg17-trixie@sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6'}
     projects=[];result={'passed':False,'model_api_calls':0,'checks':[]}
@@ -97,6 +100,7 @@ def main():
         rejected=wait(8018,rejected['id']);assert rejected['status']=='rejected';completed.append(rejected)
         pending=submit(8018,'RF-1004');assert pending['status']=='awaiting_approval'
         docker(*compose(legacy,True),'stop','worker','resolveflow')
+        docker(*compose(legacy),'run','--rm','--no-deps','-T','db-roles')
         before=snapshot(legacy)
         assert before['rf_refunds']['count']==1 and before['rf_approvals']['count']==1
         refused=json.loads(docker(*compose(legacy),'run','--rm','--no-deps','-T','migrate',expected=1))

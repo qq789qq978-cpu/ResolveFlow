@@ -4,13 +4,13 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-最新完成 **3.5：独立库恢复、数据核对与待审批工单恢复**，见 [恢复手册](RESTORE.md) 和 [验证报告](validation/step-3.5-2026-09-22/REPORT.md)。真实备份恢复到新数据库/卷后22张表全部匹配，三条序列安全；两张原待审批工单分别同意/拒绝成功，重复退款被拦截。223项基础、112项PostgreSQL检查通过。主库20张非心跳表、7条向量和四服务保持原状；QA已停止保留卷。下一步 **3.6：迁移、业务、只读数据库权限隔离**，未开始。本步仅本地提交，3.9统一推送。
+最新完成 **3.6：迁移、业务、只读数据库权限隔离已完成**。本机API/Worker已使用rf_app，MCP使用rf_readonly，迁移使用rf_migrator；四服务healthy，原20表内容、22表结构和7向量保留。232项基础、120项PostgreSQL检查通过，新装/旧库分别44项越权拒绝，旧checkpoint接管与新版备份恢复继续审批通过。见 [权限手册](DATABASE_ROLES.md) 和 [3.6报告](validation/step-3.6-2026-09-22/REPORT.md)。下一步 **3.7：连接池、超时、连接耗尽和慢查询行为**，未开始。本步仅本地提交，3.9统一推送，当前阶段尚无远程CI结果。
 
 第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF 解析、reranker 仍按条件暂缓。旧 CI 成功和上方徽章均不替代当前未推送提交的 CI 验证。
 
 ## Docker 快速启动
 
-前置条件：Git、已启动的 Docker Engine / Docker Desktop，以及 Compose。首次获取私有仓库：
+前置条件：Git、Python 3.9+（生成本地凭据）、已启动的 Docker Engine / Docker Desktop，以及 Compose。首次获取私有仓库：
 
 ```powershell
 git clone https://github.com/qq789qq978-cpu/ResolveFlow.git
@@ -21,12 +21,13 @@ Copy-Item .env.example .env
 编辑 `.env`，设置 `POSTGRES_PASSWORD` 和三个不同的随机角色授权码：`APP_API_KEY`、`REVIEWER_API_KEY`、`ADMIN_API_KEY`。数据库密码建议用 URL-safe 字符。已有 `.env` 时不要覆盖。
 
 ```powershell
+python scripts/setup_db_credentials.py
 $env:MODE='demo'
 docker compose up --build -d --wait
 docker compose ps -a
 ```
 
-打开 http://127.0.0.1:8003/，输入角色授权码。默认BM25的DB/API/Worker应均为healthy；额外的一次性migrate任务应为Exited (0)，semantic profile还有embedding服务。Compose先等数据库健康和迁移成功再启动应用。API/Worker使用`db:5432`的容器数据库，不使用.env中供本机Python使用的DATABASE_URL。
+打开 http://127.0.0.1:8003/，输入角色授权码。默认BM25的DB/API/Worker应均为healthy；额外的一次性db-roles和migrate任务应为Exited (0)，semantic profile还有embedding服务。Compose先等数据库健康、账号配置和迁移成功再启动应用。数据库权限和已有库升级见[DATABASE_ROLES.md](DATABASE_ROLES.md)。API/Worker使用`db:5432`的容器数据库，不使用.env中供本机Python使用的DATABASE_URL。
 
 **已有3.1以前的数据库**须先备份、停API/Worker并显式接管，不能直接用新版启动覆盖：见 [旧库接管命令](MIGRATIONS.md#已有旧库显式接管)。默认prepare会拒绝无版本旧库或结构漂移；不会删除数据重建。
 

@@ -8,6 +8,7 @@ COPY semantic.py embedding_contract.py ./
 COPY scripts/build_vector_index.py ./scripts/build_vector_index.py
 COPY alembic.ini ./alembic.ini
 COPY db_migrate.py database_state.py checkpoint_state.py ./
+COPY db_roles.py ./
 COPY migrations ./migrations
 COPY scripts/schema_catalog.py ./scripts/schema_catalog.py
 COPY skills ./skills

@@ -19,7 +19,9 @@ services:
     ports:
       - "127.0.0.1:${APP_PORT:-8003}:8000"
     environment: &application-env
-      DATABASE_URL: postgresql://resolveflow:${POSTGRES_PASSWORD}@db:5432/resolveflow
+      DATABASE_URL: postgresql://rf_app:${RF_APP_PASSWORD:?Set RF_APP_PASSWORD}@db:5432/resolveflow
+      READONLY_DATABASE_URL: postgresql://rf_readonly:${RF_READONLY_PASSWORD:?Set RF_READONLY_PASSWORD}@db:5432/resolveflow
+      RF_ENFORCE_DB_ROLES: '1'
       APP_API_KEY: ${APP_API_KEY:?Set APP_API_KEY}
       REVIEWER_API_KEY: ${REVIEWER_API_KEY:?Set REVIEWER_API_KEY}
       ADMIN_API_KEY: ${ADMIN_API_KEY:?Set ADMIN_API_KEY}
@@ -44,10 +46,30 @@ services:
     image: ${RESOLVEFLOW_IMAGE:-resolveflow:local}
     build: .
     command: ["python", "db_migrate.py", "prepare"]
+    networks: [default, embedding-private]
     environment:
-      DATABASE_URL: postgresql://resolveflow:${POSTGRES_PASSWORD}@db:5432/resolveflow
+      DATABASE_URL: postgresql://rf_migrator:${RF_MIGRATOR_PASSWORD:?Set RF_MIGRATOR_PASSWORD}@db:5432/resolveflow
+      RF_ENFORCE_DB_ROLES: '1'
       MODE: ${MODE:-live}
       RETRIEVAL_MODE: ${RETRIEVAL_MODE:-bm25}
+      EMBEDDING_URL: http://embedding:8080
+    depends_on:
+      db:
+        condition: service_healthy
+      db-roles:
+        condition: service_completed_successfully
+    healthcheck:
+      disable: true
+    restart: "no"
+  db-roles:
+    image: ${RESOLVEFLOW_IMAGE:-resolveflow:local}
+    build: .
+    command: ["python", "db_roles.py", "provision"]
+    environment:
+      DATABASE_URL: postgresql://resolveflow:${POSTGRES_PASSWORD}@db:5432/resolveflow
+      RF_MIGRATOR_PASSWORD: ${RF_MIGRATOR_PASSWORD:?Set RF_MIGRATOR_PASSWORD}
+      RF_APP_PASSWORD: ${RF_APP_PASSWORD:?Set RF_APP_PASSWORD}
+      RF_READONLY_PASSWORD: ${RF_READONLY_PASSWORD:?Set RF_READONLY_PASSWORD}
     depends_on:
       db:
         condition: service_healthy
