@@ -58,6 +58,6 @@ python scripts/database_backup.py create --output D:/ResolveFlowBackups --projec
 - 本机同一磁盘的一份备份不能抵抗整盘损坏。另存受保护的独立磁盘/异地副本后再运行verify；本步未配置加密、异地同步、定时计划或保留周期。
 - 单数据库归档不包含集群账号/密码、其他数据库、Docker镜像、`.env`、外部embedding模型文件或WAL。账号权限在3.6另行管理，镜像和模型需按版本另行保存。
 - 恢复到新库时要预先准备匹配的PG主版本、扩展以及运行镜像，使用`pg_restore --no-owner --no-privileges --exit-on-error`，不要复用原环境所有权/授权，也不要覆盖原库。custom格式归档的所有权处理以恢复参数为准。
-- **完整解码与文件校验不等于恢复验收。** manifest固定记录`restore_verified=false`；独立库恢复、数据/序列核对、待审批工单继续执行属于下一步3.5，本步没有提前执行。
+- **完整解码与文件校验不等于恢复验收。** manifest固定记录`restore_verified=false`；独立库恢复、数据/序列核对、待审批工单继续执行已在3.5通过，见 [恢复手册](RESTORE.md) 与独立恢复报告；不改写3.4备份清单的历史状态。
 
 本步报告：[3.4验收](validation/step-3.4-2026-09-22/REPORT.md)。迁移事故处理见 [MIGRATION_RECOVERY.md](MIGRATION_RECOVERY.md)。

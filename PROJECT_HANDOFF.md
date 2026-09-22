@@ -4,11 +4,13 @@
 
 第一阶段历史交付（2026-09-21）：1.1–1.10收口，[1.10报告](validation/step-1.10-2026-09-21/REPORT.md) 汇总阶段回归、CI入口、交付核验方式与已知边界。12项前端、42项基础、14项PG集成、两组12条合成评测、三条API业务流、14表重建持久化及五类真实故障场景均复验。该阶段提交 e15ea5355d95384b76ac22715fa7c8d1fa82328e 已推送，对应 [Actions运行](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35577421865) 成功。用户要求每次对话一步、阶段末推送，见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
-最新进度：**3.4备份工具与版本/时间/校验信息完成**，见 [报告](validation/step-3.4-2026-09-22/REPORT.md) 与 [备份手册](BACKUPS.md)。宿主执行`python scripts/database_backup.py create`，默认生成work/backups下私有备份；verify离线校验。两份22表主库备份实跑、完整解码通过；206基础/104PG通过。原20张非心跳表、7条向量、22表结构及版本保留；四主服务未重启，仍为step33运行镜像。备份脚本通过现有API容器导出快照，无需重建应用镜像。SHA256清单不等于签名，在线序列为观察值；独立恢复尚未验收。无付费调用、无主库新增工单，QA已停止且保留历史库/卷。下一步3.5未开始，每步本地提交，3.9统一推送。
+最新进度：**3.5独立库恢复与待审批resume完成**，见 [报告](validation/step-3.5-2026-09-22/REPORT.md) 和 [操作手册](RESTORE.md)。database_restore.py将可信备份恢复到全新隔离容器/卷，22表内容/结构/版本、索引、三条序列及原checkpoint核对；restore_qa.py实测原工单同意/拒绝、重复审批409和模拟退款幂等。223基础/112PG通过。源备份仍在work/backups/20260922T113706Z-dff0eaa57542；私有随机配置在work/restores/<项目>/runtime.env，最终演练备份在work/restore-qa/resolveflow-restore-step35-final/backups。六套曾启动的本步QA项目均已停止，保留卷；默认地址池耗尽后工具使用不重叠的内部/24网络。主库20张非心跳表、7向量、结构/版本及四服务完全不变，仍为step33运行镜像；无付费调用、无主库新增工单。恢复验证不等于生产切换/异地容灾。下一步3.6未开始，3.9统一推送。
+
+历史3.4交付：**3.4备份工具与版本/时间/校验信息完成**，见 [报告](validation/step-3.4-2026-09-22/REPORT.md) 与 [备份手册](BACKUPS.md)。宿主执行`python scripts/database_backup.py create`，默认生成work/backups下私有备份；verify离线校验。两份22表主库备份实跑、完整解码通过；206基础/104PG通过。原20张非心跳表、7条向量、22表结构及版本保留；四主服务未重启，仍为step33运行镜像。备份脚本通过现有API容器导出快照，无需重建应用镜像。SHA256清单不等于签名，在线序列为观察值；独立恢复尚未验收。无付费调用、无主库新增工单，QA已停止且保留历史库/卷。下一步3.5未开始，每步本地提交，3.9统一推送。
 
 历史3.3交付：**3.3 迁移失败、回滚/继续及不可逆变更恢复完成**，见 [报告](validation/step-3.3-2026-09-22/REPORT.md) 与 [恢复手册](MIGRATION_RECOVERY.md)。187基础/98不同PG检查通过，包含30项恢复专项。LangGraph按锁定3.1.2包/SQL指纹和冻结中间结构续跑；未知结构、缺历史、未来版本或无效索引拒绝。新增bootstrap-demo只在显式demo、结构就绪且所有业务/checkpoint内容为空时播种，绝不猜测旧库意图。应用事务失败/进程强杀回滚、20种库迁移中断窗口、无效索引REINDEX、播种原子性、可逆QA修订降级均验证；不可逆合成删列后恢复至独立库，20表相同且checkpoint可读。
 
-本机8003的API/Worker已更新为resolveflow:step33，resolveflow:local指向同镜像；主库20张非心跳表及7向量保留，结构仍22表、版本rf_vector_0001，无新迁移revision、无新主库测试工单。DB/encoder镜像与启动时间不变，4常驻服务healthy、migrate退出0，demo/hybrid配置不变。主库不执行故障注入或bootstrap-demo。备份work/step33-main/pre-deploy.dump、旧镜像resolveflow:pre-step33保留；QA损坏库、恢复库和卷保留并停机。该段为3.3历史状态；3.4已按上文完成备份工具，3.5完整待审批灾备恢复仍待办。
+本机8003的API/Worker已更新为resolveflow:step33，resolveflow:local指向同镜像；主库20张非心跳表及7向量保留，结构仍22表、版本rf_vector_0001，无新迁移revision、无新主库测试工单。DB/encoder镜像与启动时间不变，4常驻服务healthy、migrate退出0，demo/hybrid配置不变。主库不执行故障注入或bootstrap-demo。备份work/step33-main/pre-deploy.dump、旧镜像resolveflow:pre-step33保留；QA损坏库、恢复库和卷保留并停机。该段为3.3历史状态；3.4已按上文完成备份工具，3.5已按上文完成独立库待审批恢复，未执行生产切换。
 
 升级前私有备份在忽略目录work/step32-main：before-adoption.dump（用于隔离恢复验证）、pre-deploy.dump（停API/Worker后的备份）；摘要在本步报告中。旧镜像保留resolveflow:pre-step32。它们是本次升级保障，不代表3.4备份机制或3.5完整恢复演练已完成。便携PG和历史QA库未自动接管；旧无版本库运行新版时须先显式adopt。
 
@@ -97,7 +99,7 @@ verify_persistence.py 比较重建前后行数和完整内容指纹，检查容�
 1. 三角色与页面、1.5–1.7各Worker故障窗口以及1.8 PostgreSQL停机造成的连接断开已按报告边界验收。1.7仍需区分在途SQL完成和执行重放；1.8仅验证服务器主动断开/连接拒绝，不覆盖静默丢包、网络分区、实体手机或所有浏览器。
 2. 1.9已验证两个Worker按SKIP LOCKED分别领取、同订单并发退款幂等，以及MCP SQL受阻后的超时清理。队列仍为跨外部调用的长事务，无整体任务期限；退款写入等非MCP SQL无统一超时。35秒持锁测试依靠解除测试阻塞恢复，不能声称任意永久阻塞都可自愈；3.7继续处理。Compose副本仍共享遗留SQLite卷，当前PG路径实测正常，不代表任意副本数量或连接耗尽验收。
 3. 1.9实测任务停滞时两个Worker仍healthy且在线，当前指标不检测任务进展，3.8补告警。token汇总不覆盖所有失败重试，不是账单。全部故障验收为demo，不覆盖真实模型中断或整机断电。
-4. 3.1–3.3已实现独立版本化迁移和迁移失败恢复，3.4已完成备份工具；3.5独立库完整恢复与待审批resume仍待办。
+4. 3.1–3.3已实现独立版本化迁移和迁移失败恢复，3.4已完成备份工具；3.5已完成独立库完整恢复与待审批resume；数据库角色隔离待3.6。
 5. 文档版本和程序退款规则必须共同审核；RAG对近义表达有限，需扩大标注集后评估语义检索。
 6. 退款使用调查时快照；真实支付前需执行前重查、独立授权、幂等键、对账和状态机。
 7. 合成订单、共享角色码和本机服务尚不是公网生产系统。

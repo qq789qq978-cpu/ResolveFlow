@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-最新完成 **3.4：备份脚本、版本时间和校验信息**，见 [备份手册](BACKUPS.md) 和 [验证报告](validation/step-3.4-2026-09-22/REPORT.md)。两份主库同快照备份均通过完整解码与SHA256校验，包含22张表、迁移/扩展/运行版本和时间记录。206项基础、104项PostgreSQL检查通过；原20张非心跳表、7条向量、结构和版本保留，四服务健康且未重启。下一步 **3.5：恢复至独立库，核对数据并恢复待审批工单**，未开始。本步仅本地提交，3.9统一推送。
+最新完成 **3.5：独立库恢复、数据核对与待审批工单恢复**，见 [恢复手册](RESTORE.md) 和 [验证报告](validation/step-3.5-2026-09-22/REPORT.md)。真实备份恢复到新数据库/卷后22张表全部匹配，三条序列安全；两张原待审批工单分别同意/拒绝成功，重复退款被拦截。223项基础、112项PostgreSQL检查通过。主库20张非心跳表、7条向量和四服务保持原状；QA已停止保留卷。下一步 **3.6：迁移、业务、只读数据库权限隔离**，未开始。本步仅本地提交，3.9统一推送。
 
 第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF 解析、reranker 仍按条件暂缓。旧 CI 成功和上方徽章均不替代当前未推送提交的 CI 验证。
 
