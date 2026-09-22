@@ -16,6 +16,21 @@ import urllib.request
 import worker_crash_qa as qa
 
 
+def distinct_worker_clients(rows, workers):
+    """Count container identities, not all interfaces of each container."""
+    if len(rows) != len(workers):
+        return False
+    represented = set()
+    for row in rows:
+        address = row['client_addr']
+        matches = {w['id'] for w in workers if address and any(
+            n.get('IPAddress') == address for n in w['networks'].values())}
+        if len(matches) != 1:
+            return False
+        represented.update(matches)
+    return represented == {w['id'] for w in workers}
+
+
 def admin(path, body=None, timeout=5):
     start = time.monotonic()
     request = urllib.request.Request(qa.URL + path, headers={
@@ -134,7 +149,7 @@ def main():
             concurrent = report['concurrent'] = {'order_id': order, 'gate': observer.call('multi_gate', order_id=order)}
             concurrent['run_ids'] = [submit(order), submit(order)]
             concurrent['blocked'] = blocked(2)
-            require({r['client_addr'] for r in concurrent['blocked']} == addresses,
+            require(distinct_worker_clients(concurrent['blocked'], report['workers_before']),
                     'two distinct Worker containers concurrently execute different jobs for the same order')
             concurrent['before'] = [observer.call('snapshot', run_id=rid) for rid in concurrent['run_ids']]
             require(all(not s['job_lock_available'] and s['job']['attempts'] == 0 for s in concurrent['before']),

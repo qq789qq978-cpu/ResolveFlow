@@ -1,9 +1,9 @@
 {
   "passed": true,
-  "checked_files": 27,
-  "local_links": 146,
+  "checked_files": 26,
+  "local_links": 141,
   "actual_env_secret_scan": "passed; values never printed",
-  "unit_checks_passed": 176,
+  "unit_checks_passed": 181,
   "postgres_checks_passed": 47,
   "frontend_checks_passed": 17,
   "local_bm25_baseline_matches_step26": true,

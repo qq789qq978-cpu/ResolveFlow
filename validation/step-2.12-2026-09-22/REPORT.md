@@ -25,7 +25,7 @@
 
 |范围|结果|证据|
 |---|---|---|
-|基础、Engine/MCP、RAG、治理/发布、语义检索、计分/预算|176项通过|[unit-tests.txt](unit-tests.txt)|
+|基础、Engine/MCP、RAG、治理/发布、语义检索、计分/预算|181项通过|[unit-tests-after-ci-fix.txt](unit-tests-after-ci-fix.txt)|
 |PostgreSQL队列、权限、故障恢复、发布和向量一致性|47项通过，1项依赖弃用警告|[postgres-tests.txt](postgres-tests.txt)|
 |前端角色切换、并发响应、引用治理显示、断线恢复|17项通过|[frontend-tests.txt](frontend-tests.txt)|
 |原80条标注结构/来源与冻结BM25基线|结构通过；数据/划分及两侧全部汇总与2.6最终基线一致|[标注检查](rag-candidates.json)、[基线](rag-baseline.json)|
@@ -53,9 +53,17 @@ python scripts/stage2_qa.py --project resolveflow-qa-stage2-recheck --report val
 
 不要并发运行共享8016端口的QA。脚本拒绝已存在应用容器/应用卷的项目，结束后停止而不删卷；下次复验换新项目名。若需改变权重路径，设置RF_EMBEDDING_MODEL_DIR；若无编码器镜像，构建`resolveflow:embedding-step28`。禁止通过删除历史卷绕过新项目要求。
 
-CI包含176项基础、47项PG、前端、离线业务/检索/基线、全新构建、API/Worker、容器重建及1.5–1.9五类真实故障。新增JUnit附件；持久化脚本补入4张政策发布表，并在存在时核对2张向量表。默认CI是BM25部署，pgvector集成用合成向量；**不会下载E5权重或调用付费模型**。真实本地编码器和混合重建由本步本地报告证明，不将其冒称为远程CI覆盖。
+CI包含181项基础、47项PG、前端、离线业务/检索/基线、全新构建、API/Worker、容器重建及1.5–1.9五类真实故障。新增JUnit附件；持久化脚本补入4张政策发布表，并在存在时核对2张向量表。默认CI是BM25部署，pgvector集成用合成向量；**不会下载E5权重或调用付费模型**。真实本地编码器和混合重建由本步本地报告证明，不将其冒称为远程CI覆盖。
 
 推送后必须检查本地/远程SHA一致、同SHA工作流成功，下载同次`evaluation`附件核对JUnit、18表默认部署持久化、业务结果和五类故障全部通过。实际run URL、SHA、步骤状态和附件核对结果保存在忽略的work/step212目录；不回写该SHA到受测提交而制造新的未验证提交。最终以GitHub对应提交及附件为远程证据。
+
+## 首轮CI失败与修复
+
+首次推送5b733cc的 [运行35712753007](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35712753007) 在1.9并发身份断言失败；基础/PG/前端、构建、18表重建、1.5–1.8均通过。失败结果保留，不能当作成功交付。
+
+原因是第二阶段为Worker增加了编码器私有网络：两个Worker共有4个接口IP，但PostgreSQL只观察到数据库网络上的2个客户端IP。旧脚本把这2个地址与全部4个接口地址比较，导致真实双Worker并发被误报。修复后按容器身份匹配，要求每条数据库连接唯一归属一个Worker，且必须覆盖两个不同Worker；同一Worker的两个接口、缺少连接、未知/空地址仍失败，没有放宽退款唯一性检查。
+
+[失败输入重放](ci-failure-analysis.json)证明原断言失败而新判断正确识别两名Worker；新增5项无网络测试，基础回归合计181项通过。原[176项记录](unit-tests.txt)保留；应用业务代码、退款规则、网络配置和已冻结质量证据未改。最终交付仍须修复提交的整套CI成功及附件核对，不能以这次定向修复代替最终验收。
 
 ## 下一步与待办
 

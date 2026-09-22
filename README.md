@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-第二阶段 **2.1–2.12本地收尾完成**，见 [阶段报告与同提交CI核验条件](validation/step-2.12-2026-09-22/REPORT.md)。176项基础、47项PG、17项前端、7条混合检索Worker流程、4种降级及19表重建/审批恢复通过。现有RAG支持本地E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11真实生成保留集有据引用覆盖16/20，语义正确性仍待人工复核。主环境8003保持demo/hybrid。阶段推送后的交付状态以对应提交CI为准，上方徽章不替代同SHA核验。下一步 **3.1：数据库迁移框架与基线**；PDF解析、reranker仍按条件暂缓。
+第二阶段 **2.1–2.12本地收尾完成**，见 [阶段报告与同提交CI核验条件](validation/step-2.12-2026-09-22/REPORT.md)。181项基础、47项PG、17项前端、7条混合检索Worker流程、4种降级及19表重建/审批恢复通过。现有RAG支持本地E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11真实生成保留集有据引用覆盖16/20，语义正确性仍待人工复核。主环境8003保持demo/hybrid。阶段推送后的交付状态以对应提交CI为准，上方徽章不替代同SHA核验。下一步 **3.1：数据库迁移框架与基线**；PDF解析、reranker仍按条件暂缓。
 
 ## Docker 快速启动
 

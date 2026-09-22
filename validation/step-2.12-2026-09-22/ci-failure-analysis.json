@@ -1,0 +1,19 @@
+{
+  "source_run": "https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35712753007",
+  "source_sha": "5b733cc65fceb2eaf3da6b4195fe4f6dd89b5222",
+  "failed_check": "two distinct Worker containers concurrently execute different jobs for the same order",
+  "worker_interface_addresses": [
+    "172.29.0.4",
+    "172.29.0.5",
+    "172.30.0.3",
+    "172.30.0.4"
+  ],
+  "postgres_clients": [
+    "172.29.0.4",
+    "172.29.0.5"
+  ],
+  "old_all_interface_equality": false,
+  "new_distinct_container_check": true,
+  "cause": "Each Worker has two networks; PostgreSQL sees one interface per Worker. Comparing with all interfaces falsely rejected correct concurrency.",
+  "application_code_changed": false
+}
