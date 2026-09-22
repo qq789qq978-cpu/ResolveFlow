@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，当前完成 [2.8本地混合检索](validation/step-2.8-2026-09-22/REPORT.md)。8003在demo模式使用本地E5-small、pgvector精确cosine及BM25/RRF，四服务健康；原17张表保留，新增2张向量表、7个向量。保留集完整证据命中15/20→17/20，必要组召回84.17%→93.33%，核心检索p95约96毫秒；回答质量仍未证明改善。默认新装仍为BM25，可按 [启用与维护说明](SEMANTIC_IMPLEMENTATION.md) 选择混合检索。下一步2.9待评估，2.12统一推送；上方徽章只代表远程main历史状态。
+当前完成 [2.9 reranker条件评估](validation/step-2.9-2026-09-22/REPORT.md)：暂缓增加重排模型，继续使用2.8本地E5+BM25/RRF。断网调优诊断中，理想重排仍完整命中40/40，并集选取最多多1个上下文相关片段，demo回答边界未改善；这是标签辅助分析，不是reranker实测。8003保持hybrid/demo、四服务健康、原19表及镜像不变。2.8历史保留完整命中17/20、核心检索p95约96毫秒，详见 [实现和运行](SEMANTIC_IMPLEMENTATION.md)。下一步2.10为PDF导入条件评估，2.12统一推送；上方徽章只代表远程main历史状态。第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)。
 
 ## Docker 快速启动
 

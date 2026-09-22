@@ -1,0 +1,20 @@
+Step 2.9 -- conditional reranker assessment, 2026-09-22
+Docker Python3.12, resolveflow:step28, --network none.
+Isolated read-only work/step29-src snapshot, no .env, DATABASE_URL or model-service connection.
+
+python scripts/assess_reranker.py --report /reports/diagnostic.json
+Passed: 45 tuning cases, 7344 label-assisted permutations.
+Original cached metrics reproduced exactly. Held-out cases scored: 0.
+Initial setup exited before diagnosis because eval_cases.json was missing from snapshot; copied original unchanged and retried.
+No candidate model inference or model download. This is not a cross-encoder quality benchmark.
+
+python -m pytest -p no:cacheprovider test_reranker_assessment.py test_rag_baseline.py -q
+19 passed in 3.16s.
+New analytic cases cover overlapping required groups and a corrupted necessary source that no permutation can recover.
+Existing score arithmetic, frozen split and abstention/reference checks passed.
+
+Main before/after: 19 tables identical to step2.8 final snapshot, four services healthy,
+same images and process start times, MODE=demo, RETRIEVAL_MODE=hybrid, SEMANTIC_WEIGHT=0.25.
+No application changes, no rebuild/restart, no new tickets, no historical volume deletions.
+Static/link/secret/unchanged-source verification: final-checks.json.
+Remote CI not run for this local commit; stage-end push remains step2.12.

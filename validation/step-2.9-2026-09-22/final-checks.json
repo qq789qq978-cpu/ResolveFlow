@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "checked_files": 16,
+  "local_links": 109,
+  "python_json_yaml_and_diff_checks": true,
+  "actual_env_secret_scan": "passed; values never printed",
+  "tuning_metrics_reproduced": true,
+  "same_top4_set_invariance": true,
+  "diagnostic_tests_passed": 19,
+  "held_out_evaluations_added": 0,
+  "reranker_model_tested": false,
+  "decision": "conditional_step_complete_defer_reranker",
+  "runtime_sources_match_step28": true,
+  "main_19_tables_match_step28": true,
+  "images_and_process_start_times_unchanged": true,
+  "frozen_inputs_and_prior_evidence_unchanged": true,
+  "diagnostic_source_sha256": {
+    "scripts/assess_reranker.py": "6e9a7d674f08875f9cbeb2dae2e484e308ada8341524dff338ee38ed871fee56",
+    "test_reranker_assessment.py": "3c9c2938259ff2fa5ce001b6f65de54419732f783514728be5097171a39b87f1",
+    "scripts/evaluate_rag_baseline.py": "6b70b74deb7ffc728dc363c1d3f9c0f929722fdaf3436f570cc4e166f70c2a42",
+    "scripts/freeze_rag_split.py": "7aa4b26c9dc4051e005240895b92257bd765ce9b5edecd2952fa2c8424b4dbab",
+    "scripts/validate_rag_dataset.py": "b0462069c1246812423398105f00fd223d46ed673a84cabc53d4247081dd4d08",
+    "engine.py": "bfbc2ab8323a9136c5176c782daf2c3bc33b61c2bb525635f060c32ef8aca0f0",
+    "grounding.py": "7654a8c10fec5cf6bc428d6d93233cfcb8ea94ca012c66f5e3080c8e62a288f9"
+  },
+  "remote_ci": "not run; push at step 2.12"
+}
