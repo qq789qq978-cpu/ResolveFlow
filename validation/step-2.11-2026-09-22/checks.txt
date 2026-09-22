@@ -1,0 +1,15 @@
+Step 2.11 evaluation-only validation, 2026-09-22
+Python 3.12, existing resolveflow:step210 image, read-only source snapshot.
+Network disabled and no provider credentials for unit tests.
+
+python -m pytest test_live_eval_budget.py test_live_rag_evaluation.py -q -p no:cacheprovider
+8 passed in 2.60s
+
+python -m pytest test_live_eval_budget.py test_live_rag_evaluation.py test_engine.py test_grounding.py test_rag_dataset.py test_rag_baseline.py -q -p no:cacheprovider
+73 passed in 36.18s (includes the eight new evaluation tests)
+
+Coverage: pre-send budget refusal, exact provider/model/token contract, actual usage
+accounting, retained reservation on missing usage, refused uncertain resume,
+quote-to-retrieved-source identity, required-group coverage, failed-output denominators,
+existing graph/grounding and frozen dataset/baseline behavior.
+These checks make no paid calls; billable results are in live-evaluation.json.

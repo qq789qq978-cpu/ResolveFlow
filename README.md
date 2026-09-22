@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-当前完成 [2.10 PDF条件评估与输入边界修复](validation/step-2.10-2026-09-22/REPORT.md)：暂不接入PDF解析/OCR/页码体系，当前仍导入经过审核的Markdown；候选目录出现PDF时会明确拒绝，避免静默遗漏。131项相关基础检查、25项PG检查通过。8003继续本地E5+BM25/RRF、demo、四服务健康，原19表保留。2.8历史保留完整命中17/20、核心检索p95约96毫秒，详见 [实现和运行](SEMANTIC_IMPLEMENTATION.md)。下一步2.11为明确模型、费用和数据范围后的真实生成模型评测；2.12统一推送，上方徽章只代表远程main历史状态。第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)。
+当前完成 [2.11真实生成模型评测](validation/step-2.11-2026-09-22/REPORT.md)：80条RAG真实评测（80/80合法结构化输出）及12条合成业务执行完成；保留集有据引用覆盖16/20（80.0%），业务授权边界12/12符合预期、模拟退款0条。280次DeepSeek调用，按高峰/输入无缓存计费的保守估算3.103362元（上限10元，非账单）。引用匹配不等于回答语义正确，人工复核仍待办。8003保持本地E5+BM25/RRF、demo，4服务健康、19表及镜像配置不变；PDF解析和reranker仍暂缓。下一步2.12阶段收尾、统一推送并核对CI，上方徽章只代表远程main历史状态。第一阶段见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)。
 
 ## Docker 快速启动
 
@@ -35,7 +35,7 @@ docker compose ps
 - 内置政策审核来源为demo_fixture，live模式不可直接采用；需维护人员完成实际审核、声明来源与有效期并显式导入，见 [政策治理](POLICY_GOVERNANCE.md)。
 - 两种模式都只使用合成订单和模拟退款，不调用真实支付。
 
-确认模型配置后，可设置 `$env:MODE='live'` 再运行 `docker compose up -d --wait`。API 与 Worker 必须同模式；切换前先处理完旧模式的排队任务。本次容器验收使用 demo，没有付费模型请求。
+确认模型配置后，可设置 `$env:MODE='live'` 再运行 `docker compose up -d --wait`。API 与 Worker 必须同模式；切换前先处理完旧模式的排队任务。主环境容器验收使用demo；2.11已在隔离QA中单独完成付费生成评测，见 [协议](LIVE_MODEL_EVALUATION.md) 和 [运行说明](LIVE_MODEL_EVALUATION_RUNBOOK.md)，未切换主环境到live。
 
 ## 演示功能
 

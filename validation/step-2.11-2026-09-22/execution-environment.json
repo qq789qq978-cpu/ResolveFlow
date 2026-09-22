@@ -1,0 +1,35 @@
+{
+  "image": "sha256:335de0c457397274aeced000852e364cb954137619e16e981669152f7f1e53f8",
+  "started_at": "2026-09-22T09:22:32.538668692Z",
+  "configuration": {
+    "MODE": "demo",
+    "RETRIEVAL_MODE": "hybrid",
+    "SEMANTIC_WEIGHT": "0.25",
+    "EMBEDDING_URL": "http://embedding:8080",
+    "DATABASE_URL": "postgresql://resolveflow:qa-step28-database@db:5432/resolveflow",
+    "MODEL_NAME": "deepseek-flash",
+    "OPENAI_BASE_URL": "https://api.deepseek.com"
+  },
+  "networks": [
+    "resolveflow-qa-step211-egress",
+    "resolveflow-qa-step211_private",
+    "resolveflow_embedding-private"
+  ],
+  "mounts": [
+    {
+      "source": "D:/AgentProjects/ResolveFlow/work/step211-src",
+      "destination": "/qa-src",
+      "writable": false
+    },
+    {
+      "source": "D:/AgentProjects/ResolveFlow/validation/step-2.11-2026-09-22",
+      "destination": "/reports",
+      "writable": true
+    },
+    {
+      "source": "D:/AgentProjects/ResolveFlow/work/step211/run",
+      "destination": "/private",
+      "writable": true
+    }
+  ]
+}

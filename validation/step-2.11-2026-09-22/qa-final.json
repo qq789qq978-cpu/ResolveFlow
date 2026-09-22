@@ -1,0 +1,24 @@
+{
+  "counts": {
+    "rf_orders": 4,
+    "rf_runs": 0,
+    "rf_refunds": 0,
+    "rf_knowledge_documents": 3,
+    "rf_knowledge_chunks": 7,
+    "rf_policy_vectors": 7
+  },
+  "policy_review_bases": [
+    "demo_fixture"
+  ],
+  "release": {
+    "id": "demo-policy-2026-09-21",
+    "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+    "generation": 1,
+    "refund_rule": {
+      "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+      "version": "refund-v2"
+    }
+  },
+  "passed": true,
+  "business_checks_use_temporary_sqlite": true
+}

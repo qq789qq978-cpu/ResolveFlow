@@ -1,0 +1,10 @@
+{
+  "endpoint": "https://api.deepseek.com",
+  "configured_model": "deepseek-flash",
+  "available_model_ids": [
+    "deepseek-flash",
+    "deepseek-v4-pro"
+  ],
+  "authenticated_models_get": true,
+  "inference_calls": 0
+}

@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "checked_files": 24,
+  "local_links": 127,
+  "actual_env_secret_scan": "passed; values never printed",
+  "unit_checks_passed": 73,
+  "new_evaluation_tests_included": 8,
+  "paid_requests": 280,
+  "usage_by_phase": {
+    "tuning": {
+      "requests": 136,
+      "input_tokens": 558530,
+      "output_tokens": 49432,
+      "peak_no_cache_estimate_cny": 1.512516
+    },
+    "held_out": {
+      "requests": 108,
+      "input_tokens": 451036,
+      "output_tokens": 34805,
+      "peak_no_cache_estimate_cny": 1.180512
+    },
+    "business": {
+      "requests": 36,
+      "input_tokens": 154767,
+      "output_tokens": 12600,
+      "peak_no_cache_estimate_cny": 0.410334
+    }
+  },
+  "frozen_manifest_matches_final_sources": true,
+  "no_main_runtime_code_changes": true,
+  "main_19_tables_and_four_services_unchanged": true,
+  "qa_stopped_volume_preserved": true,
+  "labels_policies_rules_ranking_and_prior_evidence_unchanged": true,
+  "held_out_published_as_aggregate_only": true,
+  "remote_ci": "not run; stage-end push at 2.12"
+}
