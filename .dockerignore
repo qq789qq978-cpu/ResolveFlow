@@ -9,4 +9,5 @@ work
 *.zip
 .idea
 .sites-runtime
+models
 PROJECT_HANDOFF.md

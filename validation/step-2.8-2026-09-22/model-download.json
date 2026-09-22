@@ -1,0 +1,38 @@
+{
+  "model": "intfloat/multilingual-e5-small",
+  "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+  "files": [
+    {
+      "name": "config.json",
+      "bytes": 655,
+      "verified": true
+    },
+    {
+      "name": "model.safetensors",
+      "bytes": 470641600,
+      "verified": true
+    },
+    {
+      "name": "tokenizer.json",
+      "bytes": 17082730,
+      "verified": true
+    },
+    {
+      "name": "tokenizer_config.json",
+      "bytes": 443,
+      "verified": true
+    },
+    {
+      "name": "special_tokens_map.json",
+      "bytes": 167,
+      "verified": true
+    },
+    {
+      "name": "sentencepiece.bpe.model",
+      "bytes": 5069051,
+      "verified": true
+    }
+  ],
+  "paid_calls": 0,
+  "business_data_sent": false
+}

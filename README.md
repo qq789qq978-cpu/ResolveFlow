@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，当前进度为 [2.7选型完成](validation/step-2.7-2026-09-22/REPORT.md)。下一步拟在本机用multilingual-e5-small与PostgreSQL精确向量检索做混合实验，模型API预算0元，详见 [模型、费用和数据范围](SEMANTIC_RETRIEVAL.md)；尚未安装或启用。8003仍运行2.6的expanded BM25，三服务健康、17张表保留。2.6调优完整命中36/40→40/40，保留仍15/20且上下文精确率略降，未证明泛化改善。2.8未开始，2.12统一推送；上方徽章仅代表远程main历史状态。
+第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，当前完成 [2.8本地混合检索](validation/step-2.8-2026-09-22/REPORT.md)。8003在demo模式使用本地E5-small、pgvector精确cosine及BM25/RRF，四服务健康；原17张表保留，新增2张向量表、7个向量。保留集完整证据命中15/20→17/20，必要组召回84.17%→93.33%，核心检索p95约96毫秒；回答质量仍未证明改善。默认新装仍为BM25，可按 [启用与维护说明](SEMANTIC_IMPLEMENTATION.md) 选择混合检索。下一步2.9待评估，2.12统一推送；上方徽章只代表远程main历史状态。
 
 ## Docker 快速启动
 
@@ -24,13 +24,13 @@ docker compose up --build -d --wait
 docker compose ps
 ```
 
-打开 http://127.0.0.1:8003/，输入角色授权码。三个服务应均为 healthy。API 和 Worker 使用 `db:5432` 的容器数据库；Compose 不使用 `.env` 中供本机 Python 使用的 `DATABASE_URL`。
+打开 http://127.0.0.1:8003/，输入角色授权码。默认BM25的三个服务应均为 healthy；显式启用semantic profile时还有embedding服务。API 和 Worker 使用 `db:5432` 的容器数据库；Compose 不使用 `.env` 中供本机 Python 使用的 `DATABASE_URL`。
 
 本机源码在 `D:/AgentProjects/ResolveFlow`，Docker 程序在 `D:/Programs/DockerDesktop`，Docker 数据在 `D:/DockerData`；其他机器无需沿用这些路径。本机 Python/便携 PostgreSQL 运行方式见 [运行说明](ENTERPRISE_V3.md)。
 
 ## demo 与 live
 
-- demo：真实 PostgreSQL、MCP、文档检索、队列和审批，以规则生成演示建议，不调用模型、不消耗 DeepSeek token。
+- demo：真实 PostgreSQL、MCP、文档检索、队列和审批，以规则生成演示建议，不调用生成模型、不消耗 DeepSeek token；hybrid模式会执行本地embedding推理。
 - live：额外调用模型调查和生成建议，需配置有效的 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`MODEL_NAME`。这几个兼容接口变量在本项目中用于 DeepSeek，不是 Codex 登录配置。
 - 内置政策审核来源为demo_fixture，live模式不可直接采用；需维护人员完成实际审核、声明来源与有效期并显式导入，见 [政策治理](POLICY_GOVERNANCE.md)。
 - 两种模式都只使用合成订单和模拟退款，不调用真实支付。
@@ -46,7 +46,7 @@ docker compose ps
 - 页面“政策知识库”可查询政策；工单显示来源文件、版本、行号和原文。
 - 管理员可查看心跳、耗时、失败情况，并重试耗尽自动重试次数的任务。
 
-RAG 采用 Markdown 导入、分块、PostgreSQL 存储和 BM25 文本检索，不依赖 embedding 服务。详见 [RAG.md](RAG.md)。
+RAG 采用 Markdown 导入、分块和 PostgreSQL 存储；默认BM25可独立运行，可选本地embedding混合检索，故障时回退BM25。详见 [RAG.md](RAG.md)。
 
 ## 持久化与验证
 

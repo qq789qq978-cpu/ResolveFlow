@@ -4,7 +4,7 @@
 
 第一阶段历史交付（2026-09-21）：1.1–1.10收口，[1.10报告](validation/step-1.10-2026-09-21/REPORT.md) 汇总阶段回归、CI入口、交付核验方式与已知边界。12项前端、42项基础、14项PG集成、两组12条合成评测、三条API业务流、14表重建持久化及五类真实故障场景均复验。该阶段提交 e15ea5355d95384b76ac22715fa7c8d1fa82328e 已推送，对应 [Actions运行](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35577421865) 成功。用户要求每次对话一步、阶段末推送，见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
-最新进度：**2.7选型完成**，见 [验收报告](validation/step-2.7-2026-09-22/REPORT.md)、[语义检索选型](SEMANTIC_RETRIEVAL.md)。决定2.8先试本地multilingual-e5-small、384维、FP32 CPU，固定模型revision；以pgvector精确cosine与BM25做RRF实验，不使用云端推理，付费模型API预算0元。计划限制2CPU/2GiB、并发1，质量/离线/兼容性/性能尚未实测，2.8未开始；不能将选型当成已完成embedding。现行8003仍为2.6镜像sha256:834a67e599e57117addad6fcbf09c692df12c2891b7541f7f76210807ab51522，三服务健康、expanded BM25、demo；原17张表及demo-policy-2026-09-21/generation=1保留。2.6已通过147项基础、34项PG、17项前端及六条Worker工单，本步无运行代码改动，不重复回归或评测。历史QA停止且卷保留；无业务文本外发、无模型推理或付费调用，仅本地提交，2.12再推送。
+最新进度：**2.8完成**，见 [验收报告](validation/step-2.8-2026-09-22/REPORT.md)、[实现和维护](SEMANTIC_IMPLEMENTATION.md)。本地E5-small/384维/FP32 CPU与pgvector精确检索已实跑，RRF dense权重0.25；一次保留验收完整命中17/20（BM25为15/20），召回93.33%（原84.17%），135次核心检索p95约96毫秒。162项基础、46项PG、17项前端、7条真实Worker流程、模型故障降级及19表重建/审批恢复通过。8003现为hybrid/demo，API、Worker、PG17.11与encoder四服务健康，原17表不变、新增2向量表和7向量；具体镜像见报告中的部署JSON。模型存于D:/AgentModels/ResolveFlow，Docker数据仍在D盘；付费模型调用0，真实支付0。QA停机保留历史与失败记录，本地提交，2.12再推送；2.9尚未开始。
 
 新工单citation_schema=2，citations为chunk_id，quotes为逐字摘录；引用真实不等于语义支持，claim_entailment仍未评测。旧已完成记录保留；旧待审批/执行记录若只有文档ID，恢复后转人工，不静默升级或新增退款。demo只处理明确业务请求，冻结保留集20条可答/部分可答问题全转人工、引用覆盖0/20，不能宣称质量提高；政策问答及真实模型质量仍需后续完善。
 
@@ -43,7 +43,7 @@
 1.4收尾状态：主环境8003已更新修复后的镜像，三服务healthy；主环境六张业务表更新前后指纹一致。独立QA容器已停止并保留卷，测试代理8005已结束，浏览器临时视口已还原。1.2/1.3记录的过期底部提示与结案建议已修复。页面增加会话/选择校验、请求超时与断线提示，旧响应不能恢复旧角色或覆盖新工单，写请求不会自动重发。前端测试用 `node --test test_frontend.cjs`，CI已增加此检查，但远程CI须阶段末推送后验证。打开旧页面需刷新以加载带版本标记的资源。
 
 - 正式入口 `operations:app` + `worker.py`，前端是 `frontend/dist` 原生 HTML/CSS/JS。
-- Compose 管理 PostgreSQL 17、FastAPI 和 Worker；入口 `127.0.0.1:8003`，数据库仅在容器网络内开放。
+- Compose 管理 PostgreSQL 17、FastAPI、Worker与可选本地embedding服务；本机四服务已启用，入口 `127.0.0.1:8003`，数据库和编码器不开放宿主端口。
 - Docker 程序位于 `D:/Programs/DockerDesktop`，Docker 数据在 `D:/DockerData`。便携 PostgreSQL 不与容器数据库混用。
 - 当前以 demo 运行。本次升级没有付费模型调用。live 通过兼容接口调用 DeepSeek。
 - PostgreSQL 保存业务、队列、LangGraph PostgresSaver checkpoint 和 RAG 索引。Engine 在 PG 模式仍初始化遗留 SQLite 文件，但不以它们作为主数据或 checkpoint；独立测试使用 SQLite。
@@ -65,7 +65,7 @@ rag.py 从 knowledge/*.md 读取 id/title/version 和正文，按段落分块，
 
 生产索引在 rf_knowledge_documents / rf_knowledge_chunks。空库首次登记内置演示发布，已有索引/发布不被重启覆盖。2.5起policy_releases.py负责显式发布、回滚、审核和历史查询；python rag.py原始导入会取消当前发布身份，同哈希文档保留最新审核，不能借导入复活撤销。查询使用一致快照；数据库错误或发布不兼容不回退到本地样例。
 
-MCP search_policy 调用检索，lookup_order 被宿主绑定当前订单与 owner；没有退款写工具。页面“政策知识库”和 /api/knowledge 可独立查询。工单保留当时证据，后续导入不修改旧工单。当前没有 embedding、向量库、reranker 或任意用户上传。详见 RAG.md。
+MCP search_policy 调用检索，lookup_order 被宿主绑定当前订单与 owner；没有退款写工具。页面“政策知识库”和 /api/knowledge 可独立查询。工单保留当时证据，后续导入不修改旧工单。2.8已接入本地E5、pgvector和RRF，新增rf_vector_batches/rf_policy_vectors；没有reranker或任意用户上传。启用、发布后索引维护和故障回退见 [说明](SEMANTIC_IMPLEMENTATION.md)。
 
 ## 数据与验证
 

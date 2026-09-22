@@ -7,11 +7,14 @@ from rag import retrieve
 server = FastMCP("resolveflow-support")
 
 @server.tool()
-def search_policy(query: str) -> list[dict]:
+async def search_policy(query: str) -> list[dict]:
     """Retrieve policy document chunks with source, version, line numbers and BM25 scores."""
     if len(query) > 4000:
         raise ValueError("Query too long")
-    return retrieve(query)
+    # Hybrid retrieval owns an asyncio loop for its bounded HTTP/SQL operations.
+    # Keep that synchronous boundary off FastMCP's running event loop.
+    import asyncio
+    return await asyncio.to_thread(retrieve, query)
 
 @server.tool()
 def lookup_order() -> dict:

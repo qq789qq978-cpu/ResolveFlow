@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "checked_deliverables": 45,
+  "local_links": 110,
+  "actual_env_secret_scan": "passed; values never printed",
+  "frozen_retrieval_models_labels_corpus_split_unchanged": true,
+  "evaluation_sources_match_except_trace": {
+    "engine.py": {
+      "evaluated": "7474797da20ffcd8b550f8aa2fd4a5f2a4942bf693a956d0b9614668172cd64a",
+      "final": "bfbc2ab8323a9136c5176c782daf2c3bc33b61c2bb525635f060c32ef8aca0f0"
+    }
+  },
+  "engine_trace_only_ast_check": true,
+  "mcp_integration_changes": "allowlisted configuration forwarding and handler thread boundary; final actual Worker QA passed",
+  "held_out_scored_once": true,
+  "encoder_dependencies_match_lock": true,
+  "main_17_tables_unchanged_throughout": true,
+  "qa_19_tables_persisted": true,
+  "qa_stopped_volumes_preserved": true,
+  "deployed_sources": {
+    "resolveflow-resolveflow-1": {
+      "rag.py": "864b2a1e6997467874e014ab413b3fa7f93bbab9de0f7579626cb12444b7a8f1",
+      "semantic.py": "48fce90486182f783af7480c5b71c918b13ff3bc33f47c6031c5e0dda6c892c6",
+      "embedding_contract.py": "bf2adc8b2ea273ebcd65f19cba557226f450e0591661394d77da2b850354e519",
+      "engine.py": "bfbc2ab8323a9136c5176c782daf2c3bc33b61c2bb525635f060c32ef8aca0f0",
+      "mcp_gateway.py": "4bb61e1e7fe31296298b82d592eb3833e44b986dc050624b3105264b41f48372",
+      "mcp_server.py": "dd0c97b38b86c9dfbcad51dff05ecc47ac83896cc91f74855c28ba0508129037",
+      "grounding.py": "7654a8c10fec5cf6bc428d6d93233cfcb8ea94ca012c66f5e3080c8e62a288f9",
+      "policy_governance.py": "4742899644c359c3921cb1bbc75a514538cfaa459c80129da45e3c04b90c77cb",
+      "policy_releases.py": "7d4300557618061ba0f12d068d5b233e0d2a90fb0db1dbb5a2668013d839d60f",
+      "refund_policy.py": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+      "storage.py": "e2c1e2aeff91e236ada2b581466302310070cbc59086129aea5b1413db886a61",
+      "operations.py": "0c839eff84b4ecd86fef9e0e7f97bbb0743ae05e7053020137c574a411906b68",
+      "bm25_config.py": "774e4b9e05145a00eb95ed5c6988307234e240ac8609ae16d4f13bc86f5d4a16",
+      "knowledge/release.json": "a62d6f75b1f0660704af2bb0363f37c2f347d401feac37e4538afabd594d09d4",
+      "knowledge/governance.json": "276e871728a60ce52260daeeac9cc16c14c5a251f212797284a70059ecdb6e1e",
+      "frontend/dist/app.js": "67afca587489327b786455f951e0e4b1d880a1f25eeb204680cef9d16587d2d7",
+      "frontend/dist/index.html": "6b82a025abfa5ccbfb953bb1a4e6453af554c56eacb4699d8d49efadda2b66ba",
+      "scripts/build_vector_index.py": "344ec0b41e06a41e6c0d907f8916c986e0f21d7f24304ed33697eefefaf1ec3c"
+    },
+    "resolveflow-worker-1": {
+      "rag.py": "864b2a1e6997467874e014ab413b3fa7f93bbab9de0f7579626cb12444b7a8f1",
+      "semantic.py": "48fce90486182f783af7480c5b71c918b13ff3bc33f47c6031c5e0dda6c892c6",
+      "embedding_contract.py": "bf2adc8b2ea273ebcd65f19cba557226f450e0591661394d77da2b850354e519",
+      "engine.py": "bfbc2ab8323a9136c5176c782daf2c3bc33b61c2bb525635f060c32ef8aca0f0",
+      "mcp_gateway.py": "4bb61e1e7fe31296298b82d592eb3833e44b986dc050624b3105264b41f48372",
+      "mcp_server.py": "dd0c97b38b86c9dfbcad51dff05ecc47ac83896cc91f74855c28ba0508129037",
+      "grounding.py": "7654a8c10fec5cf6bc428d6d93233cfcb8ea94ca012c66f5e3080c8e62a288f9",
+      "policy_governance.py": "4742899644c359c3921cb1bbc75a514538cfaa459c80129da45e3c04b90c77cb",
+      "policy_releases.py": "7d4300557618061ba0f12d068d5b233e0d2a90fb0db1dbb5a2668013d839d60f",
+      "refund_policy.py": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+      "storage.py": "e2c1e2aeff91e236ada2b581466302310070cbc59086129aea5b1413db886a61",
+      "operations.py": "0c839eff84b4ecd86fef9e0e7f97bbb0743ae05e7053020137c574a411906b68",
+      "bm25_config.py": "774e4b9e05145a00eb95ed5c6988307234e240ac8609ae16d4f13bc86f5d4a16",
+      "knowledge/release.json": "a62d6f75b1f0660704af2bb0363f37c2f347d401feac37e4538afabd594d09d4",
+      "knowledge/governance.json": "276e871728a60ce52260daeeac9cc16c14c5a251f212797284a70059ecdb6e1e",
+      "frontend/dist/app.js": "67afca587489327b786455f951e0e4b1d880a1f25eeb204680cef9d16587d2d7",
+      "frontend/dist/index.html": "6b82a025abfa5ccbfb953bb1a4e6453af554c56eacb4699d8d49efadda2b66ba",
+      "scripts/build_vector_index.py": "344ec0b41e06a41e6c0d907f8916c986e0f21d7f24304ed33697eefefaf1ec3c"
+    }
+  },
+  "encoder_sources": {
+    "embedding_service.py": "808dc68c2cc94acc4a4a52d5e63b3a6d919e3e08cb511aa58761a6b496111a5e",
+    "embedding_contract.py": "bf2adc8b2ea273ebcd65f19cba557226f450e0591661394d77da2b850354e519",
+    "embedding/model-manifest.json": "094a87e0660dfabd3be26d4b2c3ce7a45048c8f551bbae5c98fab3271ad8222d",
+    "embedding/requirements.lock": "8f1dff9a064756a38553a6cc65fdf129a388a7bbbd57027692c5379c4812f624",
+    "scripts/download_embeddings.py": "8dfb85f502891f6b2fa54fd061e8c54edc9a2b9329a8d5d880ab9dccc5dd8322"
+  }
+}

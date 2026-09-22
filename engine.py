@@ -102,7 +102,7 @@ class Engine:
         trace.append({"node": "investigate", "transport": "mcp-stdio", "tools": ["search_policy", "lookup_order"]})
         if order.get("owner") != state["owner"]:
             order = {}
-        trace.append({"node": "investigate", "event": "baseline_evidence", "sources": [e["id"] for e in evidence], "chunks": [e.get("chunk_id") for e in evidence], "retrieval": "bm25"})
+        trace.append({"node": "investigate", "event": "baseline_evidence", "sources": [e["id"] for e in evidence], "chunks": [e.get("chunk_id") for e in evidence], "retrieval": next(iter({e.get("retrieval", "bm25") for e in evidence}), "none")})
         if self.mode == "demo":
             proposal = Proposal(**demo_suggestion(state['ticket'], evidence))
         else:

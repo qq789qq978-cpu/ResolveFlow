@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:17
+    image: ${POSTGRES_IMAGE:-postgres:17}
     environment:
       POSTGRES_USER: resolveflow
       POSTGRES_DB: resolveflow
@@ -28,6 +28,10 @@ services:
       OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.deepseek.com}
       MODEL_NAME: ${MODEL_NAME:-deepseek-flash}
       DATA_DIR: /data
+      RETRIEVAL_MODE: ${RETRIEVAL_MODE:-bm25}
+      SEMANTIC_WEIGHT: ${SEMANTIC_WEIGHT:-0.25}
+      EMBEDDING_URL: http://embedding:8080
+    networks: [default, embedding-private]
     depends_on:
       db:
         condition: service_healthy
@@ -39,6 +43,7 @@ services:
     build: .
     command: ["python", "worker.py"]
     environment: *application-env
+    networks: [default, embedding-private]
     depends_on:
       resolveflow:
         condition: service_healthy
@@ -50,6 +55,28 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+  embedding:
+    profiles: [semantic]
+    image: resolveflow:embedding-local
+    build:
+      context: .
+      dockerfile: embedding/Dockerfile
+    cpus: 2
+    mem_limit: 2g
+    networks: [embedding-private]
+    volumes:
+      - type: bind
+        source: ${RF_EMBEDDING_MODEL_DIR:-./models/multilingual-e5-small}
+        target: /model
+        read_only: true
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+networks:
+  embedding-private:
+    internal: true
 volumes:
   postgres-data:
   agent-data:

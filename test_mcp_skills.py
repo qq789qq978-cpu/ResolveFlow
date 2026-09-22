@@ -15,9 +15,29 @@ def test_mcp_unknown_tool_rejected():
     with pytest.raises(Exception):
         call_tools("RF-1001", "demo", [("execute_refund", {})])
 
+def test_mcp_passes_local_retrieval_configuration(monkeypatch):
+    monkeypatch.delenv('DATABASE_URL', raising=False)
+    monkeypatch.setenv('RETRIEVAL_MODE', 'hybrid')
+    monkeypatch.setenv('SEMANTIC_WEIGHT', '0.25')
+    # Endpoint rejection is observable before network access or loading weights.
+    # Without configuration forwarding this child silently returns plain BM25.
+    monkeypatch.setenv('EMBEDDING_URL', 'https://example.com')
+    hits = call_tools('RF-1001', 'demo', [('search_policy', {'query': '退款'})])[0]
+    assert hits and all(h['retrieval_fallback']['reason'] == 'vector_database_not_configured' for h in hits)
+
 def test_mcp_error_propagates():
     with pytest.raises(Exception):
         call_tools("RF-1001", "demo", [("search_policy", {"query": "x" * 4001})])
+
+def test_mcp_handler_supports_bounded_async_retriever(monkeypatch):
+    import asyncio
+    import mcp_server
+    from semantic import _run
+    async def fetch():
+        await asyncio.sleep(0)
+        return [{'chunk_id': 'fixture', 'retrieval': 'hybrid'}]
+    monkeypatch.setattr(mcp_server, 'retrieve', lambda query: _run(fetch()))
+    assert asyncio.run(mcp_server.search_policy('fixture'))[0]['retrieval'] == 'hybrid'
 
 def test_unavailable_mcp_does_not_fallback(tmp_path, monkeypatch):
     def fail(*args):

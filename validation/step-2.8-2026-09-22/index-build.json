@@ -1,0 +1,23 @@
+{
+  "batch_id": "0f2a13c52a27a398da13791eda280b239a36ca4fb0eb2cef5bc628deebd69ba5",
+  "contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068",
+  "chunks": 7,
+  "tokens": [
+    95,
+    65,
+    60,
+    73,
+    57,
+    60,
+    72
+  ],
+  "release": {
+    "id": "demo-policy-2026-09-21",
+    "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+    "generation": 1,
+    "refund_rule": {
+      "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+      "version": "refund-v2"
+    }
+  }
+}

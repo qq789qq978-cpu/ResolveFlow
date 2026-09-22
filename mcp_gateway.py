@@ -15,6 +15,10 @@ ALLOWED = {"search_policy", "lookup_order"}
 async def exchange(order_id, owner, calls):
     env = {key: os.environ[key] for key in ("PATH", "SYSTEMROOT", "WINDIR", "TEMP", "TMP") if key in os.environ}
     env.update(RESOLVEFLOW_ORDER_ID=order_id, RESOLVEFLOW_OWNER=owner, PYTHONPATH=sysconfig.get_paths()["purelib"])
+    # Forward only retrieval configuration; model credentials stay out of the child.
+    for key in ("RETRIEVAL_MODE", "SEMANTIC_WEIGHT", "EMBEDDING_URL"):
+        if key in os.environ:
+            env[key] = os.environ[key]
     bootstrap = "import site,runpy,sys,pathlib; site.addsitedir(sys.argv[1]); sys.path.insert(0,str(pathlib.Path(sys.argv[2]).parent)); runpy.run_path(sys.argv[2],run_name='__main__')"
     if os.getenv("DATABASE_URL"):
         from psycopg.conninfo import conninfo_to_dict, make_conninfo

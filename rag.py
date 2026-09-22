@@ -2,7 +2,7 @@
 
 The small corpus is ranked in-process. Production documents/chunks live in
 PostgreSQL; isolated tests read bundled documents without a database or model.
-This is lexical retrieval, not neural embeddings or a vector database.
+BM25 is the default; explicitly configured experiments can add local embeddings.
 """
 from collections import Counter
 import hashlib
@@ -218,14 +218,25 @@ def read_index():
 def search(query, top_k=4):
     documents, chunks, release = read_index()
     now = utcnow()
-    return {'results': rank(query, documents, chunks, top_k, now=now, release=release) if release['valid'] else [],
+    if os.getenv('RETRIEVAL_MODE','bm25')=='hybrid':
+        from semantic import search as hybrid_search
+        results,retrieval=hybrid_search(query,documents,chunks,release,top_k,
+                                       weight=float(os.getenv('SEMANTIC_WEIGHT','0.25')),now=now)
+    else:
+        results=rank(query,documents,chunks,top_k,now=now,release=release) if release['valid'] else []
+        retrieval={'requested':'bm25','used':'bm25' if release['valid'] else 'none'}
+    return {'results': results, 'retrieval':retrieval,
             'release': {k:v for k,v in release.items() if k!='payload'},
             'policies': [{'id': d['id'], 'title': d['title'], 'version': d['version'],
                           'policy': availability(d, now=now)} for d in documents]}
 
 
 def retrieve(query, top_k=4):
-    return search(query, top_k)['results']
+    response=search(query, top_k)
+    if response['retrieval'].get('reason'):
+        import logging
+        logging.getLogger(__name__).warning('retrieval_fallback reason=%s',response['retrieval']['reason'])
+    return response['results']
 
 def main():
     import argparse

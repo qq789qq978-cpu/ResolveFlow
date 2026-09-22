@@ -1,0 +1,39 @@
+Step 2.8, 2026-09-22. Project Python commands used Docker Python 3.12.
+MODE=demo throughout; no paid API calls or real payments.
+
+Final unit suite (isolated source snapshot, no DATABASE_URL):
+python -m pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py test_policy_releases.py test_bm25.py test_semantic.py -q
+162 passed in 50.67s.
+Earlier pre-integration-fix passes: 160, then 161. Final 162 includes MCP configuration and event-loop regressions.
+
+PG suite (RUN_PG_TESTS=1, isolated random schemas in QA pgvector17):
+python -m pytest test_jobs.py test_policy_releases_pg.py test_semantic_pg.py -q
+46 passed in 70.12s on final MCP integration code. Existing Starlette/AnyIO BlockingPortal deprecation warning only.
+
+node --test test_frontend.cjs
+17 passed, 0 failed.
+
+python evaluate_v3.py (isolated writable source snapshot, BM25 default)
+12/12 synthetic routing cases.
+python evaluate_rag.py (same isolated snapshot)
+12/12 public BM25 queries, recall 1, MRR 0.944444, unrelated abstention 1.
+Initial runs computed cases but report writes failed on read-only mount; reran on isolated writable snapshot.
+
+docker compose config --quiet
+docker compose -f compose.qa-semantic.yaml config --quiet
+Passed. Main config uses local secrets without printing resolved configuration.
+
+python scripts/evaluate_semantic.py tuning --report /reports/tuning.json
+45 tuning questions, three frozen RRF weights; selected 0.25.
+python scripts/evaluate_semantic.py held-out --selection /reports/tuning.json --report /reports/held-out.json
+35 held-out questions once; quality_gate_passed=true. No held-out case-level outputs.
+python scripts/evaluate_semantic.py performance --selection /reports/tuning.json --report /reports/performance.json
+20 warmup + 135 measured queries, p95=96.226804ms, max=113.432455ms, 0 errors.
+These three phases ran before the trace-only engine change and MCP integration fixes; retrieval implementation unchanged.
+
+python scripts/semantic_qa.py --report validation/step-2.8-2026-09-22/api-worker.json
+Passed: 7 actual hybrid Worker flows; 4 real fallback scenarios; 19 tables preserved across recreation; queued approval resumed.
+Earlier attempts exposed missing MCP retrieval configuration and nested event loop; fixed and retained failed QA history.
+
+Main deployment and final source/secret/link checks: see main-deployment.json and final-checks.json.
+No push this step. Remote CI for this commit is deferred to stage end 2.12.

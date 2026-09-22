@@ -1,0 +1,75 @@
+# Isolated local experiment, public fixture credentials only. Never reuse main volumes.
+name: resolveflow-qa-step28
+services:
+  db:
+    image: pgvector/pgvector:0.8.6-pg17-trixie@sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6
+    environment:
+      POSTGRES_USER: resolveflow
+      POSTGRES_DB: resolveflow
+      POSTGRES_PASSWORD: qa-step28-database
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks: [private]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resolveflow -d resolveflow"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  embedding:
+    image: resolveflow:embedding-step28
+    build:
+      context: .
+      dockerfile: embedding/Dockerfile
+    cpus: 2
+    mem_limit: 2g
+    networks: [private]
+    volumes:
+      - type: bind
+        source: ${RF_EMBEDDING_MODEL_DIR:-D:/AgentModels/ResolveFlow/multilingual-e5-small/614241f622f53c4eeff9890bdc4f31cfecc418b3}
+        target: /model
+        read_only: true
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+  resolveflow:
+    image: resolveflow:step28
+    environment: &qa-env
+      DATABASE_URL: postgresql://resolveflow:qa-step28-database@db:5432/resolveflow
+      APP_API_KEY: qa-step28-operator
+      REVIEWER_API_KEY: qa-step28-reviewer
+      ADMIN_API_KEY: qa-step28-admin
+      MODE: demo
+      OPENAI_API_KEY: ''
+      DATA_DIR: /data
+      RETRIEVAL_MODE: hybrid
+      SEMANTIC_WEIGHT: ${RF_SEMANTIC_WEIGHT:-0.25}
+      EMBEDDING_URL: http://embedding:8080
+    networks: [private, ingress]
+    ports: ["127.0.0.1:8016:8000"]
+    volumes: [agent-data:/data]
+    depends_on:
+      db:
+        condition: service_healthy
+  worker:
+    image: resolveflow:step28
+    command: ["python", "worker.py"]
+    environment: *qa-env
+    networks: [private]
+    volumes: [worker-data:/data]
+    depends_on:
+      resolveflow:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "worker_health.py"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+networks:
+  private:
+    internal: true
+  ingress: {}
+volumes:
+  postgres-data:
+  agent-data:
+  worker-data:
