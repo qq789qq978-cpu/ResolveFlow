@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "id": "demo-policy-2026-09-21",
+  "refund_rule": {
+    "version": "refund-v2",
+    "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5"
+  },
+  "action_chunks": {
+    "refund": "refund-v2:3ad704686fec:0",
+    "reply": "shipping-v1:872750f16cd0:0"
+  }
+}

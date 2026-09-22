@@ -1,20 +1,18 @@
 """Exact snippet references and conservative action scope; no semantic judge."""
-from functools import lru_cache
 import re
 
-from rag import read_documents, current_documents
+from rag import read_index
 from policy_governance import availability, utcnow
 
-# Bind automatic actions to the reviewed clause, not merely its document ID.
-# A policy edit needs an explicit rule/evidence binding review (roadmap 2.5).
+# Legacy offline demo helper; execution uses the current release's checked binding.
 ACTION_CHUNKS = {'refund': 'refund-v2:3ad704686fec:0',
                  'reply': 'shipping-v1:872750f16cd0:0'}
 SAFE_NO_BASIS = '现有证据不足以支持这项处理，已转人工核查；不会据此承诺退款、到账时间或赔付。'
 
 
-@lru_cache(maxsize=1)
-def trusted_chunks():
-    documents, chunks = read_documents()
+def trusted_chunks(release):
+    if not release.get('payload'): return {}
+    documents, chunks = release['payload']['documents'], release['payload']['chunks']
     docs = {d['id']: d for d in documents}
     return {c['chunk_id']: {**c, 'source': docs[c['document_id']]['source'],
                            'version': docs[c['document_id']]['version'],
@@ -41,7 +39,7 @@ def requested_action(ticket):
     return None
 
 
-def check_grounding(proposal, evidence, *, mode=None, documents=None, now=None):
+def check_grounding(proposal, evidence, *, mode=None, documents=None, release=None, now=None):
     """Validate the saved snapshot and verbatim excerpts, never free-text entailment."""
     errors, verified = [], []
     citations = proposal.get('citations', [])
@@ -69,7 +67,10 @@ def check_grounding(proposal, evidence, *, mode=None, documents=None, now=None):
         if cid in available and item != available[cid]:
             errors.append('conflicting_snapshot')
         available[cid] = item
-    trusted = trusted_chunks()
+    if release is None:
+        loaded, _, release = read_index()
+        if documents is None: documents = loaded
+    trusted = trusted_chunks(release)
     for quote in quotes:
         cid, excerpt = quote.get('chunk_id'), quote.get('quote')
         if not isinstance(cid, str):
@@ -90,8 +91,13 @@ def check_grounding(proposal, evidence, *, mode=None, documents=None, now=None):
             continue
         verified.append({**saved, 'quote': excerpt})
     valid = not errors
+    if not release['valid']:
+        errors.append(release['reason'])
+    for cid in citations:
+        if not release['token'] or available.get(cid, {}).get('release') != release['token']:
+            errors.append('release_changed_or_missing')
     now = now if now is not None else utcnow()
-    current = {d['id']: d for d in (current_documents() if documents is None else documents)} if verified else {}
+    current = {d['id']: d for d in documents or []} if verified else {}
     policy_checks = []
     for saved in verified:
         document = current.get(saved['id'], {})
@@ -106,6 +112,8 @@ def check_grounding(proposal, evidence, *, mode=None, documents=None, now=None):
     if not complete:
         errors.append('partial_or_insufficient_basis')
     return {'schema': 2, 'reference_valid': valid, 'usable': not errors,
+            'release': {k:v for k,v in release.items() if k!='payload'},
+            'action_chunks': release['payload']['action_chunks'] if release.get('payload') else {},
             'policy_checks': policy_checks, 'checked_at': now.isoformat(),
             'evidence_status': proposal.get('evidence_status', 'insufficient'),
             'errors': sorted(set(errors)), 'verified': verified,
@@ -115,17 +123,19 @@ def check_grounding(proposal, evidence, *, mode=None, documents=None, now=None):
 def action_supported(action, grounding):
     # A short quote from some other paragraph cannot authorize a refund.
     return grounding['usable'] and any(
-        e['chunk_id'] == ACTION_CHUNKS.get(action) and e['quote'] == e['text']
+        e['chunk_id'] == grounding.get('action_chunks', {}).get(action) and e['quote'] == e['text']
         for e in grounding['verified'])
 
 
 def demo_suggestion(ticket, evidence):
     action = requested_action(ticket)
     required = ACTION_CHUNKS.get(action)
-    matching = next((e for e in evidence if e.get('chunk_id') == required), None)
+    matching = next((e for e in evidence if action in e.get('actions', [])
+                     or ('actions' not in e and e.get('chunk_id') == required)), None)
     if not matching:
         return {'action': 'escalate', 'reason': SAFE_NO_BASIS, 'citation_schema': 2,
                 'evidence_status': 'insufficient', 'citations': [], 'quotes': []}
+    required = matching['chunk_id']
     return {'action': action, 'reason': '已检索到处理规则原文，订单事实仍需程序核验。',
             'citation_schema': 2, 'evidence_status': 'supported', 'citations': [required],
             'quotes': [{'chunk_id': required, 'quote': matching['text']}]}

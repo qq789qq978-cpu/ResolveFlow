@@ -162,3 +162,13 @@ test('expired policy remains an authentic historical quote without claiming usab
     assert.match(h.elements.citationquotes.textContent,/演示样例，非人工审核/);
     assert.match(h.elements.evidence.textContent,/截止时刻起不可用/);
 });
+
+test('release generation is visible and incompatible releases are not presented as usable',async()=>{
+    const h=harness(); await h.login('operator');
+    const source={source:'refund.md',version:'2',text:'policy',release:{id:'policy-a',generation:1,refund_rule:{version:'refund-v2'}}};
+    h.runs.get('A').state={evidence:[source],result:{grounding:{usable:false,verified:[],release:{valid:false,reason:'release_incompatible_or_corrupt',token:null}}}};
+    await h.show('A');
+    assert.match(h.elements.citationquotes.textContent,/退款规则不兼容/);
+    assert.match(h.elements.evidence.textContent,/policy-a · 变更序号 1 · 退款规则 refund-v2/);
+    assert.match(h.elements.citationstatus.textContent,/需要人工核查/);
+});

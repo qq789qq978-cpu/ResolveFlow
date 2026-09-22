@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from rag import rank, read_documents
 from policy_governance import timestamp
+from policy_releases import context, prepare
 from scripts.freeze_rag_split import SPLIT, digest, validate_split
 from scripts.validate_rag_dataset import DATASET, validate_dataset
 
@@ -129,6 +130,7 @@ def aggregate(rows):
 
 def source_fingerprints():
     paths = ['rag.py', 'engine.py', 'grounding.py', 'policy_governance.py', 'knowledge/governance.json',
+             'policy_releases.py','refund_policy.py','knowledge/release.json','evals/rag/RELEASE_PROTOCOL.md',
              'evals/rag/GOVERNANCE_PROTOCOL.md', 'skill_loader.py', 'scripts/evaluate_rag_baseline.py',
              'scripts/freeze_rag_split.py', 'scripts/validate_rag_dataset.py', 'evals/rag/PROTOCOL.md',
              'evals/rag/SNIPPET_PROTOCOL.md']
@@ -144,7 +146,7 @@ def evaluate(data, split, *, proposer=demo_proposal):
     partitions = {'tuning': [], 'held_out': []}
     for case in data['cases']:
         hits = rank(case['query'], documents, chunks, TOP_K,
-                    now=timestamp('2026-09-21T12:00:00Z'), mode='demo')
+                    now=timestamp('2026-09-21T12:00:00Z'), mode='demo', release=context(prepare()))
         proposal = proposer(case['query'], hits)
         partitions[split['assignments'][case['id']]].append(score_case(case, hits, proposal, data['evidence_catalog']))
     return {'completed': True, 'quality_gate': 'not_set; baseline_measurement_only',

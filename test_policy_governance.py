@@ -9,6 +9,7 @@ from engine import Engine
 from grounding import check_grounding, demo_suggestion
 from policy_governance import availability, timestamp
 from rag import rank, read_documents
+from policy_releases import context, prepare
 
 NOW = timestamp('2026-09-21T12:00:00Z')
 
@@ -70,7 +71,7 @@ def test_demo_approval_is_not_human_or_live_authority():
 @pytest.mark.parametrize('change', ['revoked','expired','removed','changed'])
 def test_current_policy_overrides_saved_approved_snapshot(change):
     docs, chunks = read_documents()
-    evidence = rank('申请退款', docs, chunks, now=NOW, mode='demo')
+    evidence = rank('申请退款', docs, chunks, now=NOW, mode='demo', release=context(prepare()))
     proposal = demo_suggestion('申请退款', evidence)
     before = copy.deepcopy(evidence)
     current = copy.deepcopy(docs)
@@ -92,7 +93,7 @@ def test_expiry_while_waiting_for_approval_cannot_refund(tmp_path, monkeypatch):
         assert e.start(rid, '申请退款', 'RF-1004')['pending']
         docs = read_documents()[0]
         for doc in docs: doc['governance']['effective_until'] = '2026-09-21T01:00:00Z'
-        monkeypatch.setattr('grounding.current_documents', lambda: docs)
+        monkeypatch.setattr('grounding.read_index', lambda: (docs, [], context(prepare())))
         monkeypatch.setattr('grounding.utcnow', lambda: NOW)
         result = e.resume(rid, True)['state']['result']
         assert result['status'] == 'escalated'

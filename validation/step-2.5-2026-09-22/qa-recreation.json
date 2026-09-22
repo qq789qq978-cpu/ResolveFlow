@@ -1,0 +1,257 @@
+{
+  "passed": true,
+  "image": "sha256:7d42f8f38b3b020edbfd37e0c1897596d3f3bc591a1ec526d48e8672963c3132",
+  "qa_before": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 4,
+      "sha256": "36344c0715f419017251dffb2f575771e798838d13cb3acda56517a14135a6ed"
+    },
+    "rf_jobs": {
+      "count": 4,
+      "sha256": "06637c5f38fce0eee6159df3a7f9506d8b3c076fe7369265988a4b8eaef0f250"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "78caa7684d1249777457d5751a8a0a06129668033a3a7a2146f68213708e1650"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 2,
+      "sha256": "cecfe01e0ef962ae769635fb6395bdd0f2ccb17e9d307a6456bd9b8cdbc83ce7"
+    },
+    "rf_audit": {
+      "count": 7,
+      "sha256": "542760adb280798a67f31febca870d739bc0af52b2bfeeb0b79daeac644eb22c"
+    },
+    "rf_job_attempts": {
+      "count": 7,
+      "sha256": "5ba426493e9d3513f37ea0aacf809f609701c4010970bdb24a39076b25de7a72"
+    },
+    "checkpoints": {
+      "count": 23,
+      "sha256": "a23bd416657f29b9000bf9d9113a8c01f5f3493d0a01bf0c06d0e0a8bd06cf29"
+    },
+    "checkpoint_blobs": {
+      "count": 53,
+      "sha256": "6fa93d312731caf5c12e1e6a6d2185b5c08354f5e841b84eecd8119bc836fc03"
+    },
+    "checkpoint_writes": {
+      "count": 110,
+      "sha256": "4e518820ac73926056e264b037d793d6a540adb39115349a9969e128897c8b60"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    },
+    "rf_policy_releases": {
+      "count": 2,
+      "sha256": "173682cd4521cbcbae4b760da97640de882a61dff392005a09fb2629fa3c7d9c"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "sha256": "fc8749c6f0bc0f5e6f75a7ab3b179509d5842f9e03efc8cb131c5714b9858918"
+    },
+    "rf_policy_reviews": {
+      "count": 4,
+      "sha256": "c51c188a1a44ae3bc2fa296e048824b35072a2b38c923a2625954fd8ca205604"
+    },
+    "rf_policy_events": {
+      "count": 4,
+      "sha256": "260da705516e77b2f423e7ce09a9d6863d198e02f7a39ab85a587b5806165296"
+    }
+  },
+  "qa_after": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 4,
+      "sha256": "36344c0715f419017251dffb2f575771e798838d13cb3acda56517a14135a6ed"
+    },
+    "rf_jobs": {
+      "count": 4,
+      "sha256": "06637c5f38fce0eee6159df3a7f9506d8b3c076fe7369265988a4b8eaef0f250"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "78caa7684d1249777457d5751a8a0a06129668033a3a7a2146f68213708e1650"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 2,
+      "sha256": "cecfe01e0ef962ae769635fb6395bdd0f2ccb17e9d307a6456bd9b8cdbc83ce7"
+    },
+    "rf_audit": {
+      "count": 7,
+      "sha256": "542760adb280798a67f31febca870d739bc0af52b2bfeeb0b79daeac644eb22c"
+    },
+    "rf_job_attempts": {
+      "count": 7,
+      "sha256": "5ba426493e9d3513f37ea0aacf809f609701c4010970bdb24a39076b25de7a72"
+    },
+    "checkpoints": {
+      "count": 23,
+      "sha256": "a23bd416657f29b9000bf9d9113a8c01f5f3493d0a01bf0c06d0e0a8bd06cf29"
+    },
+    "checkpoint_blobs": {
+      "count": 53,
+      "sha256": "6fa93d312731caf5c12e1e6a6d2185b5c08354f5e841b84eecd8119bc836fc03"
+    },
+    "checkpoint_writes": {
+      "count": 110,
+      "sha256": "4e518820ac73926056e264b037d793d6a540adb39115349a9969e128897c8b60"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    },
+    "rf_policy_releases": {
+      "count": 2,
+      "sha256": "173682cd4521cbcbae4b760da97640de882a61dff392005a09fb2629fa3c7d9c"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "sha256": "fc8749c6f0bc0f5e6f75a7ab3b179509d5842f9e03efc8cb131c5714b9858918"
+    },
+    "rf_policy_reviews": {
+      "count": 4,
+      "sha256": "c51c188a1a44ae3bc2fa296e048824b35072a2b38c923a2625954fd8ca205604"
+    },
+    "rf_policy_events": {
+      "count": 4,
+      "sha256": "260da705516e77b2f423e7ce09a9d6863d198e02f7a39ab85a587b5806165296"
+    }
+  },
+  "release_history_preserved": true,
+  "active_generation": 4,
+  "main_before": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 9,
+      "sha256": "30e2a18fa4de3ec10aef8691c85980a7af9d5fcbd9bcbe764eeaf5a6038d40b3"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "sha256": "34022e839b50bfe464e65c63c0112cccefbdd73f661c02e5cc429675de0012d3"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "0729bcc573fcab694609b02a911044ad3895a40b3d1e0abe2e7cb9bc59fa7860"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "cd6ea8e96928fbb1227210766146ccfaf900f628591707fd0e7697eb88723233"
+    },
+    "rf_audit": {
+      "count": 12,
+      "sha256": "5ccdb411bc2d049ae12406dfed2002b5588f1cd6b0c686a9f96d169f41e2c893"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "sha256": "2d40c98b86ee1205b5e24f1f9031d6f67c3b0001f5ef79aa5ed0412b30fb3166"
+    },
+    "checkpoints": {
+      "count": 43,
+      "sha256": "9d9dce4cf984cd9000410d53331fbe5fae3fede4325638f4d962eafa01bfd2be"
+    },
+    "checkpoint_blobs": {
+      "count": 101,
+      "sha256": "439bbd8ce447b31cad22c03da6c880491705e5e327d91d8bd7c726804cedc063"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "sha256": "b36a5ee91c3ffc72a88dae759dbddf56c2eb9a9f2b123dbe1ff7492a9eb6954f"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "main_after": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 9,
+      "sha256": "30e2a18fa4de3ec10aef8691c85980a7af9d5fcbd9bcbe764eeaf5a6038d40b3"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "sha256": "34022e839b50bfe464e65c63c0112cccefbdd73f661c02e5cc429675de0012d3"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "sha256": "0729bcc573fcab694609b02a911044ad3895a40b3d1e0abe2e7cb9bc59fa7860"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "cd6ea8e96928fbb1227210766146ccfaf900f628591707fd0e7697eb88723233"
+    },
+    "rf_audit": {
+      "count": 12,
+      "sha256": "5ccdb411bc2d049ae12406dfed2002b5588f1cd6b0c686a9f96d169f41e2c893"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "sha256": "2d40c98b86ee1205b5e24f1f9031d6f67c3b0001f5ef79aa5ed0412b30fb3166"
+    },
+    "checkpoints": {
+      "count": 43,
+      "sha256": "9d9dce4cf984cd9000410d53331fbe5fae3fede4325638f4d962eafa01bfd2be"
+    },
+    "checkpoint_blobs": {
+      "count": 101,
+      "sha256": "439bbd8ce447b31cad22c03da6c880491705e5e327d91d8bd7c726804cedc063"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "sha256": "b36a5ee91c3ffc72a88dae759dbddf56c2eb9a9f2b123dbe1ff7492a9eb6954f"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "volumes_deleted": false,
+  "containers_recreated": true,
+  "new_business_jobs": 0
+}

@@ -1,0 +1,41 @@
+ResolveFlow step 2.5, 2026-09-22. Docker Python 3.12 / locked dependencies.
+Python tests used ignored work/step25-src (no .env), MODE=demo,
+PYTHONPATH=/qa-src:/app. Main database never used by tests.
+
+Full unit command:
+python -m pytest -p no:cacheprovider test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py test_policy_releases.py -q
+136 passed in 63.00s
+After adding the explicit compiled rule-binding gate and one extra unit case:
+python -m pytest -p no:cacheprovider test_policy_releases.py -q
+11 passed in 1.06s
+Final unique unit coverage: 137. No claim that one command printed 137.
+
+RUN_PG_TESTS=1 python -m pytest -p no:cacheprovider test_jobs.py test_policy_releases_pg.py -q
+32 passed / 1 failed in 69.13s, one existing AnyIO deprecation warning.
+Failure was test code calling monkeypatch.undo(), which also restored the fixture's
+DATABASE_URL. Restored only the rule function, retaining the isolated test schema:
+test_policy_releases_pg.py::test_rule_code_mismatch_and_index_drift_fail_closed
+1 passed, 1 warning in 3.69s
+After final rule-version reuse protection and its extra test:
+python -m pytest -p no:cacheprovider test_policy_releases_pg.py -q
+12 passed, 1 warning in 14.40s
+Final unique PostgreSQL coverage: 34 (22 queue/RBAC/governance + 12 release tests).
+
+node --test test_frontend.cjs
+17 tests; 17 pass; 0 fail.
+
+python scripts/release_qa.py --report validation/step-2.5-2026-09-22/api-worker.json
+passed: true; business_flows: 4; refused_operations: 3; auth_checks: 3;
+main_unchanged: true. CLI publication/rollback/review and real Worker restart used.
+
+evaluate_v3.py: demo, 12 samples, 12 correct, routing_accuracy=1.0.
+evaluate_rag.py: 12 samples; recall_at_4=1.0; mrr_at_4=0.9444444444444444;
+unrelated_abstention=1.0. Both JSON outputs retained in this directory.
+
+Final frozen RAG baseline: baseline-final.json. Both split aggregates exactly equal
+step-2.4 baseline.json. All original dataset/split/corpus digests unchanged.
+baseline.json is the intermediate measurement before the final compiled rule-binding
+restriction; retained rather than overwritten. No held-out individual failure tuning.
+
+Docker was initially stopped; starting the existing installation restored the demo
+containers. Initial test/build attempts did not run until the daemon was available.

@@ -159,7 +159,8 @@ def test_rag_postgres_reindex_and_invalid_input_rollback(system,tmp_path):
     (directory/'governance.json').write_text(json.dumps({'schema':1,'policies':{'test-v1':meta}}),encoding='utf-8')
     with store.connect() as connection:sync_index(connection,directory)
     result=retrieve('保修凭证')
-    assert result[0]['id']=='test-v1'
+    assert result==[]  # Raw imports require an explicit compatible release.
+    assert c.get('/api/knowledge',params={'query':'保修凭证'},headers=headers()).json()['release']['reason']=='release_missing'
     assert retrieve('退款')==[]  # stale chunks are removed by replacement
     doc.write_text('invalid metadata',encoding='utf-8')
     with pytest.raises(ValueError):
@@ -228,6 +229,14 @@ def test_existing_index_upgrade_is_idempotent_and_requires_explicit_review_impor
     with store.connect() as conn:
         assert original == conn.execute('SELECT chunk_id,text FROM rf_knowledge_chunks ORDER BY chunk_id').fetchall()
         sync_index(conn)
+    assert retrieve('退款') == []  # Explicit import preserves the 2.5 publication gate.
+    from policy_releases import activate, prepare, review
+    with store.connect() as conn:
+        generation=conn.execute('SELECT generation FROM rf_policy_head').fetchone()['generation']
+        for doc in prepare()['documents']:
+            review(conn,doc['sha256'],doc['governance'],actor='qa',reason='Explicit synthetic review after legacy upgrade',expected_generation=generation)
+            generation+=1
+        activate(conn,payload=prepare(),expected_generation=generation,actor='qa',reason='Republish imported index')
     assert retrieve('退款')
     directory = tmp_path/'governance-fixture'
     shutil.copytree(KNOWLEDGE,directory)

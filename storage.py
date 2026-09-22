@@ -42,7 +42,11 @@ class Store:
             c.execute(SCHEMA)
             for order in ORDERS.values():
                 c.execute("INSERT INTO rf_orders VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING", tuple(order[k] for k in ('id','owner','amount','days','used','status')))
-            sync_index(c, only_if_empty=True)
+            seeded = sync_index(c, only_if_empty=True)
+            if seeded['seeded']:
+                from policy_releases import activate, prepare
+                activate(c, payload=prepare(), expected_generation=0, actor='demo-bootstrap',
+                         reason='Initial bundled policy release for a new empty database', mode='demo')
 
     def order(self, order_id, owner):
         with self.connect() as c:
@@ -99,8 +103,11 @@ class Store:
             # transaction. A saved approval cannot override current policy state.
             c.execute('LOCK TABLE rf_knowledge_documents IN SHARE MODE')
             documents = c.execute('SELECT * FROM rf_knowledge_documents').fetchall()
+            chunks = c.execute('SELECT * FROM rf_knowledge_chunks').fetchall()
+            from policy_releases import active_context
+            release = active_context(c, documents, chunks)
             proposal, evidence, mode = authorization
-            grounded = check_grounding(proposal, evidence, mode=mode, documents=documents)
+            grounded = check_grounding(proposal, evidence, mode=mode, documents=documents, release=release)
             if not action_supported('refund', grounded):
                 raise PolicyUnavailable(grounded)
             result = c.execute("INSERT INTO rf_refunds VALUES (%s,%s,%s,DEFAULT) ON CONFLICT(order_id) DO NOTHING RETURNING order_id",(order_id,run_id,amount)).fetchone()

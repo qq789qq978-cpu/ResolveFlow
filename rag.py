@@ -109,15 +109,28 @@ def read_documents(directory=KNOWLEDGE):
     return documents, chunks
 
 def sync_index(connection, directory=KNOWLEDGE, *, only_if_empty=False):
-    from psycopg.types.json import Jsonb
+    from policy_releases import SCHEMA as RELEASE_SCHEMA, invalidate
     documents, chunks = read_documents(directory)  # validate before any mutation
     connection.execute(SCHEMA)
+    connection.execute(RELEASE_SCHEMA)
     # Schema-local relation lock serializes bootstrap/reindex, including two
     # services starting together. One transaction exposes a complete index.
     connection.execute('LOCK TABLE rf_knowledge_documents IN EXCLUSIVE MODE')
     existing = connection.execute('SELECT count(*) AS n FROM rf_knowledge_documents').fetchone()
     if only_if_empty and existing['n']:
         return {'seeded': False, 'documents': existing['n']}
+    invalidate(connection)
+    reviews = {r['document_sha256']:r['governance'] for r in connection.execute('SELECT * FROM rf_policy_reviews').fetchall()}
+    for document in documents:
+        if document['sha256'] in reviews:
+            document['governance'] = reviews[document['sha256']]
+    replace_index(connection, documents, chunks)
+    return {'seeded': True, 'documents': len(documents), 'chunks': len(chunks)}
+
+
+def replace_index(connection, documents, chunks):
+    """Internal writer; caller holds the policy lock and manages release identity."""
+    from psycopg.types.json import Jsonb
     for document in documents:
         connection.execute('''INSERT INTO rf_knowledge_documents
             (id,title,source,version,sha256,body,governance) VALUES (%s,%s,%s,%s,%s,%s,%s)
@@ -131,9 +144,8 @@ def sync_index(connection, directory=KNOWLEDGE, *, only_if_empty=False):
             tuple(chunk[k] for k in ('chunk_id','document_id','position','text','line_start','line_end')))
     connection.execute('DELETE FROM rf_knowledge_documents WHERE NOT (id = ANY(%s))',
                        ([d['id'] for d in documents],))
-    return {'seeded': True, 'documents': len(documents), 'chunks': len(chunks)}
 
-def rank(query, documents, chunks, top_k=4, *, now=None, mode=None):
+def rank(query, documents, chunks, top_k=4, *, now=None, mode=None, release=None):
     if not isinstance(query, str) or len(query) > 4000:
         raise ValueError('Query must be a string of at most 4000 characters')
     if not 1 <= top_k <= 8:
@@ -161,11 +173,14 @@ def rank(query, documents, chunks, top_k=4, *, now=None, mode=None):
             score += inverse * tf * 2.5 / (tf + 1.5*(0.25+0.75*sum(count.values())/average))
         if score <= 0: continue
         document = documents[chunk['document_id']]
-        ranked.append({'id': document['id'], 'chunk_id': chunk['chunk_id'],
+        hit = {'id': document['id'], 'chunk_id': chunk['chunk_id'],
             'text': chunk['text'], 'title': document['title'], 'source': document['source'],
             'version': document['version'], 'document_sha256': document['sha256'],
             'line_start': chunk['line_start'], 'line_end': chunk['line_end'],
-            'score': round(score, 6), 'retrieval': 'bm25', 'policy': policies[document['id']]})
+            'score': round(score, 6), 'retrieval': 'bm25', 'policy': policies[document['id']]}
+        if release and release['valid']:
+            hit.update(release=release['token'], actions=[a for a,cid in release['payload']['action_chunks'].items() if cid==chunk['chunk_id']])
+        ranked.append(hit)
     return sorted(ranked, key=lambda r: (-r['score'], r['chunk_id']))[:top_k]
 
 def current_documents():
@@ -177,7 +192,8 @@ def current_documents():
     return read_documents()[0]
 
 
-def search(query, top_k=4):
+def read_index():
+    from policy_releases import active_context, context, prepare
     if os.getenv('DATABASE_URL'):
         from storage import Store
         with Store(os.environ['DATABASE_URL']).connect() as connection:
@@ -185,10 +201,18 @@ def search(query, top_k=4):
             connection.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY')
             documents = connection.execute('SELECT * FROM rf_knowledge_documents').fetchall()
             chunks = connection.execute('SELECT * FROM rf_knowledge_chunks ORDER BY document_id,position').fetchall()
+            release = active_context(connection, documents, chunks)
     else:
         documents, chunks = read_documents()
+        release = context(prepare())
+    return documents, chunks, release
+
+
+def search(query, top_k=4):
+    documents, chunks, release = read_index()
     now = utcnow()
-    return {'results': rank(query, documents, chunks, top_k, now=now),
+    return {'results': rank(query, documents, chunks, top_k, now=now, release=release) if release['valid'] else [],
+            'release': {k:v for k,v in release.items() if k!='payload'},
             'policies': [{'id': d['id'], 'title': d['title'], 'version': d['version'],
                           'policy': availability(d, now=now)} for d in documents]}
 
@@ -201,7 +225,7 @@ def main():
     import json
     from dotenv import load_dotenv
     from storage import Store
-    parser = argparse.ArgumentParser(description='Replace the curated policy index atomically')
+    parser = argparse.ArgumentParser(description='Import index and invalidate active release; explicit policy publication is required')
     parser.add_argument('--directory', type=Path, default=KNOWLEDGE)
     args = parser.parse_args()
     load_dotenv(Path(__file__).with_name('.env'), encoding='utf-8-sig')

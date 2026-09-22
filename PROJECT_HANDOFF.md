@@ -1,10 +1,10 @@
 # ResolveFlow V3 项目交接
 
-更新日期：2026-09-21。主目录 `D:/AgentProjects/ResolveFlow`，私有仓库 `qq789qq978-cpu/ResolveFlow`。本文替代此前“没有 Git / Docker 尚未实跑”的过期交接说明。验证结果见 [VALIDATION.md](VALIDATION.md)，后续计划见 [ROADMAP.md](ROADMAP.md)。
+更新日期：2026-09-22。主目录 `D:/AgentProjects/ResolveFlow`，私有仓库 `qq789qq978-cpu/ResolveFlow`。本文替代此前“没有 Git / Docker 尚未实跑”的过期交接说明。验证结果见 [VALIDATION.md](VALIDATION.md)，后续计划见 [ROADMAP.md](ROADMAP.md)。
 
 第一阶段历史交付（2026-09-21）：1.1–1.10收口，[1.10报告](validation/step-1.10-2026-09-21/REPORT.md) 汇总阶段回归、CI入口、交付核验方式与已知边界。12项前端、42项基础、14项PG集成、两组12条合成评测、三条API业务流、14表重建持久化及五类真实故障场景均复验。该阶段提交 e15ea5355d95384b76ac22715fa7c8d1fa82328e 已推送，对应 [Actions运行](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35577421865) 成功。用户要求每次对话一步、阶段末推送，见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
-最新进度：**2.4完成**，[治理说明](POLICY_GOVERNANCE.md) 和 [验收报告](validation/step-2.4-2026-09-21/REPORT.md) 记录审核状态、有效期、当前状态复核与事务门禁。基础/治理最终覆盖126项、PG22项、前端16项及真实API/Worker8条流程通过。8003使用镜像 sha256:624d2545252bf83cba08dd78ed87233ed753cfd5f3554c84c6145c6440eb6043，三服务healthy、demo模式。升级时12张表指纹不变；知识文档表仅新增governance和三份演示审核元数据，原文/7片段另行核对不变。9条主工单及所有历史审批/checkpoint/退款保留，没有新增主库测试工单。8013 QA停止、卷保留。未调用项目模型/真实支付、未推送；下一步2.5未开始。
+最新进度：**2.5完成**，[发布说明](POLICY_RELEASES.md) 和 [验收报告](validation/step-2.5-2026-09-22/REPORT.md) 记录完整快照、事务发布/回滚、审核状态覆盖、规则代码/段落绑定、旧审批及并发发布拦截。最终覆盖137项基础/契约、34项PG、17项前端；真实CLI/API/Worker4条业务流程、3类发布拒绝及3项权限检查通过。8003镜像 sha256:7d42f8f38b3b020edbfd37e0c1897596d3f3bc591a1ec526d48e8672963c3132，三服务healthy、demo模式，当前demo-policy-2026-09-21、generation=1。原13张业务/checkpoint/知识库表完全不变，新增rf_policy_releases/head/reviews/events四张发布表。没有新增主库测试工单。8014 QA停止、卷保留；最终镜像重建后其17张表与发布历史保留。未调用项目模型或真实支付、未推送。下一步2.6未开始。
 
 新工单citation_schema=2，citations为chunk_id，quotes为逐字摘录；引用真实不等于语义支持，claim_entailment仍未评测。旧已完成记录保留；旧待审批/执行记录若只有文档ID，恢复后转人工，不静默升级或新增退款。demo只处理明确业务请求，冻结保留集20条可答/部分可答问题全转人工、引用覆盖0/20，不能宣称质量提高；政策问答及真实模型质量仍需后续完善。
 
@@ -63,13 +63,13 @@ run_id 同时是 thread_id。API 在同一事务保存工单与任务；人工�
 
 rag.py 从 knowledge/*.md 读取 id/title/version 和正文，按段落分块，长段落最多500字符、重叠60字符，保留文件名、行号、版本、SHA-256。中文 bigram / 英文词的 BM25 在小语料上排序，默认返回4个片段。
 
-生产索引在 rf_knowledge_documents / rf_knowledge_chunks。首次启动种入空索引，已有索引不被重启覆盖。python rag.py 在一个事务中替换整个受审核集合，移除旧片段；非法输入保留旧索引。查询使用一致快照；数据库错误不回退到本地样例。
+生产索引在 rf_knowledge_documents / rf_knowledge_chunks。空库首次登记内置演示发布，已有索引/发布不被重启覆盖。2.5起policy_releases.py负责显式发布、回滚、审核和历史查询；python rag.py原始导入会取消当前发布身份，同哈希文档保留最新审核，不能借导入复活撤销。查询使用一致快照；数据库错误或发布不兼容不回退到本地样例。
 
 MCP search_policy 调用检索，lookup_order 被宿主绑定当前订单与 owner；没有退款写工具。页面“政策知识库”和 /api/knowledge 可独立查询。工单保留当时证据，后续导入不修改旧工单。当前没有 embedding、向量库、reranker 或任意用户上传。详见 RAG.md。
 
 ## 数据与验证
 
-业务表包括 rf_orders、rf_runs、rf_jobs、rf_approvals、rf_audit、rf_refunds、rf_reviews、rf_job_attempts、rf_worker_heartbeats；另有 LangGraph checkpoint 表和两张 RAG 表。
+业务表包括 rf_orders、rf_runs、rf_jobs、rf_approvals、rf_audit、rf_refunds、rf_reviews、rf_job_attempts、rf_worker_heartbeats；另有 LangGraph checkpoint 表、两张 RAG 索引表，以及rf_policy_releases、rf_policy_head、rf_policy_reviews、rf_policy_events四张发布表。
 
 verify_persistence.py 比较重建前后行数和完整内容指纹，检查容器ID已变、卷名未变，查询旧工单并恢复待审批工单。动态心跳表不要求逐行一致。该脚本新增合成工单，仅允许demo。报告存放在 validation/。
 

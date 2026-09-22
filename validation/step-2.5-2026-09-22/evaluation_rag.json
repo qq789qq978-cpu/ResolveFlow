@@ -1,0 +1,135 @@
+{
+  "retriever": "bm25",
+  "mode": "offline",
+  "documents": 3,
+  "chunks": 7,
+  "samples": 12,
+  "passed": true,
+  "recall_at_4": 1.0,
+  "mrr_at_4": 0.9444444444444444,
+  "unrelated_abstention": 1.0,
+  "results": [
+    {
+      "query": "申请退款",
+      "expected": "refund-v2",
+      "retrieved_ids": [
+        "shipping-v1",
+        "refund-v2",
+        "refund-v2",
+        "refund-v2"
+      ],
+      "correct": true,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "query": "商品未使用，签收第7天",
+      "expected": "refund-v2",
+      "retrieved_ids": [
+        "refund-v2",
+        "shipping-v1"
+      ],
+      "correct": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query": "人工审批例外退款需要理由吗",
+      "expected": "refund-v2",
+      "retrieved_ids": [
+        "refund-v2",
+        "refund-v2",
+        "shipping-v1",
+        "refund-v2"
+      ],
+      "correct": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query": "重复退款防护如何处理",
+      "expected": "refund-v2",
+      "retrieved_ids": [
+        "refund-v2",
+        "refund-v2",
+        "refund-v2",
+        "shipping-v1"
+      ],
+      "correct": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query": "查询物流运单状态",
+      "expected": "shipping-v1",
+      "retrieved_ids": [
+        "shipping-v1",
+        "shipping-v1"
+      ],
+      "correct": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query": "包裹丢失怎么办",
+      "expected": "shipping-v1",
+      "retrieved_ids": [
+        "shipping-v1",
+        "shipping-v1"
+      ],
+      "correct": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query": "物流长期不更新",
+      "expected": "shipping-v1",
+      "retrieved_ids": [
+        "shipping-v1",
+        "shipping-v1"
+      ],
+      "correct": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query": "缺少订单，事实不完整",
+      "expected": "unknown-v1",
+      "retrieved_ids": [
+        "unknown-v1",
+        "refund-v2",
+        "shipping-v1",
+        "refund-v2"
+      ],
+      "correct": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query": "政策证据需要文档来源位置",
+      "expected": "unknown-v1",
+      "retrieved_ids": [
+        "unknown-v1",
+        "unknown-v1",
+        "shipping-v1",
+        "refund-v2"
+      ],
+      "correct": true,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "query": "天气预报",
+      "expected": null,
+      "retrieved_ids": [],
+      "correct": true,
+      "reciprocal_rank": 0
+    },
+    {
+      "query": "量子纠缠",
+      "expected": null,
+      "retrieved_ids": [],
+      "correct": true,
+      "reciprocal_rank": 0
+    },
+    {
+      "query": "zzzzzz",
+      "expected": null,
+      "retrieved_ids": [],
+      "correct": true,
+      "reciprocal_rank": 0
+    }
+  ],
+  "limitations": "12 synthetic queries over three bundled documents; not semantic retrieval or production accuracy. No generative-model quality evaluation."
+}

@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，RAG当前进度见 [2.4报告](validation/step-2.4-2026-09-21/REPORT.md)。已接入片段引用、无依据处理及 [政策审核状态与有效期](POLICY_GOVERNANCE.md)：失效政策不参与检索，审批恢复和退款写入前重新核验。本机8003已更新，三个服务healthy；126项基础/治理覆盖、22项PG、16项前端和8条API/Worker流程通过。当前政策为演示样例，非人工审核；demo政策问答仍保守转人工，未宣称质量提升。下一步2.5未开始，2.12统一推送。上方徽章仅表示远程main历史状态，不代表未推送改动已通过远程CI。
+第一阶段记录见 [1.10报告](validation/step-1.10-2026-09-21/REPORT.md)，RAG当前进度见 [2.5报告](validation/step-2.5-2026-09-22/REPORT.md)。已接入 [政策发布、回滚与退款规则绑定](POLICY_RELEASES.md)：完整快照、当前版本、操作记录与审核覆盖持久化，旧审批不能穿过发布/回滚，撤销政策不能借回滚复活。本机8003已更新，三个服务healthy，原13张表不变。基础/契约最终覆盖137项、PG34项、前端17项通过，另完成真实CLI/API/Worker演练。当前政策仍是演示样例，非人工审核，冻结指标未提升。下一步2.6未开始，2.12统一推送。上方徽章仅表示远程main历史状态，不代表本地改动已通过远程CI。
 
 ## Docker 快速启动
 

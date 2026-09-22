@@ -13,10 +13,17 @@ function policyLabel(policy) {
     const basis = policy.review_basis === 'demo_fixture' ? '演示样例，非人工审核' : policy.review_basis === 'operator_attested' ? '维护人员声明已审核' : '未提供审核来源';
     return `${statuses[policy.reason] || '状态未知'} · ${basis} · 生效 ${policy.effective_from || '未设置'} · 截止 ${policy.effective_until || '未设截止时间'}（截止时刻起不可用）`;
 }
+function releaseLabel(release) {
+    if (!release) return '历史记录未绑定发布版本；恢复时需重新核查。';
+    if (release.valid === false) return '未发布、原文不一致或退款规则不兼容，当前不能采用。';
+    const token = release.token || release;
+    return `${token.id} · 变更序号 ${token.generation} · 退款规则 ${token.refund_rule?.version || '未知'}`;
+}
 function renderEvidence(state) {
     const result = state.result?.grounding;
     $('citationquotes').replaceChildren();
     $('evidence').replaceChildren();
+    if (result?.release) add($('citationquotes'),'p',`核验时发布版本：${releaseLabel(result.release)}`);
     $('citationstatus').textContent = result
         ? (result.usable ? '引用已匹配政策原文；问题适用性仍须结合订单和处理结论核对。' : '引用缺失或证据不足，需要人工核查；部分原文不代表完整处理依据。')
         : (state.proposal ? '历史工单：旧版引用未按片段核验，原处理记录保留。' : '等待调查与引用核对。');
@@ -36,6 +43,7 @@ function renderEvidence(state) {
         add(box,'small','检索候选原文（不等于已采用的处理依据）');
         add(box,'div',`${e.source||e.id}${e.line_start?' · 第 '+e.line_start+'–'+e.line_end+' 行':''} · 版本 ${e.version||e.id}`);
         add(box,'small',`检索时状态：${policyLabel(e.policy)}`);
+        add(box,'small',`检索时发布版本：${releaseLabel(e.release)}`);
         add(box,'p',e.text);
         if(e.chunk_id)add(box,'small',`片段 ${e.chunk_id}`);
     });
@@ -253,6 +261,7 @@ $('knowledgeform').onsubmit = async event => {
         const result = await api('/knowledge?query=' + encodeURIComponent(query),undefined,owner);
         if (owner !== session || token !== searchRequest) return;
         $('knowledgeresults').replaceChildren();
+        if (result.release) add($('knowledgeresults'),'p',`当前发布版本：${releaseLabel(result.release)}`);
         for (const item of result.policies || []) add($('knowledgeresults'),'p',`${item.title} · ${policyLabel(item.policy)}`);
         if (!result.results.length) add($('knowledgeresults'),'p','没有检索到相关政策，请转人工核查。');
         for (const hit of result.results) {

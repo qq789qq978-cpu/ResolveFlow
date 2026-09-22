@@ -9,6 +9,7 @@ from langchain_core.messages import AIMessage
 from engine import Engine, Proposal
 from grounding import ACTION_CHUNKS, SAFE_NO_BASIS, check_grounding, demo_suggestion
 from rag import rank, read_documents
+from policy_releases import context, prepare
 
 
 @pytest.fixture
@@ -17,7 +18,7 @@ def evidence():
     # All fixture snippets are obtained through the actual retriever.
     found = {}
     for text in ('退款', '物流', '政策证据', '未知'):
-        found.update({e['chunk_id']: e for e in rank(text, documents, chunks, 8)})
+        found.update({e['chunk_id']: e for e in rank(text, documents, chunks, 8, release=context(prepare()))})
     return list(found.values())
 
 

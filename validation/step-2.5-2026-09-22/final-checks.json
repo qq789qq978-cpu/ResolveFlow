@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "checked_deliverables": 39,
+  "local_links": 103,
+  "actual_env_secret_scan": "passed; values never printed",
+  "baseline_source_fingerprints_match": true,
+  "metrics_equal_step24": true,
+  "frozen_files_unchanged": [
+    "refund_policy.py",
+    "knowledge/governance.json",
+    "knowledge/refund.md",
+    "knowledge/shipping.md",
+    "knowledge/escalation.md",
+    "evals/rag/cases.v1.json",
+    "evals/rag/split.v1.json",
+    "evals/rag/PROTOCOL.md",
+    "evals/rag/SNIPPET_PROTOCOL.md"
+  ],
+  "deployed_sources": {
+    "policy_releases.py": "7d4300557618061ba0f12d068d5b233e0d2a90fb0db1dbb5a2668013d839d60f",
+    "refund_policy.py": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+    "knowledge/release.json": "a62d6f75b1f0660704af2bb0363f37c2f347d401feac37e4538afabd594d09d4",
+    "engine.py": "7474797da20ffcd8b550f8aa2fd4a5f2a4942bf693a956d0b9614668172cd64a",
+    "grounding.py": "7654a8c10fec5cf6bc428d6d93233cfcb8ea94ca012c66f5e3080c8e62a288f9",
+    "rag.py": "9fb8e7fc37d9c99465d248a6800e6747fc67e27cb9c5cffbfad07750ab276ee9",
+    "policy_governance.py": "4742899644c359c3921cb1bbc75a514538cfaa459c80129da45e3c04b90c77cb",
+    "storage.py": "e2c1e2aeff91e236ada2b581466302310070cbc59086129aea5b1413db886a61",
+    "operations.py": "0c839eff84b4ecd86fef9e0e7f97bbb0743ae05e7053020137c574a411906b68",
+    "knowledge/governance.json": "276e871728a60ce52260daeeac9cc16c14c5a251f212797284a70059ecdb6e1e",
+    "frontend/dist/app.js": "67afca587489327b786455f951e0e4b1d880a1f25eeb204680cef9d16587d2d7",
+    "frontend/dist/index.html": "6b82a025abfa5ccbfb953bb1a4e6453af554c56eacb4699d8d49efadda2b66ba"
+  }
+}

@@ -6,7 +6,7 @@
 
 ```mermaid
 flowchart LR
-  Docs[Markdown 政策与审核清单] --> Import[元数据校验与分块]
+  Docs[Markdown 政策与审核清单] --> Import[校验分块与版本发布]
   Import --> PG[(PostgreSQL 文档与片段)]
   Query[用户诉求] --> Search[BM25 文本检索]
   PG --> Search
@@ -48,10 +48,11 @@ version: '1'
 ```powershell
 $env:MODE='demo'
 docker compose up --build -d --wait
-docker compose exec -T resolveflow python rag.py
+docker compose exec -T resolveflow python policy_releases.py status
+# 根据当前generation，按 POLICY_RELEASES.md 显式发布完整候选目录。
 ```
 
-`rag.py --directory PATH` 可指定容器内的文档目录。该操作以目录中的全部文档替换整个政策集合，不是增量追加；请先将需要保留的文档一起放入目录。源码模式需配置 `DATABASE_URL`，运行 `python rag.py`。
+`rag.py --directory PATH` 可指定容器内的文档目录。该操作以目录中的全部文档替换整个政策集合，不是增量追加；请先将需要保留的文档一起放入目录。2.5起原始导入会使当前发布失效；正式使用需走 [版本发布](POLICY_RELEASES.md)。源码模式同样使用policy_releases.py并配置DATABASE_URL。
 
 **修改退款资格必须同步审核 `refund_policy.py` 的规则及版本。** 仅修改文档不会修改程序的两项资格规则。2.3起新建议必须使用chunk_id及逐字原文quotes，原文与工单快照/镜像政策核对。文档ID或缺失依据不能授权退款；这不是自由reason的语义蕴含证明，详见 [GROUNDING.md](GROUNDING.md)。
 
@@ -101,4 +102,11 @@ demo固定reason不是政策问答；转人工是拒答代理指标，引用覆�
 
 [治理说明](POLICY_GOVERNANCE.md) 定义审核状态、明确时区的生效区间、演示/维护人员审核来源、缺失信息拒绝使用和旧库升级。检索仅排名有效政策，引用检查/审批恢复读取当前状态，退款事务再次校验并与政策修改互斥；旧工单证据保留。网页查询显示当前状态，工单显示检索时与核验时状态。
 
-三份仓库政策为demo_fixture，非人工审核，live模式不能直接采用。原文哈希和80条历史标签未改；[冻结评测补充协议](evals/rag/GOVERNANCE_PROTOCOL.md) 固定比较时间，当前指标与2.3相同。步骤[2.4验收](validation/step-2.4-2026-09-21/REPORT.md)完成，2.5版本发布/回滚未开始。
+三份仓库政策为demo_fixture，非人工审核，live模式不能直接采用。原文哈希和80条历史标签未改；[冻结评测补充协议](evals/rag/GOVERNANCE_PROTOCOL.md) 固定比较时间，当前指标与2.3相同。步骤[2.4验收](validation/step-2.4-2026-09-21/REPORT.md)完成，2.5发布/回滚与规则绑定已完成，见下文。
+
+
+### 2.5：发布版本与规则一致性
+
+当前索引来自完整发布快照；检索和引用携带发布ID、SHA及变更序号。API/Worker检查规则文件版本/SHA、显式代码绑定、完整动作段落和当前审核状态，发生发布/回滚后旧审批转人工；回滚不能恢复被撤销的审核。原始导入不能替代发布，重启不重置版本。政策知识库显示当前发布，工单显示检索/核验时发布身份，管理员可只读查看操作历史。
+
+详见 [发布维护说明](POLICY_RELEASES.md)、[2.5验收](validation/step-2.5-2026-09-22/REPORT.md) 和 [冻结评测补充](evals/rag/RELEASE_PROTOCOL.md)。原文和退款规则未改变，最终冻结指标与2.4相同；2.6检索调优未开始。

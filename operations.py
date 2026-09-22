@@ -57,6 +57,12 @@ def create_app():
         return {'query':query,'retriever':'bm25',**search(query)}
     @app.get('/api/metrics',dependencies=[Depends(allow('admin'))])
     def metrics():return jobs.metrics(app.state.store)
+    @app.get('/api/policy-releases',dependencies=[Depends(allow('admin'))])
+    def policy_releases():
+        from policy_releases import status
+        with app.state.store.connect() as connection:
+            connection.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY')
+            return status(connection)
     @app.get('/api/runs',dependencies=[Depends(authenticate)])
     def runs(status:str|None=None,limit:int=Query(20,ge=1,le=100),offset:int=Query(0,ge=0)):
         return app.state.store.list(status or None,limit,offset)
