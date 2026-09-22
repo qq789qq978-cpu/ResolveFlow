@@ -1,0 +1,25 @@
+✔ a previous role cannot publish a delayed created ticket into the new session (15.8867ms)
+✔ review completion cannot replace a newly selected ticket (7.786ms)
+✔ retry completion cannot replace a newly selected ticket (3.6085ms)
+✔ approval completion cannot replace a newly selected ticket (3.3732ms)
+✔ a previous filter response cannot replace the latest filter results (3.0013ms)
+✔ out of order detail requests keep the last selected ticket (2.4444ms)
+✔ old polling detail cannot overwrite a completed mutation (3.3796ms)
+✔ a network failure keeps draft input and polling recovers without replaying writes (2.8892ms)
+✔ a stale login response cannot restore the older role (2.7524ms)
+✔ reconnection replaces obsolete read-error text while preserving the draft (3.7541ms)
+✔ an old search does not clear the busy state of a new session search (3.0469ms)
+✔ pending actions cannot be duplicated after switching away and back (3.446ms)
+✔ verified quotes and retrieved candidates are visibly distinct and escaped (4.6189ms)
+✔ legacy and insufficient evidence cannot display a successful citation check (2.2509ms)
+✔ new proposals never expose an unverified model reason while awaiting validation (2.6319ms)
+✔ expired policy remains an authentic historical quote without claiming usability (3.5879ms)
+✔ release generation is visible and incompatible releases are not presented as usable (3.3535ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 317.5954

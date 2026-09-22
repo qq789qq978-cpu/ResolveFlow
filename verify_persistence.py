@@ -21,7 +21,9 @@ from psycopg import sql
 from storage import Store
 tables=['rf_orders','rf_runs','rf_jobs','rf_approvals','rf_audit','rf_refunds',
         'rf_reviews','rf_job_attempts','checkpoints','checkpoint_writes',
-        'checkpoint_blobs','checkpoint_migrations','rf_knowledge_documents','rf_knowledge_chunks']
+          'checkpoint_blobs','checkpoint_migrations','rf_knowledge_documents','rf_knowledge_chunks',
+          'rf_policy_releases','rf_policy_head','rf_policy_reviews','rf_policy_events',
+          'rf_vector_batches','rf_policy_vectors']
 result={}
 with Store(os.environ['DATABASE_URL']).connect() as c:
     for table in tables:

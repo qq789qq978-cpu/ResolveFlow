@@ -1,0 +1,6 @@
+# Overlay on compose.qa-semantic.yaml. Public QA credentials, isolated volumes.
+services:
+  resolveflow:
+    image: resolveflow:stage2-qa
+  worker:
+    image: resolveflow:stage2-qa

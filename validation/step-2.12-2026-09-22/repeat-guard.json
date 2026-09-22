@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "existing_project_refused": true,
+  "exit_code": 2,
+  "containers_unchanged": true,
+  "app_volume_preserved": true,
+  "verification_note": "Compare stable container ID/state, not relative elapsed-time status text."
+}

@@ -54,6 +54,8 @@ docker compose exec -T resolveflow python scripts/build_vector_index.py --report
 
 ## 隔离验收与冻结质量评测
 
+2.12起推荐使用可指定全新项目名的 [stage2_qa.py](scripts/stage2_qa.py)，完整命令和依赖见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。下列2.8命令保留为历史说明，不应复用已有业务数据的旧QA项目。
+
 `compose.qa-semantic.yaml`使用公开测试凭据、8016端口和独立卷；勿用于正式数据。`scripts/semantic_qa.py`固定操作`resolveflow-qa-step28final`，首次需在全新项目初始化向量；故障复验保留原记录，不清库。旧QA项目停机保留卷。
 
 ```powershell
@@ -68,4 +70,4 @@ python scripts/semantic_qa.py --report validation/semantic-recheck.json
 
 质量脚本`scripts/evaluate_semantic.py`顺序为`tuning`→冻结selection→`held-out`→`performance`，均要求新的报告路径、同一有效发布、真实本地编码器及数据库。模型、分词、原文、标签、划分和候选权重不可依据保留集结果修改。脚本在源指纹变化时拒绝复用旧selection。本步保留集只评分一次，集成修复后未重复保留评测；最终源码与评测源码的差别在报告及`final-checks.json`中逐项说明。
 
-80条数据仍为模型生成、人工待复核；保留集共享政策语料与标注来源，不能称为外部盲测。demo并未证明生成回答或逐句语义支持性的改善，后续真实生成模型评测属2.11。
+80条数据仍为模型生成、人工待复核；保留集共享政策语料与标注来源，不能称为外部盲测。demo并未证明生成回答或逐句语义支持性的改善，2.11已单独完成真实生成测量，见 [报告](validation/step-2.11-2026-09-22/REPORT.md)；语义正确性仍未获人工验收。
