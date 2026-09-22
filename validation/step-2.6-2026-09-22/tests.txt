@@ -1,0 +1,34 @@
+ResolveFlow step 2.6, 2026-09-22. Docker Python 3.12 / requirements.lock.
+Python tests use ignored work/step26-src, no .env, MODE=demo, PYTHONPATH=/qa-src.
+Unit/evaluation containers use --network none. PostgreSQL tests use only
+resolveflow-qa-step26_default and the isolated QA database, not main.
+
+python -m pytest -p no:cacheprovider test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_rag.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py test_policy_releases.py test_bm25.py -q
+147 passed in 57.92s.
+
+RUN_PG_TESTS=1 python -m pytest -p no:cacheprovider test_jobs.py test_policy_releases_pg.py -q
+34 passed, 1 warning in 63.99s.
+Existing Starlette/AnyIO BlockingPortal deprecation warning only.
+
+node --test test_frontend.cjs
+17 passed, 0 failed; duration_ms=327.1724.
+
+python scripts/tune_bm25.py --report /reports/tuning.json
+Six candidates, 45 tuning cases each, zero held-out cases ranked.
+Selected expanded; objective [1.0, 1.0, 0.8541666666666666, 0.9375, 0.3419354838709677].
+
+python scripts/evaluate_rag_baseline.py --report /reports/baseline-final.json
+One held-out acceptance after selection; completed=true is not a quality gate.
+Held-out recall/ranking unchanged, context precision 27/97 -> 27/98.
+All original dataset/split/corpus/rule files retained unchanged.
+
+evaluate_v3.py: demo, 12/12 correct, routing_accuracy=1.0.
+evaluate_rag.py: 12/12, recall_at_4=1.0, mrr_at_4=0.9444444444444444.
+Reports redirected to this directory; main evaluation files not overwritten.
+
+python scripts/bm25_qa.py --report validation/step-2.6-2026-09-22/api-worker.json
+passed=true, business_flows=6, main_unchanged_tables=17.
+Final step26 image, real API/Worker, demo only. QA stopped; volumes retained.
+
+Guarded main deployment: passed=true, unchanged_tables=17, healthy_services=3.
+No main test tickets, no policy publication, no project model calls or real payments.

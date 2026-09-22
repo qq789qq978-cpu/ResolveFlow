@@ -11,6 +11,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from rag import rank, read_documents
+from bm25_config import DEFAULT_PROFILE
 from policy_governance import timestamp
 from policy_releases import context, prepare
 from scripts.freeze_rag_split import SPLIT, digest, validate_split
@@ -129,7 +130,7 @@ def aggregate(rows):
 
 
 def source_fingerprints():
-    paths = ['rag.py', 'engine.py', 'grounding.py', 'policy_governance.py', 'knowledge/governance.json',
+    paths = ['rag.py', 'bm25_config.py', 'evals/rag/BM25_PROTOCOL.md', 'engine.py', 'grounding.py', 'policy_governance.py', 'knowledge/governance.json',
              'policy_releases.py','refund_policy.py','knowledge/release.json','evals/rag/RELEASE_PROTOCOL.md',
              'evals/rag/GOVERNANCE_PROTOCOL.md', 'skill_loader.py', 'scripts/evaluate_rag_baseline.py',
              'scripts/freeze_rag_split.py', 'scripts/validate_rag_dataset.py', 'evals/rag/PROTOCOL.md',
@@ -153,7 +154,8 @@ def evaluate(data, split, *, proposer=demo_proposal):
             'metric_schema': 2, 'snippet_protocol': 'evals/rag/SNIPPET_PROTOCOL.md',
             'governance_protocol': 'evals/rag/GOVERNANCE_PROTOCOL.md',
             'policy_evaluation_time': '2026-09-21T12:00:00Z', 'policy_evaluation_mode': 'demo',
-            'protocol': 'evals/rag/PROTOCOL.md', 'retriever': 'unchanged_bm25', 'top_k': TOP_K,
+            'protocol': 'evals/rag/PROTOCOL.md', 'retriever': 'bm25', 'retrieval_profile': DEFAULT_PROFILE,
+            'bm25_protocol': 'evals/rag/BM25_PROTOCOL.md', 'top_k': TOP_K,
             'mode': 'offline_retrieval_and_real_demo_investigation_node_with_stubbed_tool_transport',
             'model_api_calls': 0, 'production_db_access': False, 'business_execution': False,
             'dataset_sha256': digest(data), 'split_sha256': digest(split),
@@ -164,7 +166,7 @@ def evaluate(data, split, *, proposer=demo_proposal):
                 'Only 3 documents and 7 evidence chunks; 80 model-authored labels awaiting human review.',
                 'Citation evidence coverage is not semantic entailment of generated claims.',
                 'Demo escalation is not live-model refusal or final business routing.',
-                'Report completion is not a quality pass. No tuning was performed in step 2.2.']}
+                'Report completion is not a quality pass. Step 2.6 selects BM25 on tuning cases only.']}
 
 
 def main():

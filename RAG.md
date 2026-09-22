@@ -109,4 +109,19 @@ demo固定reason不是政策问答；转人工是拒答代理指标，引用覆�
 
 当前索引来自完整发布快照；检索和引用携带发布ID、SHA及变更序号。API/Worker检查规则文件版本/SHA、显式代码绑定、完整动作段落和当前审核状态，发生发布/回滚后旧审批转人工；回滚不能恢复被撤销的审核。原始导入不能替代发布，重启不重置版本。政策知识库显示当前发布，工单显示检索/核验时发布身份，管理员可只读查看操作历史。
 
-详见 [发布维护说明](POLICY_RELEASES.md)、[2.5验收](validation/step-2.5-2026-09-22/REPORT.md) 和 [冻结评测补充](evals/rag/RELEASE_PROTOCOL.md)。原文和退款规则未改变，最终冻结指标与2.4相同；2.6检索调优未开始。
+详见 [发布维护说明](POLICY_RELEASES.md)、[2.5验收](validation/step-2.5-2026-09-22/REPORT.md) 和 [冻结评测补充](evals/rag/RELEASE_PROTOCOL.md)。原文和退款规则未改变，2.5当时冻结指标与2.4相同；2.6调优见下文。
+
+
+### 2.6：有限词扩展与BM25对比
+
+在bigram BM25查询端增加人工可读的固定词表，英文按完整词边界匹配，如ledger→台账、parcel→包裹；中文包含客户→用户等有限词汇映射。词表来自调优集与现有语料，是模型整理的工程配置，非人工审核标注。原词权重1、扩展词0.5；标题仍重复2次，不改chunk或top_k=4，不改变政策授权。来源原文完整保留，返回证据记录retrieval_profile=expanded。
+
+[调优协议](evals/rag/BM25_PROTOCOL.md)预设六候选；[调优器](scripts/tune_bm25.py)在执行检索前过滤保留问题，只用45条选择。固定方案后一次保留验收：调优完整命中36/40→40/40；保留仍15/20、必要组召回84.17%，上下文精确率27/97→27/98。demo引用覆盖和转人工比例未改善。详见 [2.6报告](validation/step-2.6-2026-09-22/REPORT.md)，不得宣称泛化或真实模型问答质量提升。
+
+```powershell
+python scripts/tune_bm25.py --report validation/bm25-tuning-recheck.json
+python scripts/evaluate_rag_baseline.py --report validation/bm25-acceptance-recheck.json
+python -m pytest test_bm25.py -q
+```
+
+使用项目Python依赖，报告路径不得覆盖；离线容器可关闭网络。复验会增加保留集验收次数，应记录用途，不将其逐题失败拿来调参。模型、费用与数据发送范围评估留给2.7，真实模型质量留到2.11。现有词表不能覆盖任意语言、同义词或语义歧义。

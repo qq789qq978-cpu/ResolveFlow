@@ -4,7 +4,7 @@
 
 第一阶段历史交付（2026-09-21）：1.1–1.10收口，[1.10报告](validation/step-1.10-2026-09-21/REPORT.md) 汇总阶段回归、CI入口、交付核验方式与已知边界。12项前端、42项基础、14项PG集成、两组12条合成评测、三条API业务流、14表重建持久化及五类真实故障场景均复验。该阶段提交 e15ea5355d95384b76ac22715fa7c8d1fa82328e 已推送，对应 [Actions运行](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35577421865) 成功。用户要求每次对话一步、阶段末推送，见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
-最新进度：**2.5完成**，[发布说明](POLICY_RELEASES.md) 和 [验收报告](validation/step-2.5-2026-09-22/REPORT.md) 记录完整快照、事务发布/回滚、审核状态覆盖、规则代码/段落绑定、旧审批及并发发布拦截。最终覆盖137项基础/契约、34项PG、17项前端；真实CLI/API/Worker4条业务流程、3类发布拒绝及3项权限检查通过。8003镜像 sha256:7d42f8f38b3b020edbfd37e0c1897596d3f3bc591a1ec526d48e8672963c3132，三服务healthy、demo模式，当前demo-policy-2026-09-21、generation=1。原13张业务/checkpoint/知识库表完全不变，新增rf_policy_releases/head/reviews/events四张发布表。没有新增主库测试工单。8014 QA停止、卷保留；最终镜像重建后其17张表与发布历史保留。未调用项目模型或真实支付、未推送。下一步2.6未开始。
+最新进度：**2.6完成**，见 [验收报告](validation/step-2.6-2026-09-22/REPORT.md)、[BM25协议](evals/rag/BM25_PROTOCOL.md)。六候选调优选定expanded，标题权重保持2、扩展词权重0.5；调优完整证据命中36/40→40/40，保留仍15/20、上下文精确率27/97→27/98，无已证明的泛化提升。147项基础、34项PG、17项前端及六条真实API/Worker工单通过。8003镜像sha256:834a67e599e57117addad6fcbf09c692df12c2891b7541f7f76210807ab51522，三服务healthy、demo；当前demo-policy-2026-09-21、generation=1。主环境17张业务/checkpoint/知识库/发布表完全保留，不新增测试工单或发布记录。8015 QA停止并保留6条工单、2条模拟退款及三个卷；历史QA卷保留。无模型或真实支付调用，仅本地提交，2.12推送。下一步2.7未开始。
 
 新工单citation_schema=2，citations为chunk_id，quotes为逐字摘录；引用真实不等于语义支持，claim_entailment仍未评测。旧已完成记录保留；旧待审批/执行记录若只有文档ID，恢复后转人工，不静默升级或新增退款。demo只处理明确业务请求，冻结保留集20条可答/部分可答问题全转人工、引用覆盖0/20，不能宣称质量提高；政策问答及真实模型质量仍需后续完善。
 

@@ -13,6 +13,7 @@ import re
 import unicodedata
 
 import yaml
+from bm25_config import DEFAULT_PROFILE, EXPANSION_WEIGHT, PROFILES, expansions
 from policy_governance import availability, read_manifest, utcnow
 
 KNOWLEDGE = Path(__file__).parent / 'knowledge'
@@ -145,7 +146,7 @@ def replace_index(connection, documents, chunks):
     connection.execute('DELETE FROM rf_knowledge_documents WHERE NOT (id = ANY(%s))',
                        ([d['id'] for d in documents],))
 
-def rank(query, documents, chunks, top_k=4, *, now=None, mode=None, release=None):
+def rank(query, documents, chunks, top_k=4, *, now=None, mode=None, release=None, profile=DEFAULT_PROFILE):
     if not isinstance(query, str) or len(query) > 4000:
         raise ValueError('Query must be a string of at most 4000 characters')
     if not 1 <= top_k <= 8:
@@ -155,29 +156,35 @@ def rank(query, documents, chunks, top_k=4, *, now=None, mode=None, release=None
     documents = [d for d in documents if policies[d['id']]['usable']]
     allowed = {d['id'] for d in documents}
     chunks = [c for c in chunks if c['document_id'] in allowed]
-    query_tokens = set(tokens(query))
+    config = PROFILES[profile]
+    query_weights = {term: 1.0 for term in tokens(query)}
+    if config['expand']:
+        for phrase in expansions(query):
+            for term in tokens(phrase):
+                query_weights.setdefault(term, EXPANSION_WEIGHT)
+    query_tokens = set(query_weights)
     if not query_tokens or not chunks: return []
     documents = {d['id']: d for d in documents}
-    # A document title is useful context for short chunks. Weight that field
-    # twice so incidental mentions in another policy do not dominate the topic.
-    counts = [Counter(tokens(c['text']) + tokens(documents[c['document_id']]['title'])*2) for c in chunks]
+    # Field weighting is selected only on the frozen tuning partition.
+    counts = [Counter(tokens(c['text']) + tokens(documents[c['document_id']]['title'])*config['title_weight']) for c in chunks]
     average = sum(sum(c.values()) for c in counts) / len(counts) or 1
     frequency = Counter(term for count in counts for term in count)
     ranked = []
     for chunk, count in zip(chunks, counts):
         score = 0.0
-        for term in query_tokens & count.keys():
+        for term in sorted(query_tokens & count.keys()):
             df = frequency[term]
             inverse = math.log(1 + (len(chunks)-df+0.5)/(df+0.5))
             tf = count[term]
-            score += inverse * tf * 2.5 / (tf + 1.5*(0.25+0.75*sum(count.values())/average))
+            score += query_weights[term] * inverse * tf * 2.5 / (tf + 1.5*(0.25+0.75*sum(count.values())/average))
         if score <= 0: continue
         document = documents[chunk['document_id']]
         hit = {'id': document['id'], 'chunk_id': chunk['chunk_id'],
             'text': chunk['text'], 'title': document['title'], 'source': document['source'],
             'version': document['version'], 'document_sha256': document['sha256'],
             'line_start': chunk['line_start'], 'line_end': chunk['line_end'],
-            'score': round(score, 6), 'retrieval': 'bm25', 'policy': policies[document['id']]}
+            'score': round(score, 6), 'retrieval': 'bm25', 'retrieval_profile': profile,
+            'policy': policies[document['id']]}
         if release and release['valid']:
             hit.update(release=release['token'], actions=[a for a,cid in release['payload']['action_chunks'].items() if cid==chunk['chunk_id']])
         ranked.append(hit)

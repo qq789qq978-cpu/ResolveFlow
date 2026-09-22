@@ -1,0 +1,554 @@
+{
+  "baseline": "../step-2.5-2026-09-22/baseline-final.json",
+  "candidate": "baseline-final.json",
+  "base_commit": "1362a1e",
+  "selected_profile": "expanded",
+  "candidate_tuning_runs": 6,
+  "held_out_acceptance_runs": 1,
+  "held_out_details_viewed": false,
+  "labels_corpus_split_unchanged": true,
+  "original_profile_reproduces_step25_tuning": true,
+  "selected_profile_matches_final_tuning": true,
+  "before": {
+    "tuning": {
+      "samples": 45,
+      "categories": {
+        "refund_rules": 11,
+        "approval": 2,
+        "idempotency": 6,
+        "shipping": 9,
+        "facts_and_evidence": 10,
+        "versions": 2,
+        "policy_gaps": 2,
+        "unrelated": 3
+      },
+      "answerability": {
+        "supported": 40,
+        "unsupported": 2,
+        "out_of_scope": 3
+      },
+      "retrieval": {
+        "required_group_recall_at_4": {
+          "numerator": 37.0,
+          "denominator": 40,
+          "value": 0.925
+        },
+        "all_required_at_4": {
+          "numerator": 36,
+          "denominator": 40,
+          "value": 0.9
+        },
+        "mrr_at_4": {
+          "numerator": 35.5,
+          "denominator": 40,
+          "value": 0.8875
+        },
+        "complete_evidence_rr_at_4": {
+          "numerator": 31.333333333333332,
+          "denominator": 40,
+          "value": 0.7833333333333333
+        },
+        "context_precision_at_4": {
+          "numerator": 49,
+          "denominator": 149,
+          "value": 0.3288590604026846
+        },
+        "source_integrity": {
+          "numerator": 149,
+          "denominator": 149,
+          "value": 1.0
+        }
+      },
+      "abstention": {
+        "by_no_answer_type": {
+          "unsupported": {
+            "samples": 2,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 2,
+              "denominator": 2,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            }
+          },
+          "out_of_scope": {
+            "samples": 3,
+            "empty_retrieval_rate": {
+              "numerator": 2,
+              "denominator": 3,
+              "value": 0.6666666666666666
+            },
+            "demo_escalation_rate": {
+              "numerator": 3,
+              "denominator": 3,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 3,
+              "value": 0.0
+            }
+          }
+        },
+        "demo_over_escalation_rate": {
+          "numerator": 39,
+          "denominator": 40,
+          "value": 0.975
+        }
+      },
+      "citations": {
+        "document_citation_validity": {
+          "numerator": 0,
+          "denominator": 1,
+          "value": 0.0
+        },
+        "reference_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "verbatim_quote_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "cited_required_coverage": {
+          "numerator": 1,
+          "denominator": 40,
+          "value": 0.025
+        },
+        "unsupported_citation_rate": {
+          "numerator": 0,
+          "denominator": 5,
+          "value": 0.0
+        },
+        "chunk_citation_rate": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        }
+      },
+      "answer_quality": {
+        "claim_entailment": "not_measured",
+        "answer_completeness": "not_measured",
+        "partial_answer_boundary": "not_measured",
+        "live_model_refusal": "not_measured",
+        "reason": "Demo emits a fixed reason, not a policy QA answer or claim-to-chunk mapping."
+      }
+    },
+    "held_out": {
+      "samples": 35,
+      "categories": {
+        "refund_rules": 1,
+        "approval": 8,
+        "idempotency": 2,
+        "shipping": 3,
+        "versions": 6,
+        "policy_gaps": 8,
+        "unrelated": 7
+      },
+      "answerability": {
+        "supported": 15,
+        "partial": 5,
+        "unsupported": 8,
+        "out_of_scope": 7
+      },
+      "retrieval": {
+        "required_group_recall_at_4": {
+          "numerator": 16.833333333333332,
+          "denominator": 20,
+          "value": 0.8416666666666666
+        },
+        "all_required_at_4": {
+          "numerator": 15,
+          "denominator": 20,
+          "value": 0.75
+        },
+        "mrr_at_4": {
+          "numerator": 17.833333333333332,
+          "denominator": 20,
+          "value": 0.8916666666666666
+        },
+        "complete_evidence_rr_at_4": {
+          "numerator": 12.833333333333334,
+          "denominator": 20,
+          "value": 0.6416666666666667
+        },
+        "context_precision_at_4": {
+          "numerator": 27,
+          "denominator": 97,
+          "value": 0.27835051546391754
+        },
+        "source_integrity": {
+          "numerator": 97,
+          "denominator": 97,
+          "value": 1.0
+        }
+      },
+      "abstention": {
+        "by_no_answer_type": {
+          "unsupported": {
+            "samples": 8,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 8,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 8,
+              "denominator": 8,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 8,
+              "value": 0.0
+            }
+          },
+          "out_of_scope": {
+            "samples": 7,
+            "empty_retrieval_rate": {
+              "numerator": 3,
+              "denominator": 7,
+              "value": 0.42857142857142855
+            },
+            "demo_escalation_rate": {
+              "numerator": 7,
+              "denominator": 7,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 7,
+              "value": 0.0
+            }
+          }
+        },
+        "demo_over_escalation_rate": {
+          "numerator": 20,
+          "denominator": 20,
+          "value": 1.0
+        }
+      },
+      "citations": {
+        "document_citation_validity": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "reference_validity": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "verbatim_quote_validity": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "cited_required_coverage": {
+          "numerator": 0,
+          "denominator": 20,
+          "value": 0.0
+        },
+        "unsupported_citation_rate": {
+          "numerator": 0,
+          "denominator": 15,
+          "value": 0.0
+        },
+        "chunk_citation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        }
+      },
+      "answer_quality": {
+        "claim_entailment": "not_measured",
+        "answer_completeness": "not_measured",
+        "partial_answer_boundary": "not_measured",
+        "live_model_refusal": "not_measured",
+        "reason": "Demo emits a fixed reason, not a policy QA answer or claim-to-chunk mapping."
+      }
+    }
+  },
+  "after": {
+    "tuning": {
+      "samples": 45,
+      "categories": {
+        "refund_rules": 11,
+        "approval": 2,
+        "idempotency": 6,
+        "shipping": 9,
+        "facts_and_evidence": 10,
+        "versions": 2,
+        "policy_gaps": 2,
+        "unrelated": 3
+      },
+      "answerability": {
+        "supported": 40,
+        "unsupported": 2,
+        "out_of_scope": 3
+      },
+      "retrieval": {
+        "required_group_recall_at_4": {
+          "numerator": 40.0,
+          "denominator": 40,
+          "value": 1.0
+        },
+        "all_required_at_4": {
+          "numerator": 40,
+          "denominator": 40,
+          "value": 1.0
+        },
+        "mrr_at_4": {
+          "numerator": 37.5,
+          "denominator": 40,
+          "value": 0.9375
+        },
+        "complete_evidence_rr_at_4": {
+          "numerator": 34.166666666666664,
+          "denominator": 40,
+          "value": 0.8541666666666666
+        },
+        "context_precision_at_4": {
+          "numerator": 53,
+          "denominator": 155,
+          "value": 0.3419354838709677
+        },
+        "source_integrity": {
+          "numerator": 155,
+          "denominator": 155,
+          "value": 1.0
+        }
+      },
+      "abstention": {
+        "by_no_answer_type": {
+          "unsupported": {
+            "samples": 2,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 2,
+              "denominator": 2,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            }
+          },
+          "out_of_scope": {
+            "samples": 3,
+            "empty_retrieval_rate": {
+              "numerator": 2,
+              "denominator": 3,
+              "value": 0.6666666666666666
+            },
+            "demo_escalation_rate": {
+              "numerator": 3,
+              "denominator": 3,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 3,
+              "value": 0.0
+            }
+          }
+        },
+        "demo_over_escalation_rate": {
+          "numerator": 39,
+          "denominator": 40,
+          "value": 0.975
+        }
+      },
+      "citations": {
+        "document_citation_validity": {
+          "numerator": 0,
+          "denominator": 1,
+          "value": 0.0
+        },
+        "reference_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "verbatim_quote_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "cited_required_coverage": {
+          "numerator": 1,
+          "denominator": 40,
+          "value": 0.025
+        },
+        "unsupported_citation_rate": {
+          "numerator": 0,
+          "denominator": 5,
+          "value": 0.0
+        },
+        "chunk_citation_rate": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        }
+      },
+      "answer_quality": {
+        "claim_entailment": "not_measured",
+        "answer_completeness": "not_measured",
+        "partial_answer_boundary": "not_measured",
+        "live_model_refusal": "not_measured",
+        "reason": "Demo emits a fixed reason, not a policy QA answer or claim-to-chunk mapping."
+      }
+    },
+    "held_out": {
+      "samples": 35,
+      "categories": {
+        "refund_rules": 1,
+        "approval": 8,
+        "idempotency": 2,
+        "shipping": 3,
+        "versions": 6,
+        "policy_gaps": 8,
+        "unrelated": 7
+      },
+      "answerability": {
+        "supported": 15,
+        "partial": 5,
+        "unsupported": 8,
+        "out_of_scope": 7
+      },
+      "retrieval": {
+        "required_group_recall_at_4": {
+          "numerator": 16.833333333333332,
+          "denominator": 20,
+          "value": 0.8416666666666666
+        },
+        "all_required_at_4": {
+          "numerator": 15,
+          "denominator": 20,
+          "value": 0.75
+        },
+        "mrr_at_4": {
+          "numerator": 17.833333333333332,
+          "denominator": 20,
+          "value": 0.8916666666666666
+        },
+        "complete_evidence_rr_at_4": {
+          "numerator": 12.833333333333334,
+          "denominator": 20,
+          "value": 0.6416666666666667
+        },
+        "context_precision_at_4": {
+          "numerator": 27,
+          "denominator": 98,
+          "value": 0.2755102040816326
+        },
+        "source_integrity": {
+          "numerator": 98,
+          "denominator": 98,
+          "value": 1.0
+        }
+      },
+      "abstention": {
+        "by_no_answer_type": {
+          "unsupported": {
+            "samples": 8,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 8,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 8,
+              "denominator": 8,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 8,
+              "value": 0.0
+            }
+          },
+          "out_of_scope": {
+            "samples": 7,
+            "empty_retrieval_rate": {
+              "numerator": 3,
+              "denominator": 7,
+              "value": 0.42857142857142855
+            },
+            "demo_escalation_rate": {
+              "numerator": 7,
+              "denominator": 7,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 7,
+              "value": 0.0
+            }
+          }
+        },
+        "demo_over_escalation_rate": {
+          "numerator": 20,
+          "denominator": 20,
+          "value": 1.0
+        }
+      },
+      "citations": {
+        "document_citation_validity": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "reference_validity": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "verbatim_quote_validity": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        },
+        "cited_required_coverage": {
+          "numerator": 0,
+          "denominator": 20,
+          "value": 0.0
+        },
+        "unsupported_citation_rate": {
+          "numerator": 0,
+          "denominator": 15,
+          "value": 0.0
+        },
+        "chunk_citation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null
+        }
+      },
+      "answer_quality": {
+        "claim_entailment": "not_measured",
+        "answer_completeness": "not_measured",
+        "partial_answer_boundary": "not_measured",
+        "live_model_refusal": "not_measured",
+        "reason": "Demo emits a fixed reason, not a policy QA answer or claim-to-chunk mapping."
+      }
+    }
+  },
+  "held_out_aggregate_change": true,
+  "generalization_improvement_demonstrated": false
+}
