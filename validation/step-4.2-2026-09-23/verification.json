@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "step": "4.2",
+  "checks": {
+    "four_terminal_runs": true,
+    "same_approval_run_resumed": true,
+    "approval_actor_and_reason": true,
+    "approval_checkpoint_progress": true,
+    "two_refunds_45800_cents": true,
+    "duplicate_preserves_entire_refund_rows": true,
+    "rejected_order_has_no_refund": true,
+    "all_jobs_done": true,
+    "zero_model_calls_and_tokens": true,
+    "demo_without_model_key": true,
+    "monitor_available_no_active_alerts": true,
+    "five_attempts_zero_failures": true,
+    "main_20_tables_unchanged": true,
+    "main_schema_unchanged": true,
+    "main_container_identity_unchanged": true,
+    "main_four_healthy": true,
+    "all_demo_containers_stopped": true,
+    "three_demo_volumes_preserved": true,
+    "main_and_existing_project_refused": true,
+    "runtime_source_unchanged_since_41": true,
+    "demo_image_matches_runtime_source": true
+  },
+  "guard_checks": [
+    {
+      "args": [
+        "start",
+        "--project",
+        "resolveflow"
+      ],
+      "exit_code": 2,
+      "refused": true
+    },
+    {
+      "args": [
+        "start",
+        "--project",
+        "resolveflow-qa-demo-step42"
+      ],
+      "exit_code": 2,
+      "refused": true
+    }
+  ],
+  "runtime_baseline": "526e166cfbec1b55796bf8ef8f27462fd00bc951",
+  "demo_image": "sha256:a1fbdc1037c4bee5d50d98954b9ed96a6cd7402992f602cd4ac32046dabeaa11",
+  "source_files_checked": 24,
+  "retained_demo_volumes": [
+    "resolveflow-qa-demo-step42_agent-data",
+    "resolveflow-qa-demo-step42_postgres-data",
+    "resolveflow-qa-demo-step42_worker-data"
+  ],
+  "stopped_containers": {
+    "resolveflow-qa-demo-step42-worker-1": "exited",
+    "resolveflow-qa-demo-step42-resolveflow-1": "exited",
+    "resolveflow-qa-demo-step42-monitor-1": "exited",
+    "resolveflow-qa-demo-step42-migrate-1": "exited",
+    "resolveflow-qa-demo-step42-db-roles-1": "exited",
+    "resolveflow-qa-demo-step42-db-1": "exited"
+  },
+  "runtime_tests_rerun": false,
+  "browser_demo_flows_run": true,
+  "fault_injection_run": false,
+  "new_ci_run": false,
+  "pushed": false,
+  "artifacts_sha256": {
+    "docs/demo/README.md": "04a00f02c3013da708667b05fb1dbce7e434857770596b0d33319a4048eb211c",
+    "docs/demo/REPLAY.md": "361589ee228edab689a2bb0b5e62cb33ac8135de836294c11f0200a26ed35cce",
+    "docs/demo/ResolveFlow-demo.docx": "8ff737ba206bb553f55937830e5f73ce641e800feb156819e3940d2d28fab3f0",
+    "docs/demo/screenshots/01-operator.png": "68eacfceec0b24d36860860a87b3648b7a577658d8bb837537296b284079eca4",
+    "docs/demo/screenshots/02-auto-refund.png": "6214c561a60694d85d8f21c1a611fb16a3c345abf37ba7d6ff24ebd027dbfdc1",
+    "docs/demo/screenshots/03-awaiting-approval.png": "26dcdd2157d3fdacdc14099f006772d263faeee58274c8d2ebe12fa0881923db",
+    "docs/demo/screenshots/04-reviewer.png": "7f20d3c1d201f6ecbdee2c7f623941ece19ff61c44ad7cb68bb74d4e0c61e097",
+    "docs/demo/screenshots/05-resumed.png": "96a44760edffabfcd7b15400e61b612cecd21a94e86a4e03343ff876f803176f",
+    "docs/demo/screenshots/06-idempotency.png": "8e55b3be25d623f420ba16983b78ef35b4fab7784aa66e7ad68ba744714827ed",
+    "docs/demo/screenshots/07-policy.png": "ef5ef60cb635f0b08e095d746c8e1773092776ae1649f8ba8b19ec6df71a29f3",
+    "docs/demo/screenshots/08-monitor.png": "8ef1f7cec97dcb2a389c543d83d1b892206d3bd882d3c39d1898f193c10e95da",
+    "docs/demo/screenshots/09-rejected.png": "5d30492a28b9ad83eb5c5ac1bcb2ab03d0c37ce930e3836d9ad25b6adaa06887",
+    "docs/demo/story.json": "57e3568af4760f4afeb7883a5afaa3e109644557248872c330229c3772fbff42"
+  },
+  "render": {
+    "status": "passed",
+    "page_count": 11,
+    "embedded_images": 9,
+    "all_pages_visually_reviewed": true,
+    "backend": "Microsoft Word ExportAsFixedFormat adapter + packaged render_docx.py/Poppler",
+    "libreoffice_unavailable": true,
+    "qa_directory": "work/step42/render-approved",
+    "corrections": [
+      "Word COM by-reference parameters",
+      "removed empty page and inherited Title border",
+      "trimmed half-line at screenshot edge"
+    ],
+    "page_sha256": {
+      "page-1.png": "172b8bbc50966ccc750a0bcc38e7d23ea0b3eba4860dbae4fa03a7e7311e319e",
+      "page-2.png": "f301a8885debf41331933267beb4ec4d47f9984b92f521ae6a4e0ec91be2ae94",
+      "page-3.png": "c0529e70b22554279ce4f548e7feaa8ce2c3762ef92f7687de4ecc5124cb6d1e",
+      "page-4.png": "5c8cecba6eadceca50a01c7250298adcbb2cd642a57fa1dcfa206dd24d50d404",
+      "page-5.png": "bb2309282537a6e9004490adb831b18d74192182df79b786e13e964b71d9025e",
+      "page-6.png": "148b311fa04a2d546e5d284bb40a9621be04db83b2632c5244a191b3792554f1",
+      "page-7.png": "43a6039a5e10f13852ef38f12ba1c853ec1c772fb6a4f234fd2613782e4fea9e",
+      "page-8.png": "5b5acd674606df6c1642d141c56a9f6c3c285e2e42846fe231d53c971d80d282",
+      "page-9.png": "0033d646beeebe7003f4f04577831d94cca018eee91d09dfe0eb686d72bf80a3",
+      "page-10.png": "9753eef69ecf296ab831ae9559279abede24ec02e288466f7a0ce4f3d041409d",
+      "page-11.png": "abc8d0c2ff770b99e2c673bc91db6dd0b72e73bb6f774d60306fb8cae06c457e"
+    }
+  },
+  "local_document_links_checked": 35,
+  "auxiliary_scripts_syntax_checked": true,
+  "staged_secret_scan": {
+    "files": 28,
+    "configured_secret_matches": 0,
+    "demo_credential_matches": 0,
+    "docx_members_scanned": true,
+    "private_files_absent": true
+  }
+}

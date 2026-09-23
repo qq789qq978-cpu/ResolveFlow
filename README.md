@@ -1,6 +1,8 @@
 # ResolveFlow V3 — 售后 AI Agent 工作台
 
-4.1已完成：[最终架构图与说明](ARCHITECTURE.md)（[SVG](docs/architecture/resolveflow.svg) / [PNG](docs/architecture/resolveflow.png) / [核对记录](validation/step-4.1-2026-09-23/REPORT.md)）。本步仅本地提交，4.5统一推送；4.2尚未开始。
+4.2已完成：[截图演示与讲解](docs/demo/README.md)、[11页Word文档](docs/demo/ResolveFlow-demo.docx)、[隔离复现](docs/demo/REPLAY.md)、[验收报告](validation/step-4.2-2026-09-23/REPORT.md)。9张真实截图，无视频；4条工单/5次执行/2条模拟退款，21项核对和逐页渲染检查通过。主环境及历史数据不变。本步本地提交、不推送；4.3截图材料复核与补充待开始，4.5统一推送/CI。
+
+4.1已完成：[最终架构图与说明](ARCHITECTURE.md)（[SVG](docs/architecture/resolveflow.svg) / [PNG](docs/architecture/resolveflow.png)）。
 
 3.9已完成：代码提交`526e166cfbec1b55796bf8ef8f27462fd00bc951`的[CI 35832707932](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35832707932)成功且附件已核验，264基础/149PG/198故障检查全部通过，另含权限、期限、告警和独立恢复。该证据固定对应3.9代码提交，后续4.1文档提交不使其失效，也不自动取得新提交CI认证。
 
