@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "script": "stage3",
+      "rejected_existing_stopped_container": true,
+      "container_unchanged": true,
+      "exit_code": 1
+    },
+    {
+      "script": "migration",
+      "rejected_existing_stopped_container": true,
+      "container_unchanged": true,
+      "exit_code": 1
+    }
+  ]
+}

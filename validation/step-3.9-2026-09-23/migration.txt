@@ -1,0 +1,46 @@
+Testing a fresh Compose installation...
+Traceback (most recent call last):
+  File "d:\python_txy\lib\urllib\request.py", line 1346, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "d:\python_txy\lib\http\client.py", line 1257, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "d:\python_txy\lib\http\client.py", line 1303, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "d:\python_txy\lib\http\client.py", line 1252, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "d:\python_txy\lib\http\client.py", line 1012, in _send_output
+    self.send(msg)
+  File "d:\python_txy\lib\http\client.py", line 952, in send
+    self.connect()
+  File "d:\python_txy\lib\http\client.py", line 923, in connect
+    self.sock = self._create_connection(
+  File "d:\python_txy\lib\socket.py", line 843, in create_connection
+    raise err
+  File "d:\python_txy\lib\socket.py", line 831, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AgentProjects\ResolveFlow\scripts\migration_qa.py", line 161, in <module>
+    if __name__=='__main__':main()
+  File "D:\AgentProjects\ResolveFlow\scripts\migration_qa.py", line 107, in main
+    fresh_run=submit(8017,'RF-1001');assert fresh_run['status']=='refunded'
+  File "D:\AgentProjects\ResolveFlow\scripts\migration_qa.py", line 83, in submit
+    rid=api(port,'/runs',{'order_id':order,'ticket':'申请退款'})['id']
+  File "D:\AgentProjects\ResolveFlow\scripts\migration_qa.py", line 81, in api
+    with urllib.request.urlopen(request,timeout=15) as r:return json.load(r)
+  File "d:\python_txy\lib\urllib\request.py", line 214, in urlopen
+    return opener.open(url, data, timeout)
+  File "d:\python_txy\lib\urllib\request.py", line 517, in open
+    response = self._open(req, data)
+  File "d:\python_txy\lib\urllib\request.py", line 534, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "d:\python_txy\lib\urllib\request.py", line 494, in _call_chain
+    result = func(*args)
+  File "d:\python_txy\lib\urllib\request.py", line 1375, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+  File "d:\python_txy\lib\urllib\request.py", line 1349, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>

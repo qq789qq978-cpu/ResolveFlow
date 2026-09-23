@@ -1,0 +1,37 @@
+...................F.................................................... [ 48%]
+........................................................................ [ 97%]
+....                                                                     [100%]
+=================================== FAILURES ===================================
+________________ test_slow_failure_backoff_starts_after_failure ________________
+
+system = (<storage.Store object at 0x78b1adfe9f70>, <engine.Engine object at 0x78b1b0a2f800>, <starlette.testclient.TestClient object at 0x78b1ae087920>)
+
+    def test_slow_failure_backoff_starts_after_failure(system):
+        store,engine,client=system
+        rid=submit(client,'RF-1002')
+        class SlowFailure:
+            def recover(self,*args):
+                time.sleep(1.2)  # Longer than the requested retry delay.
+                raise TimeoutError('synthetic slow failure')
+        assert jobs.process_one(store,SlowFailure(),rid,retry_delay=1)
+        with store.connect() as connection:
+            remaining=connection.execute('SELECT extract(epoch FROM available_at-clock_timestamp()) AS seconds FROM rf_jobs WHERE run_id=%s',(rid,)).fetchone()['seconds']
+>       assert 0.5 < float(remaining) <= 1
+E       AssertionError: assert 0.5 < 0.471732
+E        +  where 0.471732 = float(Decimal('0.471732'))
+
+test_jobs.py:378: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     resolveflow:observability.py:32 {"timestamp":"2026-09-23T06:11:57.740657+00:00","event":"job_enqueued","request_id":"912ff327-9358-40ea-aca5-93ae425a02cf","run_id":"e1365e5e-3f31-4703-b53b-3ff7436cca2a","kind":"investigate","actor":"operator"}
+INFO     resolveflow:observability.py:32 {"timestamp":"2026-09-23T06:11:57.746399+00:00","event":"http_finished","request_id":"912ff327-9358-40ea-aca5-93ae425a02cf","method":"POST","route":"/api/runs","http_status":202,"run_id":"e1365e5e-3f31-4703-b53b-3ff7436cca2a","elapsed_ms":27}
+INFO     resolveflow:observability.py:32 {"timestamp":"2026-09-23T06:11:57.755654+00:00","event":"job_started","run_id":"e1365e5e-3f31-4703-b53b-3ff7436cca2a","kind":"investigate","attempt":1,"attempt_id":"19033732-676c-45cc-9489-267e8a038ac4"}
+INFO     resolveflow:observability.py:32 {"timestamp":"2026-09-23T06:11:59.484072+00:00","event":"job_finished","run_id":"e1365e5e-3f31-4703-b53b-3ff7436cca2a","kind":"investigate","attempt":1,"attempt_id":"19033732-676c-45cc-9489-267e8a038ac4","success":false,"error_type":"TimeoutError","elapsed_ms":1204}
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:53
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test_jobs.py::test_slow_failure_backoff_starts_after_failure - Asserti...
+1 failed, 147 passed, 1 warning in 225.38s (0:03:45)

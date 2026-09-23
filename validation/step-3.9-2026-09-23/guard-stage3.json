@@ -1,0 +1,15 @@
+{
+  "passed": false,
+  "started_utc": "2026-09-23T06:46:30.886843+00:00",
+  "project": "resolveflow-qa-step39-guard-stage3",
+  "model_api_calls": 0,
+  "checks": [
+    {
+      "check": "fresh containers and volumes",
+      "passed": false
+    }
+  ],
+  "main_modified": false,
+  "stopped_volume_preserved": true,
+  "finished_utc": "2026-09-23T06:46:31.001166+00:00"
+}

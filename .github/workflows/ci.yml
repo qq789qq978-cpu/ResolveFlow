@@ -3,7 +3,7 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     services:
       postgres:
         image: pgvector/pgvector:0.8.6-pg17-trixie@sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6
@@ -64,10 +64,8 @@ jobs:
         run: python scripts/runtime_limits_qa.py --image resolveflow:local --project resolveflow-qa-ci-runtime --report validation/runtime-ci.json
       - name: Correlated logs and independent operational alerts
         run: python scripts/observability_qa.py --image resolveflow:local --project resolveflow-qa-ci-alerts --port 8024 --report validation/observability-ci.json
-      - name: Consistent database backup and full archive decode
-        run: python scripts/database_backup.py create --output work/ci-backups
-      - name: Restore to independent databases and resume pending approvals
-        run: python -c "from pathlib import Path; from scripts.restore_qa import exercise; bundles=list(Path('work/ci-backups').iterdir()); assert len(bundles)==1; exercise(bundles[0], 'resolveflow-restore-ci', Path('validation/restore-ci.json'))"
+      - name: Independent install, recreate, backup and original approval recovery
+        run: python scripts/stage3_qa.py --image resolveflow:local --project resolveflow-qa-ci-stage3 --report validation/stage3-ci.json
       - name: Recreate containers and resume checkpoint
         run: python verify_persistence.py --url http://127.0.0.1:8005 --report validation/persistence-ci.json
       - name: Real Worker crashes, database outage and multi-worker timeouts
@@ -92,7 +90,7 @@ jobs:
             validation/rag-baseline-ci.json
             validation/unit-ci.xml
             validation/postgres-ci.xml
-            validation/restore-ci.json
+            validation/stage3-ci.json
             validation/roles-ci.json
             validation/runtime-ci.json
             validation/observability-ci.json

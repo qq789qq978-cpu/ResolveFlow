@@ -368,15 +368,22 @@ def test_admin_retry_does_not_wait_for_another_transaction(system,status):
 def test_slow_failure_backoff_starts_after_failure(system):
     store,engine,client=system
     rid=submit(client,'RF-1002')
+    failure_times=[]
     class SlowFailure:
         def recover(self,*args):
             time.sleep(1.2)  # Longer than the requested retry delay.
+            with store.connect() as connection:
+                failure_times.append(connection.execute('SELECT clock_timestamp() AS instant').fetchone()['instant'])
             raise TimeoutError('synthetic slow failure')
     assert jobs.process_one(store,SlowFailure(),rid,retry_delay=1)
     with store.connect() as connection:
-        remaining=connection.execute('SELECT extract(epoch FROM available_at-clock_timestamp()) AS seconds FROM rf_jobs WHERE run_id=%s',(rid,)).fetchone()['seconds']
-    assert 0.5 < float(remaining) <= 1
-    assert not jobs.process_one(store,engine,rid)
+        row=connection.execute('SELECT available_at,clock_timestamp() AS observed_at,status,attempts FROM rf_jobs WHERE run_id=%s',(rid,)).fetchone()
+    # Check the persisted deadline against the failure on the SAME DB clock.
+    # Scheduling/commit latency may consume the whole second before inspection;
+    # measuring remaining wall time here makes a correct implementation flaky.
+    assert (row['available_at']-failure_times[0]).total_seconds() >= 1
+    assert (row['available_at']-row['observed_at']).total_seconds() <= 1
+    assert row['status']=='queued' and row['attempts']==1
 
 
 def test_chunk_quotes_survive_durable_approval(system):

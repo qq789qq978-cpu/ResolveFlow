@@ -1,0 +1,126 @@
+{
+  "passed": true,
+  "project": "resolveflow-qa-step39-runtime",
+  "image": "resolveflow:step39-release",
+  "started_utc": "2026-09-23T06:34:58.607979+00:00",
+  "checks": [
+    {
+      "check": "new isolated project",
+      "passed": true
+    },
+    {
+      "check": "two healthy restricted Workers",
+      "passed": true
+    },
+    {
+      "check": "pending approval checkpoint saved",
+      "passed": true
+    },
+    {
+      "check": "non-MCP refund SQL consumes exactly three attempts",
+      "passed": true
+    },
+    {
+      "check": "timed out refund transaction rolled back",
+      "passed": true
+    },
+    {
+      "check": "durable approval survives SQL timeouts",
+      "passed": true
+    },
+    {
+      "check": "no task SQL remains after SQL retry exhaustion",
+      "passed": true
+    },
+    {
+      "check": "original approved checkpoint resumes after admin retry",
+      "passed": true
+    },
+    {
+      "check": "approval recovery did not repeat investigation",
+      "passed": true
+    },
+    {
+      "check": "operator permissions and duplicate approval remain enforced",
+      "passed": true
+    },
+    {
+      "check": "observed actual refund delay inside restricted task SQL",
+      "passed": true
+    },
+    {
+      "check": "queue transaction remains open during task",
+      "passed": true
+    },
+    {
+      "check": "second Worker completes unrelated task while refund is blocked",
+      "passed": true
+    },
+    {
+      "check": "overall deadline consumes exactly three attempts",
+      "passed": true
+    },
+    {
+      "check": "each six-second task ends within bounded cleanup allowance",
+      "passed": true
+    },
+    {
+      "check": "no task or MCP database connections remain after deadline",
+      "passed": true
+    },
+    {
+      "check": "killed task leaves no partial refund",
+      "passed": true
+    },
+    {
+      "check": "long queue transaction released after deadline",
+      "passed": true
+    },
+    {
+      "check": "supervisor Workers did not restart during timeouts",
+      "passed": true
+    },
+    {
+      "check": "same task resumes after deadline exhaustion",
+      "passed": true
+    },
+    {
+      "check": "same order replay is idempotent",
+      "passed": true
+    },
+    {
+      "check": "one simulated refund for repeated order",
+      "passed": true
+    },
+    {
+      "check": "demo model call count remains zero",
+      "passed": true
+    }
+  ],
+  "model_api_calls": 0,
+  "refund_execution": "simulated",
+  "limits": {
+    "sql_ms": 1000,
+    "lock_ms": 700,
+    "task_seconds": 8
+  },
+  "image_id": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+  "sql_timeout": {
+    "run_id": "040d362e-0a44-4c96-ad9d-2d25479cb53c",
+    "seconds": 19.484,
+    "attempts": 3,
+    "error": "QueryCanceled"
+  },
+  "task_deadline": {
+    "run_id": "c37641b6-d464-4e0c-be15-54de42fed9f4",
+    "attempts": 3,
+    "error": "TaskDeadlineExceeded",
+    "attempt_elapsed_ms": [
+      6146,
+      6151,
+      6141
+    ]
+  },
+  "stopped_volume_preserved": true,
+  "finished_utc": "2026-09-23T06:36:58.941341+00:00"
+}

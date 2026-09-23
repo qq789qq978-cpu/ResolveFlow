@@ -8,11 +8,15 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
+import sys
 import time
-import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from scripts.database_restore import unused_subnet
+from scripts.restore_qa import api as container_api
 SNAPSHOT = '''
 import hashlib,json,os,psycopg
 from psycopg import sql
@@ -35,9 +39,10 @@ def main():
     parser.add_argument('--prefix',default='resolveflow-qa-step32')
     parser.add_argument('--report',required=True,type=Path)
     args=parser.parse_args()
-    if args.report.exists():parser.error('Choose a new report path')
+    if args.report.exists() or not re.fullmatch(r'resolveflow-qa-[a-z0-9-]+', args.prefix):
+        parser.error('Choose a new QA prefix and report path')
     work=ROOT/'work'/args.prefix
-    work.mkdir(parents=True,exist_ok=True)
+    work.mkdir(parents=True,exist_ok=False)
     empty=work/'empty.env';empty.write_text('')
     env={**os.environ,'MODE':'demo','RETRIEVAL_MODE':'bm25','OPENAI_API_KEY':'',
          'APP_API_KEY':'qa-migration-operator','REVIEWER_API_KEY':'qa-migration-reviewer',
@@ -56,14 +61,25 @@ def main():
             (work/'last-error.log').write_text(r.stdout+'\n'+r.stderr,encoding='utf-8')
             raise RuntimeError('QA Docker command failed: '+items[0])
         return r.stdout.strip()
+    overrides = {}
     def compose(project,legacy=False):
+        if project not in overrides:
+            first = unused_subnet()
+            second = unused_subnet(excluded=[first])
+            path = work / (project + '-network.json')
+            path.write_text(json.dumps({'networks': {
+                'default': {'internal': True, 'ipam': {'config': [{'subnet': first}]}},
+                'embedding-private': {'ipam': {'config': [{'subnet': second}]}}}}))
+            overrides[project] = path
         return ['compose','--env-file',str(empty),'--project-directory',str(ROOT),'-p',project,
-                '-f',str(ROOT/('tests/fixtures/legacy_compose.yaml' if legacy else 'compose.yaml'))]
+                '-f',str(ROOT/('tests/fixtures/legacy_compose.yaml' if legacy else 'compose.yaml')),
+                '-f',str(overrides[project])]
     def api(port,path,body=None,role='operator'):
-        request=urllib.request.Request(f'http://127.0.0.1:{port}/api'+path,
-            headers={'X-API-Key':'qa-migration-'+role,'Content-Type':'application/json'},
-            data=json.dumps(body).encode() if body is not None else None)
-        with urllib.request.urlopen(request,timeout=15) as r:return json.load(r)
+        # Internal QA networks deliberately have no outside route. Docker
+        # Desktop may not expose their published ports to the Windows host;
+        # exercise the real HTTP API inside its container, as other QA does.
+        project = args.prefix + ('fresh' if port == 8017 else 'legacy')
+        return container_api(project, path, body, role, 202 if body is not None else 200)
     def submit(port,order):
         rid=api(port,'/runs',{'order_id':order,'ticket':'申请退款'})['id']
         return wait(port,rid)
@@ -76,9 +92,16 @@ def main():
         raise TimeoutError('QA Worker did not finish')
     def snapshot(project):
         return json.loads(docker(*compose(project),'run','--rm','--no-deps','-T','migrate','python','-',input=SNAPSHOT))
+    # Preflight both destinations before claiming cleanup ownership. Existing
+    # containers AND orphaned historical volumes must remain untouched.
+    fresh, legacy = args.prefix+'fresh', args.prefix+'legacy'
+    for project in (fresh, legacy):
+        for kind in ('container', 'volume', 'network'):
+            if docker(kind, 'ls', '-q', *(('-a',) if kind == 'container' else ()),
+                      '--filter', 'label=com.docker.compose.project='+project):
+                raise RuntimeError('Use fresh QA destinations; existing resources are preserved')
     try:
-        fresh=args.prefix+'fresh';projects.append(fresh);env['APP_PORT']='8017'
-        assert not docker('ps','-a','--filter','label=com.docker.compose.project='+fresh,'--format','{{.ID}}')
+        projects.append(fresh);env['APP_PORT']='8017'
         print('Testing a fresh Compose installation...',flush=True)
         docker(*compose(fresh),'up','--no-build','-d','--wait','--wait-timeout','180')
         installed=json.loads(docker(*compose(fresh),'logs','--no-log-prefix','migrate'))
@@ -88,8 +111,7 @@ def main():
         result['checks'].append('Fresh Compose orders DB -> migrator -> API -> Worker and executes a refund')
         docker(*compose(fresh),'stop')
 
-        legacy=args.prefix+'legacy';projects.append(legacy);env['APP_PORT']='8018'
-        assert not docker('ps','-a','--filter','label=com.docker.compose.project='+legacy,'--format','{{.ID}}')
+        projects.append(legacy);env['APP_PORT']='8018'
         print('Creating completed and pending work with the old image...',flush=True)
         docker(*compose(legacy,True),'up','--no-build','-d','--wait','--wait-timeout','180')
         completed=[]

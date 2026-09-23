@@ -1,16 +1,16 @@
 # ResolveFlow V3 — 售后 AI Agent 工作台
 
-3.8已完成（2026-09-23）：脱敏关联日志、管理员只读告警、独立监控进程，覆盖Worker离线、任务执行过久、排队延迟、连续失败和读取失败状态未知。修复基础设施重试重置运行计时及提交前误报完成；没有数据库迁移。261项不同基础、148项不同PG、21项前端、最终镜像27项双Worker故障检查通过。主库20表/22表结构/7向量和四服务不变，主环境仍step36；所有本步QA停止保留卷。见[3.8报告](validation/step-3.8-2026-09-23/REPORT.md)与[告警手册](OBSERVABILITY.md)。本步仅本地提交，不推送；3.9未开始，下一步独立完整验收、部署交付核验、操作手册、统一推送及对应提交CI。
+3.9阶段收口（2026-09-23）：261项基础、148项PostgreSQL、21项前端通过；独立新装/重建/备份及原审批恢复16项、真实旧版升级3项、双Worker运行期限23项、独立告警27项、PDF/真实本地encoder14项通过。主库20张非心跳数据表、22表结构/7向量和原四服务完全保留，仍运行step36；QA全部停止、卷保留。见[3.9报告](validation/step-3.9-2026-09-23/REPORT.md)及[统一操作手册](OPERATIONS.md)。本步统一推送第三阶段及RAG补充；最终交付以本提交同SHA的CI成功及附件核对为准，实际回执为validation/github-actions-local.json，可用python scripts/verify_delivery.py复核。第四阶段4.1未开始，本轮完成后停止。
 
-RAG补充任务已完成（2026-09-23，用户在3.8前追加）：80条结构/来源校验、45条公开调优标签及历史输出模型辅助核查；真实reranker45题/218对实测后决定不启用；文本PDF维护导入、物理页来源与完整发布流程已验收。253项不同基础测试、139项PG、18项前端、14项真实PDF混合检索/Worker检查及44项越权拒绝通过。人工复核、通用语义蕴含、OCR仍未完成。见[补充报告](validation/rag-supplement-2026-09-23/REPORT.md)。主库20表/22表结构/7向量及四服务不变，仍step36，新镜像只在隔离demo验收。当时未推送；最新3.8状态以上文为准，3.9统一推送并确认对应提交CI。
+RAG补充任务已完成（2026-09-23，用户在3.8前追加）：80条结构/来源校验、45条公开调优标签及历史输出模型辅助核查；真实reranker45题/218对实测后决定不启用；文本PDF维护导入、物理页来源与完整发布流程已验收。253项不同基础测试、139项PG、18项前端、14项真实PDF混合检索/Worker检查及44项越权拒绝通过。人工复核、通用语义蕴含、OCR仍未完成。见[补充报告](validation/rag-supplement-2026-09-23/REPORT.md)。主库20表/22表结构/7向量及四服务不变，仍step36，新镜像只在隔离demo验收。当时未推送；最新3.9状态以上文为准，3.9统一推送并确认对应提交CI。
 
 基于 LangGraph、DeepSeek、MCP 和 PostgreSQL，支持异步 Worker、可恢复人工审批、政策文档 RAG、三角色权限和模拟退款幂等。浏览器界面由 FastAPI 同源提供。
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-**3.7连接池、超时、连接耗尽和慢查询行为已完成**（2026-09-23）。240项基础、134项PostgreSQL和23项双Worker业务检查通过；包含非MCP SQL、长事务、整体任务期限、原审批/checkpoint恢复与退款幂等。主库20表/22表结构/7向量保留，四服务仍为step36，step37仅在隔离demo环境验收。见[3.7报告](validation/step-3.7-2026-09-23/REPORT.md)及[运行手册](RUNTIME_LIMITS.md)。本步本地提交、不推送，下一步3.8未开始；3.9统一推送并确认对应提交CI，当前第三阶段无远程CI结果。
+第三阶段现已具备版本化迁移、受限数据库角色、备份/独立恢复、连接池与执行期限、关联日志和独立告警。当前主环境仍step36，新版以隔离部署和同提交CI证据交付；见[操作手册](OPERATIONS.md)。
 
-第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF已按本次补充支持文本解析与页码；reranker已实测但未启用，详见顶部补充报告。旧 CI 成功和上方徽章均不替代当前未推送提交的 CI 验证。
+第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF已按本次补充支持文本解析与页码；reranker已实测但未启用，详见顶部补充报告。旧 CI 成功和上方徽章均不替代当前具体提交的 CI 验证。
 
 ## Docker 快速启动
 
@@ -56,7 +56,7 @@ docker compose ps -a
 - 页面“政策知识库”可查询政策；工单显示来源文件、版本、行号和原文。
 - 管理员可查看心跳、耗时、失败情况，并重试耗尽自动重试次数的任务。
 
-RAG 采用 Markdown 导入、分块和 PostgreSQL 存储；默认BM25可独立运行，可选本地embedding混合检索，故障时回退BM25。详见 [RAG.md](RAG.md)。
+RAG 支持 Markdown 与文本PDF维护导入、分块和 PostgreSQL 存储；默认BM25可独立运行，可选本地embedding混合检索，故障时回退BM25。详见 [RAG.md](RAG.md)。
 
 ## 持久化与验证
 

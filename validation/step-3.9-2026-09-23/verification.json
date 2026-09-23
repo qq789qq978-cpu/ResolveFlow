@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "unit": 261,
+  "postgres": 148,
+  "frontend": 21,
+  "install_restore_checks": 16,
+  "migration_checks": 3,
+  "runtime_checks": 23,
+  "observability_checks": 27,
+  "pdf_checks": 14,
+  "main_preserved": true,
+  "main_data_tables": 20,
+  "frozen_dataset_split_corpus_and_metrics_unchanged": true,
+  "delay_sql_spacing_preserved": true,
+  "only_main_four_containers_running": true,
+  "model_api_calls": 0,
+  "main_deployed": false,
+  "legacy_source_commit": "ba1785975a24cced4502b48bece24cbaa3560f3a",
+  "legacy_image_id": "sha256:3739da0e4359a37430228fd21b3447fa85b963d26d598b1db56fe714f32621a8",
+  "image_source_matches": true
+}

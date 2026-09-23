@@ -1,0 +1,996 @@
+{
+  "passed": true,
+  "started_utc": "2026-09-23T06:17:37.600946+00:00",
+  "project": "resolveflow-qa-step39-final",
+  "model_api_calls": 0,
+  "checks": [
+    {
+      "check": "fresh containers and volumes",
+      "passed": true
+    },
+    {
+      "check": "fresh install explicitly seeds demo",
+      "passed": true
+    },
+    {
+      "check": "restricted roles reject forbidden operations",
+      "passed": true
+    },
+    {
+      "check": "RF-1001 routing",
+      "passed": true
+    },
+    {
+      "check": "RF-1002 routing",
+      "passed": true
+    },
+    {
+      "check": "RF-1004 routing",
+      "passed": true
+    },
+    {
+      "check": "operator cannot approve",
+      "passed": true
+    },
+    {
+      "check": "admin can observe healthy installation",
+      "passed": true
+    },
+    {
+      "check": "all non-heartbeat non-version tables preserved",
+      "passed": true
+    },
+    {
+      "check": "four service containers replaced, volumes preserved",
+      "passed": true
+    },
+    {
+      "check": "pending checkpoint unchanged",
+      "passed": true
+    },
+    {
+      "check": "duplicate approval rejected",
+      "passed": true
+    },
+    {
+      "check": "original pending work resumes",
+      "passed": true
+    },
+    {
+      "check": "existing refund remains idempotent",
+      "passed": true
+    },
+    {
+      "check": "backup source offline during recovery",
+      "passed": true
+    },
+    {
+      "check": "independent restore, approval resume and refund uniqueness",
+      "passed": true
+    }
+  ],
+  "main_modified": false,
+  "image_id": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+  "migration": {
+    "ready": true,
+    "profile": "core",
+    "revisions": [
+      "rf_core_0001"
+    ],
+    "action": "installed",
+    "demo_seeded": true
+  },
+  "permissions": {
+    "passed": true,
+    "denials": [
+      {
+        "role": "app",
+        "statement": "CREATE TABLE public.qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "CREATE TEMP TABLE qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "ALTER TABLE rf_runs ADD COLUMN qa_forbidden int",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "DROP TABLE rf_reviews",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "TRUNCATE rf_jobs",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_orders SET days=days WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_knowledge_documents SET body=body WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_policy_head SET generation=generation WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_schema_version SET version_num=version_num WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "INSERT INTO checkpoint_migrations(v) VALUES(1000)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SELECT setval('rf_audit_id_seq',1,false)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SET ROLE rf_migrator",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SET ROLE resolveflow",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "CREATE ROLE qa_forbidden",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "ALTER ROLE rf_app SUPERUSER",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "CREATE TABLE public.qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "CREATE TEMP TABLE qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "ALTER TABLE rf_runs ADD COLUMN qa_forbidden int",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "DROP TABLE rf_reviews",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "TRUNCATE rf_jobs",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_orders SET days=days WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_knowledge_documents SET body=body WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_policy_head SET generation=generation WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_schema_version SET version_num=version_num WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "INSERT INTO checkpoint_migrations(v) VALUES(1000)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT setval('rf_audit_id_seq',1,false)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SET ROLE rf_migrator",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SET ROLE resolveflow",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "CREATE ROLE qa_forbidden",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "ALTER ROLE rf_app SUPERUSER",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_runs SET status=status WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "INSERT INTO rf_worker_heartbeats(worker_id) VALUES('forbidden')",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT nextval('rf_audit_id_seq')",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT rf_lock_policy_refund()",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "DELETE FROM rf_audit WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "DELETE FROM rf_refunds WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SELECT nextval('rf_policy_events_id_seq')",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "migrator",
+        "statement": "CREATE ROLE qa_forbidden",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "migrator",
+        "statement": "ALTER ROLE rf_migrator SUPERUSER",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "migrator",
+        "statement": "SET ROLE resolveflow",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "INSERT INTO qa_future_grants DEFAULT VALUES",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "INSERT INTO qa_future_grants DEFAULT VALUES",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SELECT qa_future_function()",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT qa_future_function()",
+        "sqlstate": "42501"
+      }
+    ],
+    "identities": {
+      "migrator": [
+        "rf_migrator",
+        "rf_migrator"
+      ],
+      "app": [
+        "rf_app",
+        "rf_app"
+      ],
+      "readonly": [
+        "rf_readonly",
+        "rf_readonly"
+      ]
+    },
+    "privileges": {
+      "migrator": {
+        "elevated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "schema_create": true,
+        "db_create": false,
+        "db_temp": false
+      },
+      "app": {
+        "elevated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "schema_create": false,
+        "db_create": false,
+        "db_temp": false
+      },
+      "readonly": {
+        "elevated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "schema_create": false,
+        "db_create": false,
+        "db_temp": false
+      }
+    }
+  },
+  "recreation": {
+    "before": {
+      "checkpoint_blobs": {
+        "count": 32,
+        "sha256": "207d3250cc4a3b3019e61b18ed5a19c2f16220882630130f8938bdcc25fe06b9"
+      },
+      "checkpoint_migrations": {
+        "count": 10,
+        "sha256": "6bd31f9bfde196c60b82960c4cf588eb94584d1f55b53d774af73e9c0a851870"
+      },
+      "checkpoint_writes": {
+        "count": 59,
+        "sha256": "b7ad3fa16291f2dee8ac7d2a5b87fb4a62ad1ab102fbdc4d33b1e696487ad0f5"
+      },
+      "checkpoints": {
+        "count": 13,
+        "sha256": "c8e2f6c86934cffba8c62d27d846bc52d69a3d931b7c77378fbae2a5a6c7ed03"
+      },
+      "rf_approvals": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "rf_audit": {
+        "count": 3,
+        "sha256": "e4e8da1bc7604fec06e3d04959329151ab200be772edf75bdd998db9e940a05d"
+      },
+      "rf_job_attempts": {
+        "count": 3,
+        "sha256": "b1fa14555d205e2603eb28eca33fba13ac97176b7bd508b89509249d31799fcb"
+      },
+      "rf_jobs": {
+        "count": 3,
+        "sha256": "0d2e511a361c786034fcba6d2443ded357d1a8cf64c482890c1e6b7a21538ff6"
+      },
+      "rf_knowledge_chunks": {
+        "count": 7,
+        "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+      },
+      "rf_knowledge_documents": {
+        "count": 3,
+        "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+      },
+      "rf_orders": {
+        "count": 4,
+        "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+      },
+      "rf_policy_events": {
+        "count": 1,
+        "sha256": "bcd9ce877559b03128a3742c6042216028329adfafa1b30fb210831888767182"
+      },
+      "rf_policy_head": {
+        "count": 1,
+        "sha256": "0de6f2749f1f207268f6071a8ce4eb175d175f0d2d9419e4e73ffbbf002cbc15"
+      },
+      "rf_policy_releases": {
+        "count": 1,
+        "sha256": "6935039c66e7e5e3f2d777beab87a85cafc5454269e66682aafb52bcb063c25b"
+      },
+      "rf_policy_reviews": {
+        "count": 3,
+        "sha256": "1ec45803b868ffa8b619cb25a9c643cebcbf1cf87a4764b212f7d349a2a9c1e0"
+      },
+      "rf_refunds": {
+        "count": 1,
+        "sha256": "2f3973a4451204e654244629e780b6d8be8a78f56a2b4e31edee5b105f7a8ee7"
+      },
+      "rf_reviews": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "rf_runs": {
+        "count": 3,
+        "sha256": "fa5a9cc6d15998cf32a5d96d6a8b5bc52edc3d9986f51d74c30541bf09125af2"
+      }
+    },
+    "after": {
+      "checkpoint_blobs": {
+        "count": 32,
+        "sha256": "207d3250cc4a3b3019e61b18ed5a19c2f16220882630130f8938bdcc25fe06b9"
+      },
+      "checkpoint_migrations": {
+        "count": 10,
+        "sha256": "6bd31f9bfde196c60b82960c4cf588eb94584d1f55b53d774af73e9c0a851870"
+      },
+      "checkpoint_writes": {
+        "count": 59,
+        "sha256": "b7ad3fa16291f2dee8ac7d2a5b87fb4a62ad1ab102fbdc4d33b1e696487ad0f5"
+      },
+      "checkpoints": {
+        "count": 13,
+        "sha256": "c8e2f6c86934cffba8c62d27d846bc52d69a3d931b7c77378fbae2a5a6c7ed03"
+      },
+      "rf_approvals": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "rf_audit": {
+        "count": 3,
+        "sha256": "e4e8da1bc7604fec06e3d04959329151ab200be772edf75bdd998db9e940a05d"
+      },
+      "rf_job_attempts": {
+        "count": 3,
+        "sha256": "b1fa14555d205e2603eb28eca33fba13ac97176b7bd508b89509249d31799fcb"
+      },
+      "rf_jobs": {
+        "count": 3,
+        "sha256": "0d2e511a361c786034fcba6d2443ded357d1a8cf64c482890c1e6b7a21538ff6"
+      },
+      "rf_knowledge_chunks": {
+        "count": 7,
+        "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+      },
+      "rf_knowledge_documents": {
+        "count": 3,
+        "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+      },
+      "rf_orders": {
+        "count": 4,
+        "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+      },
+      "rf_policy_events": {
+        "count": 1,
+        "sha256": "bcd9ce877559b03128a3742c6042216028329adfafa1b30fb210831888767182"
+      },
+      "rf_policy_head": {
+        "count": 1,
+        "sha256": "0de6f2749f1f207268f6071a8ce4eb175d175f0d2d9419e4e73ffbbf002cbc15"
+      },
+      "rf_policy_releases": {
+        "count": 1,
+        "sha256": "6935039c66e7e5e3f2d777beab87a85cafc5454269e66682aafb52bcb063c25b"
+      },
+      "rf_policy_reviews": {
+        "count": 3,
+        "sha256": "1ec45803b868ffa8b619cb25a9c643cebcbf1cf87a4764b212f7d349a2a9c1e0"
+      },
+      "rf_refunds": {
+        "count": 1,
+        "sha256": "2f3973a4451204e654244629e780b6d8be8a78f56a2b4e31edee5b105f7a8ee7"
+      },
+      "rf_reviews": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "rf_runs": {
+        "count": 3,
+        "sha256": "fa5a9cc6d15998cf32a5d96d6a8b5bc52edc3d9986f51d74c30541bf09125af2"
+      }
+    },
+    "old": {
+      "db": {
+        "id": "555b8b9659c002de24dd88444ad9a43e8962d6b4a80cfbbb2967c9ec44fb129a",
+        "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+        "volumes": {
+          "/var/lib/postgresql/data": "resolveflow-qa-step39-final_postgres-data"
+        }
+      },
+      "resolveflow": {
+        "id": "f21990e917e2ad427391e4934e51a46bac154e14cbc58dc01ea085798d3278ab",
+        "image": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+        "volumes": {
+          "/data": "resolveflow-qa-step39-final_agent-data"
+        }
+      },
+      "worker": {
+        "id": "5bad7428ce0390eb865ad315f81aa0715d893c2ef4db71714d023748245f4467",
+        "image": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+        "volumes": {
+          "/data": "resolveflow-qa-step39-final_worker-data"
+        }
+      },
+      "monitor": {
+        "id": "0d7cc1da0ddd4050330b5ce295f2edd49d0bc1810c847f98eeabc4b6bc049053",
+        "image": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+        "volumes": {}
+      }
+    },
+    "new": {
+      "db": {
+        "id": "9fb7d187781bfebe037275abbe9586ad4af4d1e819ca42ac8f6972fe31793926",
+        "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+        "volumes": {
+          "/var/lib/postgresql/data": "resolveflow-qa-step39-final_postgres-data"
+        }
+      },
+      "resolveflow": {
+        "id": "85362f85cfd8213ea6a2031fbe38db1a444ea779966e02ef1ef27aa54a8adc8c",
+        "image": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+        "volumes": {
+          "/data": "resolveflow-qa-step39-final_agent-data"
+        }
+      },
+      "worker": {
+        "id": "3fcb10833c2b57858ed7898c2bbfa5acf069e93f11832ca4cb5afe4658037687",
+        "image": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+        "volumes": {
+          "/data": "resolveflow-qa-step39-final_worker-data"
+        }
+      },
+      "monitor": {
+        "id": "884657d62a1641bd32f4cf7af3f96a62abd6e2becb37bfbcdda0186a5df97e15",
+        "image": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+        "volumes": {}
+      }
+    }
+  },
+  "backup": {
+    "private_path": "work\\resolveflow-qa-step39-final\\backups\\20260923T062047Z-8ddba32d37a4",
+    "archive": {
+      "format": "PostgreSQL custom",
+      "file": "database.dump",
+      "bytes": 64049,
+      "sha256": "165fbe2bb8aacc48cb813fb444c51ec4c3dd7bfe64288b262a4239a99815f722",
+      "full_decode_passed": true
+    },
+    "table_count": 20
+  },
+  "restore": {
+    "passed": true,
+    "started_at_utc": "2026-09-23T06:21:02.932331+00:00",
+    "model_api_calls": 0,
+    "main_database_writes": 0,
+    "seed_restore": {
+      "passed": true,
+      "started_at_utc": "2026-09-23T06:21:04.271680+00:00",
+      "target": {
+        "project": "resolveflow-restore-step39-final-seed",
+        "db": "resolveflow-restore-step39-final-seed-db-1",
+        "network": "resolveflow-restore-step39-final-seed_private",
+        "volume": "resolveflow-restore-step39-final-seed_postgres-data"
+      },
+      "archive_sha256": "165fbe2bb8aacc48cb813fb444c51ec4c3dd7bfe64288b262a4239a99815f722",
+      "images": {
+        "db": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+        "resolveflow": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+        "worker": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19"
+      },
+      "source_project": "resolveflow-qa-step39-final",
+      "existing_resources_reused": false,
+      "migration_executed": false,
+      "source_modified": false,
+      "resume_verified": false,
+      "subnet": "10.240.42.0/24",
+      "database_role_isolation": true,
+      "validation": {
+        "passed": true,
+        "matched_tables": 20,
+        "table_fingerprints": {
+          "checkpoint_blobs": {
+            "count": 47,
+            "sha256": "12d8fab5395244d6bd78333e98e18a74a64b65be8aedf5242e679269b0460146"
+          },
+          "checkpoint_migrations": {
+            "count": 10,
+            "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+          },
+          "checkpoint_writes": {
+            "count": 87,
+            "sha256": "adcc4d8c9dfd3c4dc0743f9e3674f6f69156b5d489d9b21d50b946f038476b85"
+          },
+          "checkpoints": {
+            "count": 20,
+            "sha256": "042e9aa80e345b089f12517bfef94311e13128d555726cffc7e143e788f23d0f"
+          },
+          "rf_approvals": {
+            "count": 1,
+            "sha256": "d92e4df8fd35f038d0d72543545fa7b5d67057ae92373abf51c2724c3c159011"
+          },
+          "rf_audit": {
+            "count": 5,
+            "sha256": "71074511a88058da01e3e982003e1ed465e833c95cdffb92dcb21fc036e9bba9"
+          },
+          "rf_job_attempts": {
+            "count": 5,
+            "sha256": "8f9229b088e6c81182a2278280ca055bc86a1b1ecd12bbc9728bcc923377f2f9"
+          },
+          "rf_jobs": {
+            "count": 4,
+            "sha256": "c844a742caef0005ea64bcaab00f59e960381fae8fdc41f89524826bef077b65"
+          },
+          "rf_knowledge_chunks": {
+            "count": 7,
+            "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+          },
+          "rf_knowledge_documents": {
+            "count": 3,
+            "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+          },
+          "rf_orders": {
+            "count": 4,
+            "sha256": "3b626a90d3531b0c5042be1c1529280a50971c04956db3ca383956412e54b9b5"
+          },
+          "rf_policy_events": {
+            "count": 1,
+            "sha256": "807aaff1365e8dd8996281a4e55348858e4b588ff1dbd9bbfa067791dbb826c4"
+          },
+          "rf_policy_head": {
+            "count": 1,
+            "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+          },
+          "rf_policy_releases": {
+            "count": 1,
+            "sha256": "bb85855567146511a81b68881a5247b22e4ea12a966400943203fa1223a1e09a"
+          },
+          "rf_policy_reviews": {
+            "count": 3,
+            "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+          },
+          "rf_refunds": {
+            "count": 1,
+            "sha256": "8db4aed2b3c01c8b0c96e83b70afe2b5bf1e579fbfda07442317f03aecc3cd03"
+          },
+          "rf_reviews": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_runs": {
+            "count": 4,
+            "sha256": "98bf95fcd787ae044ed831262ee7cfb385be40dc51fdafde93eded09da4b80c2"
+          },
+          "rf_schema_version": {
+            "count": 1,
+            "sha256": "edc07ddb03c49b9d432fe058c33962a3dc1a80332fd005d89dec52f1998dbb01"
+          },
+          "rf_worker_heartbeats": {
+            "count": 1,
+            "sha256": "ce047c185a86ea6ec900e7745d1f03e96053085606a256acabfa82970345f82a"
+          }
+        },
+        "catalog_equal": true,
+        "indexes_valid": true,
+        "revisions": [
+          "rf_core_0001"
+        ],
+        "checkpoint_migrations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "sequences": {
+          "rf_audit_id_seq": {
+            "last_value": 5,
+            "is_called": true,
+            "table_max": 5,
+            "next_value": 6,
+            "safe": true
+          },
+          "rf_job_attempts_id_seq": {
+            "last_value": 5,
+            "is_called": true,
+            "table_max": 5,
+            "next_value": 6,
+            "safe": true
+          },
+          "rf_policy_events_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          }
+        },
+        "readable_checkpoints": [
+          {
+            "run_id": "28c8530c-dff8-46c3-86d8-ed0320076491",
+            "status": "auto_rejected",
+            "checkpoint_id": "1f1b716a-5c93-6067-8002-3cd1f0ef66de"
+          },
+          {
+            "run_id": "40296483-eca1-45cb-a4ca-b8b3a2c9fbc2",
+            "status": "refunded",
+            "checkpoint_id": "1f1b716a-0346-6e9a-8003-7f73516dc198"
+          },
+          {
+            "run_id": "5183de59-c0e7-4d24-87f6-1e1fd6d3a89b",
+            "status": "already_refunded",
+            "checkpoint_id": "1f1b716e-8910-6581-8003-b72b77b52e4b"
+          },
+          {
+            "run_id": "7d18cf88-e0a0-4e2d-9c13-9cafba8ec059",
+            "status": "rejected",
+            "checkpoint_id": "1f1b716e-2527-6fe4-8004-2ce5ef7e6ad9"
+          }
+        ]
+      },
+      "database_stopped": true,
+      "completed_at_utc": "2026-09-23T06:21:13.102255+00:00",
+      "volume_preserved": true
+    },
+    "pending_backup": {
+      "private_path": "work/restore-qa/resolveflow-restore-step39-final/backups/20260923T062134Z-b685c2098393",
+      "archive": {
+        "format": "PostgreSQL custom",
+        "file": "database.dump",
+        "bytes": 71122,
+        "sha256": "fe19a039f30c9acfc4d4b636611afb20ddac29440ff4583c3a2c15caba786df6",
+        "full_decode_passed": true
+      }
+    },
+    "pending_restore": {
+      "passed": true,
+      "started_at_utc": "2026-09-23T06:21:39.297622+00:00",
+      "target": {
+        "project": "resolveflow-restore-step39-final-resume",
+        "db": "resolveflow-restore-step39-final-resume-db-1",
+        "network": "resolveflow-restore-step39-final-resume_private",
+        "volume": "resolveflow-restore-step39-final-resume_postgres-data"
+      },
+      "archive_sha256": "fe19a039f30c9acfc4d4b636611afb20ddac29440ff4583c3a2c15caba786df6",
+      "images": {
+        "db": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+        "resolveflow": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19",
+        "worker": "sha256:4e46b84ff71e0e196479e4e39215114f3310f0b890005af348924b802b924b19"
+      },
+      "source_project": "resolveflow-restore-step39-final-seed",
+      "existing_resources_reused": false,
+      "migration_executed": false,
+      "source_modified": false,
+      "resume_verified": false,
+      "subnet": "10.240.43.0/24",
+      "database_role_isolation": true,
+      "validation": {
+        "passed": true,
+        "matched_tables": 20,
+        "table_fingerprints": {
+          "checkpoint_blobs": {
+            "count": 67,
+            "sha256": "72910cd3fb030644d64c76d7ad8428bde6bcb6799781545626a57a6ac64c7e5c"
+          },
+          "checkpoint_migrations": {
+            "count": 10,
+            "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+          },
+          "checkpoint_writes": {
+            "count": 127,
+            "sha256": "af8134f5d2ca302b91b8671caaa7841e0a2201cbc7d68dc41551ef25a4fec22d"
+          },
+          "checkpoints": {
+            "count": 28,
+            "sha256": "81d44a8b413fbed1a41fef277ee280c240041a1d65d6b00f9a4cf65450ff8f8e"
+          },
+          "rf_approvals": {
+            "count": 1,
+            "sha256": "d92e4df8fd35f038d0d72543545fa7b5d67057ae92373abf51c2724c3c159011"
+          },
+          "rf_audit": {
+            "count": 7,
+            "sha256": "fca9e7ea87e9fe858bf679dfc485129a69b2739c39cc43983dd4ab3af7810d13"
+          },
+          "rf_job_attempts": {
+            "count": 7,
+            "sha256": "8d52b5fe2660fbdc4c691f675754e192f751e7550afd270ba81fd2ac697c42a6"
+          },
+          "rf_jobs": {
+            "count": 6,
+            "sha256": "f6acda814f4846875efef1b02c2e3ae28950719cc210719c10fd87bfbdb1a6e5"
+          },
+          "rf_knowledge_chunks": {
+            "count": 7,
+            "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+          },
+          "rf_knowledge_documents": {
+            "count": 3,
+            "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+          },
+          "rf_orders": {
+            "count": 6,
+            "sha256": "0e5db5b6a67c3829fd1137292a0795ea7b498fedea00d7fc92f237121b41a538"
+          },
+          "rf_policy_events": {
+            "count": 1,
+            "sha256": "807aaff1365e8dd8996281a4e55348858e4b588ff1dbd9bbfa067791dbb826c4"
+          },
+          "rf_policy_head": {
+            "count": 1,
+            "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+          },
+          "rf_policy_releases": {
+            "count": 1,
+            "sha256": "bb85855567146511a81b68881a5247b22e4ea12a966400943203fa1223a1e09a"
+          },
+          "rf_policy_reviews": {
+            "count": 3,
+            "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+          },
+          "rf_refunds": {
+            "count": 1,
+            "sha256": "8db4aed2b3c01c8b0c96e83b70afe2b5bf1e579fbfda07442317f03aecc3cd03"
+          },
+          "rf_reviews": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_runs": {
+            "count": 6,
+            "sha256": "8f061992e428759aa76d8a408029167ad19d16f6efd582cea5f5f540b8ebc555"
+          },
+          "rf_schema_version": {
+            "count": 1,
+            "sha256": "edc07ddb03c49b9d432fe058c33962a3dc1a80332fd005d89dec52f1998dbb01"
+          },
+          "rf_worker_heartbeats": {
+            "count": 2,
+            "sha256": "76e7644b5c8fd145288bc0467ed75b8fcf0468eb539fb5fdb078757cc7e23b2a"
+          }
+        },
+        "catalog_equal": true,
+        "indexes_valid": true,
+        "revisions": [
+          "rf_core_0001"
+        ],
+        "checkpoint_migrations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "sequences": {
+          "rf_audit_id_seq": {
+            "last_value": 7,
+            "is_called": true,
+            "table_max": 7,
+            "next_value": 8,
+            "safe": true
+          },
+          "rf_job_attempts_id_seq": {
+            "last_value": 7,
+            "is_called": true,
+            "table_max": 7,
+            "next_value": 8,
+            "safe": true
+          },
+          "rf_policy_events_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          }
+        },
+        "readable_checkpoints": [
+          {
+            "run_id": "11e8144c-defa-4ec5-be2c-5ea490c8d3a4",
+            "status": "awaiting_approval",
+            "checkpoint_id": "1f1b7170-6084-6163-8002-d451470c1407"
+          },
+          {
+            "run_id": "28c8530c-dff8-46c3-86d8-ed0320076491",
+            "status": "auto_rejected",
+            "checkpoint_id": "1f1b716a-5c93-6067-8002-3cd1f0ef66de"
+          },
+          {
+            "run_id": "40296483-eca1-45cb-a4ca-b8b3a2c9fbc2",
+            "status": "refunded",
+            "checkpoint_id": "1f1b716a-0346-6e9a-8003-7f73516dc198"
+          },
+          {
+            "run_id": "5183de59-c0e7-4d24-87f6-1e1fd6d3a89b",
+            "status": "already_refunded",
+            "checkpoint_id": "1f1b716e-8910-6581-8003-b72b77b52e4b"
+          },
+          {
+            "run_id": "7d18cf88-e0a0-4e2d-9c13-9cafba8ec059",
+            "status": "rejected",
+            "checkpoint_id": "1f1b716e-2527-6fe4-8004-2ce5ef7e6ad9"
+          },
+          {
+            "run_id": "ecd9ad33-e927-493d-98b1-d47e31c5235f",
+            "status": "awaiting_approval",
+            "checkpoint_id": "1f1b7170-347e-6793-8002-a5e3dccea032"
+          }
+        ]
+      },
+      "database_stopped": true,
+      "completed_at_utc": "2026-09-23T06:21:48.557203+00:00",
+      "volume_preserved": true
+    },
+    "resume_verified": true,
+    "resumed": [
+      {
+        "run_id": "11e8144c-defa-4ec5-be2c-5ea490c8d3a4",
+        "order_id": "RF-3502",
+        "approved": false,
+        "status": "rejected",
+        "investigation_unchanged": true,
+        "evidence_and_proposal_unchanged": true,
+        "duplicate_and_opposite_approval_status": 409,
+        "operator_approval_status": 403
+      },
+      {
+        "run_id": "ecd9ad33-e927-493d-98b1-d47e31c5235f",
+        "order_id": "RF-3501",
+        "approved": true,
+        "status": "refunded",
+        "investigation_unchanged": true,
+        "evidence_and_proposal_unchanged": true,
+        "duplicate_and_opposite_approval_status": 409,
+        "operator_approval_status": 403
+      }
+    ],
+    "duplicate_status": "already_refunded",
+    "final": {
+      "refund_count": 2,
+      "fixture_refunds": [
+        {
+          "order_id": "RF-3501",
+          "run_id": "ecd9ad33-e927-493d-98b1-d47e31c5235f"
+        }
+      ],
+      "max_attempt_id": 11,
+      "max_audit_id": 11,
+      "checkpoint_count": 38
+    },
+    "source_stopped_during_resume": true,
+    "volumes_preserved": true,
+    "completed_at_utc": "2026-09-23T06:22:19.053392+00:00",
+    "projects_stopped": [
+      "resolveflow-restore-step39-final-seed",
+      "resolveflow-restore-step39-final-resume"
+    ]
+  },
+  "stopped_volume_preserved": true,
+  "finished_utc": "2026-09-23T06:22:19.393317+00:00"
+}
