@@ -1,0 +1,1838 @@
+{
+  "completed": true,
+  "kind": "actual_local_cross_encoder",
+  "model": {
+    "model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+    "revision": "1427fd652930e4ba29e8149678df786c240d8825",
+    "license": "apache-2.0",
+    "sha256": {
+      "config.json": "cc2cfe51aa3fd759d21d21acf5dfd6994aa67a3c9210636d22e143699d336c77",
+      "model.safetensors": "5daeca2481a76b5976a2bdc32f0a78532b6716da4f8cd3ff59460ef8d2f359b4",
+      "tokenizer.json": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
+      "tokenizer_config.json": "e7fbfbfa6347b4e414c1cee50d142e2c2f9a895dad68b068ae83a8b564c3837e",
+      "special_tokens_map.json": "378eb3bf733eb16e65792d7e3fda5b8a4631387ca04d2015199c4d4f22ae554d",
+      "sentencepiece.bpe.model": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+      "README.md": "474736a65d6393a060119a8dc304563af67af4d8d86ccfee4a05dd0df107fc11"
+    }
+  },
+  "partition": "tuning",
+  "samples": 45,
+  "held_out_evaluated": 0,
+  "paid_calls": 0,
+  "pairs_scored": 218,
+  "truncated_pairs": 0,
+  "parameters": {
+    "max_length": 512,
+    "batch_size": 8,
+    "threads": 2,
+    "device": "cpu",
+    "input": "query + original chunk text"
+  },
+  "cold_load_seconds": 1.440519688999757,
+  "latency_seconds": {
+    "p50": 0.1630055870000433,
+    "p95": 0.22053061799988427
+  },
+  "peak_rss_mib": 732.30859375,
+  "metrics": {
+    "baseline": {
+      "samples": 45,
+      "categories": {
+        "refund_rules": 11,
+        "approval": 2,
+        "idempotency": 6,
+        "shipping": 9,
+        "facts_and_evidence": 10,
+        "versions": 2,
+        "policy_gaps": 2,
+        "unrelated": 3
+      },
+      "answerability": {
+        "supported": 40,
+        "unsupported": 2,
+        "out_of_scope": 3
+      },
+      "retrieval": {
+        "required_group_recall_at_4": {
+          "numerator": 40.0,
+          "denominator": 40,
+          "value": 1.0
+        },
+        "all_required_at_4": {
+          "numerator": 40,
+          "denominator": 40,
+          "value": 1.0
+        },
+        "mrr_at_4": {
+          "numerator": 37.333333333333336,
+          "denominator": 40,
+          "value": 0.9333333333333333
+        },
+        "complete_evidence_rr_at_4": {
+          "numerator": 33.75,
+          "denominator": 40,
+          "value": 0.84375
+        },
+        "context_precision_at_4": {
+          "numerator": 59,
+          "denominator": 180,
+          "value": 0.3277777777777778
+        },
+        "source_integrity": {
+          "numerator": 180,
+          "denominator": 180,
+          "value": 1.0
+        }
+      },
+      "abstention": {
+        "by_no_answer_type": {
+          "unsupported": {
+            "samples": 2,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 2,
+              "denominator": 2,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            }
+          },
+          "out_of_scope": {
+            "samples": 3,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 3,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 3,
+              "denominator": 3,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 3,
+              "value": 0.0
+            }
+          }
+        },
+        "demo_over_escalation_rate": {
+          "numerator": 39,
+          "denominator": 40,
+          "value": 0.975
+        }
+      },
+      "citations": {
+        "document_citation_validity": {
+          "numerator": 0,
+          "denominator": 1,
+          "value": 0.0
+        },
+        "reference_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "verbatim_quote_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "cited_required_coverage": {
+          "numerator": 1,
+          "denominator": 40,
+          "value": 0.025
+        },
+        "unsupported_citation_rate": {
+          "numerator": 0,
+          "denominator": 5,
+          "value": 0.0
+        },
+        "chunk_citation_rate": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        }
+      },
+      "answer_quality": {
+        "claim_entailment": "not_measured",
+        "answer_completeness": "not_measured",
+        "partial_answer_boundary": "not_measured",
+        "live_model_refusal": "not_measured",
+        "reason": "Demo emits a fixed reason, not a policy QA answer or claim-to-chunk mapping."
+      }
+    },
+    "reranked_top4": {
+      "samples": 45,
+      "categories": {
+        "refund_rules": 11,
+        "approval": 2,
+        "idempotency": 6,
+        "shipping": 9,
+        "facts_and_evidence": 10,
+        "versions": 2,
+        "policy_gaps": 2,
+        "unrelated": 3
+      },
+      "answerability": {
+        "supported": 40,
+        "unsupported": 2,
+        "out_of_scope": 3
+      },
+      "retrieval": {
+        "required_group_recall_at_4": {
+          "numerator": 40.0,
+          "denominator": 40,
+          "value": 1.0
+        },
+        "all_required_at_4": {
+          "numerator": 40,
+          "denominator": 40,
+          "value": 1.0
+        },
+        "mrr_at_4": {
+          "numerator": 37.833333333333336,
+          "denominator": 40,
+          "value": 0.9458333333333334
+        },
+        "complete_evidence_rr_at_4": {
+          "numerator": 33.333333333333336,
+          "denominator": 40,
+          "value": 0.8333333333333334
+        },
+        "context_precision_at_4": {
+          "numerator": 59,
+          "denominator": 180,
+          "value": 0.3277777777777778
+        },
+        "source_integrity": {
+          "numerator": 180,
+          "denominator": 180,
+          "value": 1.0
+        }
+      },
+      "abstention": {
+        "by_no_answer_type": {
+          "unsupported": {
+            "samples": 2,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 2,
+              "denominator": 2,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            }
+          },
+          "out_of_scope": {
+            "samples": 3,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 3,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 3,
+              "denominator": 3,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 3,
+              "value": 0.0
+            }
+          }
+        },
+        "demo_over_escalation_rate": {
+          "numerator": 39,
+          "denominator": 40,
+          "value": 0.975
+        }
+      },
+      "citations": {
+        "document_citation_validity": {
+          "numerator": 0,
+          "denominator": 1,
+          "value": 0.0
+        },
+        "reference_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "verbatim_quote_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "cited_required_coverage": {
+          "numerator": 1,
+          "denominator": 40,
+          "value": 0.025
+        },
+        "unsupported_citation_rate": {
+          "numerator": 0,
+          "denominator": 5,
+          "value": 0.0
+        },
+        "chunk_citation_rate": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        }
+      },
+      "answer_quality": {
+        "claim_entailment": "not_measured",
+        "answer_completeness": "not_measured",
+        "partial_answer_boundary": "not_measured",
+        "live_model_refusal": "not_measured",
+        "reason": "Demo emits a fixed reason, not a policy QA answer or claim-to-chunk mapping."
+      }
+    },
+    "reranked_union": {
+      "samples": 45,
+      "categories": {
+        "refund_rules": 11,
+        "approval": 2,
+        "idempotency": 6,
+        "shipping": 9,
+        "facts_and_evidence": 10,
+        "versions": 2,
+        "policy_gaps": 2,
+        "unrelated": 3
+      },
+      "answerability": {
+        "supported": 40,
+        "unsupported": 2,
+        "out_of_scope": 3
+      },
+      "retrieval": {
+        "required_group_recall_at_4": {
+          "numerator": 39.5,
+          "denominator": 40,
+          "value": 0.9875
+        },
+        "all_required_at_4": {
+          "numerator": 39,
+          "denominator": 40,
+          "value": 0.975
+        },
+        "mrr_at_4": {
+          "numerator": 37.833333333333336,
+          "denominator": 40,
+          "value": 0.9458333333333334
+        },
+        "complete_evidence_rr_at_4": {
+          "numerator": 33.0,
+          "denominator": 40,
+          "value": 0.825
+        },
+        "context_precision_at_4": {
+          "numerator": 58,
+          "denominator": 180,
+          "value": 0.32222222222222224
+        },
+        "source_integrity": {
+          "numerator": 180,
+          "denominator": 180,
+          "value": 1.0
+        }
+      },
+      "abstention": {
+        "by_no_answer_type": {
+          "unsupported": {
+            "samples": 2,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 2,
+              "denominator": 2,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 2,
+              "value": 0.0
+            }
+          },
+          "out_of_scope": {
+            "samples": 3,
+            "empty_retrieval_rate": {
+              "numerator": 0,
+              "denominator": 3,
+              "value": 0.0
+            },
+            "demo_escalation_rate": {
+              "numerator": 3,
+              "denominator": 3,
+              "value": 1.0
+            },
+            "unsupported_citation_rate": {
+              "numerator": 0,
+              "denominator": 3,
+              "value": 0.0
+            }
+          }
+        },
+        "demo_over_escalation_rate": {
+          "numerator": 39,
+          "denominator": 40,
+          "value": 0.975
+        }
+      },
+      "citations": {
+        "document_citation_validity": {
+          "numerator": 0,
+          "denominator": 1,
+          "value": 0.0
+        },
+        "reference_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "verbatim_quote_validity": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        },
+        "cited_required_coverage": {
+          "numerator": 1,
+          "denominator": 40,
+          "value": 0.025
+        },
+        "unsupported_citation_rate": {
+          "numerator": 0,
+          "denominator": 5,
+          "value": 0.0
+        },
+        "chunk_citation_rate": {
+          "numerator": 1,
+          "denominator": 1,
+          "value": 1.0
+        }
+      },
+      "answer_quality": {
+        "claim_entailment": "not_measured",
+        "answer_completeness": "not_measured",
+        "partial_answer_boundary": "not_measured",
+        "live_model_refusal": "not_measured",
+        "reason": "Demo emits a fixed reason, not a policy QA answer or claim-to-chunk mapping."
+      }
+    }
+  },
+  "tuning_details": [
+    {
+      "id": "RAG-001",
+      "seconds": 0.7047920300001351,
+      "scores": {
+        "refund-v2:3ad704686fec:0": 5.272083759307861,
+        "shipping-v1:872750f16cd0:0": -0.6640309691429138,
+        "unknown-v1:2bb36483d2ad:0": -1.3219141960144043,
+        "refund-v2:3ad704686fec:2": -3.6825110912323,
+        "refund-v2:3ad704686fec:1": -5.478720188140869
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ]
+      }
+    },
+    {
+      "id": "RAG-002",
+      "seconds": 0.14612259800014726,
+      "scores": {
+        "refund-v2:3ad704686fec:0": -0.4169950485229492,
+        "shipping-v1:872750f16cd0:0": -3.6864566802978516,
+        "refund-v2:3ad704686fec:1": -6.752016544342041,
+        "unknown-v1:2bb36483d2ad:0": -6.635280132293701
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-003",
+      "seconds": 0.14134264599988455,
+      "scores": {
+        "refund-v2:3ad704686fec:0": 5.68695592880249,
+        "shipping-v1:872750f16cd0:0": -8.05760383605957,
+        "unknown-v1:2bb36483d2ad:0": -6.980714321136475,
+        "shipping-v1:872750f16cd0:1": -8.165366172790527
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-004",
+      "seconds": 0.16401663999977245,
+      "scores": {
+        "shipping-v1:872750f16cd0:0": -0.6477159857749939,
+        "refund-v2:3ad704686fec:0": 0.3413178324699402,
+        "refund-v2:3ad704686fec:1": -4.663607120513916,
+        "refund-v2:3ad704686fec:2": -4.587485313415527,
+        "unknown-v1:2bb36483d2ad:0": -7.146739482879639
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-005",
+      "seconds": 0.1521587150000414,
+      "scores": {
+        "refund-v2:3ad704686fec:0": 4.367154598236084,
+        "shipping-v1:872750f16cd0:0": -3.463195562362671,
+        "unknown-v1:2bb36483d2ad:0": -2.770861864089966,
+        "refund-v2:3ad704686fec:2": -4.221002101898193
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ]
+      }
+    },
+    {
+      "id": "RAG-006",
+      "seconds": 0.22053061799988427,
+      "scores": {
+        "refund-v2:3ad704686fec:0": 2.9327588081359863,
+        "shipping-v1:872750f16cd0:0": -5.958140850067139,
+        "refund-v2:3ad704686fec:1": -6.120253086090088,
+        "unknown-v1:2bb36483d2ad:0": -6.445383548736572,
+        "shipping-v1:872750f16cd0:1": -7.314706325531006,
+        "unknown-v1:2bb36483d2ad:1": -7.046839237213135
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-007",
+      "seconds": 0.1914078840000002,
+      "scores": {
+        "refund-v2:3ad704686fec:0": 7.562658786773682,
+        "unknown-v1:2bb36483d2ad:0": -4.410770893096924,
+        "shipping-v1:872750f16cd0:0": -7.275875568389893,
+        "refund-v2:3ad704686fec:2": -8.133955955505371,
+        "unknown-v1:2bb36483d2ad:1": -7.785655498504639
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-008",
+      "seconds": 0.17584216300019762,
+      "scores": {
+        "shipping-v1:872750f16cd0:0": -0.10337680578231812,
+        "refund-v2:3ad704686fec:0": 1.2516329288482666,
+        "refund-v2:3ad704686fec:1": -4.353990077972412,
+        "refund-v2:3ad704686fec:2": -5.410409450531006,
+        "unknown-v1:2bb36483d2ad:0": -5.838708400726318
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:2"
+        ]
+      }
+    },
+    {
+      "id": "RAG-009",
+      "seconds": 0.157314088000021,
+      "scores": {
+        "refund-v2:3ad704686fec:0": 3.426558017730713,
+        "refund-v2:3ad704686fec:1": 3.8172008991241455,
+        "unknown-v1:2bb36483d2ad:0": -3.7358310222625732,
+        "refund-v2:3ad704686fec:2": -5.329969882965088,
+        "shipping-v1:872750f16cd0:0": -3.022839069366455
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-010",
+      "seconds": 0.1630055870000433,
+      "scores": {
+        "refund-v2:3ad704686fec:0": 3.0163028240203857,
+        "unknown-v1:2bb36483d2ad:0": 0.13518038392066956,
+        "shipping-v1:872750f16cd0:1": -3.2886765003204346,
+        "shipping-v1:872750f16cd0:0": -1.0718994140625
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-011",
+      "seconds": 0.18956438599980174,
+      "scores": {
+        "refund-v2:3ad704686fec:0": 2.693422317504883,
+        "shipping-v1:872750f16cd0:1": -6.59286642074585,
+        "unknown-v1:2bb36483d2ad:0": -6.905857563018799,
+        "shipping-v1:872750f16cd0:0": -7.355309963226318
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-013",
+      "seconds": 0.21160934800036557,
+      "scores": {
+        "refund-v2:3ad704686fec:1": 7.340164661407471,
+        "refund-v2:3ad704686fec:0": -0.4568958282470703,
+        "refund-v2:3ad704686fec:2": -6.350136756896973,
+        "shipping-v1:872750f16cd0:0": -5.2486653327941895,
+        "unknown-v1:2bb36483d2ad:0": -5.846170902252197
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-014",
+      "seconds": 0.19931929999984277,
+      "scores": {
+        "refund-v2:3ad704686fec:1": 8.480310440063477,
+        "refund-v2:3ad704686fec:0": -1.1357769966125488,
+        "unknown-v1:2bb36483d2ad:1": -7.949860572814941,
+        "refund-v2:3ad704686fec:2": -6.8387675285339355,
+        "unknown-v1:2bb36483d2ad:0": -7.103071689605713,
+        "shipping-v1:872750f16cd0:0": -6.6265668869018555
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:2",
+          "unknown-v1:2bb36483d2ad:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ]
+      }
+    },
+    {
+      "id": "RAG-023",
+      "seconds": 0.1773958449998645,
+      "scores": {
+        "refund-v2:3ad704686fec:2": 6.5158843994140625,
+        "refund-v2:3ad704686fec:0": -2.1807711124420166,
+        "refund-v2:3ad704686fec:1": -6.685771465301514,
+        "shipping-v1:872750f16cd0:0": -5.9952921867370605,
+        "unknown-v1:2bb36483d2ad:0": -6.6414875984191895
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-024",
+      "seconds": 0.12661267000021326,
+      "scores": {
+        "refund-v2:3ad704686fec:2": 2.2815542221069336,
+        "refund-v2:3ad704686fec:0": -1.21964430809021,
+        "refund-v2:3ad704686fec:1": -5.205225944519043,
+        "unknown-v1:2bb36483d2ad:0": -3.765882730484009
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-025",
+      "seconds": 0.18841292600018278,
+      "scores": {
+        "refund-v2:3ad704686fec:2": 5.190287113189697,
+        "refund-v2:3ad704686fec:1": -4.9106926918029785,
+        "refund-v2:3ad704686fec:0": -6.272832870483398,
+        "shipping-v1:872750f16cd0:0": -5.617875576019287,
+        "unknown-v1:2bb36483d2ad:0": -5.113137722015381
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:1",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-026",
+      "seconds": 0.20630726800027333,
+      "scores": {
+        "refund-v2:3ad704686fec:2": -4.085389614105225,
+        "refund-v2:3ad704686fec:1": -4.99402379989624,
+        "refund-v2:3ad704686fec:0": -5.344736099243164,
+        "shipping-v1:872750f16cd0:0": -5.7699360847473145,
+        "unknown-v1:2bb36483d2ad:0": -7.410290241241455
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-029",
+      "seconds": 0.2245869319999656,
+      "scores": {
+        "refund-v2:3ad704686fec:2": -1.2103908061981201,
+        "refund-v2:3ad704686fec:0": -3.4838297367095947,
+        "refund-v2:3ad704686fec:1": -3.8180415630340576,
+        "unknown-v1:2bb36483d2ad:0": -5.866523265838623,
+        "shipping-v1:872750f16cd0:0": -5.371802806854248,
+        "shipping-v1:872750f16cd0:1": -6.101128101348877
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:2",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1",
+          "shipping-v1:872750f16cd0:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-030",
+      "seconds": 0.13254438300009497,
+      "scores": {
+        "refund-v2:3ad704686fec:2": -2.937786102294922,
+        "unknown-v1:2bb36483d2ad:0": -5.515493869781494,
+        "refund-v2:3ad704686fec:1": -5.4376630783081055,
+        "refund-v2:3ad704686fec:0": -4.472553730010986
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:2",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-031",
+      "seconds": 0.17168094499993458,
+      "scores": {
+        "shipping-v1:872750f16cd0:0": 4.4845452308654785,
+        "shipping-v1:872750f16cd0:1": -0.8946369290351868,
+        "unknown-v1:2bb36483d2ad:0": -0.830339252948761,
+        "refund-v2:3ad704686fec:0": -3.9929332733154297,
+        "unknown-v1:2bb36483d2ad:1": -0.3053813576698303
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:0"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:0"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-032",
+      "seconds": 0.1330928109996421,
+      "scores": {
+        "shipping-v1:872750f16cd0:0": -3.654756784439087,
+        "shipping-v1:872750f16cd0:1": -6.0025811195373535,
+        "refund-v2:3ad704686fec:0": -5.520143032073975,
+        "refund-v2:3ad704686fec:2": -8.404036521911621
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:2"
+        ]
+      }
+    },
+    {
+      "id": "RAG-033",
+      "seconds": 0.09352152599967667,
+      "scores": {
+        "shipping-v1:872750f16cd0:1": 0.4897928237915039,
+        "shipping-v1:872750f16cd0:0": -0.9621829390525818,
+        "unknown-v1:2bb36483d2ad:1": -2.732384443283081,
+        "unknown-v1:2bb36483d2ad:0": -2.455906391143799
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-034",
+      "seconds": 0.15239119599982587,
+      "scores": {
+        "shipping-v1:872750f16cd0:1": -5.532719612121582,
+        "shipping-v1:872750f16cd0:0": -4.2808051109313965,
+        "refund-v2:3ad704686fec:1": -8.814632415771484,
+        "unknown-v1:2bb36483d2ad:0": -6.676598072052002,
+        "refund-v2:3ad704686fec:0": -5.928293704986572
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-035",
+      "seconds": 0.16439460499987035,
+      "scores": {
+        "shipping-v1:872750f16cd0:1": 1.0218359231948853,
+        "shipping-v1:872750f16cd0:0": -1.991508960723877,
+        "unknown-v1:2bb36483d2ad:0": -2.778254747390747,
+        "refund-v2:3ad704686fec:2": -3.90726900100708,
+        "refund-v2:3ad704686fec:0": -1.2609686851501465
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-036",
+      "seconds": 0.19077638599992497,
+      "scores": {
+        "shipping-v1:872750f16cd0:0": 3.7433509826660156,
+        "refund-v2:3ad704686fec:0": 1.0037033557891846,
+        "shipping-v1:872750f16cd0:1": -5.20253324508667,
+        "refund-v2:3ad704686fec:2": -4.174310207366943,
+        "refund-v2:3ad704686fec:1": -5.335724353790283,
+        "unknown-v1:2bb36483d2ad:0": -4.809922695159912
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:2",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:2",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-038",
+      "seconds": 0.09823004200006835,
+      "scores": {
+        "shipping-v1:872750f16cd0:0": -3.600149631500244,
+        "shipping-v1:872750f16cd0:1": -1.99210524559021,
+        "unknown-v1:2bb36483d2ad:1": -7.3159871101379395,
+        "unknown-v1:2bb36483d2ad:0": -5.04007625579834
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-041",
+      "seconds": 0.10913611200021478,
+      "scores": {
+        "shipping-v1:872750f16cd0:1": -3.82141375541687,
+        "shipping-v1:872750f16cd0:0": -7.346255779266357,
+        "unknown-v1:2bb36483d2ad:0": -6.825232028961182,
+        "refund-v2:3ad704686fec:2": -7.229372501373291
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2",
+          "shipping-v1:872750f16cd0:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-042",
+      "seconds": 0.15844799400019838,
+      "scores": {
+        "shipping-v1:872750f16cd0:0": -0.787322461605072,
+        "shipping-v1:872750f16cd0:1": -2.8007168769836426,
+        "unknown-v1:2bb36483d2ad:0": -4.870355129241943,
+        "refund-v2:3ad704686fec:2": -5.135657787322998,
+        "refund-v2:3ad704686fec:0": -4.031670570373535
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-043",
+      "seconds": 0.20966807500008144,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:0": 3.8250935077667236,
+        "shipping-v1:872750f16cd0:0": -0.7007275223731995,
+        "shipping-v1:872750f16cd0:1": -2.6254820823669434,
+        "refund-v2:3ad704686fec:0": -1.4440585374832153,
+        "refund-v2:3ad704686fec:1": -5.814700603485107,
+        "refund-v2:3ad704686fec:2": -3.072946310043335
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_top4": [
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_union": [
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-044",
+      "seconds": 0.22127728299983573,
+      "scores": {
+        "shipping-v1:872750f16cd0:0": -3.828678607940674,
+        "unknown-v1:2bb36483d2ad:0": -2.9305384159088135,
+        "refund-v2:3ad704686fec:0": -0.7482925653457642,
+        "refund-v2:3ad704686fec:2": -6.2297892570495605,
+        "shipping-v1:872750f16cd0:1": -6.474364280700684
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ]
+      }
+    },
+    {
+      "id": "RAG-045",
+      "seconds": 0.1721708119998766,
+      "scores": {
+        "refund-v2:3ad704686fec:0": 5.072767734527588,
+        "shipping-v1:872750f16cd0:0": -1.8608903884887695,
+        "unknown-v1:2bb36483d2ad:0": -3.669908285140991,
+        "shipping-v1:872750f16cd0:1": -4.487430572509766,
+        "refund-v2:3ad704686fec:1": -4.3610358238220215
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-046",
+      "seconds": 0.17085554400000547,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:0": -0.8248751163482666,
+        "shipping-v1:872750f16cd0:0": -3.657172203063965,
+        "refund-v2:3ad704686fec:0": -2.879772663116455,
+        "shipping-v1:872750f16cd0:1": -4.09983491897583,
+        "refund-v2:3ad704686fec:2": -3.9554858207702637
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_top4": [
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_union": [
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ]
+      }
+    },
+    {
+      "id": "RAG-047",
+      "seconds": 0.16134684600001492,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:0": -7.8287482261657715,
+        "refund-v2:3ad704686fec:0": -3.667375087738037,
+        "unknown-v1:2bb36483d2ad:1": -8.101136207580566,
+        "shipping-v1:872750f16cd0:0": -7.3954596519470215,
+        "refund-v2:3ad704686fec:1": -7.720004558563232
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-048",
+      "seconds": 0.2131015549998665,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:1": -4.2979536056518555,
+        "refund-v2:3ad704686fec:2": -2.001331090927124,
+        "unknown-v1:2bb36483d2ad:0": 5.414239883422852,
+        "shipping-v1:872750f16cd0:1": -2.408101797103882,
+        "refund-v2:3ad704686fec:1": -4.111565113067627,
+        "shipping-v1:872750f16cd0:0": -2.0153253078460693,
+        "refund-v2:3ad704686fec:0": -2.147151470184326
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1",
+          "refund-v2:3ad704686fec:2",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_top4": [
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:1"
+        ],
+        "reranked_union": [
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-049",
+      "seconds": 0.11124512300011702,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:1": 4.976967811584473,
+        "refund-v2:3ad704686fec:1": -7.868570804595947,
+        "unknown-v1:2bb36483d2ad:0": -5.065701007843018,
+        "shipping-v1:872750f16cd0:0": -7.357795238494873
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:1",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_top4": [
+          "unknown-v1:2bb36483d2ad:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_union": [
+          "unknown-v1:2bb36483d2ad:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-050",
+      "seconds": 0.1347514530002627,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:1": 5.0404744148254395,
+        "refund-v2:3ad704686fec:1": -6.893219947814941,
+        "unknown-v1:2bb36483d2ad:0": -5.130589008331299,
+        "shipping-v1:872750f16cd0:1": -8.177913665771484
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:1",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_top4": [
+          "unknown-v1:2bb36483d2ad:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_union": [
+          "unknown-v1:2bb36483d2ad:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1",
+          "shipping-v1:872750f16cd0:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-051",
+      "seconds": 0.11146283499965648,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:1": 0.4979622960090637,
+        "shipping-v1:872750f16cd0:0": -4.843875408172607,
+        "refund-v2:3ad704686fec:1": -5.299658298492432,
+        "unknown-v1:2bb36483d2ad:0": -4.7667460441589355
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_top4": [
+          "unknown-v1:2bb36483d2ad:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_union": [
+          "unknown-v1:2bb36483d2ad:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-052",
+      "seconds": 0.19393565200016383,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:1": -6.159523963928223,
+        "refund-v2:3ad704686fec:2": -6.5579752922058105,
+        "refund-v2:3ad704686fec:1": -5.536745548248291,
+        "refund-v2:3ad704686fec:0": -5.609255790710449,
+        "unknown-v1:2bb36483d2ad:0": -6.715922832489014,
+        "shipping-v1:872750f16cd0:0": -6.630154132843018
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:2",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:1",
+          "refund-v2:3ad704686fec:0"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:1",
+          "refund-v2:3ad704686fec:2"
+        ]
+      }
+    },
+    {
+      "id": "RAG-055",
+      "seconds": 0.19356923200029996,
+      "scores": {
+        "shipping-v1:872750f16cd0:0": -5.867844581604004,
+        "refund-v2:3ad704686fec:0": -1.9388282299041748,
+        "unknown-v1:2bb36483d2ad:1": -6.376858234405518,
+        "unknown-v1:2bb36483d2ad:0": -5.96427059173584,
+        "refund-v2:3ad704686fec:2": -7.307338237762451,
+        "refund-v2:3ad704686fec:1": -7.177799701690674
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ],
+        "reranked_top4": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ],
+        "reranked_union": [
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-060",
+      "seconds": 0.13290985699995872,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:1": -1.469916582107544,
+        "refund-v2:3ad704686fec:2": -8.062674522399902,
+        "shipping-v1:872750f16cd0:0": -5.062653064727783,
+        "refund-v2:3ad704686fec:1": -6.267643928527832,
+        "unknown-v1:2bb36483d2ad:0": -5.922033309936523
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-065",
+      "seconds": 0.15753824600005828,
+      "scores": {
+        "shipping-v1:872750f16cd0:1": -2.5149879455566406,
+        "shipping-v1:872750f16cd0:0": -5.276805400848389,
+        "unknown-v1:2bb36483d2ad:0": -6.220146656036377,
+        "refund-v2:3ad704686fec:2": -5.524107456207275,
+        "refund-v2:3ad704686fec:0": -4.359719753265381
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:2"
+        ]
+      }
+    },
+    {
+      "id": "RAG-066",
+      "seconds": 0.13482995699996536,
+      "scores": {
+        "shipping-v1:872750f16cd0:1": -5.06646203994751,
+        "shipping-v1:872750f16cd0:0": -8.594325065612793,
+        "refund-v2:3ad704686fec:1": -9.827120780944824,
+        "unknown-v1:2bb36483d2ad:0": -9.444661140441895,
+        "unknown-v1:2bb36483d2ad:1": -9.619725227355957
+      },
+      "selected": {
+        "baseline": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:1",
+          "shipping-v1:872750f16cd0:0",
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-071",
+      "seconds": 0.14532040699987192,
+      "scores": {
+        "refund-v2:3ad704686fec:1": -9.773370742797852,
+        "shipping-v1:872750f16cd0:1": -8.896157264709473,
+        "unknown-v1:2bb36483d2ad:0": -9.201983451843262,
+        "refund-v2:3ad704686fec:2": -10.035197257995605,
+        "shipping-v1:872750f16cd0:0": -9.302159309387207
+      },
+      "selected": {
+        "baseline": [
+          "refund-v2:3ad704686fec:1",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_top4": [
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:1",
+          "refund-v2:3ad704686fec:2"
+        ],
+        "reranked_union": [
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0",
+          "refund-v2:3ad704686fec:1"
+        ]
+      }
+    },
+    {
+      "id": "RAG-072",
+      "seconds": 0.11493441699985851,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:0": -7.616836071014404,
+        "unknown-v1:2bb36483d2ad:1": -6.766529560089111,
+        "shipping-v1:872750f16cd0:0": -8.887510299682617,
+        "shipping-v1:872750f16cd0:1": -7.566104412078857
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:0",
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:0",
+          "shipping-v1:872750f16cd0:1"
+        ],
+        "reranked_top4": [
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0"
+        ],
+        "reranked_union": [
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "shipping-v1:872750f16cd0:0"
+        ]
+      }
+    },
+    {
+      "id": "RAG-080",
+      "seconds": 0.13956410599985247,
+      "scores": {
+        "unknown-v1:2bb36483d2ad:1": -6.182873725891113,
+        "shipping-v1:872750f16cd0:1": -6.608566761016846,
+        "unknown-v1:2bb36483d2ad:0": -7.001275539398193,
+        "refund-v2:3ad704686fec:0": -6.8877363204956055
+      },
+      "selected": {
+        "baseline": [
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:1",
+          "unknown-v1:2bb36483d2ad:0",
+          "refund-v2:3ad704686fec:0"
+        ],
+        "reranked_top4": [
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0"
+        ],
+        "reranked_union": [
+          "unknown-v1:2bb36483d2ad:1",
+          "shipping-v1:872750f16cd0:1",
+          "refund-v2:3ad704686fec:0",
+          "unknown-v1:2bb36483d2ad:0"
+        ]
+      }
+    }
+  ],
+  "generation_quality_evaluated": false,
+  "protocol_sha256": "9ab1a11e66d4dd36ea5b589761855f4a3414c7af5f1e53d469f2d828c620d218",
+  "limitations": [
+    "Model-authored labels pending human review.",
+    "Cached candidate pools, not an end-to-end live retrieval latency.",
+    "No held-out generalization or generated answer quality claim."
+  ]
+}

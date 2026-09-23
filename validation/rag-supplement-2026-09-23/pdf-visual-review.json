@@ -1,0 +1,12 @@
+{
+  "fixture": "tests/fixtures/policies/materials.pdf",
+  "method": "ReportLab embedded SimSun; Poppler rasterization; both page images inspected by assistant",
+  "reviewer": "Codex visual review; not human policy approval",
+  "result": "Both pages readable in Chinese/English, no clipped or overlapping content",
+  "limits": "Synthetic two-page fixture only, no general table/OCR/font guarantee",
+  "sha256": {
+    "materials-1.png": "0c8e1c788a0efabf720f6e2b904cbb76ce9cd3e55bbab4f6e1dc2636a1eec101",
+    "materials-2.png": "0c27a8dc5aa8077bd484bcfd7a209aeef20d990b57483c2ca25bb68e581b8433",
+    "materials.pdf": "62adbaa50e1d075e733efb34d4e009d233d83e789d7dc990a4263c73a227eba8"
+  }
+}

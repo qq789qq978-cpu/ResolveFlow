@@ -148,6 +148,8 @@ def dense_rank(query,documents,chunks,release,top_k=4,*,now=None):
             'score':1-float(row['distance']),'retrieval':'dense','retrieval_profile':'e5-small',
             'policy':policies[document['id']],'release':release['token'],
             'actions':[a for a,cid in release['payload']['action_chunks'].items() if cid==chunk['chunk_id']]})
+        from policy_pdf import evidence_location
+        results[-1].update(evidence_location(document,chunk))
     return results
 
 

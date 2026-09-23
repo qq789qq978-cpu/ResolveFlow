@@ -1,0 +1,30 @@
+{
+  "all_main_snapshots_identical": true,
+  "data_tables": 20,
+  "vectors": 7,
+  "main_services": 4,
+  "main_images_and_start_times_unchanged": true,
+  "frozen_v1_changes": false,
+  "unique_unit_tests": 253,
+  "postgres_tests": 139,
+  "frontend_tests": 18,
+  "reranker_protocol_hash_matches": true,
+  "runtime_image": "sha256:d9d959fbc7918f1eb201bf32b0585a35cccaa1018038355754c4763d52d1e324",
+  "test_image": "sha256:c1ec382d9db6844ad74e3d2a253653bfac6d1e9a56436d161b07cacba0361585",
+  "running_containers": [
+    "resolveflow-worker-1",
+    "resolveflow-resolveflow-1",
+    "resolveflow-db-1",
+    "resolveflow-embedding-1"
+  ],
+  "runtime_image_source_LF_normalized_hashes_match": {
+    "policy_pdf.py": "10a922c2f3e479528ac68d43b296bb80e6aee372f331d21e5707fadee18d8421",
+    "rag.py": "e690a4626e2763cb648848cf815302cb21dfb12aebf902cc2cd330fd69d906e5",
+    "grounding.py": "24868e08c5138e4dd32d3b14819291a387b781ca67e0d1e3b7640596d7a19497",
+    "policy_releases.py": "3c6f03a2c4f395d972f19e05fe8c89e4929b12797474beef9a08fd385cb4eeeb",
+    "semantic.py": "4d8ba8867af66a0b3cd45f230caeddbc290400e3cd35ef69de82505a0e3a7a08",
+    "requirements.lock": "314bdc423fdf0d49c9d6614d0fbb717d4295423f0b4f20ded8a75a7e790bfa08",
+    "frontend/dist/app.js": "be288ccf70c3de10b503a0569ee73940f65c18991c2477d851d63476bc65966d",
+    "frontend/dist/index.html": "2989fdb33f3571f3125bf039024232491f03f5251c6fa36f2e7ba611ae55c359"
+  }
+}

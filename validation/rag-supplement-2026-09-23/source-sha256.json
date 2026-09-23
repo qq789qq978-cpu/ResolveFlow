@@ -1,0 +1,18 @@
+{
+  "policy_pdf.py": "10a922c2f3e479528ac68d43b296bb80e6aee372f331d21e5707fadee18d8421",
+  "scripts/download_reranker.py": "f4bc8e6e10e685f7432aee252b0c1eacec4c5fb300010b8ffcd80175423d5e66",
+  "scripts/pdf_ingestion_qa.py": "700a7c9a4e35d05ae964df26610347e8e8f12b966393a610889de161b392749d",
+  "scripts/rag_supplement_tests.py": "74da1b735c9b781503a13d59f5c679b5952abfa58f024a68f9c7f17768cfcc99",
+  "scripts/reranker_experiment.py": "3f280a444a63db968a41102e0a66f7f0139377b1e84a7484cf15b02311c42f10",
+  "scripts/review_rag_support.py": "4a0a1eb07f0ecf5f8b750677962f8839b7b65aff741d9d210f3ff7f09ce7fd49",
+  "test_policy_pdf.py": "41c1b2431d37a464b8392caf3c049057104bf43dae9c3b1a29fb0df4305a31dc",
+  "test_policy_pdf_pg.py": "a416a569d51e4dd640cd63f856dd11d64783b2bd670c2309afa27c50071a1131",
+  "rag.py": "ccd18d88a3876c6f6a436683a783c87f5a6c623248e761b160b61ac294b284f8",
+  "grounding.py": "24868e08c5138e4dd32d3b14819291a387b781ca67e0d1e3b7640596d7a19497",
+  "policy_releases.py": "84525035bb378c763923e6c4d7d3bbefdab2a9edb7b7b51ff596474eb2b95fa7",
+  "semantic.py": "9dfc802874c7bbcd80788a84efb82abdadc5522947bee4a5e2cf33247ba25adc",
+  "requirements.lock": "9e25a288c6f41391b4fb490b0c59fcafb704c0a9be4d335bde29b4c611c99b25",
+  "Dockerfile": "61f33c29a36780d791db06d5240d30f37f896f8019255a4969128f25d0c8a258",
+  "frontend/dist/app.js": "00669257ddd7e401e898beccd4976d9e0beb7f855ec673d093b7457ac64b88d4",
+  "frontend/dist/index.html": "45f61ab83ba33ed6a52372fbcf5e25c52a97a43473b22dc299afc7a8a576c324"
+}

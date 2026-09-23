@@ -1,12 +1,14 @@
 # ResolveFlow V3 — 售后 AI Agent 工作台
 
+RAG补充任务已完成（2026-09-23，用户在3.8前追加）：80条结构/来源校验、45条公开调优标签及历史输出模型辅助核查；真实reranker45题/218对实测后决定不启用；文本PDF维护导入、物理页来源与完整发布流程已验收。253项不同基础测试、139项PG、18项前端、14项真实PDF混合检索/Worker检查及44项越权拒绝通过。人工复核、通用语义蕴含、OCR仍未完成。见[补充报告](validation/rag-supplement-2026-09-23/REPORT.md)。主库20表/22表结构/7向量及四服务不变，仍step36，新镜像只在隔离demo验收。未推送，3.8未开始；3.9统一推送并确认对应提交CI。
+
 基于 LangGraph、DeepSeek、MCP 和 PostgreSQL，支持异步 Worker、可恢复人工审批、政策文档 RAG、三角色权限和模拟退款幂等。浏览器界面由 FastAPI 同源提供。
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
 **3.7连接池、超时、连接耗尽和慢查询行为已完成**（2026-09-23）。240项基础、134项PostgreSQL和23项双Worker业务检查通过；包含非MCP SQL、长事务、整体任务期限、原审批/checkpoint恢复与退款幂等。主库20表/22表结构/7向量保留，四服务仍为step36，step37仅在隔离demo环境验收。见[3.7报告](validation/step-3.7-2026-09-23/REPORT.md)及[运行手册](RUNTIME_LIMITS.md)。本步本地提交、不推送，下一步3.8未开始；3.9统一推送并确认对应提交CI，当前第三阶段无远程CI结果。
 
-第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF 解析、reranker 仍按条件暂缓。旧 CI 成功和上方徽章均不替代当前未推送提交的 CI 验证。
+第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF已按本次补充支持文本解析与页码；reranker已实测但未启用，详见顶部补充报告。旧 CI 成功和上方徽章均不替代当前未推送提交的 CI 验证。
 
 ## Docker 快速启动
 

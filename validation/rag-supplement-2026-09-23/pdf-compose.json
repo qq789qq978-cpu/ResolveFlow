@@ -1,0 +1,10 @@
+{
+  "passed": false,
+  "project": "resolveflow-qa-pdf-supplement",
+  "image": "resolveflow:rag-supplement",
+  "model_api_calls": 0,
+  "checks": [
+    "fresh_isolated_project"
+  ],
+  "stopped_volume_preserved": true
+}

@@ -57,7 +57,7 @@ def test_pdf_inputs_are_explicitly_rejected_before_database_io(tmp_path,filename
     path.write_bytes(b'%PDF-1.4\nunsupported fixture; not a parsed PDF')
     class NoDatabaseWrites:
         def execute(self,*args,**kwargs):pytest.fail('Unsupported input reached the database')
-    with pytest.raises(ValueError,match='PDF policy import is not supported'):
+    with pytest.raises(ValueError,match='metadata sidecar'):
         sync_index(NoDatabaseWrites(),tmp_path)
 
 def test_directory_name_ending_pdf_does_not_reject_markdown(tmp_path):

@@ -19,6 +19,12 @@ function releaseLabel(release) {
     const token = release.token || release;
     return `${token.id} · 变更序号 ${token.generation} · 退款规则 ${token.refund_rule?.version || '未知'}`;
 }
+function sourceLabel(hit) {
+    const where = hit.source_type === 'pdf'
+        ? `PDF 第 ${hit.page_start}–${hit.page_end} 页（物理页码）`
+        : `第 ${hit.line_start}–${hit.line_end} 行`;
+    return `${hit.source || hit.id} · 版本 ${hit.version || hit.id} · ${where}`;
+}
 function renderEvidence(state) {
     const result = state.result?.grounding;
     $('citationquotes').replaceChildren();
@@ -30,7 +36,7 @@ function renderEvidence(state) {
     for (const quote of result?.verified || []) {
         const box = add($('citationquotes'),'article','','evidence-chunk');
         add(box,'strong','已核对的引用原文');
-        add(box,'div',`${quote.source} · 版本 ${quote.version} · 第 ${quote.line_start}–${quote.line_end} 行`);
+        add(box,'div',sourceLabel(quote));
         add(box,'small',`核验时状态：${policyLabel(quote.policy)}`);
         add(box,'p',quote.quote);
         const index = (state.evidence || []).findIndex(e=>e.chunk_id===quote.chunk_id);
@@ -41,7 +47,7 @@ function renderEvidence(state) {
         box.id='evidence-'+index;
         add(box,'strong',e.title||e.id);
         add(box,'small','检索候选原文（不等于已采用的处理依据）');
-        add(box,'div',`${e.source||e.id}${e.line_start?' · 第 '+e.line_start+'–'+e.line_end+' 行':''} · 版本 ${e.version||e.id}`);
+        add(box,'div',sourceLabel(e));
         add(box,'small',`检索时状态：${policyLabel(e.policy)}`);
         add(box,'small',`检索时发布版本：${releaseLabel(e.release)}`);
         add(box,'p',e.text);
@@ -266,7 +272,7 @@ $('knowledgeform').onsubmit = async event => {
         if (!result.results.length) add($('knowledgeresults'),'p','没有检索到相关政策，请转人工核查。');
         for (const hit of result.results) {
             const box = add($('knowledgeresults'),'article','','evidence-chunk');
-            add(box,'h3',hit.title); add(box,'small',`${hit.source} · 版本 ${hit.version} · 第 ${hit.line_start}–${hit.line_end} 行`);
+            add(box,'h3',hit.title); add(box,'small',sourceLabel(hit));
             add(box,'small',policyLabel(hit.policy));
             add(box,'p',hit.text);
         }

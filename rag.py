@@ -29,14 +29,15 @@ def tokens(text):
 def read_documents(directory=KNOWLEDGE):
     directory = Path(directory)
     documents, chunks, seen = [], [], set()
-    # Reject unsupported policy inputs before validating or replacing any index.
-    # A mixed bundle must not succeed while silently omitting its PDF policies.
-    if any(path.suffix.casefold() == '.pdf' and not path.is_dir()
-           for path in directory.rglob('*')):
-        raise ValueError('PDF policy import is not supported; provide reviewed Markdown documents instead')
+    from policy_pdf import read_document
+    pdfs=sorted(p for p in directory.rglob('*') if p.suffix.casefold()=='.pdf' and not p.is_dir())
     paths = sorted(directory.rglob('*.md'))
-    if not paths or len(paths) > 200:
-        raise ValueError('Knowledge directory requires 1 to 200 Markdown documents')
+    if not paths+pdfs or len(paths)+len(pdfs) > 200:
+        raise ValueError('Knowledge directory requires 1 to 200 Markdown/PDF documents')
+    for path in pdfs:
+        document,parts=read_document(path,directory)
+        if document['id'] in seen:raise ValueError('Duplicate document id')
+        seen.add(document['id']);documents.append(document);chunks.extend(parts)
     for path in paths:
         if path.is_symlink() or not path.resolve().is_relative_to(directory.resolve()):
             raise ValueError('Knowledge documents must remain inside the source directory')
@@ -176,6 +177,8 @@ def rank(query, documents, chunks, top_k=4, *, now=None, mode=None, release=None
             'line_start': chunk['line_start'], 'line_end': chunk['line_end'],
             'score': round(score, 6), 'retrieval': 'bm25', 'retrieval_profile': profile,
             'policy': policies[document['id']]}
+        from policy_pdf import evidence_location
+        hit.update(evidence_location(document,chunk))
         if release and release['valid']:
             hit.update(release=release['token'], actions=[a for a,cid in release['payload']['action_chunks'].items() if cid==chunk['chunk_id']])
         ranked.append(hit)
@@ -200,6 +203,9 @@ def read_index():
             documents = connection.execute('SELECT * FROM rf_knowledge_documents').fetchall()
             chunks = connection.execute('SELECT * FROM rf_knowledge_chunks ORDER BY document_id,position').fetchall()
             release = active_context(connection, documents, chunks)
+            if release['valid']:
+                from policy_pdf import enrich_index
+                enrich_index(documents,chunks,release['payload'])
     else:
         documents, chunks = read_documents()
         release = context(prepare())

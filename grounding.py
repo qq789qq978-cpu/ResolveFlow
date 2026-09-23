@@ -11,12 +11,14 @@ SAFE_NO_BASIS = '现有证据不足以支持这项处理，已转人工核查；
 
 
 def trusted_chunks(release):
+    from policy_pdf import evidence_location
     if not release.get('payload'): return {}
     documents, chunks = release['payload']['documents'], release['payload']['chunks']
     docs = {d['id']: d for d in documents}
     return {c['chunk_id']: {**c, 'source': docs[c['document_id']]['source'],
                            'version': docs[c['document_id']]['version'],
-                           'document_sha256': docs[c['document_id']]['sha256']} for c in chunks}
+                           'document_sha256': docs[c['document_id']]['sha256'],
+                           **evidence_location(docs[c['document_id']],c)} for c in chunks}
 
 
 def requested_action(ticket):
@@ -79,6 +81,9 @@ def check_grounding(proposal, evidence, *, mode=None, documents=None, release=No
         saved, canonical = available.get(cid), trusted.get(cid)
         if not saved or not canonical:
             errors.append('unknown_or_unretrieved_chunk')
+            continue
+        if any(saved.get(k)!=canonical.get(k) for k in ('source_type','page_start','page_end','page_label','original_sha256','parser')):
+            errors.append('source_provenance_mismatch')
             continue
         if any(saved.get(field) != canonical[source] for field, source in (
                 ('id', 'document_id'), ('text', 'text'), ('source', 'source'),

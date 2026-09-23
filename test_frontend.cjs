@@ -4,6 +4,17 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
+test('PDF sources use physical pages while Markdown keeps source lines',()=>{
+    const context=vm.createContext({document:{getElementById:()=>({}),querySelectorAll:()=>[]},window:{addEventListener(){}},setInterval(){},console});
+    // Exercise the shipped formatter without constructing unrelated event handlers.
+    const source=fs.readFileSync('frontend/dist/app.js','utf8');
+    vm.runInContext(source.slice(source.indexOf('function sourceLabel('),source.indexOf('function renderEvidence(')),context);
+    const label=vm.runInContext("sourceLabel({source_type:'pdf',source:'materials.pdf',version:'1',page_start:2,page_end:2,page_label:'i',line_start:8,line_end:9})",context);
+    assert.match(label,/PDF 第 2–2 页（物理页码）/);
+    assert.doesNotMatch(label,/8–9 行/);
+    assert.match(vm.runInContext("sourceLabel({source:'refund.md',version:'2',line_start:7,line_end:9})",context),/第 7–9 行/);
+});
+
 function harness() {
     class Element {
         constructor() { this.children=[]; this.value=''; this.hidden=false; this.disabled=false; this.dataset={}; this.classList={toggle(){}}; }

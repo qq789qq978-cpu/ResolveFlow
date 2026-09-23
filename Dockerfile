@@ -10,6 +10,7 @@ COPY alembic.ini ./alembic.ini
 COPY db_migrate.py database_state.py checkpoint_state.py ./
 COPY db_roles.py ./
 COPY runtime_db.py task_runtime.py worker_task.py ./
+COPY policy_pdf.py ./
 COPY migrations ./migrations
 COPY scripts/schema_catalog.py ./scripts/schema_catalog.py
 COPY skills ./skills

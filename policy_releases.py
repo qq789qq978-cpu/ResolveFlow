@@ -33,6 +33,8 @@ def rule_contract():
 
 
 def validate_payload(payload):
+    from policy_pdf import validate_provenance
+    validate_provenance(payload['documents'],payload['chunks'])
     if (payload.get('schema') != 1 or payload.get('refund_rule') != rule_contract()
             or payload.get('refund_rule') != RULE_BINDING):
         raise ValueError('Policy release and executable refund rule do not match')
@@ -73,7 +75,8 @@ def prepare(directory=None):
 def content(documents, chunks):
     return {'documents': sorted([{k:d[k] for k in ('id','title','source','version','sha256','body')}
                                  for d in documents], key=lambda d:d['id']),
-            'chunks': sorted(chunks, key=lambda c:c['chunk_id'])}
+            'chunks': sorted([{k:c[k] for k in ('chunk_id','document_id','position','text','line_start','line_end')}
+                              for c in chunks], key=lambda c:c['chunk_id'])}
 
 
 def context(payload, generation=0):

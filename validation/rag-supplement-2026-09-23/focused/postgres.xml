@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="5" time="13.238" timestamp="2026-09-23T05:21:06.434125+00:00" hostname="644a2bd1ef72"><testcase classname="test_policy_pdf_pg" name="test_pdf_roundtrip_readonly_query_and_rollback" time="1.900" /><testcase classname="test_policy_pdf_pg" name="test_pdf_revocation_survives_rollback" time="1.297" /><testcase classname="test_policy_pdf_pg" name="test_pdf_failed_publish_and_corrupt_archive_fail_closed" time="1.307" /><testcase classname="test_policy_pdf_pg" name="test_pdf_vectors_carry_pages_and_rebuild_after_release" time="1.819" /><testcase classname="test_policy_pdf_pg" name="test_pdf_publication_preserves_old_approval_and_refund_idempotency" time="4.152"><failure message="AssertionError: assert 'awaiting_approval' == 'already_refunded'&#10;  &#10;  - already_refunded&#10;  + awaiting_approval">system = (&lt;storage.Store object at 0x7dddca805b20&gt;, &lt;engine.Engine object at 0x7dddc9d666c0&gt;, &lt;starlette.testclient.TestClient object at 0x7dddc9d4f050&gt;)
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_pdf_publication_preserves0')
+
+    def test_pdf_publication_preserves_old_approval_and_refund_idempotency(system,tmp_path):
+        store,engine,client=system
+        old=submit(client);jobs.process_one(store,engine,old)
+        saved=copy.deepcopy(store.get(old)['state']['evidence'])
+        publish(store,prepare(candidate(tmp_path)))
+        assert client.post('/api/runs/'+old+'/approval',headers=headers(),json={'approved':True,'reason':'No operator permission'}).status_code==403
+        assert client.post('/api/runs/'+old+'/approval',headers=headers('reviewer'),json={'approved':True,'reason':'Stale approval'}).status_code==202
+        jobs.process_one(store,engine,old)
+        assert store.get(old)['status']=='escalated' and store.get(old)['state']['evidence']==saved
+        new=submit(client);jobs.process_one(store,engine,new)
+        assert store.get(new)['status']=='awaiting_approval'
+        assert client.post('/api/runs/'+new+'/approval',headers=headers('reviewer'),json={'approved':True,'reason':'Current approval'}).status_code==202
+        jobs.process_one(store,engine,new);assert store.get(new)['status']=='refunded'
+        again=submit(client);jobs.process_one(store,engine,again)
+&gt;       assert store.get(again)['status']=='already_refunded'
+E       AssertionError: assert 'awaiting_approval' == 'already_refunded'
+E
+E         - already_refunded
+E         + awaiting_approval
+
+test_policy_pdf_pg.py:106: AssertionError</failure></testcase></testsuite></testsuites>

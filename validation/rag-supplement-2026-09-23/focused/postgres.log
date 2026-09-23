@@ -1,0 +1,47 @@
+....F                                                                    [100%]
+=================================== FAILURES ===================================
+______ test_pdf_publication_preserves_old_approval_and_refund_idempotency ______
+
+system = (<storage.Store object at 0x7dddca805b20>, <engine.Engine object at 0x7dddc9d666c0>, <starlette.testclient.TestClient object at 0x7dddc9d4f050>)
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_pdf_publication_preserves0')
+
+    def test_pdf_publication_preserves_old_approval_and_refund_idempotency(system,tmp_path):
+        store,engine,client=system
+        old=submit(client);jobs.process_one(store,engine,old)
+        saved=copy.deepcopy(store.get(old)['state']['evidence'])
+        publish(store,prepare(candidate(tmp_path)))
+        assert client.post('/api/runs/'+old+'/approval',headers=headers(),json={'approved':True,'reason':'No operator permission'}).status_code==403
+        assert client.post('/api/runs/'+old+'/approval',headers=headers('reviewer'),json={'approved':True,'reason':'Stale approval'}).status_code==202
+        jobs.process_one(store,engine,old)
+        assert store.get(old)['status']=='escalated' and store.get(old)['state']['evidence']==saved
+        new=submit(client);jobs.process_one(store,engine,new)
+        assert store.get(new)['status']=='awaiting_approval'
+        assert client.post('/api/runs/'+new+'/approval',headers=headers('reviewer'),json={'approved':True,'reason':'Current approval'}).status_code==202
+        jobs.process_one(store,engine,new);assert store.get(new)['status']=='refunded'
+        again=submit(client);jobs.process_one(store,engine,again)
+>       assert store.get(again)['status']=='already_refunded'
+E       AssertionError: assert 'awaiting_approval' == 'already_refunded'
+E
+E         - already_refunded
+E         + awaiting_approval
+
+test_policy_pdf_pg.py:106: AssertionError
+----------------------------- Captured stderr call -----------------------------
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:53
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test_policy_pdf_pg.py::test_pdf_publication_preserves_old_approval_and_refund_idempotency
+1 failed, 4 passed, 1 warning in 13.24s

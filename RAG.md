@@ -1,12 +1,14 @@
 # ResolveFlow 文档 RAG
 
+RAG补充任务已完成（2026-09-23，用户在3.8前追加）：80条结构/来源校验、45条公开调优标签及历史输出模型辅助核查；真实reranker45题/218对实测后决定不启用；文本PDF维护导入、物理页来源与完整发布流程已验收。253项不同基础测试、139项PG、18项前端、14项真实PDF混合检索/Worker检查及44项越权拒绝通过。人工复核、通用语义蕴含、OCR仍未完成。见[补充报告](validation/rag-supplement-2026-09-23/REPORT.md)。主库20表/22表结构/7向量及四服务不变，仍step36，新镜像只在隔离demo验收。未推送，3.8未开始；3.9统一推送并确认对应提交CI。
+
 本版将原来的三条内置政策字符串，替换为可以导入、分块、持久化、检索和追溯来源的政策知识库。线上运行仍由确定性退款规则决定分流；检索结果和模型输出不能直接授权退款。
 
 ## 数据流
 
 ```mermaid
 flowchart LR
-  Docs[Markdown 政策与审核清单] --> Import[校验分块与版本发布]
+  Docs[Markdown/文本PDF 政策与审核清单] --> Import[校验分块与版本发布]
   Import --> PG[(PostgreSQL 文档与片段)]
   Query[用户诉求] --> Search[BM25 或本地 E5 + RRF 混合检索]
   PG --> Search
@@ -32,7 +34,7 @@ flowchart LR
 
 ## 导入政策
 
-仅管理员/部署维护人员管理受审核Markdown文件，目前不开放任意用户上传或网页编辑。2.10起候选目录含PDF会明确拒绝，禁止静默遗漏；尚无PDF解析/OCR/页码引用，见 [格式边界](PDF_IMPORT_ASSESSMENT.md)。每个文件必须有唯一的版本化 ID：
+仅部署维护人员管理受审核Markdown或带sidecar的文本PDF，目前不开放任意用户上传或网页编辑。PDF解析、物理页码、失败处理与发布手册见 [PDF导入](PDF_IMPORT.md)，OCR不支持。以下为Markdown元数据格式，每个文件必须有唯一的版本化 ID：
 
 ```markdown
 ---

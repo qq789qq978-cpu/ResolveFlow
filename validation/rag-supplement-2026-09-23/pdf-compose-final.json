@@ -1,0 +1,859 @@
+{
+  "passed": true,
+  "project": "resolveflow-qa-pdf-supplement-final",
+  "image": "resolveflow:rag-supplement",
+  "model_api_calls": 0,
+  "checks": [
+    "fresh_isolated_project",
+    "parse_is_draft_no_publication",
+    "real_hybrid_page_1",
+    "real_hybrid_page_2",
+    "knowledge_has_no_business_writes",
+    "bad_pdf_preserves_active_release",
+    "worker_checkpoint_keeps_pdf_source",
+    "RF-1001_routing",
+    "RF-1002_routing",
+    "RF-1004_routing",
+    "reviewer_resume",
+    "refund_idempotency",
+    "rollback_removes_pdf_from_current_results",
+    "old_pdf_snapshot_retained"
+  ],
+  "permissions": {
+    "passed": true,
+    "denials": [
+      {
+        "role": "app",
+        "statement": "CREATE TABLE public.qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "CREATE TEMP TABLE qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "ALTER TABLE rf_runs ADD COLUMN qa_forbidden int",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "DROP TABLE rf_reviews",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "TRUNCATE rf_jobs",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_orders SET days=days WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_knowledge_documents SET body=body WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_policy_head SET generation=generation WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "UPDATE rf_schema_version SET version_num=version_num WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "INSERT INTO checkpoint_migrations(v) VALUES(1000)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SELECT setval('rf_audit_id_seq',1,false)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SET ROLE rf_migrator",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SET ROLE resolveflow",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "CREATE ROLE qa_forbidden",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "ALTER ROLE rf_app SUPERUSER",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "CREATE TABLE public.qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "CREATE TEMP TABLE qa_forbidden(id int)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "ALTER TABLE rf_runs ADD COLUMN qa_forbidden int",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "DROP TABLE rf_reviews",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "TRUNCATE rf_jobs",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_orders SET days=days WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_knowledge_documents SET body=body WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_policy_head SET generation=generation WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_schema_version SET version_num=version_num WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "INSERT INTO checkpoint_migrations(v) VALUES(1000)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT setval('rf_audit_id_seq',1,false)",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SET ROLE rf_migrator",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SET ROLE resolveflow",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "CREATE ROLE qa_forbidden",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "ALTER ROLE rf_app SUPERUSER",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "UPDATE rf_runs SET status=status WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "INSERT INTO rf_worker_heartbeats(worker_id) VALUES('forbidden')",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT nextval('rf_audit_id_seq')",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT rf_lock_policy_refund()",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "DELETE FROM rf_audit WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "DELETE FROM rf_refunds WHERE false",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SELECT nextval('rf_policy_events_id_seq')",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "migrator",
+        "statement": "CREATE ROLE qa_forbidden",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "migrator",
+        "statement": "ALTER ROLE rf_migrator SUPERUSER",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "migrator",
+        "statement": "SET ROLE resolveflow",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "INSERT INTO qa_future_grants DEFAULT VALUES",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "INSERT INTO qa_future_grants DEFAULT VALUES",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "app",
+        "statement": "SELECT qa_future_function()",
+        "sqlstate": "42501"
+      },
+      {
+        "role": "readonly",
+        "statement": "SELECT qa_future_function()",
+        "sqlstate": "42501"
+      }
+    ],
+    "identities": {
+      "migrator": [
+        "rf_migrator",
+        "rf_migrator"
+      ],
+      "app": [
+        "rf_app",
+        "rf_app"
+      ],
+      "readonly": [
+        "rf_readonly",
+        "rf_readonly"
+      ]
+    },
+    "privileges": {
+      "migrator": {
+        "elevated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "schema_create": true,
+        "db_create": false,
+        "db_temp": false
+      },
+      "app": {
+        "elevated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "schema_create": false,
+        "db_create": false,
+        "db_temp": false
+      },
+      "readonly": {
+        "elevated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "schema_create": false,
+        "db_create": false,
+        "db_temp": false
+      }
+    }
+  },
+  "inspection": {
+    "document_sha256": "c30614da9245216ca741c97cee5e4027f654e239500f9dc1a6a5afcbdbbc740a",
+    "original_sha256": "62adbaa50e1d075e733efb34d4e009d233d83e789d7dc990a4263c73a227eba8",
+    "pages": 2,
+    "chunks": 2,
+    "review_status": "draft",
+    "parser": "pypdf-6.19.0/plain-v1",
+    "extracted_pages": [
+      {
+        "page": 1,
+        "label": "1",
+        "text": "退货材料说明\n办理退货时，应保留订单编号与商品照片。\n资料缺失时先补充材料，不代表已获退款批准。\nSynthetic QA document. No payment authorization.\nPhysical page 1 / 2",
+        "has_images": false
+      },
+      {
+        "page": 2,
+        "label": "2",
+        "text": "处理时限说明\n本样例没有承诺退款到账时限。\n退款资格仍须依据已审核政策与真实订单事实核验。\nSynthetic QA document. No payment authorization.\nPhysical page 2 / 2",
+        "has_images": false
+      }
+    ],
+    "images_not_extracted": false
+  },
+  "published": {
+    "id": "pdf-compose-qa-v1",
+    "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+    "generation": 2,
+    "refund_rule": {
+      "version": "refund-v2",
+      "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5"
+    }
+  },
+  "vectors": {
+    "batch_id": "cb72882f6ff3e5c8473031dbad0fb10ac4f5f2ad8cc64d2ad83b348b5b24ae8c",
+    "contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068",
+    "chunks": 9,
+    "tokens": [
+      66,
+      63,
+      95,
+      65,
+      60,
+      73,
+      57,
+      60,
+      72
+    ],
+    "release": {
+      "id": "pdf-compose-qa-v1",
+      "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+      "generation": 2,
+      "refund_rule": {
+        "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+        "version": "refund-v2"
+      }
+    }
+  },
+  "queries": [
+    {
+      "query": "订单编号 商品照片",
+      "retriever": "bm25",
+      "results": [
+        {
+          "id": "materials-pdf-v1",
+          "chunk_id": "materials-pdf-v1:c30614da9245:0",
+          "text": "退货材料说明\n办理退货时，应保留订单编号与商品照片。\n资料缺失时先补充材料，不代表已获退款批准。\nSynthetic QA document. No payment authorization.\nPhysical page 1 / 2",
+          "title": "PDF材料与时限样例",
+          "source": "materials-pdf-v1.pdf",
+          "version": "1",
+          "document_sha256": "c30614da9245216ca741c97cee5e4027f654e239500f9dc1a6a5afcbdbbc740a",
+          "line_start": 1,
+          "line_end": 5,
+          "score": 0.01639344262295082,
+          "retrieval": "hybrid",
+          "retrieval_profile": "rrf-0.25",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:05.381098+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          },
+          "source_type": "pdf",
+          "page_start": 1,
+          "page_end": 1,
+          "page_label": "1",
+          "original_sha256": "62adbaa50e1d075e733efb34d4e009d233d83e789d7dc990a4263c73a227eba8",
+          "parser": "pypdf-6.19.0/plain-v1",
+          "release": {
+            "id": "pdf-compose-qa-v1",
+            "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+            "generation": 2,
+            "refund_rule": {
+              "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+              "version": "refund-v2"
+            }
+          },
+          "actions": [],
+          "embedding_contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+        },
+        {
+          "id": "unknown-v1",
+          "chunk_id": "unknown-v1:2bb36483d2ad:0",
+          "text": "缺少订单、订单事实不完整、政策依据不足或不属于售后问题时转人工核查，不编造事实。用户描述不能覆盖数据库订单；「未知」不能当作「不符合退款条件」。",
+          "title": "证据不足与人工核查政策",
+          "source": "escalation.md",
+          "version": "1",
+          "document_sha256": "2bb36483d2ad07b11672344b29d8ce605e6a6e16768453610e21043458b32b78",
+          "line_start": 8,
+          "line_end": 8,
+          "score": 0.015937019969278033,
+          "retrieval": "hybrid",
+          "retrieval_profile": "rrf-0.25",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:05.381098+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          },
+          "release": {
+            "id": "pdf-compose-qa-v1",
+            "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+            "generation": 2,
+            "refund_rule": {
+              "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+              "version": "refund-v2"
+            }
+          },
+          "actions": [],
+          "embedding_contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+        },
+        {
+          "id": "shipping-v1",
+          "chunk_id": "shipping-v1:872750f16cd0:0",
+          "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+          "title": "物流与配送查询政策",
+          "source": "shipping.md",
+          "version": "1",
+          "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+          "line_start": 8,
+          "line_end": 8,
+          "score": 0.015687003968253968,
+          "retrieval": "hybrid",
+          "retrieval_profile": "rrf-0.25",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:05.381098+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          },
+          "release": {
+            "id": "pdf-compose-qa-v1",
+            "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+            "generation": 2,
+            "refund_rule": {
+              "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+              "version": "refund-v2"
+            }
+          },
+          "actions": [
+            "reply"
+          ],
+          "embedding_contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+        },
+        {
+          "id": "refund-v2",
+          "chunk_id": "refund-v2:3ad704686fec:0",
+          "text": "退款 refund、退货：已签收且事实完整、无冲突的订单，检查「签收不超过7天」和「商品未使用」两项条件。全部满足自动模拟退款，全部不满足自动拒绝，仅满足一项等待人工审批例外处理。签收第7天仍在期限内。未签收、证据不足或事实冲突必须转人工核查。",
+          "title": "退款与退货政策",
+          "source": "refund.md",
+          "version": "2",
+          "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+          "line_start": 8,
+          "line_end": 8,
+          "score": 0.012096774193548387,
+          "retrieval": "hybrid",
+          "retrieval_profile": "rrf-0.25",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:05.381098+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          },
+          "release": {
+            "id": "pdf-compose-qa-v1",
+            "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+            "generation": 2,
+            "refund_rule": {
+              "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+              "version": "refund-v2"
+            }
+          },
+          "actions": [
+            "refund"
+          ],
+          "embedding_contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+        }
+      ],
+      "retrieval": {
+        "requested": "hybrid",
+        "used": "hybrid",
+        "weight": 0.25,
+        "contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+      },
+      "release": {
+        "valid": true,
+        "reason": "active",
+        "token": {
+          "id": "pdf-compose-qa-v1",
+          "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+          "generation": 2,
+          "refund_rule": {
+            "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+            "version": "refund-v2"
+          }
+        }
+      },
+      "policies": [
+        {
+          "id": "materials-pdf-v1",
+          "title": "PDF材料与时限样例",
+          "version": "1",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:05.381098+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          }
+        },
+        {
+          "id": "refund-v2",
+          "title": "退款与退货政策",
+          "version": "2",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:05.381098+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          }
+        },
+        {
+          "id": "shipping-v1",
+          "title": "物流与配送查询政策",
+          "version": "1",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:05.381098+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          }
+        },
+        {
+          "id": "unknown-v1",
+          "title": "证据不足与人工核查政策",
+          "version": "1",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:05.381098+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          }
+        }
+      ]
+    },
+    {
+      "query": "没有承诺退款到账时限",
+      "retriever": "bm25",
+      "results": [
+        {
+          "id": "materials-pdf-v1",
+          "chunk_id": "materials-pdf-v1:c30614da9245:1",
+          "text": "处理时限说明\n本样例没有承诺退款到账时限。\n退款资格仍须依据已审核政策与真实订单事实核验。\nSynthetic QA document. No payment authorization.\nPhysical page 2 / 2",
+          "title": "PDF材料与时限样例",
+          "source": "materials-pdf-v1.pdf",
+          "version": "1",
+          "document_sha256": "c30614da9245216ca741c97cee5e4027f654e239500f9dc1a6a5afcbdbbc740a",
+          "line_start": 7,
+          "line_end": 11,
+          "score": 0.01639344262295082,
+          "retrieval": "hybrid",
+          "retrieval_profile": "rrf-0.25",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:08.671997+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          },
+          "source_type": "pdf",
+          "page_start": 2,
+          "page_end": 2,
+          "page_label": "2",
+          "original_sha256": "62adbaa50e1d075e733efb34d4e009d233d83e789d7dc990a4263c73a227eba8",
+          "parser": "pypdf-6.19.0/plain-v1",
+          "release": {
+            "id": "pdf-compose-qa-v1",
+            "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+            "generation": 2,
+            "refund_rule": {
+              "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+              "version": "refund-v2"
+            }
+          },
+          "actions": [],
+          "embedding_contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+        },
+        {
+          "id": "materials-pdf-v1",
+          "chunk_id": "materials-pdf-v1:c30614da9245:0",
+          "text": "退货材料说明\n办理退货时，应保留订单编号与商品照片。\n资料缺失时先补充材料，不代表已获退款批准。\nSynthetic QA document. No payment authorization.\nPhysical page 1 / 2",
+          "title": "PDF材料与时限样例",
+          "source": "materials-pdf-v1.pdf",
+          "version": "1",
+          "document_sha256": "c30614da9245216ca741c97cee5e4027f654e239500f9dc1a6a5afcbdbbc740a",
+          "line_start": 1,
+          "line_end": 5,
+          "score": 0.016003024193548387,
+          "retrieval": "hybrid",
+          "retrieval_profile": "rrf-0.25",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:08.671997+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          },
+          "source_type": "pdf",
+          "page_start": 1,
+          "page_end": 1,
+          "page_label": "1",
+          "original_sha256": "62adbaa50e1d075e733efb34d4e009d233d83e789d7dc990a4263c73a227eba8",
+          "parser": "pypdf-6.19.0/plain-v1",
+          "release": {
+            "id": "pdf-compose-qa-v1",
+            "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+            "generation": 2,
+            "refund_rule": {
+              "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+              "version": "refund-v2"
+            }
+          },
+          "actions": [],
+          "embedding_contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+        },
+        {
+          "id": "refund-v2",
+          "chunk_id": "refund-v2:3ad704686fec:2",
+          "text": "重复退款防护：一个订单最多有一条模拟退款台账。任务可能因故障重试，但不能重复记录退款。这里的退款不调用支付机构，也不代表真实资金已到账。",
+          "title": "退款与退货政策",
+          "source": "refund.md",
+          "version": "2",
+          "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+          "line_start": 12,
+          "line_end": 12,
+          "score": 0.015873015873015872,
+          "retrieval": "hybrid",
+          "retrieval_profile": "rrf-0.25",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:08.671997+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          },
+          "release": {
+            "id": "pdf-compose-qa-v1",
+            "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+            "generation": 2,
+            "refund_rule": {
+              "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+              "version": "refund-v2"
+            }
+          },
+          "actions": [],
+          "embedding_contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+        },
+        {
+          "id": "shipping-v1",
+          "chunk_id": "shipping-v1:872750f16cd0:0",
+          "text": "物流 shipping、快递、包裹、运单、配送查询：运输中的订单提供当前运单状态。订单未签收时不能直接按已签收订单执行退款，应转人工核查；签收后申请退款按退款政策处理，不自动承诺赔付。",
+          "title": "物流与配送查询政策",
+          "source": "shipping.md",
+          "version": "1",
+          "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+          "line_start": 8,
+          "line_end": 8,
+          "score": 0.01171875,
+          "retrieval": "hybrid",
+          "retrieval_profile": "rrf-0.25",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:08.671997+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          },
+          "release": {
+            "id": "pdf-compose-qa-v1",
+            "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+            "generation": 2,
+            "refund_rule": {
+              "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+              "version": "refund-v2"
+            }
+          },
+          "actions": [
+            "reply"
+          ],
+          "embedding_contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+        }
+      ],
+      "retrieval": {
+        "requested": "hybrid",
+        "used": "hybrid",
+        "weight": 0.25,
+        "contract": "a9d133a37ed221b054e45f49b16347055cdef6b6a8443d9fd6c89d2cf2fcb068"
+      },
+      "release": {
+        "valid": true,
+        "reason": "active",
+        "token": {
+          "id": "pdf-compose-qa-v1",
+          "sha256": "4de0a89019c589cc75630aed70f29edf3f39adb76f69040aec04761c59b78246",
+          "generation": 2,
+          "refund_rule": {
+            "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+            "version": "refund-v2"
+          }
+        }
+      },
+      "policies": [
+        {
+          "id": "materials-pdf-v1",
+          "title": "PDF材料与时限样例",
+          "version": "1",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:08.671997+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          }
+        },
+        {
+          "id": "refund-v2",
+          "title": "退款与退货政策",
+          "version": "2",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:08.671997+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          }
+        },
+        {
+          "id": "shipping-v1",
+          "title": "物流与配送查询政策",
+          "version": "1",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:08.671997+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          }
+        },
+        {
+          "id": "unknown-v1",
+          "title": "证据不足与人工核查政策",
+          "version": "1",
+          "policy": {
+            "usable": true,
+            "reason": "active",
+            "checked_at": "2026-09-23T05:29:08.671997+00:00",
+            "status": "approved",
+            "review_basis": "demo_fixture",
+            "reviewed_by": "resolveflow-demo-fixture",
+            "reviewed_at": "2026-09-21T00:00:00Z",
+            "effective_from": "2026-09-21T00:00:00Z",
+            "effective_until": null
+          }
+        }
+      ]
+    }
+  ],
+  "information_run": "684c146a-d9a4-4717-a35e-2e2d3e257eaf",
+  "business_runs": [
+    "5a634bf5-e562-4a44-8072-9bb66d573bbe",
+    "596431cb-b893-4eaf-8c4d-ddd1d63f464e",
+    "c8a3dca6-a4bd-4761-aa31-e85f0282d230"
+  ],
+  "stopped_volume_preserved": true
+}
