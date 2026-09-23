@@ -1,0 +1,46 @@
+---
+title: ResolveFlow · 代码架构 526e166（本机仍运行 step36）
+---
+flowchart TB
+  UI["运营 · 审批员 · 管理员<br/>同源浏览器工作台"]
+  API["FastAPI · 后端角色权限<br/>提交 / 审批 / 重试 / 查询<br/>HTTP 202 后由浏览器轮询"]
+  UI -->|"HTTP · X-API-Key"| API
+
+  subgraph WORK["Worker 容器 · 可增加副本"]
+    W["Worker 主进程<br/>领取行锁 + 独立心跳<br/>监督每次任务尝试"]
+    G["任务子进程 · LangGraph<br/>调查 → 校验 → 审批 / 执行<br/>interrupt / resume · 同一 run_id"]
+    M["MCP 子进程 · stdio<br/>search_policy / lookup_order<br/>宿主绑定订单 · rf_readonly"]
+    W -->|"TaskRunner · 180 秒 / 次"| G
+    G -->|"只读工具调用"| M
+  end
+
+  DB[("PostgreSQL · 共享持久化<br/>队列 / 工单 / 审批 / 审计<br/>checkpoints / 模拟退款台账<br/>政策 / 片段 / 可选 pgvector")]
+  API -->|"rf_app · 原子入队 / 审批 / 查询"| DB
+  W -->|"rf_app · SKIP LOCKED / 心跳"| DB
+  G -->|"checkpoint / 退款复核与幂等"| DB
+  M -->|"只读当前订单"| DB
+
+  R["RAG 模块 · 非独立服务<br/>已发布且可用的政策<br/>BM25 / 可选向量 + RRF"]
+  E["可选本地 E5 服务<br/>semantic profile · 内部网络<br/>无付费 embedding API"]
+  L["仅 live：DeepSeek 兼容接口<br/>输出调查建议和引用<br/>demo 不调用生成模型"]
+  M -->|"政策工具"| R
+  API -->|"政策知识库检索"| R
+  R -->|"读索引 / 发布 / 向量"| DB
+  R -.->|"hybrid：HTTP 编码查询"| E
+  G -.->|"建议须代码与证据校验"| L
+
+  P["维护 CLI · rf_migrator<br/>Markdown / 文本 PDF → 分块<br/>审核 / 发布 / 回滚 / 向量构建"]
+  P -->|"维护写入"| DB
+  O["独立 monitor · rf_readonly<br/>离线 / 过久 / 排队 / 连续失败<br/>本地 JSON 告警日志"]
+  O -->|"只读轮询 · 不依赖浏览器"| DB
+
+  classDef client fill:#eff6ff,stroke:#3b82f6,color:#102b51;
+  classDef runtime fill:#eef2ff,stroke:#6366f1,color:#25205b;
+  classDef data fill:#ecfdf5,stroke:#059669,color:#064e3b;
+  classDef optional fill:#fff7ed,stroke:#d97706,color:#7c2d12,stroke-dasharray:5 3;
+  classDef maintenance fill:#f1f5f9,stroke:#64748b,color:#1e293b;
+  class UI,API client;
+  class W,G,M,R runtime;
+  class DB data;
+  class E,L optional;
+  class P,O maintenance;

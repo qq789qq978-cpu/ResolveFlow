@@ -1,8 +1,8 @@
 # 验收记录 — 更新至2026-09-23
 
-3.9的最新CI修复、本地264基础/149PG及198项历史故障复验见[修复报告](validation/step-3.9-2026-09-23/REPORT.md)。两次失败已记录；阶段完成须有当前提交同SHA成功CI和附件回执，详见PROJECT_HANDOFF.md顶部。
+4.1已完成：[最终架构图与说明](ARCHITECTURE.md)（[SVG](docs/architecture/resolveflow.svg) / [PNG](docs/architecture/resolveflow.png) / [核对记录](validation/step-4.1-2026-09-23/REPORT.md)）。本步仅本地提交，4.5统一推送；4.2尚未开始。
 
-3.9阶段收口（2026-09-23）：261项基础、148项PostgreSQL、21项前端通过；独立新装/重建/备份及原审批恢复16项、真实旧版升级3项、双Worker运行期限23项、独立告警27项、PDF/真实本地encoder14项通过。主库20张非心跳数据表、22表结构/7向量和原四服务完全保留，仍运行step36；QA全部停止、卷保留。见[3.9报告](validation/step-3.9-2026-09-23/REPORT.md)及[统一操作手册](OPERATIONS.md)。本步统一推送第三阶段及RAG补充；最终交付以本提交同SHA的CI成功及附件核对为准，实际回执为validation/github-actions-local.json，可用python scripts/verify_delivery.py复核。第四阶段4.1未开始，本轮完成后停止。
+3.9已完成：代码提交`526e166cfbec1b55796bf8ef8f27462fd00bc951`的[CI 35832707932](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35832707932)成功且附件已核验，264基础/149PG/198故障检查全部通过，另含权限、期限、告警和独立恢复。该证据固定对应3.9代码提交，后续4.1文档提交不使其失效，也不自动取得新提交CI认证。
 
 RAG补充任务已完成（2026-09-23，用户在3.8前追加）：80条结构/来源校验、45条公开调优标签及历史输出模型辅助核查；真实reranker45题/218对实测后决定不启用；文本PDF维护导入、物理页来源与完整发布流程已验收。253项不同基础测试、139项PG、18项前端、14项真实PDF混合检索/Worker检查及44项越权拒绝通过。人工复核、通用语义蕴含、OCR仍未完成。见[补充报告](validation/rag-supplement-2026-09-23/REPORT.md)。主库20表/22表结构/7向量及四服务不变，仍step36，新镜像只在隔离demo验收。当时未推送；最新3.9状态以上文为准，3.9统一推送并确认对应提交CI。
 
