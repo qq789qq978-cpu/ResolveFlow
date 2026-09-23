@@ -1,0 +1,16 @@
+{
+  "passed": false,
+  "project": "resolveflow-qa-step38-release",
+  "image": "resolveflow:step38-release",
+  "model_api_calls": 0,
+  "checks": [
+    {
+      "check": "fresh isolated project",
+      "passed": true
+    }
+  ],
+  "started_at": "2026-09-23T05:57:49.031182+00:00",
+  "image_id": "sha256:a50cab76e098291402b19a65cb0b3bdcfca4eff7c8a9c46f82581c8f457e859e",
+  "stopped_volume_preserved": true,
+  "finished_at": "2026-09-23T05:57:49.868250+00:00"
+}

@@ -17,6 +17,8 @@ def main():
     parser.add_argument('--report-directory',type=Path,required=True)
     parser.add_argument('--image',default='resolveflow:rag-supplement-tests')
     parser.add_argument('--focused',action='store_true')
+    parser.add_argument('--unit-files',nargs='+',help='Optional focused pytest files instead of the CI unit list')
+    parser.add_argument('--postgres-files',nargs='+',help='Optional focused pytest files instead of the CI PG list')
     args=parser.parse_args();out=args.report_directory.resolve();out.mkdir(parents=True,exist_ok=True)
     project='resolveflow-qa-rag-'+uuid.uuid4().hex[:8]
     def run(argv,**kwargs):return subprocess.run(argv,check=True,cwd=ROOT,**kwargs)
@@ -35,6 +37,8 @@ def main():
         commands=re.findall(r'python -m pytest (.+?) -q --junitxml=validation/(unit|postgres)-ci.xml',ci)
         for names,kind in commands:
             if args.focused:names='test_policy_pdf.py' if kind=='unit' else 'test_policy_pdf_pg.py'
+            selected=args.unit_files if kind=='unit' else args.postgres_files
+            if selected:names=' '.join(selected)
             command=['docker','run','--rm','--init','--user','0','--network',project,
                      '-v',str(ROOT)+':/qa:ro','-v',str(out)+':/evidence','-w','/qa',
                      '-e','MODE=demo','-e','OPENAI_API_KEY=', '-e','RETRIEVAL_MODE=bm25']

@@ -107,6 +107,7 @@ function resetSession() {
     $('approval').hidden = $('review').hidden = true;
     $('login').hidden = false; $('logout').hidden = true;
     $('mode').textContent = '等待连接'; $('metrics').textContent = '';
+    $('alerts').replaceChildren(); $('alertstatus').textContent = '';
     $('rows').replaceChildren(); $('knowledgeresults').replaceChildren();
     for (const id of ['key','ticket','reason','resolution','knowledgequery']) $(id).value = '';
     for (const id of ['submit','accept','reject','closecase','retry','knowledgesubmit']) $(id).disabled = false;
@@ -236,9 +237,33 @@ $('prev').onclick = () => { offset = Math.max(0,offset-20); return refreshView()
 $('next').onclick = () => { offset += 20; return refreshView(); };
 async function monitor(owner = session) {
     if (role !== 'admin' || owner !== session) return;
-    const metrics = await api('/metrics',undefined,owner);
-    if (owner !== session || role !== 'admin') return;
-    $('metrics').textContent = `在线 Worker：${metrics.workers_online} · 执行尝试：${metrics.attempts.total} · 失败尝试：${metrics.attempts.failed} · 平均 ${metrics.attempts.avg_ms||0} ms · P95 ${Math.round(metrics.attempts.p95_ms||0)} ms · 当前失败工单：${metrics.runs.failed||0}`;
+    try {
+        const metrics = await api('/metrics',undefined,owner);
+        const snapshot = await api('/alerts',undefined,owner);
+        if (owner !== session || role !== 'admin') return;
+        $('metrics').textContent = `在线 Worker：${snapshot.workers_online} · 执行尝试：${metrics.attempts.total} · 失败尝试：${metrics.attempts.failed} · 平均 ${metrics.attempts.avg_ms||0} ms · P95 ${Math.round(metrics.attempts.p95_ms||0)} ms · 当前失败工单：${metrics.runs.failed||0}`;
+        $('alertstatus').textContent = `检查时间：${snapshot.checked_at} · ${snapshot.alerts.length ? '存在需处理的告警' : '当前未发现告警'}${snapshot.truncated ? '（结果较多，仅显示部分）' : ''}`;
+        $('alerts').replaceChildren();
+        const instructions = {
+            worker_offline:'Worker数量不足：检查Worker进程、心跳和数据库连接；扩缩容时核对预期数量。',
+            task_stalled:'任务执行时间超过阈值：按工单ID检查任务日志和数据库等待；心跳正常不代表任务有进展。',
+            queue_delayed:'任务已到执行时间但迟迟未完成领取：检查Worker容量和队列阻塞。',
+            consecutive_failures:'最近执行尝试连续失败：核对错误类型、模型或数据库状态，修复后再判断是否重试。',
+            job_failed:'任务自动重试已耗尽：核对已保存的审批及退款结果，排障后由管理员重试。'
+        };
+        for (const alert of snapshot.alerts) {
+            const box=add($('alerts'),'div'); box.className='warning';
+            add(box,'p',instructions[alert.code] || '监控异常：请核查服务状态。');
+            if (alert.run_id) {
+                add(box,'small',`工单 ${alert.run_id}`);
+                const button=add(box,'button','查看工单');button.className='secondary';
+                button.onclick=()=>show(alert.run_id).catch(error=>report(error,owner));
+            }
+        }
+    } catch (error) {
+        if (owner === session && role === 'admin') $('alertstatus').textContent='告警状态未知：监控读取失败。下方如有记录是上次结果，请勿据此判断已恢复。';
+        throw error;
+    }
 }
 async function poll() {
     if (!key || !role || polling || document.hidden) return;

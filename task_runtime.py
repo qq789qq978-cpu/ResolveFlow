@@ -9,6 +9,7 @@ import uuid
 from contextlib import ExitStack, contextmanager
 import psycopg
 from runtime_db import integer
+from observability import event
 
 
 class TaskDeadlineExceeded(TimeoutError):pass
@@ -82,11 +83,13 @@ class TaskRunner:
             '-c',bootstrap,package,str(Path(__file__).parent),script],
             stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
             env=env,text=True,encoding='utf-8')
+        event('task_started',task_token=token)
         try:
             payload={'directory':self.directory,'mode':self.mode,'run_id':run_id,
                 'ticket':ticket,'order_id':order_id,'approval':approval}
             try:out,_=process.communicate(json.dumps(payload,default=str),timeout=self.timeout)
             except subprocess.TimeoutExpired:
+                event('task_deadline',task_token=token)
                 stop_child(process)
                 raise TaskDeadlineExceeded('Task execution deadline reached') from None
             if process.returncode:raise TaskExecutionFailed('Task process stopped')
@@ -107,6 +110,7 @@ class TaskRunner:
             # can commit/release its queue lock. Failures remain infrastructure
             # errors; never claim successful cancellation without evidence.
             cleanup_connections(token,channels)
+            event('task_cleaned',task_token=token)
 
     def close(self):
         if self.process:stop_child(self.process)

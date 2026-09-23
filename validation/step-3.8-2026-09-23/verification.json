@@ -1,0 +1,30 @@
+{
+  "main_snapshot_equal": true,
+  "data_tables": 20,
+  "vectors": 7,
+  "schema_and_main_services_unchanged": true,
+  "only_main_running": [
+    "resolveflow-worker-1",
+    "resolveflow-resolveflow-1",
+    "resolveflow-db-1",
+    "resolveflow-embedding-1"
+  ],
+  "unit_unique": 261,
+  "postgres_unique": 148,
+  "frontend": 21,
+  "compose_checks": 27,
+  "runtime_image": "sha256:a50cab76e098291402b19a65cb0b3bdcfca4eff7c8a9c46f82581c8f457e859e",
+  "runtime_normalized_source_matches": {
+    "observability.py": "e530160238793806b5643994c44235e71a0bbdddedcc2c33532746c2bf8ec8b8",
+    "alerts.py": "047a952822985a1708376a0d017ec873acd3c9d7fa7307a10cdb01dec22dec32",
+    "monitor.py": "5916ece9483011a3f4e7f5e0abac9e3b2a0b52e11977d994e046524c57ed107f",
+    "jobs.py": "d7435569c2a3445bf23a3e80e79ac8f414068f13ccbf13173164b0040d8d9d19",
+    "operations.py": "f1ff75a7bd65ad65fb8e55c272e9a9a467d6c5974fb23c12d8ac1866a81e7f2d",
+    "worker.py": "14c2e07c17a107b464d87b76b0d94e92d266edc1c401a6f6deb21a938826c676",
+    "task_runtime.py": "a53e165f4dd94884e2c87dea37aa79a984e21b92dcb0df74a378c34acee973fc",
+    "frontend/dist/app.js": "9f757159023ea905373910500f4102060cc109933b1bed6bd2fd671a9bb2a500",
+    "frontend/dist/index.html": "8b41430e5f60053601ffae30386962f7dafa71d383fd265f3ac681b829e6ab3e"
+  },
+  "migrations_corpus_and_delay_sql_unchanged": true,
+  "paid_calls": 0
+}

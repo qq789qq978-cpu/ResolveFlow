@@ -1,3 +1,15 @@
+x-alert-env: &alert-env
+  RF_EXPECTED_WORKERS: ${RF_EXPECTED_WORKERS:-1}
+  RF_ALERT_WORKER_OFFLINE_SECONDS: ${RF_ALERT_WORKER_OFFLINE_SECONDS:-20}
+  RF_ALERT_RUNNING_SECONDS: ${RF_ALERT_RUNNING_SECONDS:-120}
+  RF_ALERT_QUEUED_SECONDS: ${RF_ALERT_QUEUED_SECONDS:-60}
+  RF_ALERT_FAILURE_COUNT: ${RF_ALERT_FAILURE_COUNT:-3}
+  RF_ALERT_FAILURE_WINDOW_SECONDS: ${RF_ALERT_FAILURE_WINDOW_SECONDS:-900}
+x-event-logs: &event-logs
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
 services:
   db:
     image: ${POSTGRES_IMAGE:-postgres:17}
@@ -14,11 +26,13 @@ services:
       retries: 20
     restart: unless-stopped
   resolveflow:
+    logging: *event-logs
     build: .
     image: ${RESOLVEFLOW_IMAGE:-resolveflow:local}
     ports:
       - "127.0.0.1:${APP_PORT:-8003}:8000"
     environment: &application-env
+      <<: *alert-env
       DATABASE_URL: postgresql://rf_app:${RF_APP_PASSWORD:?Set RF_APP_PASSWORD}@db:5432/resolveflow
       READONLY_DATABASE_URL: postgresql://rf_readonly:${RF_READONLY_PASSWORD:?Set RF_READONLY_PASSWORD}@db:5432/resolveflow
       RF_ENFORCE_DB_ROLES: '1'
@@ -84,6 +98,7 @@ services:
       disable: true
     restart: "no"
   worker:
+    logging: *event-logs
     init: true
     image: ${RESOLVEFLOW_IMAGE:-resolveflow:local}
     build: .
@@ -100,6 +115,29 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+  monitor:
+    logging: *event-logs
+    image: ${RESOLVEFLOW_IMAGE:-resolveflow:local}
+    build: .
+    command: ["python", "monitor.py"]
+    environment:
+      <<: *alert-env
+      READONLY_DATABASE_URL: postgresql://rf_readonly:${RF_READONLY_PASSWORD:?Set RF_READONLY_PASSWORD}@db:5432/resolveflow
+      RF_ALERT_POLL_SECONDS: ${RF_ALERT_POLL_SECONDS:-5}
+      RF_ALERT_STARTUP_GRACE_SECONDS: ${RF_ALERT_STARTUP_GRACE_SECONDS:-30}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import json,time,os;from pathlib import Path;h=json.loads(Path('/tmp/resolveflow-monitor-health.json').read_text());raise SystemExit(0 if h['available'] and time.time()-h['time']<max(30,int(os.getenv('RF_ALERT_POLL_SECONDS','5'))*2+20) else 1)"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
     restart: unless-stopped
   embedding:
     profiles: [semantic]

@@ -30,11 +30,13 @@ function harness() {
     });
     const runs=new Map(['A','B'].map(id=>[id,{id,ticket:'Ticket '+id,order_id:'RF-1002',status:'escalated',state:{},job:{kind:'investigate',attempts:1}}]));
     const holds=[], calls=[], listeners={}; let interval;
+    const alerts={available:true,checked_at:'2026-09-23T00:00:00Z',workers_online:1,alerts:[],truncated:false};
     const response=data=>({ok:true,status:200,json:async()=>structuredClone(data)});
     function payload(path,options) {
         if(path==='/config') return {role:options.headers['X-API-Key'],mode:'demo',database:'PostgreSQL',model:'demo'};
         if(path==='/orders') return [{id:'RF-1002',amount:12900,used:true,days:12}];
         if(path==='/metrics') return {workers_online:1,attempts:{total:3,failed:0},runs:{}};
+        if(path==='/alerts') return alerts;
         if(path.startsWith('/knowledge')) return {results:[{title:'Policy',source:'refund.md',version:'2',text:path,line_start:1,line_end:2}]};
         if(path.startsWith('/runs?')) return [...runs.values()].filter(r=>!new URLSearchParams(path.split('?')[1]).get('status')||r.status===new URLSearchParams(path.split('?')[1]).get('status'));
         if(path==='/runs') { const r={id:'NEW',ticket:'Created ticket',order_id:'RF-1002',status:'queued',state:{}}; runs.set(r.id,r); return r; }
@@ -59,8 +61,32 @@ function harness() {
     const submit=id=>elements[id].onsubmit({preventDefault(){}});
     const login=async role=>{elements.key.value=role;await submit('authform');};
     const hold=(path,method='GET')=>{const h={path,method,used:false};holds.push(h);return h;};
-    return {elements,nav,runs,calls,hold,login,submit,show:id=>vm.runInContext(`show(${JSON.stringify(id)})`,context),poll:()=>interval(),listeners};
+    return {elements,nav,runs,calls,hold,login,submit,alerts,show:id=>vm.runInContext(`show(${JSON.stringify(id)})`,context),poll:()=>interval(),listeners};
 }
+
+test('admin alerts show actionable stalled tasks and disappear after recovery',async()=>{
+    const h=harness();h.alerts.alerts=[{code:'task_stalled',run_id:'A'}];await h.login('admin');
+    assert.match(h.elements.alerts.textContent,/心跳正常不代表任务有进展/);
+    assert.match(h.elements.alerts.textContent,/工单 A/);
+    h.alerts.alerts=[];await h.poll();assert.match(h.elements.alertstatus.textContent,/当前未发现告警/);
+    assert.equal(h.elements.alerts.textContent,'');
+});
+
+test('failed alert polling marks the last snapshot unknown rather than recovered',async()=>{
+    const h=harness();h.alerts.alerts=[{code:'job_failed',run_id:'A'}];await h.login('admin');
+    const hold=h.hold('/alerts');const poll=h.poll();
+    for(let i=0;i<30&&!hold.used;i++) await Promise.resolve();
+    assert.equal(hold.used,true);hold.fail();await poll;
+    assert.match(h.elements.alertstatus.textContent,/状态未知/);assert.match(h.elements.alerts.textContent,/工单 A/);
+});
+
+test('a delayed admin alert cannot cross a role switch',async()=>{
+    const h=harness();await h.login('admin');const delayed=h.hold('/alerts');const poll=h.poll();
+    for(let i=0;i<30&&!delayed.used;i++) await Promise.resolve();
+    assert.equal(delayed.used,true);h.elements.logout.onclick();await h.login('operator');delayed.release();await poll;
+    assert.equal(h.elements.alertstatus.textContent,'');assert.equal(h.elements.alerts.textContent,'');
+    assert.equal(h.elements.monitor.hidden,true);
+});
 
 test('a previous role cannot publish a delayed created ticket into the new session',async()=>{
     const h=harness(); await h.login('operator');

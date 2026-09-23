@@ -1,0 +1,29 @@
+✔ PDF sources use physical pages while Markdown keeps source lines (3.1053ms)
+✔ admin alerts show actionable stalled tasks and disappear after recovery (4.3278ms)
+✔ failed alert polling marks the last snapshot unknown rather than recovered (3.356ms)
+✔ a delayed admin alert cannot cross a role switch (2.4149ms)
+✔ a previous role cannot publish a delayed created ticket into the new session (1.7487ms)
+✔ review completion cannot replace a newly selected ticket (2.5055ms)
+✔ retry completion cannot replace a newly selected ticket (1.9296ms)
+✔ approval completion cannot replace a newly selected ticket (1.7717ms)
+✔ a previous filter response cannot replace the latest filter results (2.3824ms)
+✔ out of order detail requests keep the last selected ticket (2.395ms)
+✔ old polling detail cannot overwrite a completed mutation (1.9997ms)
+✔ a network failure keeps draft input and polling recovers without replaying writes (1.7393ms)
+✔ a stale login response cannot restore the older role (1.372ms)
+✔ reconnection replaces obsolete read-error text while preserving the draft (1.9785ms)
+✔ an old search does not clear the busy state of a new session search (1.8336ms)
+✔ pending actions cannot be duplicated after switching away and back (2.445ms)
+✔ verified quotes and retrieved candidates are visibly distinct and escaped (1.6714ms)
+✔ legacy and insufficient evidence cannot display a successful citation check (1.4136ms)
+✔ new proposals never expose an unverified model reason while awaiting validation (1.362ms)
+✔ expired policy remains an authentic historical quote without claiming usability (1.3918ms)
+✔ release generation is visible and incompatible releases are not presented as usable (1.3932ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 180.8138

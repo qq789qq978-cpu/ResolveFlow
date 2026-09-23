@@ -7,8 +7,10 @@ Business refunds independently have a unique order key to tolerate replay.
 import json
 import logging
 import time
+import uuid
 import psycopg
 from psycopg.types.json import Jsonb
+from observability import correlation, identify, event
 
 
 def enqueue(store, run_id, ticket, order_id, mode, model, actor):
@@ -18,6 +20,7 @@ def enqueue(store, run_id, ticket, order_id, mode, model, actor):
         c.execute("INSERT INTO rf_runs(id,ticket,order_id,mode,model,status,created_by) VALUES (%s,%s,%s,%s,%s,'queued',%s)", (run_id,ticket,order_id,mode,model,actor))
         c.execute("INSERT INTO rf_jobs(run_id,kind) VALUES (%s,'investigate')", (run_id,))
         c.execute("INSERT INTO rf_audit(run_id,actor,action) VALUES (%s,%s,'create')", (run_id,actor))
+    event('job_enqueued',run_id=run_id,kind='investigate',actor=actor)
 
 def queue_approval(store, run_id, approved, actor, reason):
     with store.connect() as c:
@@ -30,6 +33,7 @@ def queue_approval(store, run_id, approved, actor, reason):
         c.execute("INSERT INTO rf_jobs(run_id,kind) VALUES (%s,'approval') ON CONFLICT(run_id) DO UPDATE SET kind='approval',status='queued',attempts=0,available_at=now(),last_error=NULL,updated_at=now()", (run_id,))
         c.execute("UPDATE rf_runs SET status='approval_queued',updated_at=now() WHERE id=%s", (run_id,))
         c.execute("INSERT INTO rf_audit(run_id,actor,action) VALUES (%s,%s,'approve' || %s)", (run_id,actor,':yes' if approved else ':no'))
+    event('job_enqueued',run_id=run_id,kind='approval',actor=actor)
 
 def retry(store, run_id, actor):
     with store.connect() as c:
@@ -46,6 +50,7 @@ def retry(store, run_id, actor):
         c.execute("UPDATE rf_jobs SET status='queued',attempts=0,available_at=now(),last_error=NULL,updated_at=now() WHERE run_id=%s", (run_id,))
         c.execute("UPDATE rf_runs SET status=%s,error=NULL,updated_at=now() WHERE id=%s", ('approval_queued' if job['kind']=='approval' else 'queued',run_id))
         c.execute("INSERT INTO rf_audit(run_id,actor,action) VALUES (%s,%s,'retry')", (run_id,actor))
+    event('job_requeued',run_id=run_id,kind=job['kind'],actor=actor)
 
 def details(store, run_id):
     with store.connect() as c:
@@ -64,7 +69,15 @@ def heartbeat(store, worker_id):
     with store.connect() as c:
         c.execute('INSERT INTO rf_worker_heartbeats(worker_id) VALUES (%s) ON CONFLICT(worker_id) DO UPDATE SET seen_at=now()', (worker_id,))
 
-def process_one(store, engine, run_id=None, max_attempts=3, retry_delay=2):
+def process_one(store, engine, run_id=None, max_attempts=3, retry_delay=2, worker_id=None):
+    with correlation(worker_id=worker_id):
+        try:return _process_one(store,engine,run_id,max_attempts,retry_delay)
+        except Exception as error:
+            event('job_interrupted',error_type=type(error).__name__)
+            raise
+
+
+def _process_one(store, engine, run_id, max_attempts, retry_delay):
     # READ COMMITTED plus SKIP LOCKED lets multiple workers handle different runs.
     # Lock only rf_jobs; graph checkpoints and refund inserts use other connections.
     with store.connect() as c:
@@ -72,10 +85,14 @@ def process_one(store, engine, run_id=None, max_attempts=3, retry_delay=2):
         if not job:
             return False
         rid = str(job['run_id'])
+        identify(run_id=rid,kind=job['kind'],attempt=job['attempts']+1,attempt_id=str(uuid.uuid4()))
         row = store.get(rid)
         started = time.monotonic()
         with store.connect() as update:
-            update.execute("UPDATE rf_runs SET status='running',updated_at=now() WHERE id=%s", (rid,))
+            # Repeated infrastructure rollbacks must not indefinitely reset the
+            # visible running age while a healthy heartbeat hides no progress.
+            update.execute("UPDATE rf_runs SET status='running',updated_at=CASE WHEN status='running' THEN updated_at ELSE now() END WHERE id=%s", (rid,))
+        event('job_started')
         try:
             # Keep the queue row lock in the outer transaction. A failed SQL
             # statement rolls back this savepoint before we record a retry.
@@ -102,5 +119,6 @@ def process_one(store, engine, run_id=None, max_attempts=3, retry_delay=2):
             c.execute("UPDATE rf_runs SET status=%s,error=%s,updated_at=now() WHERE id=%s", ('failed' if exhausted else 'retrying','任务失败：'+error_type,rid))
             success = False
         c.execute('INSERT INTO rf_job_attempts(run_id,kind,success,error_type,elapsed_ms) VALUES (%s,%s,%s,%s,%s)', (rid,job['kind'],success,error_type,elapsed))
-        logging.getLogger('resolveflow').info(json.dumps({'event':'job_finished','run_id':rid,'kind':job['kind'],'success':success,'error_type':error_type,'elapsed_ms':elapsed}))
+    # Only report completion after the transaction actually committed.
+    event('job_finished',success=success,error_type=error_type,elapsed_ms=elapsed)
     return True
