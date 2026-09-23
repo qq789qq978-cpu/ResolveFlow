@@ -20,7 +20,7 @@ def main():
     parser.add_argument('--report',type=Path,required=True);parser.add_argument('--port',default='8023')
     args=parser.parse_args()
     if not args.project.startswith('resolveflow-qa-') or args.report.exists():parser.error('Use fresh QA project/report')
-    work=ROOT/'work'/args.project;work.mkdir(exist_ok=False)
+    work=ROOT/'work'/args.project;work.mkdir(parents=True,exist_ok=False)
     empty=work/'empty.env';empty.write_text('')
     first=unused_subnet();second=unused_subnet(excluded=[first])
     override=work/'override.json'

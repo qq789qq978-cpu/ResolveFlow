@@ -27,6 +27,7 @@
 |冻结 RAG 标注/描述性基线|80 条结构校验通过，数据/划分/语料和 2.12 分组指标完全相同|[结构](rag-candidates.json)、[描述性基线](rag-baseline.json)|
 |受测镜像与当前运行源码|54 个文件逐项匹配（统一换行 SHA256）|[image-source-sha256.json](image-source-sha256.json)|
 |已有资源拒绝保护|2 项通过；仅有停止容器、没有数据库卷时仍拒绝复用，原容器状态/ID不变|[existing-resource-guards.json](existing-resource-guards.json)|
+|无本机残留目录的权限业务验收|从Git导出且起初没有.env/work的目录实跑，44项权限拒绝及业务流程通过|[clean-checkout-roles.json](clean-checkout-roles.json)|
 |主环境保留|20张非心跳数据表、22表结构/7向量及四服务完全一致；QA停止保留卷|[开始](main-before.json)、[结束](main-after.json)、[总核对](verification.json)|
 
 基础/PG 测试在隔离内部网络和全新 pgvector 数据库运行。独立验收串行分配子网，全部项目结束停止且保留卷。BM25 安装无 encoder 依赖；本地 PDF 混合检索另显式使用已固定的 E5 权重，不调用付费服务。完整回归覆盖迁移中断/继续、未知结构拒绝、不可逆变更独立恢复、备份校验、账号权限、池耗尽与执行期限。
@@ -54,5 +55,9 @@
 本轮统一推送第三阶段及已完成的 RAG 补充。推送后等待 `ResolveFlow checks` 在该提交上全部成功，核对 261 项基础、148 项 PG 的实际 JUnit（数量以实际附件为准）、独立安装/恢复、权限、运行期限、告警、重建及 1.5–1.9 五类故障附件。CI 默认 BM25 与合成向量，不下载本地 E5 权重，不产生付费调用。
 
 实际 SHA、run URL、步骤与附件验证回执存放于被忽略的 `validation/github-actions-local.json`，原始附件保存在 `work/delivery/`。不把自身 SHA 回写该提交而制造新未验收版本。远程证据以 [Actions](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain) 对应提交为准，最终回复给出确切运行链接。
+
+首轮提交 `2debee2` 的 [CI 35828431484](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35828431484) 失败，不能作为阶段成功证据。远程261基础/148PG、前端、离线评测、构建及异步业务流先后通过，但 roles_qa 在创建工作子目录时因干净检出没有被忽略的 work 父目录而抛出 FileNotFoundError，尚未执行权限业务断言。见[失败摘要](ci-first-failure.json)和[错误片段](ci-first-failure.txt)。
+
+已修复 roles/runtime/observability/PDF 四入口使用 parents=True 创建缺失父目录，同时保留 exist_ok=False 拒绝已有项目目录。应用运行时代码和权限契约未更改。从已提交Git源码导出到全新目录，仅覆盖这四处修复，确认没有.env和work后实际运行权限QA，44项拒绝、自动退款/拒绝、审批续跑及重复退款均通过；此证据只针对该入口，不冒称四个入口都在缺父目录时完整跑过。修复提交仍须重新通过完整远程CI和附件核验，首轮失败及原始附件保留。
 
 3.9 完成后停止；下一步只在用户指定后开展 4.1 架构图。人工质量审核和条件上线阶段的限制继续保留。

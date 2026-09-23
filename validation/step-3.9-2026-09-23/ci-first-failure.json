@@ -1,0 +1,14 @@
+{
+  "sha": "2debee2e46230d40cedeecc06e33811081e98918",
+  "run_id": 35828431484,
+  "url": "https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35828431484",
+  "conclusion": "failure",
+  "failed_step": "Restricted PostgreSQL roles and real business flow",
+  "cause": "QA entry assumed ignored work parent already exists; FileNotFoundError before container creation",
+  "junit_counts": {
+    "unit": 261,
+    "postgres": 148
+  },
+  "fix": "Create missing parents in roles/runtime/observability/PDF QA entries; keep rejecting an existing project directory",
+  "scope": "No application runtime changes; complete CI on the subsequent commit is still required"
+}

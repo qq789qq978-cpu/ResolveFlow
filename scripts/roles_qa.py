@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--report',type=Path,required=True)
     args=parser.parse_args()
     if not args.project.startswith('resolveflow-qa-') or args.report.exists():parser.error('Use a new QA target and report')
-    work=ROOT/'work'/args.project;work.mkdir(exist_ok=False)
+    work=ROOT/'work'/args.project;work.mkdir(parents=True,exist_ok=False)
     empty=work/'empty.env';empty.write_text('')
     override=work/'network.json'
     first=unused_subnet()

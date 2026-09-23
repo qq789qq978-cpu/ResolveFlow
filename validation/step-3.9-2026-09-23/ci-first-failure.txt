@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+2026-09-23T06:53:27.3685875Z   File "/home/runner/work/ResolveFlow/ResolveFlow/scripts/roles_qa.py", line 70, in <module>
+2026-09-23T06:53:27.3687046Z     if __name__=='__main__':main()
+2026-09-23T06:53:27.3687629Z                             ^^^^^^
+2026-09-23T06:53:27.3688596Z   File "/home/runner/work/ResolveFlow/ResolveFlow/scripts/roles_qa.py", line 24, in main
+2026-09-23T06:53:27.3689638Z     work=ROOT/'work'/args.project;work.mkdir(exist_ok=False)
+2026-09-23T06:53:27.3691323Z                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-23T06:53:27.3692382Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/pathlib.py", line 1311, in mkdir
+2026-09-23T06:53:27.3704440Z     os.mkdir(self, mode)
+2026-09-23T06:53:27.3705631Z FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/ResolveFlow/ResolveFlow/work/resolveflow-qa-ci-roles'
+2026-09-23T06:53:27.3768593Z ##[error]Process completed with exit code 1.
