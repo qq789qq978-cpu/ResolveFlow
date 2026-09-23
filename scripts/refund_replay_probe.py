@@ -35,6 +35,7 @@ class ReplayGate:
         if self.lock is not None:
             raise RuntimeError("Replay gate already installed")
         self.lock = psycopg.connect(self.url, autocommit=True, row_factory=dict_row)
+        self.run_id = run_id
         # Bounds lock lifetime if the host process disappears mid-test.
         self.lock.execute("SET idle_session_timeout='60s'")
         self.lock.execute("SELECT pg_advisory_lock(1707,1),pg_advisory_lock(1707,2)")
@@ -56,12 +57,14 @@ class ReplayGate:
                     RETURN NEW;
                 END; $$ LANGUAGE plpgsql
             """)
-            for table in TABLES:
+            # The task must validate the genuine checkpoint schema at startup.
+            # Add checkpoint gates only after its refund INSERT is observed.
+            for table in TABLES[:1]:
                 self.observer.execute(sql.SQL("CREATE OR REPLACE TRIGGER {} BEFORE INSERT OR UPDATE ON {} "
                     "FOR EACH ROW EXECUTE FUNCTION {}({})").format(
                     sql.Identifier(FUNCTION), sql.Identifier(table), sql.Identifier(FUNCTION), sql.Literal(run_id)))
         return {"gate_pid": self.lock.info.backend_pid, "run_id": run_id,
-                "tables": TABLES, "idle_session_timeout_seconds": 60}
+                "tables": TABLES[:1], "idle_session_timeout_seconds": 60}
 
     def blocked(self, checkpoint=False):
         pattern = "%INSERT INTO checkpoint%" if checkpoint else "%INSERT INTO rf_refunds%"
@@ -78,6 +81,12 @@ class ReplayGate:
             time.sleep(0.05)
 
     def allow_refund(self):
+        with self.observer.transaction():
+            self.observer.execute("SET LOCAL lock_timeout='5s'")
+            for table in TABLES[1:]:
+                self.observer.execute(sql.SQL("CREATE OR REPLACE TRIGGER {} BEFORE INSERT OR UPDATE ON {} "
+                    "FOR EACH ROW EXECUTE FUNCTION {}({})").format(
+                    sql.Identifier(FUNCTION), sql.Identifier(table), sql.Identifier(FUNCTION), sql.Literal(self.run_id)))
         return self.lock.execute("SELECT pg_advisory_unlock(1707,2) AS released").fetchone()
 
     def abort_checkpoint_writers(self):

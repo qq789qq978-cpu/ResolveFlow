@@ -52,17 +52,19 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--report', type=Path, required=True)
     parser.add_argument('--baseline', action='store_true')
+    qa.fault_options(parser)
     args = parser.parse_args()
     if args.report.exists():
         parser.error('Use a new report path')
     args.report.parent.mkdir(parents=True, exist_ok=True)
     qa.PROJECT = 'resolveflow-qa-step19'
     qa.API, qa.WORKER = qa.PROJECT + '-resolveflow-1', qa.PROJECT + '-worker-1'
-    workers = [qa.WORKER, qa.PROJECT + '-worker-2']
     qa.URL = 'http://127.0.0.1:8010'
     qa.PUBLIC_ENV = {**qa.PUBLIC_ENV, 'APP_PORT': '8010', 'APP_API_KEY': 'qa-step19-operator',
                      'REVIEWER_API_KEY': 'qa-step19-reviewer', 'ADMIN_API_KEY': 'qa-step19-admin',
                      'POSTGRES_PASSWORD': 'qa-step19-database'}
+    qa.configure_fault(args)
+    workers = [qa.WORKER, qa.PROJECT + '-worker-2']
     environment = {**os.environ, **qa.PUBLIC_ENV}
     report = {'step': '1.9', 'baseline': args.baseline, 'project': qa.PROJECT,
               'started_utc': datetime.now(timezone.utc).isoformat(), 'passed': False,
@@ -91,7 +93,7 @@ def main():
         report['main_before'] = qa.main_fingerprints()
         with tempfile.NamedTemporaryFile(mode='w', suffix='.env', delete=False) as empty:
             env_path = Path(empty.name)
-        compose = ('compose', '--env-file', str(env_path), '-f', str(qa.ROOT / 'compose.yaml'), '-p', qa.PROJECT)
+        compose = qa.fault_compose(env_path)
         print('Starting independent two-Worker demo...', flush=True)
         qa.docker(*compose, 'up', '--scale', 'worker=2', '--no-build', '--pull', 'never', '-d', '--wait',
                   '--wait-timeout', '180', env=environment, timeout=210)
@@ -103,7 +105,8 @@ def main():
         observer = qa.Observer()
         report['qa_before'] = observer.call('fingerprints')
 
-        # Refund SQL has no task-wide deadline; hold longer than the MCP envelope.
+        # Fixture SQL/task deadlines exceed this stall; production defaults are
+        # verified separately by runtime_limits_qa.py.
         order = observer.call('multi_seed')['id']
         gate = observer.call('multi_gate', order_id=order)
         stalled = report['stalled'] = {'order_id': order, 'gate': gate, 'run_id': submit(order)}
@@ -209,6 +212,8 @@ def main():
         report['passed'] = True
     except Exception as error:
         report['error_type'] = type(error).__name__
+        if isinstance(error, qa.ObserverError):
+            report['observer_error'] = error.details
         print('QA failed: ' + type(error).__name__, flush=True)
     finally:
         actions = [lambda: observer.close() if observer else None]

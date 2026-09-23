@@ -1,7 +1,7 @@
 """Run stage-one fault regressions serially against isolated demo projects.
 
-Requires the demo resolveflow main stack and the matching resolveflow:local
-image. Child harnesses keep their named volumes, stop their QA services and
+Requires the demo resolveflow main stack and an explicitly selected image.
+Use a new --project-prefix for every local run. Child harnesses keep volumes, stop services and
 compare read-only main fingerprints. Do not run this alongside other QA.
 """
 import argparse
@@ -24,6 +24,8 @@ CASES = (
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--reports', type=Path, required=True)
+    parser.add_argument('--project-prefix', default='resolveflow-qa-step')
+    parser.add_argument('--image', default='resolveflow:local')
     args = parser.parse_args()
     reports = args.reports.resolve()
     reports.mkdir(parents=True, exist_ok=True)
@@ -31,6 +33,7 @@ def main():
     if summary_path.exists() or any((reports / f'step-{step}.json').exists() for step,_,_ in CASES):
         parser.error('Use a new report directory; historical evidence is preserved')
     result = {'stage': 1, 'passed': False, 'started_utc': datetime.now(timezone.utc).isoformat(),
+              'image': args.image, 'project_prefix': args.project_prefix,
               'mode': 'demo', 'cases': [], 'scope': 'Fault regressions 1.5-1.9, not UI or load testing'}
     try:
         for step, script, options in CASES:
@@ -39,6 +42,8 @@ def main():
             # Each harness owns bounded waits and cleanup. Preserve its output
             # and let it finish cleanup instead of killing a live lock owner.
             process = subprocess.run([sys.executable, str(ROOT/'scripts'/script), *options,
+                                      '--project', args.project_prefix + step.replace('.', ''),
+                                      '--image', args.image,
                                       '--report', str(report_path)], cwd=ROOT)
             report = json.loads(report_path.read_text(encoding='utf-8')) if report_path.exists() else {}
             passed = process.returncode == 0 and report.get('passed') is True

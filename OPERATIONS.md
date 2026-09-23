@@ -76,9 +76,12 @@ node --test test_frontend.cjs
 python scripts/stage3_qa.py --image resolveflow:release-check --project resolveflow-qa-release-check --report validation/release-check.json
 python scripts/runtime_limits_qa.py --image resolveflow:release-check --project resolveflow-qa-release-runtime --report validation/release-runtime.json
 python scripts/observability_qa.py --image resolveflow:release-check --project resolveflow-qa-release-alerts --report validation/release-alerts.json
+python scripts/stage1_qa.py --image resolveflow:release-check --project-prefix resolveflow-qa-release-fault --reports validation/release-faults
 ```
 
 按顺序执行，复跑改用新名称。脚本从受版本控制的配置创建全新数据库，结束停止容器而保留卷，不依赖主目录 `.env`。真实本地 encoder/PDF 回归另用 `scripts/pdf_ingestion_qa.py`，必须显式提供已核对的模型目录；远程 CI 不下载模型。
+
+历史故障入口使用8006–8010端口，需现有demo主服务用于只读指纹比较，但受测镜像可以不同于主服务，不需要部署或重新标记主镜像。每次使用新project-prefix；已停止的容器、卷或网络同样拒绝复用。故障场景显式放宽夹具SQL限制以建立强杀/长阻塞窗口，默认生产/demo期限由runtime_limits_qa另行验收。若观察器失败，附件保留命令、异常类型和隔离库阻塞诊断；不要直接忽略失败或只重跑。
 
 真实旧版本升级复验使用 `scripts/migration_qa.py --image resolveflow:release-check --legacy-image <冻结旧版镜像> --prefix resolveflow-qa-upgrade-new --report validation/upgrade-new.json`。旧版镜像可从第二阶段提交 `ba1785975a24cced4502b48bece24cbaa3560f3a` 的 Git archive 在独立临时构建目录重新构建；不要切换当前工作目录或运行旧升级脚本。需要空闲的 8017/8018 端口。该入口同时拒绝已有容器和孤立历史卷，在隔离新库演练旧待审批接管和恢复。
 

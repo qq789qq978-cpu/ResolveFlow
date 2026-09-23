@@ -1,0 +1,46 @@
+{
+  "stage": 1,
+  "passed": true,
+  "started_utc": "2026-09-23T07:25:43.526721+00:00",
+  "mode": "demo",
+  "cases": [
+    {
+      "step": "1.5",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.5.json",
+      "checks": 25
+    },
+    {
+      "step": "1.6",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.6.json",
+      "checks": 52
+    },
+    {
+      "step": "1.7",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.7.json",
+      "checks": 59
+    },
+    {
+      "step": "1.8",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.8.json",
+      "checks": 34
+    },
+    {
+      "step": "1.9",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.9.json",
+      "checks": 28
+    }
+  ],
+  "scope": "Fault regressions 1.5-1.9, not UI or load testing",
+  "checks": 198,
+  "finished_utc": "2026-09-23T07:35:12.955674+00:00"
+}

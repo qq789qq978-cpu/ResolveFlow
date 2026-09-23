@@ -60,4 +60,12 @@
 
 已修复 roles/runtime/observability/PDF 四入口使用 parents=True 创建缺失父目录，同时保留 exist_ok=False 拒绝已有项目目录。应用运行时代码和权限契约未更改。从已提交Git源码导出到全新目录，仅覆盖这四处修复，确认没有.env和work后实际运行权限QA，44项拒绝、自动退款/拒绝、审批续跑及重复退款均通过；此证据只针对该入口，不冒称四个入口都在缺父目录时完整跑过。修复提交仍须重新通过完整远程CI和附件核验，首轮失败及原始附件保留。
 
+第二轮 `ca46fed` 的 [CI 35829414120](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35829414120) 在权限、期限、告警、新装恢复和普通持久化通过后，失败于1.5观察阻塞阶段（仅5项断言，尚未SIGKILL）。不是旧邮件重复，也不是可忽略的告警。原远程报告只保存RuntimeError，不能声称知道远程丢失的异常子类型；[失败摘要](ci-second-failure.json)和[全新本地复现](fault-diag15a.json)区分两者。本地观察到任务checkpoint结构检查在读取rf_orders约束时被测试表锁阻塞，尚未进入MCP订单查询，观察器因此TimeoutError。
+
+修复将每次任务的checkpoint目录读取限定为四张checkpoint表，完整应用/迁移检查保持全表校验。真实PG回归同时证明：业务表锁不阻止checkpoint就绪检查、完整应用检查仍受该锁约束、checkpoint结构漂移仍被拒绝。退款重放QA改在真实退款INSERT已阻塞后才安装checkpoint触发器，先让任务通过真实结构检查；仍验证退款已提交但checkpoint及缓存输出均未提交的强杀窗口，不放宽应用结构契约。历史故障入口支持显式镜像和新项目前缀，拒绝已有停止容器/卷/网络，原主服务继续step36。失败诊断保留异常类型、命令和隔离库阻塞活动。
+
+第二轮修复后的回归记录：基础261项及额外资源保护测试合计264个不同测试通过；PostgreSQL149项通过（含新增锁/漂移回归）。见[基础JUnit](regression-ci-fix/unit.xml)、[资源保护JUnit](fault-resource-guards.xml)、[PG JUnit](regression-ci-fix/postgres.xml)。受测镜像resolveflow:step39-ci-fix的54个运行文件与当前源码一致，见[哈希核对](image-ci-fix-sha256.json)。此前step39-release的完整安装/升级/PDF证据保持其原镜像口径，最终修复提交还必须通过完整同SHA远程CI。
+
+最新镜像的五类真实故障本地复验全部通过：1.5调查强杀25项、1.6审批保存后强杀52项、1.7退款提交后强杀59项、1.8停库恢复34项、1.9双Worker/长阻塞/超时28项，共198项。见[五类汇总](fault-fix-a/summary.json)及同目录逐项完整记录。[最终核对](second-ci-fix-verification.json)确认全部清理无错误、四个主服务及20表完整快照不变、仅原主服务运行，所有测试卷保留；没有部署主环境或付费模型调用。此结果是在推送前完成，不用后续CI替代本地故障验证。
+
 3.9 完成后停止；下一步只在用户指定后开展 4.1 架构图。人工质量审核和条件上线阶段的限制继续保留。

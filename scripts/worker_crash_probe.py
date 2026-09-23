@@ -92,6 +92,7 @@ def main():
                 for line in sys.stdin:
                     request = json.loads(line)
                     command = request["command"]
+                    diagnostics = {}
                     try:
                         if command.startswith("multi_") and multi is not None:
                             result = multi.command(command, request)
@@ -137,6 +138,10 @@ def main():
                                     result = {key: blockers, **snapshot(request["run_id"])}
                                     break
                                 if time.monotonic() >= deadline:
+                                    diagnostics['blocked_activity'] = observer.execute(
+                                        'SELECT pid,application_name,wait_event_type,wait_event,left(query,200) AS query '
+                                        'FROM pg_stat_activity WHERE %s=ANY(pg_blocking_pids(pid))',
+                                        (gate.info.backend_pid,)).fetchall()
                                     raise TimeoutError("No matching Worker read observed")
                                 time.sleep(0.05)
                         elif command == "unlock":
@@ -155,7 +160,8 @@ def main():
                         print(json.dumps({"ok": True, "result": result}, default=str), flush=True)
                     except Exception as error:
                         # Do not serialize connection strings or provider responses.
-                        print(json.dumps({"ok": False, "error_type": type(error).__name__}), flush=True)
+                        print(json.dumps({"ok": False, "error_type": type(error).__name__,
+                                          'diagnostics': diagnostics}, default=str), flush=True)
             finally:
                 if gate is not None:
                     gate.close()

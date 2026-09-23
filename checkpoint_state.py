@@ -19,7 +19,10 @@ def checkpoint_status(c, *, allow_partial=False, catalog=None):
     if version('langgraph-checkpoint-postgres') != reference['package_version'] or digest != reference['migrations_sha256']:
         raise SchemaNotReady('LangGraph package changed; review its migration contract before proceeding')
     schema = c.execute('SELECT current_schema()').fetchone()[0]
-    catalog = catalog or read_catalog(c, schema)
+    # Every task checks checkpoint readiness. Do not acquire metadata locks on
+    # unrelated business tables while inspecting only the checkpoint contract.
+    # Full deployment readiness still supplies/reads the complete catalog.
+    catalog = catalog or read_catalog(c, schema, only_tables=CHECKPOINT)
     tables = {t:catalog['tables'][t] for t in CHECKPOINT if t in catalog['tables']}
     total = len(PostgresSaver.MIGRATIONS)
     if not tables:

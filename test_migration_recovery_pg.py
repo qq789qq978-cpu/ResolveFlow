@@ -25,6 +25,24 @@ from test_migrations_pg import database, legacy_setup
 pytestmark = pytest.mark.skipif(os.getenv('RUN_PG_TESTS') != '1', reason='Isolated PostgreSQL required')
 
 
+def test_checkpoint_readiness_ignores_business_table_locks_but_checks_drift(database, monkeypatch):
+    from database_state import require_checkpoints
+    dsn, schema = database
+    db_migrate.migrate(dsn, demo=True)
+    monkeypatch.setenv('RF_DB_LOCK_TIMEOUT_MS', '250')
+    with psycopg.connect(dsn) as blocker:
+        blocker.execute('LOCK TABLE rf_orders IN ACCESS EXCLUSIVE MODE')
+        require_checkpoints(dsn)
+        # The full application readiness contract must still inspect business
+        # tables; narrowing checkpoint reads must not weaken deploy validation.
+        with pytest.raises(psycopg.errors.LockNotAvailable):
+            require_ready(dsn)
+    with psycopg.connect(dsn) as c:
+        c.execute('ALTER TABLE checkpoints ADD COLUMN unexpected TEXT')
+    with pytest.raises(SchemaNotReady, match='prefix'):
+        require_checkpoints(dsn)
+
+
 @pytest.mark.parametrize('legacy',[False,True])
 def test_application_sql_failure_rolls_back_ddl_stamp_and_rows(database,monkeypatch,legacy):
     dsn,schema=database

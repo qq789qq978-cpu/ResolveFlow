@@ -1,9 +1,9 @@
 """SIGKILL a real demo Worker: investigation, saved approval or refund replay.
 
 Run from any directory: python scripts/worker_crash_qa.py --report <new.json>
-Requires Docker Compose, an existing resolveflow:local image, and the main
+Requires Docker Compose, an existing selected image, and the main
 resolveflow stack running in demo mode for read-only data comparisons. Host
-Python uses only the standard library. Fixed isolated project/port, no production .env,
+Python uses only the standard library. Fresh isolated project, no production .env,
 no image rebuild, no volume deletion. Stops its QA services even on failure.
 """
 import argparse
@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import queue
+import re
 import subprocess
 import sys
 import tempfile
@@ -39,6 +40,47 @@ PUBLIC_ENV = {
     "RF_DB_STATEMENT_TIMEOUT_MS": "120000", "RF_DB_LOCK_TIMEOUT_MS": "120000",
     "OPENAI_BASE_URL": "https://api.deepseek.com", "MODEL_NAME": "deepseek-flash",
 }
+
+
+class ObserverError(RuntimeError):
+    def __init__(self, command, response):
+        super().__init__('Observer command failed')
+        self.details = {'command': command, **response}
+
+
+def fault_options(parser):
+    parser.add_argument('--project', help='Fresh resolveflow-qa-* project (never reuse resources)')
+    parser.add_argument('--image', default='resolveflow:local')
+
+
+def configure_fault(args):
+    global PROJECT, API, WORKER
+    if args.project:
+        if not re.fullmatch(r'resolveflow-qa-[a-z0-9-]{1,35}', args.project):
+            raise ValueError('Invalid QA project')
+        PROJECT = args.project
+        API, WORKER = PROJECT + '-resolveflow-1', PROJECT + '-worker-1'
+    PUBLIC_ENV.update(RESOLVEFLOW_IMAGE=args.image, RETRIEVAL_MODE='bm25', COMPOSE_PROFILES='')
+
+
+def fault_compose(env_path):
+    from database_restore import unused_subnet
+    if not re.fullmatch(r'resolveflow-qa-[a-z0-9-]{1,35}', PROJECT):
+        raise ValueError('Invalid QA project')
+    for kind in ('container', 'volume', 'network'):
+        if docker(kind, 'ls', '-q', *(['-a'] if kind == 'container' else []),
+                  '--filter', 'label=com.docker.compose.project=' + PROJECT):
+            raise ValueError('Fault QA requires a fresh project; existing resources preserved')
+    work = ROOT / 'work' / PROJECT
+    work.mkdir(parents=True, exist_ok=False)
+    first = unused_subnet()
+    second = unused_subnet(excluded=[first])
+    override = work / 'override.json'
+    override.write_text(json.dumps({'networks': {
+        'default': {'ipam': {'config': [{'subnet': first}]}},
+        'embedding-private': {'ipam': {'config': [{'subnet': second}]}}}}))
+    return ('compose', '--env-file', str(env_path), '-f', str(ROOT / 'compose.yaml'),
+            '-f', str(override), '-p', PROJECT)
 
 
 def docker(*args, timeout=30, stdin=None, env=None):
@@ -94,9 +136,9 @@ class Observer:
         if not PROJECT.startswith('resolveflow-qa-'):
             raise ValueError('Privileged observer is restricted to dedicated QA')
         docker("cp", str(PROBE), API + ":/tmp/worker_crash_probe.py")
-        if PROJECT == "resolveflow-qa-step17":
+        if PUBLIC_ENV['APP_API_KEY'] == "qa-step17-operator":
             docker("cp", str(PROBE.with_name("refund_replay_probe.py")), API + ":/tmp/refund_replay_probe.py")
-        if PROJECT == "resolveflow-qa-step19":
+        if PUBLIC_ENV['APP_API_KEY'] == "qa-step19-operator":
             docker("cp", str(PROBE.with_name("multi_worker_probe.py")), API + ":/tmp/multi_worker_probe.py")
         self.process = subprocess.Popen(
             ["docker", "exec", "-i", "-e", "DATABASE_URL=postgresql://resolveflow:"+
@@ -126,7 +168,7 @@ class Observer:
         self.process.stdin.flush()
         response = self.receive()
         if not response["ok"]:
-            raise RuntimeError("Observer " + response["error_type"])
+            raise ObserverError(command, response)
         return response["result"]
 
     def close(self):
@@ -405,6 +447,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--step", choices=("1.5", "1.6", "1.7"), default="1.5")
     parser.add_argument("--report", type=Path, required=True)
+    fault_options(parser)
     args = parser.parse_args()
     if args.step == "1.6":
         PROJECT = "resolveflow-qa-step16"
@@ -420,6 +463,7 @@ def main():
         PUBLIC_ENV = {**PUBLIC_ENV, "APP_PORT": "8008", "APP_API_KEY": "qa-step17-operator",
                       "REVIEWER_API_KEY": "qa-step17-reviewer", "ADMIN_API_KEY": "qa-step17-admin",
                       "POSTGRES_PASSWORD": "qa-step17-database"}
+    configure_fault(args)
     expected_runs = {"1.5": 2, "1.6": 3, "1.7": 4}[args.step]
     if args.report.exists():
         parser.error("Choose a new report path; historical evidence is never overwritten")
@@ -442,14 +486,15 @@ def main():
         print("Starting isolated demo QA services on " + URL + "...", flush=True)
         with tempfile.NamedTemporaryFile(mode="w", suffix=".env", delete=False) as empty_env:
             env_path = Path(empty_env.name)
-        compose = ("compose", "--env-file", str(env_path), "-f", str(ROOT / "compose.yaml"), "-p", PROJECT)
+        compose = fault_compose(env_path)
         docker(*compose, "up", "--no-build", "--pull", "never", "-d", "--wait", "--wait-timeout", "180",
                env=environment, timeout=200)
         report["worker_before"] = container(WORKER)
         require(report["worker_before"]["project"] == PROJECT, "dedicated QA Worker")
         require(report["worker_before"]["command"] == ["python", "worker.py"], "real unmodified Worker command")
-        require(report["worker_before"]["image"] == report["main_container"]["image"] == container(API)["image"],
-                "QA and main application use the same image")
+        report['tested_image'] = docker('image', 'inspect', '--format', '{{.Id}}', args.image)
+        require(report["worker_before"]["image"] == report['tested_image'] == container(API)["image"],
+                "QA API and Worker use the explicitly selected image")
         require(api("/health")["mode"] == "demo", "QA is demo")
         observer = Observer()
         report["qa_before"] = observer.call("fingerprints")
@@ -471,6 +516,8 @@ def main():
         report["passed"] = True
     except Exception as error:
         report["error_type"] = type(error).__name__
+        if isinstance(error, ObserverError):
+            report['observer_error'] = error.details
         print("QA failed: " + type(error).__name__, flush=True)
     finally:
         for action in (

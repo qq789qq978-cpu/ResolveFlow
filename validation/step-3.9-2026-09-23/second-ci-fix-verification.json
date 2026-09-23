@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "unit_distinct": 264,
+  "postgres": 149,
+  "fault_checks": 198,
+  "fault_cases": [
+    {
+      "step": "1.5",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.5.json",
+      "checks": 25
+    },
+    {
+      "step": "1.6",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.6.json",
+      "checks": 52
+    },
+    {
+      "step": "1.7",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.7.json",
+      "checks": 59
+    },
+    {
+      "step": "1.8",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.8.json",
+      "checks": 34
+    },
+    {
+      "step": "1.9",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.9.json",
+      "checks": 28
+    }
+  ],
+  "image": "resolveflow:step39-ci-fix",
+  "image_source_matches": true,
+  "main_preserved": true,
+  "only_main_four_running": true,
+  "model_api_calls": 0,
+  "main_deployed": false,
+  "volumes_preserved": true,
+  "remote_verification": "Requires matching successful SHA and validated artifact receipt"
+}

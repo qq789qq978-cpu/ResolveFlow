@@ -32,6 +32,7 @@ def offline_request(path, body=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report", type=Path, required=True)
+    qa.fault_options(parser)
     args = parser.parse_args()
     if args.report.exists():
         parser.error("Use a new report path")
@@ -42,6 +43,7 @@ def main():
     qa.PUBLIC_ENV = {**qa.PUBLIC_ENV, "APP_PORT": "8009", "APP_API_KEY": "qa-step18-operator",
                      "REVIEWER_API_KEY": "qa-step18-reviewer", "ADMIN_API_KEY": "qa-step18-admin",
                      "POSTGRES_PASSWORD": "qa-step18-database"}
+    qa.configure_fault(args)
     db = qa.PROJECT + "-db-1"
     environment = {**os.environ, **qa.PUBLIC_ENV}
     report = {"step": "1.8", "started_utc": datetime.now(timezone.utc).isoformat(),
@@ -60,7 +62,7 @@ def main():
         report["main_image"] = qa.container(qa.MAIN)["image"]
         with tempfile.NamedTemporaryFile(mode="w", suffix=".env", delete=False) as empty_env:
             env_path = Path(empty_env.name)
-        compose = ("compose", "--env-file", str(env_path), "-f", str(qa.ROOT / "compose.yaml"), "-p", qa.PROJECT)
+        compose = qa.fault_compose(env_path)
         print("Starting dedicated database-outage QA on 8009...", flush=True)
         qa.docker(*compose, "up", "--no-build", "--pull", "never", "-d", "--wait", "--wait-timeout", "180",
                   env=environment, timeout=200)
@@ -157,6 +159,8 @@ def main():
         report["passed"] = True
     except Exception as error:
         report["error_type"] = type(error).__name__
+        if isinstance(error, qa.ObserverError):
+            report['observer_error'] = error.details
         print("QA failed: " + type(error).__name__, flush=True)
     finally:
         for action in (

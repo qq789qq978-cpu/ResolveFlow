@@ -30,7 +30,7 @@ def snapshot(dsn, schema='public'):
         return read_catalog(c, schema)
 
 
-def read_catalog(c, schema):
+def read_catalog(c, schema, *, only_tables=None):
     """Read within a caller-owned transaction (also used under migration locks)."""
     if not re.fullmatch(r'[a-z][a-z0-9_]{0,62}', schema):
         raise ValueError('Invalid schema name')
@@ -44,6 +44,8 @@ def read_catalog(c, schema):
             return [normalize(v) for v in value]
         return value
     names = [r[0] for r in rows("SELECT tablename FROM pg_tables WHERE schemaname=%s ORDER BY tablename", (schema,))]
+    if only_tables is not None:
+        names = [name for name in names if name in only_tables]
     tables = {}
     for name in names:
         rel = c.execute('SELECT to_regclass(%s)::oid', (f'{schema}.{name}',)).fetchone()[0]

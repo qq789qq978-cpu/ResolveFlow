@@ -1,0 +1,20 @@
+{
+  "run_id": 35829414120,
+  "sha": "ca46fedeb5fa06aae03650a73a2c9a9749427349",
+  "url": "https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35829414120",
+  "conclusion": "failure",
+  "failed_step": "Real Worker crashes, database outage and multi-worker timeouts",
+  "fault_scenario": "1.5",
+  "completed_assertions": 5,
+  "worker_killed": false,
+  "remote_error_type": "RuntimeError",
+  "remote_failure_boundary": "observer.call(blocked), before the investigation SIGKILL",
+  "local_reproduction": "fault-diag15a.json",
+  "confirmed_local_error": "TimeoutError",
+  "confirmed_local_wait": "task checkpoint readiness reads business table constraints and blocks on the QA orders table gate",
+  "remote_error_subtype_was_not_preserved": true,
+  "first_ci_work_directory_fix_passed": true,
+  "earlier_steps_passed": ["roles", "runtime deadlines", "observability", "stage3 install and recovery", "persistence"],
+  "original_remote_artifacts": "work/step39/35829414120",
+  "paid_model_calls": 0
+}
