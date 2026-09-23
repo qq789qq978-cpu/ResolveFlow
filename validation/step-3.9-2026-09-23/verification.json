@@ -17,5 +17,7 @@
   "main_deployed": false,
   "legacy_source_commit": "ba1785975a24cced4502b48bece24cbaa3560f3a",
   "legacy_image_id": "sha256:3739da0e4359a37430228fd21b3447fa85b963d26d598b1db56fe714f32621a8",
-  "image_source_matches": true
+  "image_source_matches": true,
+  "clean_checkout_roles_passed": true,
+  "main_preserved_after_ci_fix": true
 }
