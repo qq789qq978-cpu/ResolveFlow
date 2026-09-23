@@ -87,11 +87,12 @@ def process_one(store, engine, run_id=None, max_attempts=3, retry_delay=2):
                 c.execute("UPDATE rf_runs SET state=%s,status=%s,error=NULL,elapsed_ms=%s,updated_at=now() WHERE id=%s", (Jsonb(result['state']),result['state']['result']['status'],elapsed,rid))
                 c.execute("UPDATE rf_jobs SET status='done',attempts=attempts+1,last_error=NULL,updated_at=now() WHERE run_id=%s", (rid,))
             success, error_type = True, None
-        except (psycopg.OperationalError, psycopg.InterfaceError):
-            # Infrastructure outages must not exhaust a ticket's business retry
-            # budget. Roll back the claim and let the Worker rebuild its saver.
-            raise
         except Exception as error:
+            if isinstance(error,(psycopg.OperationalError,psycopg.InterfaceError,psycopg.errors.IdleInTransactionSessionTimeout)) and not isinstance(
+                    error,(psycopg.errors.QueryCanceled,psycopg.errors.LockNotAvailable)):
+                # Actual disconnects roll back the claim; bounded SQL/lock
+                # failures consume attempts rather than retrying forever.
+                raise
             elapsed = int((time.monotonic()-started)*1000)
             error_type = type(error).__name__  # Never persist raw provider responses / keys.
             exhausted = job['attempts']+1 >= max_attempts

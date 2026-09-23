@@ -5,10 +5,13 @@ import json
 import math
 import os
 import time
+import threading
 from urllib.parse import urlsplit
 
 from embedding_contract import CONTRACT_ID, validate_vector, vector_digest
 from policy_governance import availability, utcnow
+
+_dense_slots=threading.BoundedSemaphore(4)
 
 
 
@@ -104,7 +107,8 @@ def dense_rank(query,documents,chunks,release,top_k=4,*,now=None):
     bid=batch_id(release)
     async def query_vectors():
         encoded=await _encode(query)
-        async with await psycopg.AsyncConnection.connect(os.environ['DATABASE_URL'],row_factory=dict_row,connect_timeout=5) as c:
+        from runtime_db import runtime_dsn
+        async with await psycopg.AsyncConnection.connect(runtime_dsn(os.environ['DATABASE_URL']),row_factory=dict_row) as c:
             await c.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY')
             await c.execute("SET LOCAL statement_timeout='5s'")
             async def rows(sql,args=()):return await (await c.execute(sql,args)).fetchall()
@@ -133,7 +137,9 @@ def dense_rank(query,documents,chunks,release,top_k=4,*,now=None):
                 (json.dumps(encoded['vector']),bid,allowed,top_k))
             return ranked,policies
     # One cancellable five-second budget covers HTTP, DB connect and all queries.
-    ranked,policies=_run(query_vectors())
+    if not _dense_slots.acquire(blocking=False):raise SemanticUnavailable('semantic_busy')
+    try:ranked,policies=_run(query_vectors())
+    finally:_dense_slots.release()
     by_id={c['chunk_id']:c for c in chunks};results=[]
     for row in ranked:
         chunk=by_id[row['chunk_id']];document=docs[chunk['document_id']]

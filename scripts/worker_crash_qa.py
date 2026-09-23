@@ -34,6 +34,9 @@ PUBLIC_ENV = {
     "RF_MIGRATOR_PASSWORD": "qa-fault-migrator-password-123456",
     "RF_APP_PASSWORD": "qa-fault-app-password-123456789",
     "RF_READONLY_PASSWORD": "qa-fault-readonly-password-123456",
+    # Historical 1.5-1.9 deliberately keep a >35s SQL gate open. These are
+    # explicit fault-fixture limits, not the default production/demo limits.
+    "RF_DB_STATEMENT_TIMEOUT_MS": "120000", "RF_DB_LOCK_TIMEOUT_MS": "120000",
     "OPENAI_BASE_URL": "https://api.deepseek.com", "MODEL_NAME": "deepseek-flash",
 }
 

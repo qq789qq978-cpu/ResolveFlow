@@ -5,14 +5,31 @@ import psycopg
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
+_runtime_stores = {}
+
 
 class Store:
-    def __init__(self, url):
+    def __init__(self, url, *, pooled=False, max_size=None, register=False):
         self.url = url
+        from runtime_db import pool
+        self.pool = pool(url,max_size=max_size) if pooled else None
+        if register:
+            if not self.pool or url in _runtime_stores:
+                if self.pool:self.pool.close()
+                raise ValueError('Runtime store already registered or unpooled')
+            _runtime_stores[url] = self
+
+    def close(self):
+        if _runtime_stores.get(self.url) is self:_runtime_stores.pop(self.url)
+        if self.pool:self.pool.close()
 
     @contextmanager
     def connect(self):
-        with psycopg.connect(self.url, row_factory=dict_row, connect_timeout=5) as connection:
+        from runtime_db import runtime_dsn
+        owner = self if self.pool else _runtime_stores.get(self.url)
+        manager = owner.pool.connection() if owner else psycopg.connect(
+            runtime_dsn(self.url),row_factory=dict_row)
+        with manager as connection:
             yield connection
 
     def setup(self):

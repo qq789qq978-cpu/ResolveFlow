@@ -37,16 +37,17 @@ def check_checkpoints(c):
 
 
 def require_checkpoints(dsn):
-    with psycopg.connect(dsn, connect_timeout=5) as c:
+    from runtime_db import runtime_dsn
+    with psycopg.connect(runtime_dsn(dsn)) as c:
         c.execute('SET TRANSACTION READ ONLY')
         check_checkpoints(c)
 
 
 def require_ready(dsn, profile=None):
     profile = profile or ('hybrid' if os.getenv('RETRIEVAL_MODE','bm25') == 'hybrid' else 'core')
-    with psycopg.connect(dsn, connect_timeout=5) as c:
+    from runtime_db import runtime_dsn
+    with psycopg.connect(runtime_dsn(dsn)) as c:
         c.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY')
-        c.execute('SET LOCAL statement_timeout=10000')
         schema = c.execute('SELECT current_schema()').fetchone()[0]
         catalog = read_catalog(c, schema)
         actual_profile = check_application(catalog, profile)

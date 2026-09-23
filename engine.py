@@ -81,9 +81,9 @@ class Engine:
                 from database_state import require_checkpoints
                 require_checkpoints(repository.url)
                 from langgraph.checkpoint.postgres import PostgresSaver
-                from psycopg.conninfo import make_conninfo
+                from runtime_db import runtime_dsn
                 saver = self.resources.enter_context(PostgresSaver.from_conn_string(
-                    make_conninfo(repository.url, connect_timeout=5)))
+                    runtime_dsn(repository.url,application='resolveflow-checkpoint')))
             self.graph = graph.compile(checkpointer=saver)
         except Exception:
             self.close()

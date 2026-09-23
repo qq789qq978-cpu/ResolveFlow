@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="18" time="35.905" timestamp="2026-09-23T04:34:27.530030+00:00" hostname="0133cd922ee2"><testcase classname="test_runtime_limits" name="test_invalid_pool_limits[0]" time="0.001" /><testcase classname="test_runtime_limits" name="test_invalid_pool_limits[-1]" time="0.001" /><testcase classname="test_runtime_limits" name="test_invalid_pool_limits[33]" time="0.001" /><testcase classname="test_runtime_limits" name="test_invalid_pool_limits[bad]" time="0.001" /><testcase classname="test_runtime_limits" name="test_deadline_must_fit_queue_idle_limit" time="0.004" /><testcase classname="test_runtime_limits" name="test_dsn_preserves_schema_enforces_limits" time="0.001"><failure message="psycopg.ProgrammingError: invalid connection option &quot;search_path&quot;">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x745e98a36360&gt;
+
+    def test_dsn_preserves_schema_enforces_limits(monkeypatch):
+        monkeypatch.setenv('RF_DB_LOCK_TIMEOUT_MS','500')
+&gt;       d=conninfo_to_dict(runtime_dsn('host=example options="-c search_path=qa"'))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test_runtime_limits.py:25:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+runtime_db.py:15: in runtime_dsn
+    mcp = mcp or os.getenv('RF_DB_MCP')=='1' or conninfo_to_dict(dsn).get('application_name','').startswith('resolveflow-mcp')
+                                                ^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/site-packages/psycopg/conninfo.py:82: in conninfo_to_dict
+    opts = _parse_conninfo(conninfo)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conninfo = 'host=example options="-c search_path=qa"'
+
+    def _parse_conninfo(conninfo: str) -&gt; list[pq.ConninfoOption]:
+        """
+        Verify that `!conninfo` is a valid connection string.
+
+        Raise ProgrammingError if the string is not valid.
+
+        Return the result of pq.Conninfo.parse() on success.
+        """
+        try:
+            return pq.Conninfo.parse(conninfo.encode())
+        except e.OperationalError as ex:
+&gt;           raise e.ProgrammingError(str(ex)) from None
+E           psycopg.ProgrammingError: invalid connection option "search_path"
+
+/usr/local/lib/python3.12/site-packages/psycopg/conninfo.py:103: ProgrammingError</failure></testcase><testcase classname="test_runtime_limits" name="test_mcp_keeps_short_deadline_and_attempt_identity" time="0.001" /><testcase classname="test_runtime_limits" name="test_child_cannot_outlive_parent_even_in_separate_session" time="0.255" /><testcase classname="test_runtime_limits_pg" name="test_pool_reuses_resets_and_rolls_back" time="0.061" /><testcase classname="test_runtime_limits_pg" name="test_pool_exhaustion_waiter_cap_and_recovery" time="0.294"><failure message="psycopg_pool.TooManyRequests: the pool 'resolveflow-runtime' has already 1 requests waiting">database = ("user=postgres password=qa37-tests-only dbname=resolveflow host=db options='-c search_path=migration_test_55bc5e1cbe614847845bd2c4409bc86c'", 'migration_test_55bc5e1cbe614847845bd2c4409bc86c')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x745e98a37260&gt;
+
+    def test_pool_exhaustion_waiter_cap_and_recovery(database,monkeypatch):
+        monkeypatch.setenv('RF_DB_POOL_TIMEOUT_MS','250')
+        monkeypatch.setenv('RF_DB_POOL_MAX_WAITING','1')
+        store=Store(database[0],pooled=True,max_size=1);errors=[]
+        def waiting():
+            try:
+                with store.connect():pass
+            except PoolTimeout:errors.append('timeout')
+        try:
+            with store.connect():
+                thread=threading.Thread(target=waiting);thread.start()
+                deadline=time.monotonic()+2
+                while store.pool.get_stats()['requests_waiting']!=1 and time.monotonic()&lt;deadline:time.sleep(.01)
+                start=time.monotonic()
+                with pytest.raises(TooManyRequests):
+                    with store.connect():pass
+                assert time.monotonic()-start&lt;.5
+                thread.join(timeout=2);assert errors==['timeout']
+&gt;           with store.connect() as c:assert c.execute('SELECT 1 AS n').fetchone()['n']==1
+                 ^^^^^^^^^^^^^^^
+
+test_runtime_limits_pg.py:51:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/local/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+storage.py:32: in connect
+    with manager as connection:
+         ^^^^^^^
+/usr/local/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/site-packages/psycopg_pool/pool.py:184: in connection
+    conn = self.getconn(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/site-packages/psycopg_pool/pool.py:214: in getconn
+    return self._getconn_with_check_loop(deadline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/site-packages/psycopg_pool/pool.py:226: in _getconn_with_check_loop
+    conn = self._getconn_unchecked(deadline - monotonic())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/site-packages/psycopg_pool/pool.py:252: in _getconn_unchecked
+    if not (conn := self._get_ready_connection(timeout)):
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;psycopg_pool.pool.ConnectionPool 'resolveflow-runtime' at 0x745e98a373e0&gt;
+timeout = 0.2499956999999995
+
+    def _get_ready_connection(self, timeout: float | None) -&gt; CT | None:
+        """Return a connection, if the client deserves one."""
+        if timeout is not None and timeout &lt;= 0.0:
+            raise PoolTimeout()
+
+        conn: CT | None = None
+        if self._pool:
+            # Take a connection ready out of the pool
+            conn = self._pool.popleft()
+            if len(self._pool) &lt; self._nconns_min:
+                self._nconns_min = len(self._pool)
+        elif self.max_waiting and len(self._waiting) &gt;= self.max_waiting:
+            self._stats[self._REQUESTS_ERRORS] += 1
+&gt;           raise TooManyRequests(
+                f"the pool {self.name!r} has already {len(self._waiting)} requests waiting"
+            )
+E           psycopg_pool.TooManyRequests: the pool 'resolveflow-runtime' has already 1 requests waiting
+
+/usr/local/lib/python3.12/site-packages/psycopg_pool/pool.py:295: TooManyRequests</failure></testcase><testcase classname="test_runtime_limits_pg" name="test_dead_connection_replaced" time="0.161" /><testcase classname="test_runtime_limits_pg" name="test_slow_statement_lock_and_idle_timeout" time="1.749"><failure message="psycopg.errors.IdleInTransactionSessionTimeout: terminating connection due to idle-in-transaction timeout">database = ("user=postgres password=qa37-tests-only dbname=resolveflow host=db options='-c search_path=migration_test_c8dccaad0288458c91dc7d3e7ac04aba'", 'migration_test_c8dccaad0288458c91dc7d3e7ac04aba')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x745e98a370e0&gt;
+
+    def test_slow_statement_lock_and_idle_timeout(database,monkeypatch):
+        monkeypatch.setenv('RF_DB_STATEMENT_TIMEOUT_MS','250')
+        monkeypatch.setenv('RF_DB_LOCK_TIMEOUT_MS','150')
+        monkeypatch.setenv('RF_DB_IDLE_TRANSACTION_TIMEOUT_MS','1000')
+        store=Store(database[0],pooled=True,max_size=1)
+        try:
+            start=time.monotonic()
+            with pytest.raises(psycopg.errors.QueryCanceled):
+                with store.connect() as c:c.execute('SELECT pg_sleep (5)')
+            assert time.monotonic()-start&lt;2
+            with psycopg.connect(database[0]) as lock:
+                lock.execute('SELECT pg_advisory_xact_lock(371234)')
+                with pytest.raises(psycopg.errors.LockNotAvailable):
+                    with store.connect() as c:c.execute('SELECT pg_advisory_xact_lock(371234)')
+            with pytest.raises(psycopg.OperationalError):
+                with store.connect() as c:
+&gt;                   c.execute('SELECT 1');time.sleep(1.3);c.execute('SELECT 2')
+                                                          ^^^^^^^^^^^^^^^^^^^^^
+
+test_runtime_limits_pg.py:83:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;psycopg.Connection [BAD] at 0x745e98a3dee0&gt;, query = 'SELECT 2'
+params = None, prepare = None, binary = False
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool = False,
+    ) -&gt; Cursor[Row]:
+        """Execute a query and return a cursor to read its results."""
+        try:
+            cur = self.cursor()
+            if binary:
+                cur.format = BINARY
+
+            if isinstance(query, Template):
+                if params is not None:
+                    raise TypeError(
+                        "'execute()' with string template query doesn't support parameters"
+                    )
+                return cur.execute(query, prepare=prepare)
+            else:
+                return cur.execute(query, params, prepare=prepare)
+        except e._NO_TRACEBACK as ex:
+&gt;           raise ex.with_traceback(None)
+E           psycopg.errors.IdleInTransactionSessionTimeout: terminating connection due to idle-in-transaction timeout
+
+/usr/local/lib/python3.12/site-packages/psycopg/connection.py:300: IdleInTransactionSessionTimeout</failure></testcase><testcase classname="test_runtime_limits_pg" name="test_api_pool_full_returns_503_and_recovers" time="2.767" /><testcase classname="test_runtime_limits_pg" name="test_api_lock_timeout_rolls_back_then_recovers" time="5.638" /><testcase classname="test_runtime_limits_pg" name="test_sql_timeouts_consume_retry_budget[QueryCanceled]" time="1.499" /><testcase classname="test_runtime_limits_pg" name="test_sql_timeouts_consume_retry_budget[LockNotAvailable]" time="1.474" /><testcase classname="test_runtime_limits_pg" name="test_real_task_deadline_stops_sql_and_releases_claim" time="12.717" /><testcase classname="test_runtime_limits_pg" name="test_mcp_deadline_cleanup_keeps_other_connections" time="5.773" /></testsuite></testsuites>

@@ -3,6 +3,7 @@ import os
 import uuid
 import logging
 import psycopg
+from psycopg_pool import PoolTimeout, TooManyRequests
 from contextlib import asynccontextmanager
 from pathlib import Path
 from dotenv import load_dotenv
@@ -29,16 +30,21 @@ def create_app():
     async def lifespan(app):
         load_dotenv(ROOT/'.env',override=False,encoding='utf-8-sig')
         validate_keys()
-        store=Store(os.environ['DATABASE_URL'])
-        store.setup()
-        app.state.store=store
-        yield
+        store=Store(os.environ['DATABASE_URL'],pooled=True,register=True)
+        try:
+            store.setup()
+            app.state.store=store
+            yield
+        finally:store.close()
     app=FastAPI(title='ResolveFlow Operations',version='3.0.0',lifespan=lifespan)
     @app.exception_handler(psycopg.OperationalError)
     @app.exception_handler(psycopg.InterfaceError)
+    @app.exception_handler(psycopg.errors.IdleInTransactionSessionTimeout)
+    @app.exception_handler(PoolTimeout)
+    @app.exception_handler(TooManyRequests)
     async def database_unavailable(request, error):
         logging.getLogger('resolveflow').warning('Database unavailable: %s',type(error).__name__)
-        return JSONResponse(status_code=503,content={'detail':'数据库暂时不可用，请稍后查询状态再重试。'})
+        return JSONResponse(status_code=503,headers={'Retry-After':'2'},content={'detail':'数据库暂时不可用，请稍后查询状态再重试。'})
     def get(run_id):
         return {**app.state.store.get(run_id), **jobs.details(app.state.store,run_id)}
     @app.get('/health')

@@ -1,5 +1,7 @@
 """Standalone stdio MCP server. stdout belongs exclusively to JSON-RPC."""
 import os
+from task_runtime import parent_guard
+parent_guard()
 from mcp.server.fastmcp import FastMCP
 from support_data import ORDERS
 from rag import retrieve

@@ -4,7 +4,7 @@
 
 [![ResolveFlow checks](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml?query=branch%3Amain)
 
-最新完成 **3.6：迁移、业务、只读数据库权限隔离已完成**。本机API/Worker已使用rf_app，MCP使用rf_readonly，迁移使用rf_migrator；四服务healthy，原20表内容、22表结构和7向量保留。232项基础、120项PostgreSQL检查通过，新装/旧库分别44项越权拒绝，旧checkpoint接管与新版备份恢复继续审批通过。见 [权限手册](DATABASE_ROLES.md) 和 [3.6报告](validation/step-3.6-2026-09-22/REPORT.md)。下一步 **3.7：连接池、超时、连接耗尽和慢查询行为**，未开始。本步仅本地提交，3.9统一推送，当前阶段尚无远程CI结果。
+**3.7连接池、超时、连接耗尽和慢查询行为已完成**（2026-09-23）。240项基础、134项PostgreSQL和23项双Worker业务检查通过；包含非MCP SQL、长事务、整体任务期限、原审批/checkpoint恢复与退款幂等。主库20表/22表结构/7向量保留，四服务仍为step36，step37仅在隔离demo环境验收。见[3.7报告](validation/step-3.7-2026-09-23/REPORT.md)及[运行手册](RUNTIME_LIMITS.md)。本步本地提交、不推送，下一步3.8未开始；3.9统一推送并确认对应提交CI，当前第三阶段无远程CI结果。
 
 第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF 解析、reranker 仍按条件暂缓。旧 CI 成功和上方徽章均不替代当前未推送提交的 CI 验证。
 

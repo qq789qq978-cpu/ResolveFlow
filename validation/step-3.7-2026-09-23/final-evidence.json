@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "base_commit": "47d98a0",
+  "unit_and_pg": {
+    "unit-step37.xml": {
+      "tests": 240,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "postgres-final.xml": {
+      "tests": 134,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "container_checks": 23,
+  "main_snapshot_identical": true,
+  "main_business_tables": 20,
+  "main_schema_tables": 22,
+  "main_vectors": 7,
+  "main_image_unchanged": true,
+  "runtime_image": "sha256:8e63849eecac4eb7bde81ab6509eec3cdb2efa26adcf8ba5574408b47b808d38",
+  "runtime_source_sha256": {
+    "runtime_db.py": "b272c5af1df6df96caa125b7695d3edb2056dc5cc35342d7797e132206d62ea1",
+    "task_runtime.py": "05b49307a23015b9dbbca429c59256dc7848171eae6435b44fd7c0d455b25d3c",
+    "worker_task.py": "cd52d8d6b0e999c5d82d29ec929165477bebad48f72a0f7f3fe8abcf00e350dd",
+    "worker.py": "c8c4a59634ee6eef96a4b4b425c6094050ced464bc8a3c850177eedbb090ad61",
+    "jobs.py": "a9eb11d30c870b0f915c742cff35896a69f767f7f03bd6e8c5a244aca54722e8",
+    "storage.py": "6821ae10887c2d1f112ef6fc620526f78cc75a460f0a738bed9c4b09b44540b0",
+    "operations.py": "d679876ec61da06bd8b49eac9c46c9e438faecd47af987ff91f434499a0fceb4",
+    "engine.py": "462d1841f047a68a50de134117371fb82c78e8218ddcacfa12a8314a0bf914ee",
+    "mcp_gateway.py": "c3c8ec3e1c6072321cd717237bb8102f68875c6adf217723b2842e44863b773c",
+    "mcp_server.py": "6d4e76211972f58685c997eaff479a93c07bc5ef2589558030524cd1da7c154b",
+    "database_state.py": "aed0f77f4f16be6499fe8272a13ab1aac57759271a573c13fa052dc245046b51",
+    "db_roles.py": "f65c35858d2110a02ffd3caca1d02e4c260e140d340b5ffb509fe6d6440345f7",
+    "semantic.py": "bdd3d73fe7ad6d9d5b20d6d2b0d413d645ff0663c4e788b9f095a5d57dcc040f"
+  },
+  "runtime_image_matches_working_source": true,
+  "qa_container_states": {
+    "resolveflow-qa-step37-flow": {
+      "abaf24c67292": "exited",
+      "2f23b7b7d5b7": "exited",
+      "b08fbdbe4e8b": "exited",
+      "a50c13c896cb": "exited",
+      "2663b35509e3": "exited",
+      "435020a11022": "exited"
+    },
+    "resolveflow-qa-step37-final": {
+      "4cc55b024234": "exited",
+      "fea9fba46e39": "exited",
+      "6c809d65aa94": "exited",
+      "2dd2e77a2a5a": "exited",
+      "62a891ffc8f3": "exited",
+      "e2a98b71a454": "exited"
+    }
+  },
+  "test_db_stopped": true,
+  "qa_named_volumes_preserved": [
+    "resolveflow-qa-step37-final_agent-data",
+    "resolveflow-qa-step37-final_postgres-data",
+    "resolveflow-qa-step37-final_worker-data",
+    "resolveflow-qa-step37-flow_agent-data",
+    "resolveflow-qa-step37-flow_postgres-data",
+    "resolveflow-qa-step37-flow_worker-data",
+    "resolveflow-qa-step37-tests-pg"
+  ],
+  "local_secret_values_absent_from_changed_files": true,
+  "checked_file_count": 43,
+  "original_two_delay_sql_spaces_preserved": true,
+  "git_diff_check": true,
+  "paid_model_calls": 0,
+  "real_refunds": 0,
+  "main_deployed": false,
+  "pushed": false,
+  "remote_ci_verified": false
+}

@@ -15,13 +15,15 @@ ALLOWED = {"search_policy", "lookup_order"}
 async def exchange(order_id, owner, calls):
     env = {key: os.environ[key] for key in ("PATH", "SYSTEMROOT", "WINDIR", "TEMP", "TMP") if key in os.environ}
     env.update(RESOLVEFLOW_ORDER_ID=order_id, RESOLVEFLOW_OWNER=owner, PYTHONPATH=sysconfig.get_paths()["purelib"])
+    env['RF_TASK_PARENT_PID']=str(os.getpid())
+    env['RF_DB_MCP']='1'
     # Forward only retrieval configuration; model credentials stay out of the child.
-    for key in ("RETRIEVAL_MODE", "SEMANTIC_WEIGHT", "EMBEDDING_URL"):
+    for key in ("RETRIEVAL_MODE", "SEMANTIC_WEIGHT", "EMBEDDING_URL", "RF_DB_APPLICATION_NAME"):
         if key in os.environ:
             env[key] = os.environ[key]
     bootstrap = "import site,runpy,sys,pathlib; site.addsitedir(sys.argv[1]); sys.path.insert(0,str(pathlib.Path(sys.argv[2]).parent)); runpy.run_path(sys.argv[2],run_name='__main__')"
     if os.getenv("DATABASE_URL"):
-        from psycopg.conninfo import conninfo_to_dict, make_conninfo
+        from runtime_db import runtime_dsn
         url = os.getenv('READONLY_DATABASE_URL')
         if not url and os.getenv('RF_ENFORCE_DB_ROLES') == '1':
             raise ValueError('Restricted MCP requires READONLY_DATABASE_URL')
@@ -29,9 +31,7 @@ async def exchange(order_id, owner, calls):
         # Bound SQL inside the child before the 15s MCP client deadline. Killing
         # a blocked stdio child alone can leave its PostgreSQL query waiting.
         # Preserve existing options (including test-schema search_path).
-        options = conninfo_to_dict(url).get("options", "")
-        env["DATABASE_URL"] = make_conninfo(url, connect_timeout=5,
-            options=options + " -c statement_timeout=10000")
+        env["DATABASE_URL"] = runtime_dsn(url,application='resolveflow-mcp',mcp=True)
     parameters = StdioServerParameters(command=getattr(sys, "_base_executable", sys.executable), args=["-c", bootstrap, str(Path(mcp.__file__).parent.parent), str(Path(__file__).with_name("mcp_server.py"))], env=env)
     async with asyncio.timeout(30):
         async with stdio_client(parameters) as (read, write):

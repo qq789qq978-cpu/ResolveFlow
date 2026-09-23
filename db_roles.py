@@ -110,7 +110,8 @@ def provision(dsn,passwords,*,schema='public',roles=None):
 
 
 def require_app(dsn):
-    with psycopg.connect(dsn,connect_timeout=5) as c:
+    from runtime_db import runtime_dsn
+    with psycopg.connect(runtime_dsn(dsn)) as c:
         row=c.execute('SELECT current_user,rolsuper,rolcreatedb,rolcreaterole,rolreplication,rolbypassrls FROM pg_roles WHERE rolname=current_user').fetchone()
         if row[0]!=ROLES['app'] or any(row[1:]):raise ValueError('Runtime requires restricted rf_app')
         if c.execute("SELECT has_schema_privilege(current_user,current_schema(),'CREATE')").fetchone()[0]:
