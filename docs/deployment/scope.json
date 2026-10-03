@@ -1,5 +1,5 @@
 {
-  "version": "5.1",
+  "version": "5.2",
   "date": "2026-10-03",
   "purpose": "public_job_portfolio_demo",
   "user_confirmed": {
@@ -38,29 +38,132 @@
     "trial_days": 7
   },
   "unresolved_implementation_choices": [
-    {"item": "free_hosting_persistent_storage_https_and_backup", "step": "5.3"},
-    {"item": "external_monitor_and_authorized_notification_destination", "step": "5.3"},
-    {"item": "eligible_free_payment_provider_sandbox", "step": "5.5"}
+    {
+      "item": "free_hosting_persistent_storage_https_and_backup",
+      "step": "5.3"
+    },
+    {
+      "item": "external_monitor_and_authorized_notification_destination",
+      "step": "5.3"
+    },
+    {
+      "item": "eligible_free_payment_provider_sandbox",
+      "step": "5.5"
+    }
   ],
   "acceptance": [
-    {"id": "AC-01", "steps": ["5.2"], "status": "not_run"},
-    {"id": "AC-02", "steps": ["5.2", "5.6"], "status": "not_run"},
-    {"id": "AC-03", "steps": ["5.3"], "status": "not_run"},
-    {"id": "AC-04", "steps": ["5.3", "5.7"], "status": "not_run"},
-    {"id": "AC-05", "steps": ["5.4"], "status": "not_run"},
-    {"id": "AC-06", "steps": ["5.4", "5.6"], "status": "not_run"},
-    {"id": "AC-07", "steps": ["5.5"], "status": "not_run"},
-    {"id": "AC-08", "steps": ["5.6"], "status": "not_run"},
-    {"id": "AC-09", "steps": ["5.6"], "status": "not_run"},
-    {"id": "AC-10", "steps": ["5.3", "5.7"], "status": "not_run"},
-    {"id": "AC-11", "steps": ["5.7"], "status": "not_run"},
-    {"id": "AC-12", "steps": ["5.8"], "status": "not_run"}
+    {
+      "id": "AC-01",
+      "steps": [
+        "5.2"
+      ],
+      "status": "passed",
+      "evidence": "validation/step-5.2-2026-10-03/REPORT.md",
+      "environment": "isolated_local_demo"
+    },
+    {
+      "id": "AC-02",
+      "steps": [
+        "5.2",
+        "5.6"
+      ],
+      "status": "partial",
+      "completed_steps": [
+        "5.2"
+      ],
+      "pending_steps": [
+        "5.6"
+      ],
+      "evidence": "validation/step-5.2-2026-10-03/REPORT.md"
+    },
+    {
+      "id": "AC-03",
+      "steps": [
+        "5.3"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "AC-04",
+      "steps": [
+        "5.3",
+        "5.7"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "AC-05",
+      "steps": [
+        "5.4"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "AC-06",
+      "steps": [
+        "5.4",
+        "5.6"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "AC-07",
+      "steps": [
+        "5.5"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "AC-08",
+      "steps": [
+        "5.6"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "AC-09",
+      "steps": [
+        "5.6"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "AC-10",
+      "steps": [
+        "5.3",
+        "5.7"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "AC-11",
+      "steps": [
+        "5.7"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "AC-12",
+      "steps": [
+        "5.8"
+      ],
+      "status": "not_run"
+    }
   ],
   "stage_rules": {
-    "current_step_only": "5.1",
+    "current_step_only": "5.2",
     "local_commit_each_step": true,
     "push_and_matching_ci_step": "5.8",
     "step44": "deferred_by_user",
     "production_expansion_requires_new_scope": true
+  },
+  "implementation_5_2": {
+    "account_limit_includes_maintenance_identity": true,
+    "workspace_assignment": "one_immutable_workspace_per_business_account",
+    "maintenance_identity_has_business_access": false,
+    "business_isolation": "separate_postgres_instances_api_worker_and_private_networks",
+    "identity_store": "private_persistent_sqlite_at_gateway",
+    "main_upgraded": false,
+    "evidence": "validation/step-5.2-2026-10-03/REPORT.md"
   }
 }

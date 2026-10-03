@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PDF sources use physical pages while Markdown keeps source lines" time="0.003549" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="admin alerts show actionable stalled tasks and disappear after recovery" time="0.006341" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="failed alert polling marks the last snapshot unknown rather than recovered" time="0.003645" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="a delayed admin alert cannot cross a role switch" time="0.002682" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="a previous role cannot publish a delayed created ticket into the new session" time="0.002431" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="review completion cannot replace a newly selected ticket" time="0.003563" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="retry completion cannot replace a newly selected ticket" time="0.002315" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="approval completion cannot replace a newly selected ticket" time="0.003196" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="a previous filter response cannot replace the latest filter results" time="0.003007" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="out of order detail requests keep the last selected ticket" time="0.002411" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="old polling detail cannot overwrite a completed mutation" time="0.002436" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="a network failure keeps draft input and polling recovers without replaying writes" time="0.001960" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="a stale login response cannot restore the older role" time="0.002164" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="reconnection replaces obsolete read-error text while preserving the draft" time="0.003380" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="an old search does not clear the busy state of a new session search" time="0.002946" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="pending actions cannot be duplicated after switching away and back" time="0.002289" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="verified quotes and retrieved candidates are visibly distinct and escaped" time="0.002011" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="legacy and insufficient evidence cannot display a successful citation check" time="0.001996" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="new proposals never expose an unverified model reason while awaiting validation" time="0.006017" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="expired policy remains an authentic historical quote without claiming usability" time="0.003062" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="release generation is visible and incompatible releases are not presented as usable" time="0.003522" classname="test" file="D:\AgentProjects\ResolveFlow\test_frontend.cjs"/>
+	<testcase name="personal login sends password once, keeps bearer only in memory and displays scope" time="0.011193" classname="test" file="D:\AgentProjects\ResolveFlow\test_identity_frontend.cjs"/>
+	<testcase name="maintenance UI has accounts and audit but never requests business data" time="0.005069" classname="test" file="D:\AgentProjects\ResolveFlow\test_identity_frontend.cjs"/>
+	<testcase name="revocation clears visible business data and prompts a fresh login" time="0.006031" classname="test" file="D:\AgentProjects\ResolveFlow\test_identity_frontend.cjs"/>
+	<testcase name="unconfirmed logout retains token to retry server-side revocation" time="0.003491" classname="test" file="D:\AgentProjects\ResolveFlow\test_identity_frontend.cjs"/>
+	<testcase name="delayed personal login cannot install an old bearer over a newer login" time="0.002963" classname="test" file="D:\AgentProjects\ResolveFlow\test_identity_frontend.cjs"/>
+	<testcase name="delayed maintenance data cannot reappear after logout" time="0.002097" classname="test" file="D:\AgentProjects\ResolveFlow\test_identity_frontend.cjs"/>
+	<!-- tests 27 -->
+	<!-- suites 0 -->
+	<!-- pass 27 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 250.125 -->
+</testsuites>

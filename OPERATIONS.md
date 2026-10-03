@@ -1,5 +1,7 @@
 # ResolveFlow 操作与阶段交付手册
 
+5.2新增的个人账号入口和两工作区部署见[ACCOUNTS.md](ACCOUNTS.md)。原PostgreSQL备份不包含新增身份SQLite库；5.3须落实整体备份，不能把本手册单项目命令直接套用于多数据库部署。主环境仍step36。
+
 适用于第三阶段交付的本地 demo：PostgreSQL 17、API、Worker、独立 monitor；hybrid 另加本地 encoder。共享角色码和模拟退款不是公网生产授权。日常操作在目标检出的项目根目录执行；命令默认作用于当前 Compose 项目，先确认项目和卷，切勿把 QA 命令套到主库。
 
 ## 新机器、新库

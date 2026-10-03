@@ -1,6 +1,6 @@
 # ResolveFlow V3 — 售后 AI Agent 工作台
 
-当前5.1需求定义已完成：[首版上线需求](docs/deployment/REQUIREMENTS.md)、[核对报告](validation/step-5.1-2026-10-03/REPORT.md)。用户确认公网求职展示站，合成订单/支付沙箱、不处理真实资金；5账号、100工单/日、3并发、0元新增预算。公网资源与沙箱资格仍待落实，未开始5.2。4.5提交1d2eac2的[CI 37095361491](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/37095361491)及附件已核验成功；本次5.1仅本地文档提交，不推送，5.8统一推送/CI，4.4继续暂缓。
+5.2个人账号、权限审计与工作区隔离已完成：[账号与隔离操作手册](ACCOUNTS.md)、[验收报告](validation/step-5.2-2026-10-03/REPORT.md)。285基础/149PG/27前端与33项双工作区检查通过，含全局5账号限制和原审批/checkpoint恢复。主环境仍step36，个人账号版本仅在隔离demo验收。公网资源、HTTPS、身份库备份与沙箱资格仍待后续步骤落实；本步本地提交、不推送，5.8统一推送/CI，4.4仍暂缓。旧4.5同SHA CI不认证本次新增代码。首版范围与0元预算见[需求基线](docs/deployment/REQUIREMENTS.md)。
 
 4.1已完成：[最终架构图与说明](ARCHITECTURE.md)（[SVG](docs/architecture/resolveflow.svg) / [PNG](docs/architecture/resolveflow.png)）。
 
@@ -17,6 +17,8 @@ RAG补充任务已完成（2026-09-23，用户在3.8前追加）：80条结构/�
 第二阶段已完成并推送；最终提交 `ba17859` 的 [CI 35714352504](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35714352504) 成功，见 [阶段报告](validation/step-2.12-2026-09-22/REPORT.md)。现有 RAG 支持本地 E5+BM25/RRF、片段引用、政策治理和发布回滚；2.11 真实生成保留集有据引用覆盖 16/20，语义正确性仍待人工复核。PDF已按本次补充支持文本解析与页码；reranker已实测但未启用，详见顶部补充报告。旧 CI 成功和上方徽章均不替代当前具体提交的 CI 验证。
 
 ## Docker 快速启动
+
+以下为原本地共享角色码部署，保留用于兼容和维护；第五阶段的个人账号及两工作区入口按[ACCOUNTS.md](ACCOUNTS.md)部署，不能将本段直接作为公网授权方案。
 
 前置条件：Git、Python 3.9+（生成本地凭据）、已启动的 Docker Engine / Docker Desktop，以及 Compose。首次获取私有仓库：
 

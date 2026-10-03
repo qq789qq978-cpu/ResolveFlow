@@ -1,4 +1,5 @@
 const $ = id => document.getElementById(id);
+const personal = document.documentElement?.dataset?.authMode === 'personal';
 let key = '', role = '', session = 0, filter = '', offset = 0;
 let current = null, selectedId = null, selection = 0, listRequest = 0, searchRequest = 0;
 let polling = false, disconnected = false;
@@ -78,7 +79,7 @@ async function api(path, body, owner = session) {
     try {
         const response = await fetch('/api' + path, {
             method: body === undefined ? 'GET' : 'POST',
-            headers: {'X-API-Key':key,'Content-Type':'application/json'},
+            headers: {...(personal ? {Authorization:'Bearer ' + key} : {'X-API-Key':key}),'Content-Type':'application/json'},
             body: body === undefined ? undefined : JSON.stringify(body), signal:controller.signal
         });
         if (owner !== session) throw new StaleResponse();
@@ -86,6 +87,7 @@ async function api(path, body, owner = session) {
         const data = await response.json();
         if (owner !== session) throw new StaleResponse();
         connectionRestored();
+        if (personal && response.status === 401 && key) { resetSession(); message('会话已失效，请重新登录'); throw new StaleResponse(); }
         if (!response.ok) throw new Error(typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail));
         return data;
     } catch (error) {
@@ -102,6 +104,7 @@ function resetSession() {
     for (const controller of requests) controller.abort();
     requests.clear(); pending.clear();
     key = ''; role = ''; current = null; selectedId = null; filter = ''; offset = 0;
+    if (personal) { $('accountpanel').hidden = $('accesspanel').hidden = true; $('accountrows').replaceChildren(); $('accessrows').replaceChildren(); $('accountpassword').value = ''; }
     disconnected = false; $('connection').hidden = true;
     $('workspace').hidden = true; $('detail').hidden = true; $('monitor').hidden = true;
     $('approval').hidden = $('review').hidden = true;
@@ -158,10 +161,21 @@ async function show(id) {
 }
 $('authform').onsubmit = async event => {
     event.preventDefault();
-    const code = $('key').value;
-    resetSession(); key = code;
+    const code = $('key').value, username = personal ? $('username').value : '';
+    resetSession(); if (!personal) key = code;
     const owner = session;
     try {
+        let account;
+        if (personal) {
+            const login = await api('/session', {username, password: code}, owner);
+            key = login.token; account = login.account;
+            $('accesspanel').hidden = !['manager','admin'].includes(account.role);
+            if (account.role === 'manager') {
+                role = 'manager'; $('login').hidden = true; $('logout').hidden = false;
+                $('accountpanel').hidden = false; $('mode').textContent = '账号维护 · ' + account.username;
+                await loadAccounts(owner); await loadAccessAudit(owner); return;
+            }
+        }
         const config = await api('/config',undefined,owner);
         const orders = await api('/orders',undefined,owner);
         if (owner !== session) return;
@@ -174,11 +188,17 @@ $('authform').onsubmit = async event => {
         $('createpanel').hidden = role === 'reviewer'; $('monitor').hidden = role !== 'admin';
         $('mode').textContent = `${config.mode==='live'?'真实模型':'规则演示'} · ${config.model} · ${config.database} · ${{operator:'运营',reviewer:'审批',admin:'管理员'}[role]}`;
         $('login').hidden = true; $('workspace').hidden = false; $('logout').hidden = false;
+        if (personal) $('mode').textContent += ' · ' + account.username + ' · 工作区 ' + account.workspace;
         message('已连接，任务在后台持续处理');
         await refresh(owner); await monitor(owner);
     } catch (error) { if (owner === session && !role) key = ''; report(error,owner); }
 };
-$('logout').onclick = () => { resetSession(); message('已退出当前角色'); };
+$('logout').onclick = async () => {
+    if (!personal) { resetSession(); message('已退出当前角色'); return; }
+    const owner = session;
+    try { await api('/logout', {}, owner); if (owner === session) { resetSession(); message('已退出，当前会话已撤销'); } }
+    catch (error) { report(error, owner); } // Retain the token to retry an unconfirmed revocation.
+};
 $('createform').onsubmit = async event => {
     event.preventDefault();
     const owner = session, token = selection, operation = `${owner}:create`;
@@ -266,7 +286,7 @@ async function monitor(owner = session) {
     }
 }
 async function poll() {
-    if (!key || !role || polling || document.hidden) return;
+    if (!key || !role || role === 'manager' || polling || document.hidden) return;
     polling = true;
     const owner = session;
     try {

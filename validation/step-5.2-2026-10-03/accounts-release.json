@@ -1,0 +1,260 @@
+{
+  "passed": true,
+  "project": "resolveflow-accounts-52release",
+  "checks": [
+    {
+      "check": "fresh container",
+      "passed": true
+    },
+    {
+      "check": "fresh volume",
+      "passed": true
+    },
+    {
+      "check": "fresh network",
+      "passed": true
+    },
+    {
+      "check": "five active personal accounts include separate maintainer",
+      "passed": true
+    },
+    {
+      "check": "sixth active account refused",
+      "passed": true
+    },
+    {
+      "check": "anonymous and maintenance identity have no business access",
+      "passed": true
+    },
+    {
+      "check": "operator and tenant-admin cannot manage platform accounts",
+      "passed": true
+    },
+    {
+      "check": "order lists never mix workspaces",
+      "passed": true
+    },
+    {
+      "check": "cannot enqueue another workspace order",
+      "passed": true
+    },
+    {
+      "check": "same order ID yields two isolated real Worker refunds",
+      "passed": true
+    },
+    {
+      "check": "individual creator recorded in business audit",
+      "passed": true
+    },
+    {
+      "check": "cross-workspace run read, approval, review and retry refused",
+      "passed": true
+    },
+    {
+      "check": "no raw checkpoint/refund or arbitrary workspace endpoint",
+      "passed": true
+    },
+    {
+      "check": "original checkpoint awaits personal approval",
+      "passed": true
+    },
+    {
+      "check": "operator cannot approve, reviewer cannot retry",
+      "passed": true
+    },
+    {
+      "check": "legacy role-code record retained without invented account identity",
+      "passed": true
+    },
+    {
+      "check": "personal session survives process recreation",
+      "passed": true
+    },
+    {
+      "check": "original pending state and checkpoint preserved",
+      "passed": true
+    },
+    {
+      "check": "same pending run resumes with named reviewer",
+      "passed": true
+    },
+    {
+      "check": "legacy checkpoint resumes and existing refund stays unique",
+      "passed": true
+    },
+    {
+      "check": "refund replay keeps original ledger identity",
+      "passed": true
+    },
+    {
+      "check": "checkpoint and refund IDs absent in other workspace",
+      "passed": true
+    },
+    {
+      "check": "knowledge retrieval uses only own published bundle",
+      "passed": true
+    },
+    {
+      "check": "real MCP subprocess uses own order and policy database",
+      "passed": true
+    },
+    {
+      "check": "Worker cannot reach other PG cluster by DNS or IP",
+      "passed": true
+    },
+    {
+      "check": "direct backend rejects other workspace session and shared-key bypass",
+      "passed": true
+    },
+    {
+      "check": "role update revokes old session and new role immediately enforced",
+      "passed": true
+    },
+    {
+      "check": "disable stops login and reenable never resurrects old sessions",
+      "passed": true
+    },
+    {
+      "check": "password reset and logout revoke server sessions",
+      "passed": true
+    },
+    {
+      "check": "tenant admin audit scoped and contains role denials",
+      "passed": true
+    },
+    {
+      "check": "audit excludes all test credentials and request text",
+      "passed": true
+    },
+    {
+      "check": "all active accounts still capped at five after recreation",
+      "passed": true
+    },
+    {
+      "check": "identity outage fails closed at backend",
+      "passed": true
+    }
+  ],
+  "model_api_calls": 0,
+  "real_refunds": 0,
+  "main_modified": false,
+  "image_id": "sha256:c085d95471cdad88a8407685a932288009149860f8d57f625799f5dda766484a",
+  "runs": {
+    "alpha_auto": "0ebd1a77-0c03-4570-85cd-304653d6816b",
+    "beta_auto": "2d8f14ab-33e7-4e4c-b4b7-b73faf624e21",
+    "alpha_pending": "f0507de0-774c-4ed8-aed5-b5686fef955c",
+    "legacy_pending": "184ba1ce-2d91-404c-8c3b-003141209640"
+  },
+  "audit_sample": [
+    {
+      "id": 253,
+      "created_at": 1791008956,
+      "actor": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "workspace": "alpha",
+      "action": "logout",
+      "target": null,
+      "status": 200
+    },
+    {
+      "id": 252,
+      "created_at": 1791008956,
+      "actor": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "workspace": "alpha",
+      "action": "login",
+      "target": null,
+      "status": 200
+    },
+    {
+      "id": 251,
+      "created_at": 1791008956,
+      "actor": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "workspace": "alpha",
+      "action": "login_denied",
+      "target": null,
+      "status": 401
+    },
+    {
+      "id": 250,
+      "created_at": 1791008956,
+      "actor": "0447889a-c1ea-424f-abd7-2fcfb67479ab",
+      "workspace": "alpha",
+      "action": "account_updated:password=reset",
+      "target": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "status": 200
+    },
+    {
+      "id": 249,
+      "created_at": 1791008956,
+      "actor": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "workspace": "alpha",
+      "action": "login",
+      "target": null,
+      "status": 200
+    },
+    {
+      "id": 248,
+      "created_at": 1791008955,
+      "actor": "0447889a-c1ea-424f-abd7-2fcfb67479ab",
+      "workspace": "alpha",
+      "action": "account_updated:enabled=0->1",
+      "target": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "status": 200
+    },
+    {
+      "id": 247,
+      "created_at": 1791008955,
+      "actor": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "workspace": "alpha",
+      "action": "login_denied",
+      "target": null,
+      "status": 401
+    },
+    {
+      "id": 246,
+      "created_at": 1791008955,
+      "actor": "0447889a-c1ea-424f-abd7-2fcfb67479ab",
+      "workspace": "alpha",
+      "action": "account_updated:enabled=1->0",
+      "target": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "status": 200
+    },
+    {
+      "id": 245,
+      "created_at": 1791008955,
+      "actor": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "workspace": "alpha",
+      "action": "POST:runs",
+      "target": null,
+      "status": 403
+    },
+    {
+      "id": 244,
+      "created_at": 1791008955,
+      "actor": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "workspace": "alpha",
+      "action": "POST:runs:started",
+      "target": null,
+      "status": 102
+    },
+    {
+      "id": 243,
+      "created_at": 1791008955,
+      "actor": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "workspace": "alpha",
+      "action": "login",
+      "target": null,
+      "status": 200
+    },
+    {
+      "id": 242,
+      "created_at": 1791008955,
+      "actor": "0447889a-c1ea-424f-abd7-2fcfb67479ab",
+      "workspace": "alpha",
+      "action": "account_updated:role=operator->reviewer",
+      "target": "f911432f-6aa8-4b31-aabf-8511895866ba",
+      "status": 200
+    }
+  ],
+  "stopped_volumes_preserved": true,
+  "finished_at": "2026-10-03T06:29:20Z"
+}

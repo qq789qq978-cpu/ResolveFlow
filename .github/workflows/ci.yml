@@ -38,9 +38,9 @@ jobs:
         with:
           node-version: '22'
       - name: Frontend delayed-response and reconnect tests
-        run: node --test test_frontend.cjs
+        run: node --test test_frontend.cjs test_identity_frontend.cjs
       - name: Unit and MCP tests (synthetic fixtures)
-        run: env -u DATABASE_URL python -m pytest test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_observability.py test_rag.py test_policy_pdf.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py test_policy_releases.py test_bm25.py test_semantic.py test_reranker_assessment.py test_live_eval_budget.py test_live_rag_evaluation.py test_multi_worker_qa.py test_migrations.py test_database_backup.py test_database_restore.py test_db_roles.py test_runtime_limits.py -q --junitxml=validation/unit-ci.xml
+        run: env -u DATABASE_URL python -m pytest test_identity.py test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_observability.py test_rag.py test_policy_pdf.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py test_policy_releases.py test_bm25.py test_semantic.py test_reranker_assessment.py test_live_eval_budget.py test_live_rag_evaluation.py test_multi_worker_qa.py test_migrations.py test_database_backup.py test_database_restore.py test_db_roles.py test_runtime_limits.py -q --junitxml=validation/unit-ci.xml
       - name: Validate frozen RAG candidate annotations (no quality scoring)
         run: python scripts/validate_rag_dataset.py --report validation/rag-candidates-ci.json
       - name: Frozen RAG baseline (descriptive metrics, not a quality pass)
@@ -58,6 +58,8 @@ jobs:
         run: |
           docker compose up --build -d --wait --wait-timeout 180
           python smoke_async.py --url http://127.0.0.1:8005
+      - name: Personal accounts and isolated workspace acceptance
+        run: python scripts/accounts_qa.py --image resolveflow:local --project resolveflow-accounts-ci --report validation/accounts-ci.json --port 8052
       - name: Restricted PostgreSQL roles and real business flow
         run: python scripts/roles_qa.py --image resolveflow:local --project resolveflow-qa-ci-roles --report validation/roles-ci.json
       - name: Runtime deadlines, SQL timeouts and two-Worker recovery
@@ -91,6 +93,7 @@ jobs:
             validation/unit-ci.xml
             validation/postgres-ci.xml
             validation/stage3-ci.json
+            validation/accounts-ci.json
             validation/roles-ci.json
             validation/runtime-ci.json
             validation/observability-ci.json

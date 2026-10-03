@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "local_links_checked": 153,
+  "AC-01": "passed",
+  "AC-02": "5.2 passed;5.6 pending",
+  "push": "5.8",
+  "next_step": "5.3 not started"
+}

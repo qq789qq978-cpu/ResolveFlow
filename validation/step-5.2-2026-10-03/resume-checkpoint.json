@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-03",
+  "verified_tests": {
+    "unit": {
+      "tests": 285,
+      "failed": 0
+    },
+    "postgres": {
+      "tests": 149,
+      "failed": 0
+    },
+    "frontend": {
+      "tests": 27,
+      "failed": 0
+    },
+    "identity_final": {
+      "tests": 21,
+      "failed": 0
+    }
+  },
+  "workspace_acceptance": {
+    "passed": true,
+    "checks": 33
+  },
+  "ui_verified": [
+    "personal login",
+    "maintenance accounts and audit visible",
+    "logout removes account/audit UI",
+    "logout confirmation visible",
+    "no browser console errors observed"
+  ],
+  "ui_screenshots": [
+    "accounts-manager.jpg",
+    "accounts-logout.jpg"
+  ],
+  "head_before_finish": "0715fcc",
+  "not_yet_complete": [
+    "final report and roadmap sync",
+    "post-crash main preservation snapshot",
+    "local Git commit"
+  ],
+  "docker_at_resume": "desktop Linux engine pipe missing; recovery pending",
+  "no_push": true,
+  "business_data_loss": "not established; requires post-recovery comparison"
+}

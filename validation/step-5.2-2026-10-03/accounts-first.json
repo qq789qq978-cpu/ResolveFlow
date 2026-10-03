@@ -1,0 +1,25 @@
+{
+  "passed": false,
+  "project": "resolveflow-accounts-52a",
+  "checks": [
+    {
+      "check": "fresh container",
+      "passed": true
+    },
+    {
+      "check": "fresh volume",
+      "passed": true
+    },
+    {
+      "check": "fresh network",
+      "passed": true
+    }
+  ],
+  "model_api_calls": 0,
+  "real_refunds": 0,
+  "main_modified": false,
+  "image_id": "sha256:09dd74460e86b6d2fb304c4e09f032a81bfaa034dd30cf972516106ec34d702f",
+  "failure_type": "URLError",
+  "stopped_volumes_preserved": true,
+  "finished_at": "2026-10-03T06:15:24Z"
+}

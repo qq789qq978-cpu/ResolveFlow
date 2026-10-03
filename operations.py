@@ -71,7 +71,7 @@ def create_app():
         return {'status':'ok','database':'postgresql','mode':os.getenv('MODE','live')}
     @app.get('/api/config')
     def config(actor=Depends(authenticate)):
-        return {'mode':os.getenv('MODE','live'),'model':os.getenv('MODEL_NAME'),'database':'PostgreSQL','role':actor,'execution':'async'}
+        return {'mode':os.getenv('MODE','live'),'model':os.getenv('MODEL_NAME'),'database':'PostgreSQL','role':getattr(actor,'role',actor),'execution':'async'}
     @app.get('/api/orders',dependencies=[Depends(authenticate)])
     def orders():return app.state.store.orders()
     @app.get('/api/knowledge',dependencies=[Depends(authenticate)])
@@ -97,7 +97,7 @@ def create_app():
     def create(body:Ticket,request:Request,actor=Depends(allow('operator','admin'))):
         run_id=str(uuid.uuid4())
         request.state.run_id=run_id
-        try:jobs.enqueue(app.state.store,run_id,body.ticket,body.order_id,os.getenv('MODE','live'),os.getenv('MODEL_NAME'),actor)
+        try:jobs.enqueue(app.state.store,run_id,body.ticket,body.order_id,os.getenv('MODE','live'),os.getenv('MODEL_NAME'),str(actor))
         except KeyError:raise HTTPException(404,'订单不存在') from None
         return get(run_id)
     @app.get('/api/runs/{run_id}',dependencies=[Depends(authenticate)])
@@ -108,7 +108,7 @@ def create_app():
     def approve(run_id:uuid.UUID,body:Approval,request:Request,actor=Depends(allow('reviewer','admin'))):
         request.state.run_id=str(run_id)
         try:
-            jobs.queue_approval(app.state.store,str(run_id),body.approved,actor,body.reason)
+            jobs.queue_approval(app.state.store,str(run_id),body.approved,str(actor),body.reason)
             return get(str(run_id))
         except KeyError:raise HTTPException(404,'工单不存在') from None
         except ValueError as error:raise HTTPException(409,str(error)) from None
@@ -116,7 +116,7 @@ def create_app():
     def retry(run_id:uuid.UUID,request:Request,actor=Depends(allow('admin'))):
         request.state.run_id=str(run_id)
         try:
-            jobs.retry(app.state.store,str(run_id),actor)
+            jobs.retry(app.state.store,str(run_id),str(actor))
             return get(str(run_id))
         except KeyError:raise HTTPException(404,'任务不存在') from None
         except ValueError as error:raise HTTPException(409,str(error)) from None
@@ -124,7 +124,7 @@ def create_app():
     def review(run_id:uuid.UUID,body:Review,request:Request,actor=Depends(allow('reviewer','admin'))):
         request.state.run_id=str(run_id)
         try:
-            app.state.store.review(str(run_id),actor,body.resolution)
+            app.state.store.review(str(run_id),str(actor),body.resolution)
             return get(str(run_id))
         except KeyError:raise HTTPException(404,'工单不存在') from None
         except ValueError as error:raise HTTPException(409,str(error)) from None
