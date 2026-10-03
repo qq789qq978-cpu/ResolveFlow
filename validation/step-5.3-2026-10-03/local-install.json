@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "project": "resolveflow-accounts-local",
+  "url": "http://127.0.0.1:8053",
+  "image_id": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+  "health": {
+    "alpha-api": "healthy",
+    "alpha-db": "healthy",
+    "alpha-monitor": "healthy",
+    "alpha-worker": "healthy",
+    "beta-api": "healthy",
+    "beta-db": "healthy",
+    "beta-monitor": "healthy",
+    "beta-worker": "healthy",
+    "gateway": "healthy"
+  },
+  "private_work": "D:\\AgentProjects\\ResolveFlow\\work\\resolveflow-accounts-local",
+  "backup_created": true,
+  "main_replaced": false,
+  "public_exposure": false
+}

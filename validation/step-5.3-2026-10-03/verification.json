@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "main_snapshot_identical": true,
+  "main_table_count": 20,
+  "qa_containers_stopped": 80,
+  "qa_volumes_deleted": false,
+  "markdown_links_verified": 179,
+  "scope_consistent": true,
+  "image_source_match": true,
+  "script_sha256": {
+    "scripts/local_backup.py": "5deb364cbf7daf4f1516f71fa078fd24a458aa06a7fba2436cf1ee6cb26ceb12",
+    "scripts/local_backup_worker.py": "1aa198b4354b85b6f9640f345c940195703c29055e91d133a39fc9fa894bf26f",
+    "scripts/local_deployment_qa.py": "bef4319ab70555af93479b879ed74906bc3179d42bf2519220e242634edbdfbe",
+    "scripts/local_probe.py": "e97070fbfc041ffd1a7bddb0b2ea41b75aa9aaad451f16904c1e91deea6c17c0",
+    "scripts/local_stack.py": "6dab351a44c4ce89c51f13d8a525eec0a7abb12b47259a03b5b0ac126d60ff56",
+    "secret_entrypoint.py": "57e92480b743edc8b87e2eea92e08010ddf07bdb41768ea4107504c2ebd2735c",
+    "test_local_deployment.py": "049630531c272dfa5e3881184cd5a44df5c21cc4301d00b07271ab609b341cfe"
+  },
+  "tests": {
+    "unit": 301,
+    "postgres": 149,
+    "end_to_end": 26,
+    "preserve_stopped": 3
+  },
+  "local_install": {
+    "passed": true,
+    "project": "resolveflow-accounts-local",
+    "url": "http://127.0.0.1:8053",
+    "image_id": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+    "health": {
+      "alpha-api": "healthy",
+      "alpha-db": "healthy",
+      "alpha-monitor": "healthy",
+      "alpha-worker": "healthy",
+      "beta-api": "healthy",
+      "beta-db": "healthy",
+      "beta-monitor": "healthy",
+      "beta-worker": "healthy",
+      "gateway": "healthy"
+    },
+    "private_work": "D:\\AgentProjects\\ResolveFlow\\work\\resolveflow-accounts-local",
+    "backup_created": true,
+    "main_replaced": false,
+    "public_exposure": false
+  },
+  "pushed": false,
+  "new_remote_ci": false,
+  "budget_increment_cny": 0,
+  "paid_model_calls": 0,
+  "real_refunds": 0,
+  "staged_security_check": {
+    "staged_files": 35,
+    "known_credentials_checked": 161,
+    "secret_matches": 0,
+    "runtime_sql_spacing_preserved": true
+  }
+}

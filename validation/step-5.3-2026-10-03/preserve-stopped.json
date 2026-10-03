@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "source entry healthy before preservation test",
+      "passed": true
+    },
+    {
+      "check": "exact running service set preserved despite stopped dependency",
+      "passed": true
+    },
+    {
+      "check": "backup completed with stopped API and running Worker",
+      "passed": true
+    }
+  ],
+  "stopped_volumes_preserved": true
+}

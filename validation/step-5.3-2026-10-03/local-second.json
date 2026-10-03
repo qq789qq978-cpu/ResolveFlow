@@ -1,0 +1,391 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "check": "fresh local stack healthy",
+      "passed": true
+    },
+    {
+      "check": "only loopback gateway published",
+      "passed": true
+    },
+    {
+      "check": "secret values absent compose and Docker Config.Env",
+      "passed": true
+    },
+    {
+      "check": "monitor has only own readonly credential",
+      "passed": true
+    },
+    {
+      "check": "real demo refunds and pending checkpoint created",
+      "passed": true
+    },
+    {
+      "check": "identity and pending run survive container recreation",
+      "passed": true
+    },
+    {
+      "check": "combined backup contains identity and both complete PG snapshots",
+      "passed": true
+    },
+    {
+      "check": "source resumes and existing session survives backup",
+      "passed": true
+    },
+    {
+      "check": "failed backup never gains completion marker",
+      "passed": true
+    },
+    {
+      "check": "failed backup resumes source runtime",
+      "passed": true
+    },
+    {
+      "check": "separate local backup copy is readable",
+      "passed": true
+    },
+    {
+      "check": "corrupt bundle refused before target creation",
+      "passed": true
+    },
+    {
+      "check": "both business catalogs rows indexes sequences and checkpoints match",
+      "passed": true
+    },
+    {
+      "check": "restored passwords and identities preserved but old sessions revoked",
+      "passed": true
+    },
+    {
+      "check": "restored workspace isolation preserved",
+      "passed": true
+    },
+    {
+      "check": "original pending approval readable after restore",
+      "passed": true
+    },
+    {
+      "check": "original checkpoint resumes to refund",
+      "passed": true
+    },
+    {
+      "check": "repeat refund preserves original ledger",
+      "passed": true
+    },
+    {
+      "check": "fresh target refuses reuse",
+      "passed": true
+    },
+    {
+      "check": "host probe observes entry outage within 120 seconds",
+      "passed": true
+    },
+    {
+      "check": "host probe observes entry recovery",
+      "passed": true
+    },
+    {
+      "check": "readonly monitor observes worker offline",
+      "passed": true
+    },
+    {
+      "check": "readonly monitor observes aged queued task",
+      "passed": true
+    }
+  ],
+  "model_api_calls": 0,
+  "real_refunds": 0,
+  "projects": [
+    "resolveflow-accounts-step53-b",
+    "resolveflow-accounts-step53-b-r"
+  ],
+  "runs": {
+    "auto": "05385894-6da5-43d7-969c-b31d30799e52",
+    "pending": "6b760254-518a-46df-af75-1b30d8d2ebfa",
+    "beta": "3fddac13-84e2-40f0-9f1c-acd921d8828b"
+  },
+  "restore_validation": {
+    "passed": true,
+    "project": "resolveflow-accounts-step53-b-r",
+    "workspaces": {
+      "alpha": {
+        "matched_tables": 20,
+        "table_fingerprints": {
+          "checkpoint_blobs": {
+            "count": 22,
+            "sha256": "1776edabbe92816f9d5e4c8650ed17febff77cd797df9e7edca7d5b828b5fecf"
+          },
+          "checkpoint_migrations": {
+            "count": 10,
+            "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+          },
+          "checkpoint_writes": {
+            "count": 41,
+            "sha256": "fdf2adbc84f124c23392073e4d027119d11deee5a5602d0f3bd5ae6908a7bcf6"
+          },
+          "checkpoints": {
+            "count": 9,
+            "sha256": "07c266e60fefea7575e642ebd7d8a5eda0b534c59135eccd84440a444c2f3083"
+          },
+          "rf_approvals": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_audit": {
+            "count": 2,
+            "sha256": "6760909bb1b9bbf20d0b57d711e4744392edca5144d5e00c8252b84c1a7ac94c"
+          },
+          "rf_job_attempts": {
+            "count": 2,
+            "sha256": "085f0a20f4bd444fea37532100228f8bd49707e5e07d47921d2f11c7d0588c29"
+          },
+          "rf_jobs": {
+            "count": 2,
+            "sha256": "1448e26ff6b315698b77d41f019ebfc3900ab2ec2e7b3e29800668838889a17f"
+          },
+          "rf_knowledge_chunks": {
+            "count": 7,
+            "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+          },
+          "rf_knowledge_documents": {
+            "count": 3,
+            "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+          },
+          "rf_orders": {
+            "count": 4,
+            "sha256": "3b626a90d3531b0c5042be1c1529280a50971c04956db3ca383956412e54b9b5"
+          },
+          "rf_policy_events": {
+            "count": 1,
+            "sha256": "6631237a4d11950bc626da1ff2df59f77e437c8e4d93c4e084852136b2f9ec48"
+          },
+          "rf_policy_head": {
+            "count": 1,
+            "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+          },
+          "rf_policy_releases": {
+            "count": 1,
+            "sha256": "cfde06adaa67a119ae1809830dd85fe6896507f82a77c673ce27c3195e0dd3e2"
+          },
+          "rf_policy_reviews": {
+            "count": 3,
+            "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+          },
+          "rf_refunds": {
+            "count": 1,
+            "sha256": "88af99ec8ba24934eba064a13de55630327474a85b44e1f2f4d8cca7acf5e84f"
+          },
+          "rf_reviews": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_runs": {
+            "count": 2,
+            "sha256": "8ca380b95de84f973df8062cc983b9840883932d4c71ad3199678965012bf578"
+          },
+          "rf_schema_version": {
+            "count": 1,
+            "sha256": "edc07ddb03c49b9d432fe058c33962a3dc1a80332fd005d89dec52f1998dbb01"
+          },
+          "rf_worker_heartbeats": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "catalog_equal": true,
+        "indexes_valid": true,
+        "revisions": [
+          "rf_core_0001"
+        ],
+        "checkpoint_migrations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "sequences": {
+          "rf_audit_id_seq": {
+            "last_value": 2,
+            "is_called": true,
+            "table_max": 2,
+            "next_value": 3,
+            "safe": true
+          },
+          "rf_job_attempts_id_seq": {
+            "last_value": 2,
+            "is_called": true,
+            "table_max": 2,
+            "next_value": 3,
+            "safe": true
+          },
+          "rf_policy_events_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          }
+        },
+        "readable_checkpoints": [
+          {
+            "run_id": "05385894-6da5-43d7-969c-b31d30799e52",
+            "status": "refunded",
+            "checkpoint_id": "1f1befba-641f-6d90-8003-386b9b99da6d"
+          },
+          {
+            "run_id": "6b760254-518a-46df-af75-1b30d8d2ebfa",
+            "status": "awaiting_approval",
+            "checkpoint_id": "1f1befba-9a30-67ca-8002-4e28321e633d"
+          }
+        ]
+      },
+      "beta": {
+        "matched_tables": 20,
+        "table_fingerprints": {
+          "checkpoint_blobs": {
+            "count": 12,
+            "sha256": "c152192720c9c7f4b77505d82164f07fc5e075eefc167816609a76ff6cc2dcef"
+          },
+          "checkpoint_migrations": {
+            "count": 10,
+            "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+          },
+          "checkpoint_writes": {
+            "count": 21,
+            "sha256": "a2403a54c4d1f27a333ec1a7ac8b30e536d98763267c6c88994f52dffb80c7dc"
+          },
+          "checkpoints": {
+            "count": 5,
+            "sha256": "b9e253d83518213c0b8dda308aebb6b1afc4e3add9cc981781ccadbf11056d9a"
+          },
+          "rf_approvals": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_audit": {
+            "count": 1,
+            "sha256": "dfaed69c7f3a61fba9b05970819c35cb2475d3994dee3b5399efccebb524e13c"
+          },
+          "rf_job_attempts": {
+            "count": 1,
+            "sha256": "ec9589271128f4b9fb7b4a778ee013f16f12679c8d23f6231dda04a91243a7b7"
+          },
+          "rf_jobs": {
+            "count": 1,
+            "sha256": "0301689a44410fcfc677d26bfa54c8d13deadcc459bb856d4b3ad765504635d7"
+          },
+          "rf_knowledge_chunks": {
+            "count": 7,
+            "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+          },
+          "rf_knowledge_documents": {
+            "count": 3,
+            "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+          },
+          "rf_orders": {
+            "count": 4,
+            "sha256": "3b626a90d3531b0c5042be1c1529280a50971c04956db3ca383956412e54b9b5"
+          },
+          "rf_policy_events": {
+            "count": 1,
+            "sha256": "d1037d4c1642dafe60c74e1371a9694dbf531464700006aa63a0ece47d774036"
+          },
+          "rf_policy_head": {
+            "count": 1,
+            "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+          },
+          "rf_policy_releases": {
+            "count": 1,
+            "sha256": "0ba7e517c64dbfdda699d922c441bd11f3d69bddc82f8b7f9b8352d9bb069f28"
+          },
+          "rf_policy_reviews": {
+            "count": 3,
+            "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+          },
+          "rf_refunds": {
+            "count": 1,
+            "sha256": "80172672d2f2896bbe863aa99a994293ce67414ccf411e00d5148043281ce085"
+          },
+          "rf_reviews": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_runs": {
+            "count": 1,
+            "sha256": "02334193c507a24d71e77def898e01c3abd88cc5d7ebeaa79c23953fc1ef3315"
+          },
+          "rf_schema_version": {
+            "count": 1,
+            "sha256": "edc07ddb03c49b9d432fe058c33962a3dc1a80332fd005d89dec52f1998dbb01"
+          },
+          "rf_worker_heartbeats": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "catalog_equal": true,
+        "indexes_valid": true,
+        "revisions": [
+          "rf_core_0001"
+        ],
+        "checkpoint_migrations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "sequences": {
+          "rf_audit_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          },
+          "rf_job_attempts_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          },
+          "rf_policy_events_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          }
+        },
+        "readable_checkpoints": [
+          {
+            "run_id": "3fddac13-84e2-40f0-9f1c-acd921d8828b",
+            "status": "refunded",
+            "checkpoint_id": "1f1befba-d6e9-6eb7-8003-19adf91fa572"
+          }
+        ]
+      }
+    },
+    "identity": {
+      "accounts_and_audit_equal": true,
+      "old_sessions_revoked": true
+    }
+  },
+  "entry_outage_observed_seconds": 1.235,
+  "worker_offline_observed_seconds": 1.875,
+  "error_type": "RuntimeError",
+  "stopped_volumes_preserved": true
+}

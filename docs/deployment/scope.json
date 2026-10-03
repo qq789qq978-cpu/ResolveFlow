@@ -1,18 +1,18 @@
 {
-  "version": "5.2",
+  "version": "5.3-local",
   "date": "2026-10-03",
-  "purpose": "public_job_portfolio_demo",
+  "purpose": "local_job_portfolio_demo",
   "user_confirmed": {
-    "public_access": true,
+    "public_access": false,
     "synthetic_orders_only": true,
-    "payment_provider_sandbox_required": true,
+    "payment_provider_sandbox_required": "conditional_on_free_local_eligibility_in_5.5",
     "real_funds": false,
     "max_active_accounts": 5,
     "new_tickets_per_day": 100,
     "max_executing_tasks": 3,
     "monthly_incremental_budget_cny": 0,
     "existing_hosting_domain_order_or_sandbox_resources": "none",
-    "if_free_resources_insufficient": "return_for_budget_or_scope_decision"
+    "if_free_resources_insufficient": "local_delivery_authorized_no_cloud_purchase"
   },
   "engineering_targets_not_yet_verified": {
     "quota_timezone": "Asia/Hong_Kong",
@@ -34,20 +34,13 @@
     "successful_backups_retained": 7,
     "rpo_hours": 24,
     "rto_hours": 4,
-    "external_observation_seconds": 120,
-    "trial_days": 7
+    "trial_days": 7,
+    "local_observation_seconds": 120,
+    "trial_environment": "local_host_running_days"
   },
   "unresolved_implementation_choices": [
     {
-      "item": "free_hosting_persistent_storage_https_and_backup",
-      "step": "5.3"
-    },
-    {
-      "item": "external_monitor_and_authorized_notification_destination",
-      "step": "5.3"
-    },
-    {
-      "item": "eligible_free_payment_provider_sandbox",
+      "item": "eligible_free_payment_provider_sandbox_without_paid_hosting",
       "step": "5.5"
     }
   ],
@@ -81,7 +74,10 @@
       "steps": [
         "5.3"
       ],
-      "status": "not_run"
+      "status": "passed",
+      "environment": "local_loopback_demo",
+      "evidence": "validation/step-5.3-2026-10-03/REPORT.md",
+      "scope_revision": "5.3-local"
     },
     {
       "id": "AC-04",
@@ -89,7 +85,15 @@
         "5.3",
         "5.7"
       ],
-      "status": "not_run"
+      "status": "partial",
+      "completed_steps": [
+        "5.3"
+      ],
+      "pending_steps": [
+        "5.7"
+      ],
+      "environment": "local_demo",
+      "evidence": "validation/step-5.3-2026-10-03/REPORT.md"
     },
     {
       "id": "AC-05",
@@ -111,7 +115,7 @@
       "steps": [
         "5.5"
       ],
-      "status": "not_run"
+      "status": "conditional_not_run"
     },
     {
       "id": "AC-08",
@@ -133,7 +137,15 @@
         "5.3",
         "5.7"
       ],
-      "status": "not_run"
+      "status": "partial",
+      "completed_steps": [
+        "5.3"
+      ],
+      "pending_steps": [
+        "5.7"
+      ],
+      "environment": "local_demo",
+      "evidence": "validation/step-5.3-2026-10-03/REPORT.md"
     },
     {
       "id": "AC-11",
@@ -151,7 +163,7 @@
     }
   ],
   "stage_rules": {
-    "current_step_only": "5.2",
+    "current_step_only": "5.3",
     "local_commit_each_step": true,
     "push_and_matching_ci_step": "5.8",
     "step44": "deferred_by_user",
@@ -165,5 +177,31 @@
     "identity_store": "private_persistent_sqlite_at_gateway",
     "main_upgraded": false,
     "evidence": "validation/step-5.2-2026-10-03/REPORT.md"
+  },
+  "scope_change": {
+    "date": "2026-10-03",
+    "authorization": "鐢ㄦ埛锛歰k 灏辨寜杩欎釜鏂扮殑鏂瑰悜 瀹屾垚5.3",
+    "previous_scope": "5.1 public website baseline, preserved in Git history",
+    "current_scope": "zero_incremental_cost_local_delivery",
+    "deferred": [
+      "public_hosting",
+      "public_https",
+      "offsite_backup",
+      "external_whole_host_observer"
+    ],
+    "conditional": [
+      "payment_provider_sandbox_requires_free_eligibility_and_local_reachability"
+    ],
+    "local_http_boundary": "127.0.0.1_only_no_tunnel"
+  },
+  "implementation_5_3": {
+    "status": "passed_local_scope",
+    "main_upgraded": false,
+    "local_only": true,
+    "secrets": "per_service_files_private_host_directory",
+    "backup": "quiesced_identity_sqlite_and_two_pg_clusters",
+    "restore": "fresh_volumes_original_image_new_service_secrets_old_sessions_revoked",
+    "monitoring": "two_readonly_monitors_and_host_loopback_probe",
+    "evidence": "validation/step-5.3-2026-10-03/REPORT.md"
   }
 }

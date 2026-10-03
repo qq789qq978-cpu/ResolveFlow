@@ -1,6 +1,6 @@
 # ResolveFlow V3 — 售后 AI Agent 工作台
 
-5.2个人账号、权限审计与工作区隔离已完成：[账号与隔离操作手册](ACCOUNTS.md)、[验收报告](validation/step-5.2-2026-10-03/REPORT.md)。285基础/149PG/27前端与33项双工作区检查通过，含全局5账号限制和原审批/checkpoint恢复。主环境仍step36，个人账号版本仅在隔离demo验收。公网资源、HTTPS、身份库备份与沙箱资格仍待后续步骤落实；本步本地提交、不推送，5.8统一推送/CI，4.4仍暂缓。旧4.5同SHA CI不认证本次新增代码。首版范围与0元预算见[需求基线](docs/deployment/REQUIREMENTS.md)。
+5.3已按用户授权完成0元本地交付：[本地部署与联合备份手册](LOCAL_DEPLOYMENT.md)、[验收报告](validation/step-5.3-2026-10-03/REPORT.md)。301基础/149PG、26端到端及3项补充检查通过；个人账号、双工作区、身份与业务恢复、本地监控已实测。本机新入口http://127.0.0.1:8053，旧主环境仍step36并保留。公网/HTTPS/异地备份/整机外部监控暂缓，容量限流、免费沙箱及7天试运行待后续步骤。本步本地提交、不推送，5.8统一推送/同SHA CI；4.4暂缓。最新范围见[需求基线](docs/deployment/REQUIREMENTS.md)，账号说明见[ACCOUNTS.md](ACCOUNTS.md)。
 
 4.1已完成：[最终架构图与说明](ARCHITECTURE.md)（[SVG](docs/architecture/resolveflow.svg) / [PNG](docs/architecture/resolveflow.png)）。
 
