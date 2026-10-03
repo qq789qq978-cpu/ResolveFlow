@@ -89,6 +89,6 @@ CI 从干净检出安装锁定依赖，运行基础/PG/前端、冻结检索结�
 
 阶段结束统一提交推送，并同时确认：本地 HEAD = origin/main = GitHub workflow head_sha；工作流成功；该次 evaluation 附件中的 JUnit、持久化、阶段恢复、权限、期限、告警及五类故障报告成功。CI 的 BM25/合成向量结果不代替本地真实 encoder 验收。
 
-实际 SHA、run URL 和附件核对回执保存在忽略的 `validation/github-actions-local.json`，避免把自身提交 SHA 回写后制造新未测提交。阶段报告见 [3.9 验收报告](validation/step-3.9-2026-09-23/REPORT.md)。完成 3.9 后停止，第四阶段由用户另行指定。
+实际 SHA、run URL 和附件核对回执保存在忽略的 `validation/github-actions-local.json`，避免把自身提交 SHA 回写后制造新未测提交。阶段报告见 [3.9 验收报告](validation/step-3.9-2026-09-23/REPORT.md)。当前交付安排见 [DELIVERY.md](DELIVERY.md)；4.5 先行，4.4 按用户要求暂缓，条件上线阶段不自动启动。
 
 推送后可执行 `python scripts/verify_delivery.py --status` 查询本地 HEAD 的 push 工作流，再执行 `python scripts/verify_delivery.py` 下载并核对对应附件。该脚本使用本机 Git 凭据管理器或 GH_TOKEN/GITHUB_TOKEN，只在内存中使用凭据，不写入报告；产出同 SHA 回执和忽略目录内的原始附件 ZIP。没有运行、未成功或证据缺失时不能作为交付完成。

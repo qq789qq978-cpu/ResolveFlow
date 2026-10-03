@@ -1,0 +1,110 @@
+{
+  "step": "4.3",
+  "checked_at": "2026-10-03T04:02:14.448641+00:00",
+  "scope": "offline material and retained evidence review; not fresh runtime validation",
+  "passed": true,
+  "checks": {
+    "original_docx_story_and_nine_png_hashes": true,
+    "capture_date_and_project_consistent": true,
+    "nine_embedded_images": true,
+    "all_embedded_pixels_equal_declared_original_crops": true,
+    "all_scene_text_in_word_and_markdown": true,
+    "scene_run_ids_resolve": true,
+    "four_expected_order_outcomes": true,
+    "same_approval_run_resumed": true,
+    "approval_checkpoints_4_to_6": true,
+    "reviewer_approval_reason_matches": true,
+    "before_approval_one_refund_no_approval": true,
+    "two_refunds_expected_amounts": true,
+    "full_refund_rows_preserved_after_duplicate": true,
+    "all_jobs_done": true,
+    "zero_model_usage": true,
+    "demo_bm25_no_model_key": true,
+    "historical_monitor_counts": true,
+    "eleven_rendered_pages": true,
+    "each_scene_on_expected_word_page": true,
+    "demo_local_links_exist": true,
+    "runtime_sources_unchanged": true,
+    "reject_main_project": true,
+    "reject_main_port": true,
+    "reject_low_port": true,
+    "reject_high_port": true,
+    "evidence_reject_main": true,
+    "evidence_reject_existing": true,
+    "historical_json_and_operation_helpers_unchanged": true
+  },
+  "guard_checks": [
+    {
+      "name": "reject_main_project",
+      "exit_code": 2,
+      "expected_rejection": true
+    },
+    {
+      "name": "reject_main_port",
+      "exit_code": 2,
+      "expected_rejection": true
+    },
+    {
+      "name": "reject_low_port",
+      "exit_code": 2,
+      "expected_rejection": true
+    },
+    {
+      "name": "reject_high_port",
+      "exit_code": 2,
+      "expected_rejection": true
+    },
+    {
+      "name": "evidence_reject_main",
+      "exit_code": 2,
+      "expected_rejection": true
+    },
+    {
+      "name": "evidence_reject_existing",
+      "exit_code": 2,
+      "expected_rejection": true
+    }
+  ],
+  "local_links_checked": 49,
+  "broken_links": [],
+  "runtime_sources_checked": 27,
+  "artifacts_sha256": {
+    "docs/demo/ResolveFlow-demo.docx": "8ff737ba206bb553f55937830e5f73ce641e800feb156819e3940d2d28fab3f0",
+    "docs/demo/story.json": "57e3568af4760f4afeb7883a5afaa3e109644557248872c330229c3772fbff42",
+    "docs/demo/screenshots/01-operator.png": "68eacfceec0b24d36860860a87b3648b7a577658d8bb837537296b284079eca4",
+    "docs/demo/screenshots/02-auto-refund.png": "6214c561a60694d85d8f21c1a611fb16a3c345abf37ba7d6ff24ebd027dbfdc1",
+    "docs/demo/screenshots/03-awaiting-approval.png": "26dcdd2157d3fdacdc14099f006772d263faeee58274c8d2ebe12fa0881923db",
+    "docs/demo/screenshots/04-reviewer.png": "7f20d3c1d201f6ecbdee2c7f623941ece19ff61c44ad7cb68bb74d4e0c61e097",
+    "docs/demo/screenshots/05-resumed.png": "96a44760edffabfcd7b15400e61b612cecd21a94e86a4e03343ff876f803176f",
+    "docs/demo/screenshots/06-idempotency.png": "8e55b3be25d623f420ba16983b78ef35b4fab7784aa66e7ad68ba744714827ed",
+    "docs/demo/screenshots/07-policy.png": "ef5ef60cb635f0b08e095d746c8e1773092776ae1649f8ba8b19ec6df71a29f3",
+    "docs/demo/screenshots/08-monitor.png": "8ef1f7cec97dcb2a389c543d83d1b892206d3bd882d3c39d1898f193c10e95da",
+    "docs/demo/screenshots/09-rejected.png": "5d30492a28b9ad83eb5c5ac1bcb2ab03d0c37ce930e3836d9ad25b6adaa06887",
+    "scripts/demo_environment.py": "92ddc4032d4918e8a5f17bcf0baca047a2dd9200eaf4be950a17b2c2eb89296c",
+    "scripts/demo_evidence.py": "cf3f35b8f0a8808dc70bc09d3e4cf69c052ebee91d81ec4cbff0328c29febc7b",
+    "validation/step-4.2-2026-09-23/after-approval.json": "9be01886816cc975da78089af116b7e681f46035cbf8bfad4403a224f1471855",
+    "validation/step-4.2-2026-09-23/before-approval.json": "e1876585099c57b23cfda8c864d6b00f1b69a76dc82e0feaae60bc53c5fbfbe5",
+    "validation/step-4.2-2026-09-23/final-demo.json": "74e81a022d03525f851ecb571d92507919191b50ed4a36685e60804c883d9a25",
+    "validation/step-4.2-2026-09-23/main-after.json": "1cc4efaef30d5f21a32d5f143f94d496d121f54d83dd8bda79730dbecb25bd90",
+    "validation/step-4.2-2026-09-23/main-before.json": "1cc4efaef30d5f21a32d5f143f94d496d121f54d83dd8bda79730dbecb25bd90",
+    "validation/step-4.2-2026-09-23/verification.json": "846fb9575303094c54f9530152a233c1fe47f1bb2ede7fdbe2e78a7a5015ab0d"
+  },
+  "render_page_sha256": {
+    "page-1.png": "172b8bbc50966ccc750a0bcc38e7d23ea0b3eba4860dbae4fa03a7e7311e319e",
+    "page-10.png": "9753eef69ecf296ab831ae9559279abede24ec02e288466f7a0ce4f3d041409d",
+    "page-11.png": "abc8d0c2ff770b99e2c673bc91db6dd0b72e73bb6f774d60306fb8cae06c457e",
+    "page-2.png": "f301a8885debf41331933267beb4ec4d47f9984b92f521ae6a4e0ec91be2ae94",
+    "page-3.png": "c0529e70b22554279ce4f548e7feaa8ce2c3762ef92f7687de4ecc5124cb6d1e",
+    "page-4.png": "5c8cecba6eadceca50a01c7250298adcbb2cd642a57fa1dcfa206dd24d50d404",
+    "page-5.png": "bb2309282537a6e9004490adb831b18d74192182df79b786e13e964b71d9025e",
+    "page-6.png": "148b311fa04a2d546e5d284bb40a9621be04db83b2632c5244a191b3792554f1",
+    "page-7.png": "43a6039a5e10f13852ef38f12ba1c853ec1c772fb6a4f234fd2613782e4fea9e",
+    "page-8.png": "5b5acd674606df6c1642d141c56a9f6c3c285e2e42846fe231d53c971d80d282",
+    "page-9.png": "0033d646beeebe7003f4f04577831d94cca018eee91d09dfe0eb686d72bf80a3"
+  },
+  "visual_review": "See visual-review.json; not inferred by this script",
+  "fresh_business_replay": false,
+  "database_or_container_mutations": false,
+  "pushed": false,
+  "new_ci": false
+}

@@ -1,0 +1,61 @@
+{
+  "passed": false,
+  "checks": {
+    "main_preserved_during_qa": true,
+    "docker_recovered_and_historical_data_preserved": true,
+    "image_54_inputs_match_source": true,
+    "materials_28_checks_pass": true,
+    "frontend_21_pass": true,
+    "unit_junit_pass": true,
+    "postgres_junit_pass": true,
+    "isolated_test_run_pass": true,
+    "independent_install_restore_pass": true,
+    "permission_denials_44": true,
+    "only_original_main_services_running": true,
+    "fresh_qa_volumes_retained": false,
+    "architecture_artifact_hashes_unchanged": true,
+    "runtime_unchanged_from_ci_baseline": true,
+    "delivery_document_links_exist": true,
+    "step44_explicitly_deferred": true
+  },
+  "tests": {
+    "unit": 264,
+    "postgres": 149
+  },
+  "links_checked": 268,
+  "broken_links": [],
+  "fresh_volumes_retained": [
+    "resolveflow-qa-rag-e8385c5c-data",
+    "resolveflow-qa-step45-20261003_agent-data",
+    "resolveflow-qa-step45-20261003_postgres-data",
+    "resolveflow-qa-step45-20261003_worker-data",
+    "resolveflow-restore-step45-20261003-resume_postgres-data",
+    "resolveflow-restore-step45-20261003-seed_postgres-data"
+  ],
+  "running_services": [
+    "resolveflow-worker-1",
+    "resolveflow-resolveflow-1",
+    "resolveflow-db-1",
+    "resolveflow-embedding-1"
+  ],
+  "runtime_baseline": "526e166cfbec1b55796bf8ef8f27462fd00bc951",
+  "main_version": "step36",
+  "paid_model_calls": 0,
+  "real_refunds": 0,
+  "step44": "deferred_by_user",
+  "remote_ci": "Must verify final commit with scripts/verify_delivery.py; see ignored matching receipt",
+  "material_sha256_lf": {
+    "DELIVERY.md": "7f66c4de0ec82b6b67e669c6c084a20e2e292de577e6d45569a24367559f77d6",
+    "README.md": "fefc88c728cdba8eebdab30e594b982815a540e69e2bd429a4ab583cf26e65c3",
+    "VALIDATION.md": "36fecd14e8a11f930848f2ea4f9a0ecf605c85e1474ab0cfddbc49750adbe62b",
+    "OPERATIONS.md": "32fdbc6481e279efd1bf50ac2e7a8352adee30efccfa4b40806ea2b5414efb2a",
+    "PROJECT_HANDOFF.md": "eb43e7ad7fd3c279f6c500f8d889fb0ce445007598de18a4d2492c5033cbb932",
+    "EXECUTION_PLAN.md": "5d658ea4a67fef4d47496348c4dbe11b28075fb0dae7065f389dc4a33e780886",
+    "ROADMAP.md": "9e8057eb321c1f6e4c3af771bd5a226622dc2809bc5c91013b5d29a914ea6007",
+    "ARCHITECTURE.md": "e0280241ef4c6d0cbb008f268350e02ba33078150cdccb5b9b28505c3581245f",
+    "docs/demo/README.md": "83abc41592312ba8a0845a7cfb3790ae740c25d2ae1d39523bf4dadd375a308f",
+    "docs/demo/PRESENTING.md": "7db99e03431e6fe825b61be3fa84575baf81efeeedec87634660aaae471b9148",
+    "docs/demo/REPLAY.md": "a398a58c2832a0a264d8880e0801d29333d10d8846b9ec442d1bcb7d1100dced",
+    "validation/step-4.5-2026-10-03/REPORT.md": "d1ab9454bb436e58225621dd3f6fd94372f8b9c2cf95840db420f50775869c54"
+  }
+}

@@ -1,6 +1,6 @@
 # ResolveFlow V3 — 售后 AI Agent 工作台
 
-4.2已完成：[截图演示与讲解](docs/demo/README.md)、[11页Word文档](docs/demo/ResolveFlow-demo.docx)、[隔离复现](docs/demo/REPLAY.md)、[验收报告](validation/step-4.2-2026-09-23/REPORT.md)。9张真实截图，无视频；4条工单/5次执行/2条模拟退款，21项核对和逐页渲染检查通过。主环境及历史数据不变。本步本地提交、不推送；4.3截图材料复核与补充待开始，4.5统一推送/CI。
+当前4.5交付核验：[统一交付入口](DELIVERY.md)、[4.5报告](validation/step-4.5-2026-10-03/REPORT.md)。4.1架构、4.2截图文档、4.3材料复核已完成；按用户要求暂缓4.4，先完成4.5统一推送与同提交CI。Docker已恢复，主环境保持step36及历史数据；新版在独立QA验收。远程完成条件以匹配当前HEAD的validation/github-actions-local.json回执为准，旧CI不替代。
 
 4.1已完成：[最终架构图与说明](ARCHITECTURE.md)（[SVG](docs/architecture/resolveflow.svg) / [PNG](docs/architecture/resolveflow.png)）。
 
@@ -39,7 +39,7 @@ docker compose ps -a
 
 **已有3.1以前的数据库**须先备份、停API/Worker并显式接管，不能直接用新版启动覆盖：见 [旧库接管命令](MIGRATIONS.md#已有旧库显式接管)。默认prepare会拒绝无版本旧库或结构漂移；不会删除数据重建。
 
-本机源码在 `D:/AgentProjects/ResolveFlow`，Docker 程序在 `D:/Programs/DockerDesktop`，Docker 数据在 `D:/DockerData`；其他机器无需沿用这些路径。本机 Python/便携 PostgreSQL 运行方式见 [运行说明](ENTERPRISE_V3.md)。
+本机源码在 `D:/AgentProjects/ResolveFlow`；Docker 安装位置与数据目录以本机 Docker Desktop 配置为准，其他机器无需沿用旧文档中的路径。本机 Python/便携 PostgreSQL 运行方式见 [运行说明](ENTERPRISE_V3.md)。
 
 ## demo 与 live
 

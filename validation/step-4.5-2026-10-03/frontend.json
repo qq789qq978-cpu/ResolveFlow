@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "command": "node --test test_frontend.cjs",
+  "tests": 21,
+  "failures": 0,
+  "log_sha256": "50328d1c9df4803f311949f3e861ec13208d91fa308c2b13fc4bf1ea948560a1"
+}
