@@ -1,0 +1,66 @@
+{
+  "version": "5.1",
+  "date": "2026-10-03",
+  "purpose": "public_job_portfolio_demo",
+  "user_confirmed": {
+    "public_access": true,
+    "synthetic_orders_only": true,
+    "payment_provider_sandbox_required": true,
+    "real_funds": false,
+    "max_active_accounts": 5,
+    "new_tickets_per_day": 100,
+    "max_executing_tasks": 3,
+    "monthly_incremental_budget_cny": 0,
+    "existing_hosting_domain_order_or_sandbox_resources": "none",
+    "if_free_resources_insufficient": "return_for_budget_or_scope_decision"
+  },
+  "engineering_targets_not_yet_verified": {
+    "quota_timezone": "Asia/Hong_Kong",
+    "default_mode": "demo",
+    "default_retrieval": "bm25",
+    "paid_model_calls": 0,
+    "synthetic_workspaces_for_isolation_tests": 2,
+    "submit_p95_seconds": 2,
+    "read_p95_seconds": 1,
+    "demo_auto_flow_p95_seconds": 30,
+    "http_latency_min_samples": 100,
+    "auto_flow_min_samples": 30,
+    "test_orders_min": 1000,
+    "test_historical_runs_min": 1000,
+    "test_knowledge_chunks_min": 100,
+    "concurrent_submission_burst": 10,
+    "audit_retention_days": 30,
+    "backup_interval_hours": 24,
+    "successful_backups_retained": 7,
+    "rpo_hours": 24,
+    "rto_hours": 4,
+    "external_observation_seconds": 120,
+    "trial_days": 7
+  },
+  "unresolved_implementation_choices": [
+    {"item": "free_hosting_persistent_storage_https_and_backup", "step": "5.3"},
+    {"item": "external_monitor_and_authorized_notification_destination", "step": "5.3"},
+    {"item": "eligible_free_payment_provider_sandbox", "step": "5.5"}
+  ],
+  "acceptance": [
+    {"id": "AC-01", "steps": ["5.2"], "status": "not_run"},
+    {"id": "AC-02", "steps": ["5.2", "5.6"], "status": "not_run"},
+    {"id": "AC-03", "steps": ["5.3"], "status": "not_run"},
+    {"id": "AC-04", "steps": ["5.3", "5.7"], "status": "not_run"},
+    {"id": "AC-05", "steps": ["5.4"], "status": "not_run"},
+    {"id": "AC-06", "steps": ["5.4", "5.6"], "status": "not_run"},
+    {"id": "AC-07", "steps": ["5.5"], "status": "not_run"},
+    {"id": "AC-08", "steps": ["5.6"], "status": "not_run"},
+    {"id": "AC-09", "steps": ["5.6"], "status": "not_run"},
+    {"id": "AC-10", "steps": ["5.3", "5.7"], "status": "not_run"},
+    {"id": "AC-11", "steps": ["5.7"], "status": "not_run"},
+    {"id": "AC-12", "steps": ["5.8"], "status": "not_run"}
+  ],
+  "stage_rules": {
+    "current_step_only": "5.1",
+    "local_commit_each_step": true,
+    "push_and_matching_ci_step": "5.8",
+    "step44": "deferred_by_user",
+    "production_expansion_requires_new_scope": true
+  }
+}

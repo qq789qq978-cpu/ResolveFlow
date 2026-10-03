@@ -1,0 +1,14 @@
+{
+  "step": "5.1",
+  "baseline_commit": "1d2eac2bb85e8dd08449ed55defa0e037bd42413",
+  "ci_url": "https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/37095361491",
+  "ci_verified": true,
+  "ci_scope": "4.5 code and artifacts; not production acceptance",
+  "tests": {
+    "unit": 264,
+    "postgres": 149
+  },
+  "working_tree_initially_clean": true,
+  "runtime_modified": false,
+  "step44": "deferred_by_user"
+}

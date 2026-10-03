@@ -1,6 +1,6 @@
 # ResolveFlow V3 — 售后 AI Agent 工作台
 
-当前4.5交付核验：[统一交付入口](DELIVERY.md)、[4.5报告](validation/step-4.5-2026-10-03/REPORT.md)。4.1架构、4.2截图文档、4.3材料复核已完成；按用户要求暂缓4.4，先完成4.5统一推送与同提交CI。Docker已恢复，主环境保持step36及历史数据；新版在独立QA验收。远程完成条件以匹配当前HEAD的validation/github-actions-local.json回执为准，旧CI不替代。
+当前5.1需求定义已完成：[首版上线需求](docs/deployment/REQUIREMENTS.md)、[核对报告](validation/step-5.1-2026-10-03/REPORT.md)。用户确认公网求职展示站，合成订单/支付沙箱、不处理真实资金；5账号、100工单/日、3并发、0元新增预算。公网资源与沙箱资格仍待落实，未开始5.2。4.5提交1d2eac2的[CI 37095361491](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/37095361491)及附件已核验成功；本次5.1仅本地文档提交，不推送，5.8统一推送/CI，4.4继续暂缓。
 
 4.1已完成：[最终架构图与说明](ARCHITECTURE.md)（[SVG](docs/architecture/resolveflow.svg) / [PNG](docs/architecture/resolveflow.png)）。
 
