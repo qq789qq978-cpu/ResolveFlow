@@ -1,0 +1,23 @@
+{
+  "database_startup_lines": [
+    "waiting for server to start....2026-10-03 08:28:18.646 UTC [48] LOG:  starting PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+    "2026-10-03 08:28:18.657 UTC [48] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+    "2026-10-03 08:28:18.691 UTC [57] LOG:  database system was shut down at 2026-10-03 08:28:17 UTC",
+    "2026-10-03 08:28:18.704 UTC [48] LOG:  database system is ready to accept connections",
+    "waiting for server to shut down....2026-10-03 08:28:19.121 UTC [48] LOG:  received fast shutdown request",
+    "2026-10-03 08:28:19.224 UTC [55] LOG:  checkpoint starting: shutdown immediate",
+    ".2026-10-03 08:28:21.739 UTC [48] LOG:  database system is shut down",
+    "2026-10-03 08:28:22.933 UTC [1] LOG:  starting PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+    "2026-10-03 08:28:22.966 UTC [1] LOG:  listening on IPv4 address \"0.0.0.0\", port 5432",
+    "2026-10-03 08:28:22.966 UTC [1] LOG:  listening on IPv6 address \"::\", port 5432",
+    "2026-10-03 08:28:23.016 UTC [1] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+    "2026-10-03 08:28:23.046 UTC [79] LOG:  database system was shut down at 2026-10-03 08:28:21 UTC",
+    "2026-10-03 08:28:23.084 UTC [1] LOG:  database system is ready to accept connections",
+    "2026-10-03 08:28:26.832 UTC [1] LOG:  received fast shutdown request",
+    "2026-10-03 08:28:26.848 UTC [77] LOG:  checkpoint starting: shutdown immediate",
+    "2026-10-03 08:28:26.920 UTC [1] LOG:  database system is shut down"
+  ],
+  "failed_roles_container_times": "2026-10-03T08:28:19.312754403Z 2026-10-03T08:28:22.82607443Z",
+  "cause": "Unix socket temporary init server passed old pg_isready before TCP startup",
+  "fix": "New generated deployments probe 127.0.0.1 TCP explicitly"
+}

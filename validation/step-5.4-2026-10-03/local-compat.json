@@ -1,0 +1,506 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "fresh local stack healthy",
+      "passed": true
+    },
+    {
+      "check": "only loopback gateway published",
+      "passed": true
+    },
+    {
+      "check": "secret values absent compose and Docker Config.Env",
+      "passed": true
+    },
+    {
+      "check": "monitor has only own readonly credential",
+      "passed": true
+    },
+    {
+      "check": "real demo refunds and pending checkpoint created",
+      "passed": true
+    },
+    {
+      "check": "identity and pending run survive container recreation",
+      "passed": true
+    },
+    {
+      "check": "combined backup contains identity and both complete PG snapshots",
+      "passed": true
+    },
+    {
+      "check": "source resumes and existing session survives backup",
+      "passed": true
+    },
+    {
+      "check": "backup leaves previously stopped dependency stopped",
+      "passed": true
+    },
+    {
+      "check": "failed backup never gains completion marker",
+      "passed": true
+    },
+    {
+      "check": "failed backup resumes source runtime",
+      "passed": true
+    },
+    {
+      "check": "separate local backup copy is readable",
+      "passed": true
+    },
+    {
+      "check": "corrupt bundle refused before target creation",
+      "passed": true
+    },
+    {
+      "check": "both business catalogs rows indexes sequences and checkpoints match",
+      "passed": true
+    },
+    {
+      "check": "restored passwords and identities preserved but old sessions revoked",
+      "passed": true
+    },
+    {
+      "check": "restored workspace isolation preserved",
+      "passed": true
+    },
+    {
+      "check": "original pending approval readable after restore",
+      "passed": true
+    },
+    {
+      "check": "original checkpoint resumes to refund",
+      "passed": true
+    },
+    {
+      "check": "repeat refund preserves original ledger",
+      "passed": true
+    },
+    {
+      "check": "restored deployment restarts without installation jobs",
+      "passed": true
+    },
+    {
+      "check": "fresh target refuses reuse",
+      "passed": true
+    },
+    {
+      "check": "host probe observes entry outage within 120 seconds",
+      "passed": true
+    },
+    {
+      "check": "host probe observes entry recovery",
+      "passed": true
+    },
+    {
+      "check": "readonly monitor observes worker offline",
+      "passed": true
+    },
+    {
+      "check": "readonly monitor observes aged queued task",
+      "passed": true
+    },
+    {
+      "check": "worker recovery clears offline incident",
+      "passed": true
+    },
+    {
+      "check": "source logs contain no generated secret values",
+      "passed": true
+    }
+  ],
+  "model_api_calls": 0,
+  "real_refunds": 0,
+  "projects": [
+    "resolveflow-accounts-step54-final",
+    "resolveflow-accounts-step54-final-r"
+  ],
+  "runs": {
+    "auto": "8b02ea96-17c0-4c81-89d5-9a7b2ac5333e",
+    "pending": "2702413b-1a67-4a14-8817-d8f938405508",
+    "beta": "a4e83271-82f0-4334-9c8f-4585072853f0"
+  },
+  "restore_validation": {
+    "passed": true,
+    "project": "resolveflow-accounts-step54-final-r",
+    "workspaces": {
+      "alpha": {
+        "matched_tables": 20,
+        "table_fingerprints": {
+          "checkpoint_blobs": {
+            "count": 22,
+            "sha256": "20c60b555cbf496f7f980651ead289dded44ee04aceb46cf923a609ef675a53a"
+          },
+          "checkpoint_migrations": {
+            "count": 10,
+            "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+          },
+          "checkpoint_writes": {
+            "count": 41,
+            "sha256": "348341a462160970b348f070e9125e38975649fb1cf655e66b510a971f9feca6"
+          },
+          "checkpoints": {
+            "count": 9,
+            "sha256": "a6a0c0c4c033bfd3074001b9361e4e1a13575bc5b9aa52985f2c91208e6e50d2"
+          },
+          "rf_approvals": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_audit": {
+            "count": 2,
+            "sha256": "a3351cae0b9a6b32de1ccd79619489e87c66a53fef18034f2e16b4c0013db8a2"
+          },
+          "rf_job_attempts": {
+            "count": 2,
+            "sha256": "66adfa033b9cf5f9267152934e5541ad8652b2189bfd1b5284877c1ab7211930"
+          },
+          "rf_jobs": {
+            "count": 2,
+            "sha256": "af92602225378b2fd7252efe06a1d7c07aa53a5211fe873387bcc2c98430fe5c"
+          },
+          "rf_knowledge_chunks": {
+            "count": 7,
+            "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+          },
+          "rf_knowledge_documents": {
+            "count": 3,
+            "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+          },
+          "rf_orders": {
+            "count": 4,
+            "sha256": "3b626a90d3531b0c5042be1c1529280a50971c04956db3ca383956412e54b9b5"
+          },
+          "rf_policy_events": {
+            "count": 1,
+            "sha256": "72d6467ea837f539d441b97fa96239a8030aee9293683eb2384804d834107530"
+          },
+          "rf_policy_head": {
+            "count": 1,
+            "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+          },
+          "rf_policy_releases": {
+            "count": 1,
+            "sha256": "12406a227545b8941572c275b5a9332556e8bf7006a4cb48dad5c3478086a2f3"
+          },
+          "rf_policy_reviews": {
+            "count": 3,
+            "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+          },
+          "rf_refunds": {
+            "count": 1,
+            "sha256": "6a34be1aca67f173707a58641344a1debf0fe4cef5b9f4d58cd7103630beacb0"
+          },
+          "rf_reviews": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_runs": {
+            "count": 2,
+            "sha256": "aee1d2ab58b03b21733992d800d561e9257d967d7d72bc66af76b3ccfd02debc"
+          },
+          "rf_schema_version": {
+            "count": 1,
+            "sha256": "edc07ddb03c49b9d432fe058c33962a3dc1a80332fd005d89dec52f1998dbb01"
+          },
+          "rf_worker_heartbeats": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "catalog_equal": true,
+        "indexes_valid": true,
+        "revisions": [
+          "rf_core_0001"
+        ],
+        "checkpoint_migrations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "sequences": {
+          "rf_audit_id_seq": {
+            "last_value": 2,
+            "is_called": true,
+            "table_max": 2,
+            "next_value": 3,
+            "safe": true
+          },
+          "rf_job_attempts_id_seq": {
+            "last_value": 2,
+            "is_called": true,
+            "table_max": 2,
+            "next_value": 3,
+            "safe": true
+          },
+          "rf_policy_events_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          }
+        },
+        "readable_checkpoints": [
+          {
+            "run_id": "2702413b-1a67-4a14-8817-d8f938405508",
+            "status": "awaiting_approval",
+            "checkpoint_id": "1f1bf055-7759-69a7-8002-61424b9406dd"
+          },
+          {
+            "run_id": "8b02ea96-17c0-4c81-89d5-9a7b2ac5333e",
+            "status": "refunded",
+            "checkpoint_id": "1f1bf055-36b7-6352-8003-4b0fe9b09d14"
+          }
+        ]
+      },
+      "beta": {
+        "matched_tables": 20,
+        "table_fingerprints": {
+          "checkpoint_blobs": {
+            "count": 12,
+            "sha256": "590fd1c4f71d69714c194fcb3a6b2848a77b947436b8c6be9e5c942bfa09ce3a"
+          },
+          "checkpoint_migrations": {
+            "count": 10,
+            "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+          },
+          "checkpoint_writes": {
+            "count": 21,
+            "sha256": "4c07aa9acf219a1c70e746cab6b620de349ab7d9acfa4043d922071b8aed4694"
+          },
+          "checkpoints": {
+            "count": 5,
+            "sha256": "105cfd6efb20a8fe730830d7c609750d8f20f2c553f803c44b29a083caddb7b0"
+          },
+          "rf_approvals": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_audit": {
+            "count": 1,
+            "sha256": "d43a16532cb2b357cf450e542bb477983124296bb0f3c685b575582de0350dc3"
+          },
+          "rf_job_attempts": {
+            "count": 1,
+            "sha256": "eaa8ac36aaf120c48e0915df136a3f5717cbdbd458fd95b40de3e6d8b9b51267"
+          },
+          "rf_jobs": {
+            "count": 1,
+            "sha256": "dc7919d7e5e26703df6764b63864e7548a0385e917c6ae3f10af41e1cc3a2f95"
+          },
+          "rf_knowledge_chunks": {
+            "count": 7,
+            "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+          },
+          "rf_knowledge_documents": {
+            "count": 3,
+            "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+          },
+          "rf_orders": {
+            "count": 4,
+            "sha256": "3b626a90d3531b0c5042be1c1529280a50971c04956db3ca383956412e54b9b5"
+          },
+          "rf_policy_events": {
+            "count": 1,
+            "sha256": "34cad2cbd739a251c3e0fd1cabab7d07d51a47e2875e3afc3392bfef746553d4"
+          },
+          "rf_policy_head": {
+            "count": 1,
+            "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+          },
+          "rf_policy_releases": {
+            "count": 1,
+            "sha256": "7c6561ec32d0d95117843edfb99937ab988c244507756fa306fd780e75f1b3a1"
+          },
+          "rf_policy_reviews": {
+            "count": 3,
+            "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+          },
+          "rf_refunds": {
+            "count": 1,
+            "sha256": "95dca45a15c6bf5ed7b8da887600576c79ced3aaacd136b70c44b33a79980fed"
+          },
+          "rf_reviews": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_runs": {
+            "count": 1,
+            "sha256": "2ba7280652e07fb1e723dbaa0bfd6aaf846365bcf5630e8bdb2b29aaf8d175c8"
+          },
+          "rf_schema_version": {
+            "count": 1,
+            "sha256": "edc07ddb03c49b9d432fe058c33962a3dc1a80332fd005d89dec52f1998dbb01"
+          },
+          "rf_worker_heartbeats": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "catalog_equal": true,
+        "indexes_valid": true,
+        "revisions": [
+          "rf_core_0001"
+        ],
+        "checkpoint_migrations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "sequences": {
+          "rf_audit_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          },
+          "rf_job_attempts_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          },
+          "rf_policy_events_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          }
+        },
+        "readable_checkpoints": [
+          {
+            "run_id": "a4e83271-82f0-4334-9c8f-4585072853f0",
+            "status": "refunded",
+            "checkpoint_id": "1f1bf055-afe0-6782-8003-8ec28334fedb"
+          }
+        ]
+      }
+    },
+    "identity": {
+      "accounts_and_audit_equal": true,
+      "old_sessions_revoked": true
+    }
+  },
+  "entry_outage_observed_seconds": 1.562,
+  "worker_offline_observed_seconds": 3.891,
+  "monitor_events": [
+    {
+      "timestamp": "2026-10-03T08:36:43.652872+00:00",
+      "event": "monitor_started"
+    },
+    {
+      "timestamp": "2026-10-03T08:36:43.699010+00:00",
+      "event": "alert_transition",
+      "alert_id": "worker_offline",
+      "code": "worker_offline",
+      "severity": "critical",
+      "transition": "firing"
+    },
+    {
+      "timestamp": "2026-10-03T08:36:48.726731+00:00",
+      "event": "alert_transition",
+      "alert_id": "worker_offline",
+      "code": "worker_offline",
+      "severity": "critical",
+      "transition": "resolved"
+    },
+    {
+      "timestamp": "2026-10-03T08:37:10.533449+00:00",
+      "event": "monitor_stopped"
+    },
+    {
+      "timestamp": "2026-10-03T08:37:24.657668+00:00",
+      "event": "monitor_started"
+    },
+    {
+      "timestamp": "2026-10-03T08:37:24.680683+00:00",
+      "event": "alert_transition",
+      "alert_id": "worker_offline",
+      "code": "worker_offline",
+      "severity": "critical",
+      "transition": "firing"
+    },
+    {
+      "timestamp": "2026-10-03T08:37:29.707928+00:00",
+      "event": "alert_transition",
+      "alert_id": "worker_offline",
+      "code": "worker_offline",
+      "severity": "critical",
+      "transition": "resolved"
+    },
+    {
+      "timestamp": "2026-10-03T08:37:39.753180+00:00",
+      "event": "alert_transition",
+      "alert_id": "worker_offline",
+      "code": "worker_offline",
+      "severity": "critical",
+      "transition": "firing"
+    },
+    {
+      "timestamp": "2026-10-03T08:37:49.823496+00:00",
+      "event": "alert_transition",
+      "alert_id": "queue_delayed:98f396a2-0fe0-40f3-af91-770783a82393",
+      "code": "queue_delayed",
+      "severity": "warning",
+      "run_id": "98f396a2-0fe0-40f3-af91-770783a82393",
+      "transition": "firing"
+    },
+    {
+      "timestamp": "2026-10-03T08:37:54.846328+00:00",
+      "event": "alert_transition",
+      "alert_id": "queue_delayed:98f396a2-0fe0-40f3-af91-770783a82393",
+      "code": "queue_delayed",
+      "severity": "warning",
+      "run_id": "98f396a2-0fe0-40f3-af91-770783a82393",
+      "transition": "resolved"
+    },
+    {
+      "timestamp": "2026-10-03T08:37:54.846524+00:00",
+      "event": "alert_transition",
+      "alert_id": "worker_offline",
+      "code": "worker_offline",
+      "severity": "critical",
+      "transition": "resolved"
+    }
+  ],
+  "entry_events": [
+    {
+      "time": "2026-10-03T08:37:30.734107+00:00",
+      "event": "local_entry_recovered",
+      "available": true,
+      "scope": "same_host_only"
+    },
+    {
+      "time": "2026-10-03T08:37:31.926723+00:00",
+      "event": "local_entry_unavailable",
+      "available": false,
+      "scope": "same_host_only"
+    },
+    {
+      "time": "2026-10-03T08:37:35.318607+00:00",
+      "event": "local_entry_recovered",
+      "available": true,
+      "scope": "same_host_only"
+    }
+  ],
+  "stopped_volumes_preserved": true
+}

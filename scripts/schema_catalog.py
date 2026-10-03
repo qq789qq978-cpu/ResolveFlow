@@ -16,6 +16,7 @@ CORE = tuple(sorted('rf_orders rf_runs rf_approvals rf_refunds rf_reviews rf_job
                     'rf_knowledge_chunks rf_policy_releases rf_policy_head rf_policy_reviews '
                     'rf_policy_events'.split()))
 VECTOR = ('rf_policy_vectors', 'rf_vector_batches')
+ORDERS = ('rf_order_versions', 'rf_order_events')
 CHECKPOINT = ('checkpoint_blobs', 'checkpoint_migrations', 'checkpoint_writes', 'checkpoints')
 VERSION_TABLE = 'rf_schema_version'
 
@@ -68,9 +69,9 @@ def read_catalog(c, schema, *, only_tables=None):
         WHERE n.nspname=%s ORDER BY s.relname""", (schema,)))
     return {
         'tables': tables, 'sequences': sequences,
-        'application_tables': sorted(set(names) & set(CORE+VECTOR)),
+        'application_tables': sorted(set(names) & set(CORE+VECTOR+ORDERS)),
         'langgraph_tables': sorted(set(names) & set(CHECKPOINT)),
-        'unknown_tables': sorted(set(names)-set(CORE+VECTOR+CHECKPOINT+(VERSION_TABLE,))),
+        'unknown_tables': sorted(set(names)-set(CORE+VECTOR+ORDERS+CHECKPOINT+(VERSION_TABLE,))),
         'revisions': [r[0] for r in rows('SELECT version_num FROM rf_schema_version ORDER BY version_num')] if VERSION_TABLE in names else [],
         'extensions': rows('SELECT e.extname,e.extversion,n.nspname FROM pg_extension e JOIN pg_namespace n ON n.oid=e.extnamespace ORDER BY e.extname'),
     }

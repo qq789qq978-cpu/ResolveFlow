@@ -88,7 +88,7 @@ class Store:
                 raise ValueError('当前工单不允许退款审批')
             c.execute("INSERT INTO rf_approvals VALUES (%s,%s,%s,%s,DEFAULT)",(run_id,approved,actor,reason))
 
-    def refund(self, order_id, run_id, amount, authorization):
+    def refund(self, order_id, run_id, amount, authorization, *, expected_order=None):
         from grounding import action_supported, check_grounding
         from policy_governance import PolicyUnavailable
         with self.connect() as c:
@@ -106,6 +106,14 @@ class Store:
             grounded = check_grounding(proposal, evidence, mode=mode, documents=documents, release=release)
             if not action_supported('refund', grounded):
                 raise PolicyUnavailable(grounded)
+            if expected_order is not None:
+                # Same order lock as the importer; rf_app remains read-only on
+                # rf_orders (SELECT FOR UPDATE would require UPDATE privileges).
+                c.execute('SELECT pg_advisory_xact_lock(hashtextextended(%s,0))',('order:'+order_id,))
+                current = c.execute('SELECT * FROM rf_orders WHERE id=%s',(order_id,)).fetchone()
+                if not current or any(current.get(k) != expected_order.get(k) for k in ('id','owner','amount','days','used','status')):
+                    from order_sync import OrderChanged
+                    raise OrderChanged('Order facts changed since investigation')
             result = c.execute("INSERT INTO rf_refunds VALUES (%s,%s,%s,DEFAULT) ON CONFLICT(order_id) DO NOTHING RETURNING order_id",(order_id,run_id,amount)).fetchone()
             return bool(result)
 

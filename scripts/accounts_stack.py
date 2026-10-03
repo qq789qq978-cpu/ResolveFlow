@@ -34,7 +34,7 @@ def configuration(image, port, bootstrap):
         services[db] = {'image': 'postgres:17', 'environment': {'POSTGRES_USER': 'resolveflow',
                 'POSTGRES_DB': 'resolveflow', 'POSTGRES_PASSWORD': passwords['owner']},
                 'networks': [data], 'volumes': [db + ':/var/lib/postgresql/data'],
-                'healthcheck': {'test': ['CMD-SHELL', 'pg_isready -U resolveflow -d resolveflow'],
+                'healthcheck': {'test': ['CMD-SHELL', 'pg_isready -h 127.0.0.1 -U resolveflow -d resolveflow'],
                                 'interval': '3s', 'timeout': '3s', 'retries': 40}}
         def dsn(role):
             return 'postgresql://' + ('resolveflow' if role == 'owner' else 'rf_' + role) + ':' + passwords[role] + '@' + db + '/resolveflow'

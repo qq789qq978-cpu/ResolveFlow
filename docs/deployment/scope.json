@@ -1,5 +1,5 @@
 {
-  "version": "5.3-local",
+  "version": "5.4-local",
   "date": "2026-10-03",
   "purpose": "local_job_portfolio_demo",
   "user_confirmed": {
@@ -100,7 +100,9 @@
       "steps": [
         "5.4"
       ],
-      "status": "not_run"
+      "status": "passed",
+      "evidence": "validation/step-5.4-2026-10-03/REPORT.md",
+      "environment": "isolated_local_synthetic_demo"
     },
     {
       "id": "AC-06",
@@ -108,7 +110,15 @@
         "5.4",
         "5.6"
       ],
-      "status": "not_run"
+      "status": "partial",
+      "evidence": "validation/step-5.4-2026-10-03/REPORT.md",
+      "environment": "isolated_local_synthetic_demo",
+      "completed_steps": [
+        "5.4"
+      ],
+      "pending_steps": [
+        "5.6"
+      ]
     },
     {
       "id": "AC-07",
@@ -163,7 +173,7 @@
     }
   ],
   "stage_rules": {
-    "current_step_only": "5.3",
+    "current_step_only": "5.4",
     "local_commit_each_step": true,
     "push_and_matching_ci_step": "5.8",
     "step44": "deferred_by_user",
@@ -180,7 +190,7 @@
   },
   "scope_change": {
     "date": "2026-10-03",
-    "authorization": "鐢ㄦ埛锛歰k 灏辨寜杩欎釜鏂扮殑鏂瑰悜 瀹屾垚5.3",
+    "authorization": "用户：ok 就按这个新的方向 完成5.3",
     "previous_scope": "5.1 public website baseline, preserved in Git history",
     "current_scope": "zero_incremental_cost_local_delivery",
     "deferred": [
@@ -203,5 +213,13 @@
     "restore": "fresh_volumes_original_image_new_service_secrets_old_sessions_revoked",
     "monitoring": "two_readonly_monitors_and_host_loopback_probe",
     "evidence": "validation/step-5.3-2026-10-03/REPORT.md"
+  },
+  "implementation_5_4": {
+    "status": "passed",
+    "source": "private_local_synthetic_http",
+    "sync": "explicit_admin_single_order_snapshot",
+    "main_and_8053_upgraded": false,
+    "delivery_url": "http://127.0.0.1:8054",
+    "evidence": "validation/step-5.4-2026-10-03/REPORT.md"
   }
 }

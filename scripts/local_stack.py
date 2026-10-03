@@ -27,7 +27,7 @@ def private_file(path, content):
         f.write(content)
 
 
-def generate(project, image, port):
+def generate(project, image, port, *, orders=False):
     work = accounts_generate(project, image, port)
     protect(work)
     config = json.loads((work/'compose.json').read_text())
@@ -45,6 +45,9 @@ def generate(project, image, port):
             'healthcheck': {'test': ['CMD','python','-c',
                 "import json,time;from pathlib import Path;d=json.loads(Path('/tmp/resolveflow-monitor-health.json').read_text());assert time.time()-d['time']<20 and d['available']"],
                 'interval': '5s', 'timeout': '3s', 'retries': 20}}
+    if orders:
+        from scripts.order_source_stack import configure
+        configure(config,work,image)
     secret_dir = work/'secrets'; secret_dir.mkdir()
     config['secrets'] = {}
     for name, service in config['services'].items():
@@ -77,8 +80,9 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--project', required=True); p.add_argument('--image', required=True)
     p.add_argument('--port', type=int, default=8053)
+    p.add_argument('--orders',action='store_true',help='Enable private synthetic sources and admin synchronization')
     args = p.parse_args()
-    work = generate(args.project, args.image, args.port)
+    work = generate(args.project, args.image, args.port,orders=args.orders)
     print(json.dumps({'private_configuration': str(work), 'started': False}))
 
 

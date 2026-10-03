@@ -1,0 +1,66 @@
+{
+  "project": "resolveflow-accounts-orders",
+  "url": "http://127.0.0.1:8054",
+  "healthy": true,
+  "services": [
+    {
+      "Service": "alpha-api",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "alpha-db",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "alpha-monitor",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "alpha-source",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "alpha-worker",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "beta-api",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "beta-db",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "beta-monitor",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "beta-source",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "beta-worker",
+      "State": "running",
+      "Health": "healthy"
+    },
+    {
+      "Service": "gateway",
+      "State": "running",
+      "Health": "healthy"
+    }
+  ],
+  "initial_private_backup": "work/backups/step54-initial",
+  "credentials": "work/resolveflow-accounts-orders/bootstrap.txt",
+  "mode": "demo",
+  "paid_model_calls": 0
+}

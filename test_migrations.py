@@ -16,7 +16,7 @@ def config(output=None):
 
 def test_independent_optional_branch():
     script = ScriptDirectory.from_config(config())
-    assert set(script.get_heads()) == {'rf_core_0001','rf_vector_0001'}
+    assert set(script.get_heads()) == {'rf_core_0001','rf_vector_0001','rf_orders_0001'}
     core, vector = (script.get_revision(n) for n in ('core@head','vector@head'))
     assert core.down_revision is None and core.dependencies is None
     assert vector.down_revision is None and vector.dependencies == core.revision

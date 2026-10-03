@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 import psycopg
-from scripts.schema_catalog import CHECKPOINT, VECTOR, differences, read_catalog
+from scripts.schema_catalog import CHECKPOINT, VECTOR, ORDERS, differences, read_catalog
 
 ROOT = Path(__file__).resolve().parent
 CORE_REVISION = 'rf_core_0001'
@@ -26,7 +26,14 @@ def check_application(catalog, profile):
     if changed:
         raise SchemaNotReady('Application schema drift: '+', '.join(changed))
     expected = VECTOR_REVISION if actual_profile == 'hybrid' else CORE_REVISION
-    if catalog['revisions'] != [expected]:
+    has_orders = any(t in catalog['tables'] for t in ORDERS)
+    expected_revisions = [expected]
+    if has_orders:
+        contract = json.loads((ROOT/'migrations/baselines/orders.json').read_text())
+        if any(catalog['tables'].get(t) != contract['tables'][t] for t in ORDERS):
+            raise SchemaNotReady('Order import schema drift')
+        expected_revisions = sorted(['rf_orders_0001'] + ([VECTOR_REVISION] if actual_profile == 'hybrid' else []))
+    if catalog['revisions'] != expected_revisions:
         raise SchemaNotReady('Application revision missing or incompatible; use the migration command')
     return actual_profile
 

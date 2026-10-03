@@ -21,6 +21,9 @@ ROOT=Path(__file__).parent
 class Ticket(BaseModel):
     ticket:str=Field(min_length=2,max_length=4000)
     order_id:str=Field(pattern=r'^RF-\d{4}$')
+class OrderImport(BaseModel):
+    model_config = {'extra':'forbid'}
+    order_id:str=Field(pattern=r'^RF-\d{4}$')
 class Approval(BaseModel):
     approved:StrictBool
     reason:str=Field(min_length=2,max_length=1000)
@@ -32,6 +35,11 @@ def create_app():
     async def lifespan(app):
         load_dotenv(ROOT/'.env',override=False,encoding='utf-8-sig')
         validate_keys()
+        from order_sync import validate_configuration, enabled
+        validate_configuration()
+        if enabled():
+            from order_sync_roles import require
+            require(os.environ['RF_ORDER_SYNC_DATABASE_URL'])
         configure()
         from alerts import Limits
         Limits.environment()  # Fail invalid alert configuration before serving.
@@ -74,6 +82,19 @@ def create_app():
         return {'mode':os.getenv('MODE','live'),'model':os.getenv('MODEL_NAME'),'database':'PostgreSQL','role':getattr(actor,'role',actor),'execution':'async'}
     @app.get('/api/orders',dependencies=[Depends(authenticate)])
     def orders():return app.state.store.orders()
+    @app.post('/api/order-sync')
+    def order_import(body:OrderImport,actor=Depends(allow('admin'))):
+        from order_sync import sync, SyncError
+        try:return sync(body.order_id,actor)
+        except SyncError as error:raise HTTPException(error.status,error.code) from None
+        except psycopg.errors.LockNotAvailable:raise HTTPException(503,'order_sync_busy') from None
+        except psycopg.errors.QueryCanceled:raise HTTPException(503,'order_sync_timeout') from None
+    @app.get('/api/order-sync',dependencies=[Depends(allow('admin'))])
+    def order_import_history():
+        from order_sync import enabled
+        if not enabled():raise HTTPException(404,'order_sync_not_enabled')
+        with app.state.store.connect() as c:
+            return c.execute('SELECT event_id,order_id,workspace,version,outcome,actor,created_at FROM rf_order_events ORDER BY created_at DESC,event_id DESC LIMIT 50').fetchall()
     @app.get('/api/knowledge',dependencies=[Depends(authenticate)])
     def knowledge(query:str=Query(min_length=2,max_length=4000)):
         from rag import search

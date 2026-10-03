@@ -1,5 +1,7 @@
 # ResolveFlow 操作与阶段交付手册
 
+5.4可选合成订单接口已交付，启用方式、管理员导入命令、状态/审批保护、备份和回退边界见[订单同步手册](ORDER_SYNC.md)。本机新入口为http://127.0.0.1:8054，原8053部署保留；安装/恢复新环境请串行执行。
+
 5.2新增的个人账号入口和两工作区部署见[ACCOUNTS.md](ACCOUNTS.md)。5.3多数据库与身份SQLite联合备份、恢复和本地监控见[LOCAL_DEPLOYMENT.md](LOCAL_DEPLOYMENT.md)；不能把本手册单项目命令直接套用于多数据库部署。主环境仍step36。
 
 适用于第三阶段交付的本地 demo：PostgreSQL 17、API、Worker、独立 monitor；hybrid 另加本地 encoder。共享角色码和模拟退款不是公网生产授权。日常操作在目标检出的项目根目录执行；命令默认作用于当前 Compose 项目，先确认项目和卷，切勿把 QA 命令套到主库。

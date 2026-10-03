@@ -1,0 +1,55 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "check": "only workspace admin can synchronize",
+      "passed": true
+    },
+    {
+      "check": "admin fetches real private HTTP synthetic source",
+      "passed": true
+    },
+    {
+      "check": "same event retry returns duplicate",
+      "passed": true
+    },
+    {
+      "check": "other workspace has no imported alpha order",
+      "passed": true
+    },
+    {
+      "check": "wrong workspace in source rejected",
+      "passed": true
+    },
+    {
+      "check": "missing source fact rejects whole import",
+      "passed": true
+    },
+    {
+      "check": "same event with conflicting content rejected",
+      "passed": true
+    },
+    {
+      "check": "real source timeout bounded",
+      "passed": true
+    },
+    {
+      "check": "timeout malformed and missing replies leave imported facts intact",
+      "passed": true
+    },
+    {
+      "check": "imported order reaches simulated refund",
+      "passed": false
+    }
+  ],
+  "projects": [
+    "resolveflow-accounts-step54-b"
+  ],
+  "model_api_calls": 0,
+  "real_refunds": 0,
+  "image_id": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+  "source_timeout_seconds": 2.046,
+  "error_type": "AssertionError",
+  "failure": "imported order reaches simulated refund",
+  "stopped_volumes_preserved": true
+}

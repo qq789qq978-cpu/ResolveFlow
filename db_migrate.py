@@ -91,7 +91,7 @@ def bootstrap_empty_demo(dsn, *, demo=False, schema=None, profile=None):
         return {**require_ready(scoped, profile), 'action':'demo_bootstrapped', 'demo_seeded':True}
 
 
-def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
+def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None, orders=False):
     if profile not in ('core','hybrid'):
         raise ValueError('Unknown schema profile')
     with migration_session(dsn, schema) as (scoped, schema):
@@ -109,6 +109,8 @@ def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
                     raise SchemaNotReady('Migration requires rf_migrator')
                 cat = read_catalog(raw, schema)
                 names = cat['tables']
+                if VERSION_TABLE not in names and any(t in names for t in ('rf_order_versions','rf_order_events')):
+                    raise SchemaNotReady('Cannot adopt unversioned import journal')
                 if VERSION_TABLE not in names and cat['application_tables']:
                     if not adopt:
                         raise SchemaNotReady('Unversioned existing database; stop API/Worker and run explicit adopt')
@@ -139,6 +141,8 @@ def migrate(dsn, *, profile='core', adopt=False, demo=False, schema=None):
                 cfg.attributes.update(connection=connection, schema=schema)
                 target = 'vector@head' if profile == 'hybrid' else 'core@head'
                 command.upgrade(cfg, target)
+                if orders:
+                    command.upgrade(cfg, 'orders@head')
                 check_application(read_catalog(raw, schema), profile)
                 if not cat['application_tables']:
                     action = 'installed'
@@ -173,6 +177,7 @@ def main():
     parser.add_argument('action', choices=['prepare','adopt','check','bootstrap-demo'])
     parser.add_argument('--profile', choices=['core','hybrid'],
                         default='hybrid' if os.getenv('RETRIEVAL_MODE') == 'hybrid' else 'core')
+    parser.add_argument('--orders', action='store_true', help='Install the optional synthetic-order journal')
     args = parser.parse_args()
     entry_phase = 'demo_recovery' if args.action == 'bootstrap-demo' else 'preflight'
     try:
@@ -184,7 +189,7 @@ def main():
                                           schema=os.getenv('RF_MIGRATION_SCHEMA'), profile=args.profile)
         else:
             result = migrate(dsn, profile=args.profile, adopt=args.action == 'adopt',
-                             demo=os.getenv('MODE') == 'demo', schema=os.getenv('RF_MIGRATION_SCHEMA'))
+                             demo=os.getenv('MODE') == 'demo', schema=os.getenv('RF_MIGRATION_SCHEMA'), orders=args.orders)
         print(json.dumps(result))
         return 0
     except SchemaNotReady as error:

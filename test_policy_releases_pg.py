@@ -183,9 +183,9 @@ def test_transaction_gate_blocks_publication_after_engine_validation(system,tmp_
     store,engine,client=system
     payload=prepare(bundle(tmp_path))
     original=store.refund
-    def publish_then_refund(*args):
+    def publish_then_refund(*args, **kwargs):
         publish(store,payload)
-        return original(*args)
+        return original(*args, **kwargs)
     monkeypatch.setattr(store,'refund',publish_then_refund)
     rid=submit(client,'RF-1001')
     jobs.process_one(store,engine,rid)

@@ -1,5 +1,7 @@
 # ResolveFlow V3 — 售后 AI Agent 工作台
 
+5.4已完成：[合成订单导入手册](ORDER_SYNC.md)、[验收报告](validation/step-5.4-2026-10-03/REPORT.md)。提供独立本地HTTP合成源、管理员同步、重复/乱序/超时/归属校验，订单事实变化后旧审批转人工核查。325基础/163PG、24订单端到端及27兼容性检查通过；新入口http://127.0.0.1:8054，原8053和step36保留。仅本地提交，5.8统一推送/CI；5.5尚未开始，真实订单/资金未接入。
+
 5.3已按用户授权完成0元本地交付：[本地部署与联合备份手册](LOCAL_DEPLOYMENT.md)、[验收报告](validation/step-5.3-2026-10-03/REPORT.md)。301基础/149PG、26端到端及3项补充检查通过；个人账号、双工作区、身份与业务恢复、本地监控已实测。本机新入口http://127.0.0.1:8053，旧主环境仍step36并保留。公网/HTTPS/异地备份/整机外部监控暂缓，容量限流、免费沙箱及7天试运行待后续步骤。本步本地提交、不推送，5.8统一推送/同SHA CI；4.4暂缓。最新范围见[需求基线](docs/deployment/REQUIREMENTS.md)，账号说明见[ACCOUNTS.md](ACCOUNTS.md)。
 
 4.1已完成：[最终架构图与说明](ARCHITECTURE.md)（[SVG](docs/architecture/resolveflow.svg) / [PNG](docs/architecture/resolveflow.png)）。

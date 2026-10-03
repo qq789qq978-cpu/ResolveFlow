@@ -131,8 +131,8 @@ def test_refund_commit_before_checkpoint_replay(system,monkeypatch):
     rid=submit(c,'RF-1001')
     original=store.refund
     calls=[]
-    def fail_after_commit(*args):
-        result=original(*args)
+    def fail_after_commit(*args, **kwargs):
+        result=original(*args, **kwargs)
         calls.append(result)
         if len(calls)==1:raise RuntimeError('Injected interruption after ledger commit')
         return result
@@ -205,10 +205,10 @@ def test_policy_change_during_persisted_approval_blocks_refund(system, change):
 def test_refund_transaction_rechecks_after_engine_validation(system, monkeypatch):
     store, engine, client = system
     original = store.refund
-    def revoke_then_refund(*args):
+    def revoke_then_refund(*args, **kwargs):
         with store.connect() as conn:
             conn.execute("UPDATE rf_knowledge_documents SET governance=jsonb_set(governance,'{status}','\"revoked\"') WHERE id='refund-v2'")
-        return original(*args)
+        return original(*args, **kwargs)
     monkeypatch.setattr(store,'refund',revoke_then_refund)
     rid = submit(client,'RF-1001')
     jobs.process_one(store,engine,rid)

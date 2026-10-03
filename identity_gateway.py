@@ -66,6 +66,8 @@ def bearer(request):
 
 
 def business_route(method, path):
+    if path == 'order-sync' and method in ('GET','POST'):
+        return 'order-sync'
     if method == 'GET' and path in {'config', 'orders', 'knowledge', 'runs', 'metrics', 'alerts', 'policy-releases'}:
         return path
     if method == 'POST' and path == 'runs':

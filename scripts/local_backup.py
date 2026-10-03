@@ -64,7 +64,8 @@ def exclusive(work):
 def verify(bundle):
     bundle = Path(bundle)
     manifest = json.loads((bundle/'manifest.json').read_text())
-    if manifest['format'] != 1 or set(manifest['files']) != FILES or set(manifest['workspaces']) != {'alpha','beta'}:
+    expected_files = FILES | ({'synthetic-sources.json'} if manifest.get('orders') else set())
+    if manifest['format'] != 1 or set(manifest['files']) != expected_files or set(manifest['workspaces']) != {'alpha','beta'}:
         raise ValueError('Unsupported bundle')
     for name, expected in manifest['files'].items():
         p = bundle/name
@@ -99,8 +100,12 @@ def create(work, bundle):
                     'source_project': stack.project, 'workspaces': {}, 'files': {},
                     'quiesced_services': paused, 'image': stack.meta['image']}
         manifest['image_id'] = runtime_image(stack)
+        manifest['orders'] = stack.meta.get('orders',False)
         try:
             if paused: stack.cmd('stop','-t','30',*paused)
+            if manifest['orders']:
+                sources = {w:json.loads((stack.work/(w+'-orders.json')).read_text(encoding='utf-8')) for w in ('alpha','beta')}
+                (bundle/'synthetic-sources.json').write_text(json.dumps(sources),encoding='utf-8')
             identity = stack.helper('identity-init','identity-export')
             (bundle/'identity.sqlite3').write_bytes(base64.b64decode(identity['data']))
             manifest['identity'] = identity['snapshot']
@@ -112,7 +117,7 @@ def create(work, bundle):
             # docker start does not recursively start dependencies that were
             # already stopped by the operator before this maintenance window.
             if resume_ids: run(['docker','start',*resume_ids])
-        for name in FILES:
+        for name in FILES | ({'synthetic-sources.json'} if manifest['orders'] else set()):
             os.chmod(bundle/name, 0o600)
             manifest['files'][name] = hashlib.sha256((bundle/name).read_bytes()).hexdigest()
         # Completion marker is written only after all components and service restart succeed.
@@ -127,7 +132,11 @@ def restore(bundle, project, port):
     if actual_id != manifest['image_id']:
         raise ValueError('Backup image unavailable')
     # generate refuses existing configuration, containers, networks AND volumes.
-    work = generate(project, manifest['image_id'], port)
+    work = generate(project, manifest['image_id'], port,orders=manifest.get('orders',False))
+    if manifest.get('orders'):
+        sources = json.loads((bundle/'synthetic-sources.json').read_text(encoding='utf-8'))
+        for workspace in ('alpha','beta'):
+            (work/(workspace+'-orders.json')).write_text(json.dumps(sources[workspace]),encoding='utf-8')
     stack = Stack(work); result = {'passed': False, 'project': project, 'workspaces': {}}
     with exclusive(work):
         try:
@@ -154,7 +163,8 @@ def restore(bundle, project, port):
             (work/'compose.json').write_text(json.dumps(stack.config,indent=2),encoding='utf-8')
             # Start only runtimes; do not replay initialization/migrations on restored data.
             stack.cmd('up','-d','--no-deps','--wait','--wait-timeout','180',
-                'gateway','alpha-api','beta-api','alpha-worker','beta-worker','alpha-monitor','beta-monitor')
+                'gateway','alpha-api','beta-api','alpha-worker','beta-worker','alpha-monitor','beta-monitor',
+                *(['alpha-source','beta-source'] if manifest.get('orders') else []))
             result['passed'] = True
         except BaseException:
             stack.cmd('stop')

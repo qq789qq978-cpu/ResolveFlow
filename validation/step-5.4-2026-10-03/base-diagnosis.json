@@ -1,0 +1,12 @@
+{
+  "exit_code": 1,
+  "known_error_markers": {
+    "pool overlaps": true,
+    "port is already allocated": false,
+    "address already in use": false,
+    "network not found": false,
+    "unhealthy": false,
+    "failed to create network": true,
+    "not running": false
+  }
+}

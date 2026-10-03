@@ -188,9 +188,16 @@ class Engine:
             # Business uniqueness survives replay even if checkpoint commit fails.
             if self.repository:
                 from policy_governance import PolicyUnavailable
+                from order_sync import OrderChanged
                 try:
                     inserted = self.repository.refund(state["order_id"], state["run_id"], state["order"]["amount"],
-                        (state['proposal'], state['evidence'], self.mode))
+                        (state['proposal'], state['evidence'], self.mode), expected_order=state['order'])
+                except OrderChanged:
+                    message = '订单事实已变化，原调查或审批不可直接用于退款，请人工核查并重新调查。'
+                    result = {**checked['result'], 'status':'escalated', 'reason':message,
+                              'response':message, 'decision_source':'system'}
+                    return {'result':result,'route':'escalated','decision':False,'validated':False,
+                            'trace':state['trace']+[{'node':'execute','status':'escalated','code':'order_changed'}]}
                 except PolicyUnavailable as error:
                     result = {**checked['result'], 'status': 'escalated', 'grounding': error.grounding,
                               'policy_supported': False, 'reason': SAFE_NO_BASIS, 'response': SAFE_NO_BASIS,

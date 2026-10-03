@@ -1,0 +1,437 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "only workspace admin can synchronize",
+      "passed": true
+    },
+    {
+      "check": "admin fetches real private HTTP synthetic source",
+      "passed": true
+    },
+    {
+      "check": "same event retry returns duplicate",
+      "passed": true
+    },
+    {
+      "check": "other workspace has no imported alpha order",
+      "passed": true
+    },
+    {
+      "check": "wrong workspace in source rejected",
+      "passed": true
+    },
+    {
+      "check": "missing source fact rejects whole import",
+      "passed": true
+    },
+    {
+      "check": "same event with conflicting content rejected",
+      "passed": true
+    },
+    {
+      "check": "real source timeout bounded",
+      "passed": true
+    },
+    {
+      "check": "timeout malformed and missing replies leave imported facts intact",
+      "passed": true
+    },
+    {
+      "check": "imported order reaches simulated refund",
+      "passed": true
+    },
+    {
+      "check": "repeat imported refund preserves ledger",
+      "passed": true
+    },
+    {
+      "check": "imported rejection manual review and approval routes",
+      "passed": true
+    },
+    {
+      "check": "manual review can close imported shipping case",
+      "passed": true
+    },
+    {
+      "check": "shipping to delivered state update imported",
+      "passed": true
+    },
+    {
+      "check": "late older version cannot rewind current facts",
+      "passed": true
+    },
+    {
+      "check": "changed facts invalidate old approval at refund transaction",
+      "passed": true
+    },
+    {
+      "check": "unchanged imported order respects human denial",
+      "passed": true
+    },
+    {
+      "check": "business role cannot alter orders and importer cannot refund or approve",
+      "passed": true
+    },
+    {
+      "check": "Worker has neither source key nor importer credential",
+      "passed": true
+    },
+    {
+      "check": "sync journal records outcomes and personal actor",
+      "passed": true
+    },
+    {
+      "check": "joint backup includes journal and synthetic source fixture",
+      "passed": true
+    },
+    {
+      "check": "restored source retry remains duplicate",
+      "passed": true
+    },
+    {
+      "check": "original imported approval checkpoint resumes after restore",
+      "passed": true
+    },
+    {
+      "check": "duplicate restored approval refused",
+      "passed": true
+    }
+  ],
+  "projects": [
+    "resolveflow-accounts-step54-c",
+    "resolveflow-accounts-step54-c-r"
+  ],
+  "model_api_calls": 0,
+  "real_refunds": 0,
+  "image_id": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+  "source_timeout_seconds": 2.047,
+  "restore": {
+    "passed": true,
+    "project": "resolveflow-accounts-step54-c-r",
+    "workspaces": {
+      "alpha": {
+        "matched_tables": 22,
+        "table_fingerprints": {
+          "checkpoint_blobs": {
+            "count": 92,
+            "sha256": "d04efef74b9f3c08ebfd1a366ab804c5f34e5f2b570285b3f5b505e0677975ad"
+          },
+          "checkpoint_migrations": {
+            "count": 10,
+            "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+          },
+          "checkpoint_writes": {
+            "count": 176,
+            "sha256": "244bf602a300a5f88d0f68caefdc3edddb7274128a3030a03f32260b0fb1ed3f"
+          },
+          "checkpoints": {
+            "count": 39,
+            "sha256": "b16a322f4db5996ce4f33eda6a84f5f6eee285ce0ee429e0524a692ea085b539"
+          },
+          "rf_approvals": {
+            "count": 2,
+            "sha256": "78e6450e84c1939064b3a941328fce88c8490113bd570eaafbef7104e895f157"
+          },
+          "rf_audit": {
+            "count": 10,
+            "sha256": "d995ece079f47d2cbb874c0e7f90165f5ee6c5a8628bea220f2b31866eb06b87"
+          },
+          "rf_job_attempts": {
+            "count": 10,
+            "sha256": "ea2498600a25c69fddc255815a385d62eed6ca655f8971e496c97e3282ecea92"
+          },
+          "rf_jobs": {
+            "count": 8,
+            "sha256": "fbffd5a4116a3894875b86688e3b640f9b0177bca3d0d339b18ec7ef71152ce0"
+          },
+          "rf_knowledge_chunks": {
+            "count": 7,
+            "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+          },
+          "rf_knowledge_documents": {
+            "count": 3,
+            "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+          },
+          "rf_order_events": {
+            "count": 9,
+            "sha256": "925dd1199acc8e8a50868db41908cad33ba332654653f4c53c99d144adf06fcf"
+          },
+          "rf_order_versions": {
+            "count": 6,
+            "sha256": "4614f7b4951f04a36a28937b1ce04dab03eef156f1ba61a2ebd7bcfabe3e8f26"
+          },
+          "rf_orders": {
+            "count": 10,
+            "sha256": "64411537621fac349c368dce65fdc2b91a8ee64d7ffa75de46722572cc675e51"
+          },
+          "rf_policy_events": {
+            "count": 1,
+            "sha256": "c3c68528f697ad9e4ccea5225517c64a717b7fe74181959d766051ef7093fb1b"
+          },
+          "rf_policy_head": {
+            "count": 1,
+            "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+          },
+          "rf_policy_releases": {
+            "count": 1,
+            "sha256": "4c67339609163af646db5fbac88d100cc0183740a5ce8a6d52c0117277a26e58"
+          },
+          "rf_policy_reviews": {
+            "count": 3,
+            "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+          },
+          "rf_refunds": {
+            "count": 2,
+            "sha256": "d0a37bc866d20899add31977a73a15ef94051b705604c45aa0d88fcb4ea8aedf"
+          },
+          "rf_reviews": {
+            "count": 1,
+            "sha256": "df191f53f66aa6ed440a02d9be40efd007827485cfef5931bf2bb9255e3b7ec1"
+          },
+          "rf_runs": {
+            "count": 8,
+            "sha256": "ded8359018770889caade579220712193e9f4a43c7eb436647d0fa56a3aff837"
+          },
+          "rf_schema_version": {
+            "count": 1,
+            "sha256": "a15e7c35534e8bcd94de17bd51349dcc97c614c2f8d99c6af808e4926b50b060"
+          },
+          "rf_worker_heartbeats": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "catalog_equal": true,
+        "indexes_valid": true,
+        "revisions": [
+          "rf_orders_0001"
+        ],
+        "checkpoint_migrations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "sequences": {
+          "rf_audit_id_seq": {
+            "last_value": 10,
+            "is_called": true,
+            "table_max": 10,
+            "next_value": 11,
+            "safe": true
+          },
+          "rf_job_attempts_id_seq": {
+            "last_value": 10,
+            "is_called": true,
+            "table_max": 10,
+            "next_value": 11,
+            "safe": true
+          },
+          "rf_policy_events_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          }
+        },
+        "readable_checkpoints": [
+          {
+            "run_id": "16466d8a-3618-4bf3-ae27-9177ee49f426",
+            "status": "auto_rejected",
+            "checkpoint_id": "1f1bf02c-3998-6644-8002-4694a7989420"
+          },
+          {
+            "run_id": "19fe7669-be62-424f-82a1-ff6fa8545b0b",
+            "status": "awaiting_approval",
+            "checkpoint_id": "1f1bf02d-dd1d-6ea0-8002-0066ef4a20e9"
+          },
+          {
+            "run_id": "2563807f-e225-4ce9-ae7f-be3d0b83ec98",
+            "status": "refunded",
+            "checkpoint_id": "1f1bf02b-85e7-6813-8003-792df9140761"
+          },
+          {
+            "run_id": "33be8e50-e8c0-4ba8-b570-697911beff94",
+            "status": "refunded",
+            "checkpoint_id": "1f1bf02d-0a1e-66a3-8003-a69433cb22ac"
+          },
+          {
+            "run_id": "81e9267f-bafa-41d9-ae5a-ac7ebcaae9fe",
+            "status": "rejected",
+            "checkpoint_id": "1f1bf02e-1126-6ae4-8004-fa707997c7f2"
+          },
+          {
+            "run_id": "8ef76c08-338e-4d26-b318-1a2e5af73163",
+            "status": "closed",
+            "checkpoint_id": "1f1bf02c-756b-63c9-8002-6671194b90d1"
+          },
+          {
+            "run_id": "a10e8436-ba7b-40c4-b98a-521fbd975f0a",
+            "status": "already_refunded",
+            "checkpoint_id": "1f1bf02b-dea1-61bd-8003-a07a913348c9"
+          },
+          {
+            "run_id": "fa413cfd-0a53-4f70-9076-2dc71703ff78",
+            "status": "escalated",
+            "checkpoint_id": "1f1bf02d-3744-621a-8004-46e99b10f8ee"
+          }
+        ]
+      },
+      "beta": {
+        "matched_tables": 22,
+        "table_fingerprints": {
+          "checkpoint_blobs": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "checkpoint_migrations": {
+            "count": 10,
+            "sha256": "12a86faa3f4a0c0e066b20ab310b95a8862cbfe9a68f575f85085d17b96ca6d3"
+          },
+          "checkpoint_writes": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "checkpoints": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_approvals": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_audit": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_job_attempts": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_jobs": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_knowledge_chunks": {
+            "count": 7,
+            "sha256": "d29edfaa08cca796241d470101c281c54e71ad8ff817350625e1368fc08a8b91"
+          },
+          "rf_knowledge_documents": {
+            "count": 3,
+            "sha256": "46e8bc1d8180939a29dfe78d3bf7022ccc155c695ab89923d28b13f8e279e5c0"
+          },
+          "rf_order_events": {
+            "count": 1,
+            "sha256": "12d8431986b99a962b84f4fdd741f5d5cd140e53c2f5f7ea3fb1d4f90e294a32"
+          },
+          "rf_order_versions": {
+            "count": 1,
+            "sha256": "5259156c7e73a8068c3be7e5682ca90fb3256e848e7c9d49e0daea502189366a"
+          },
+          "rf_orders": {
+            "count": 5,
+            "sha256": "566712012cab7036a20fdc8ce78975b0ae81e094da00c78b9145c5a45dcceb60"
+          },
+          "rf_policy_events": {
+            "count": 1,
+            "sha256": "f26e68d051e2e77c068d62fe48f1a6311d8f6887522c58e23056f4ac1f295c7a"
+          },
+          "rf_policy_head": {
+            "count": 1,
+            "sha256": "8bb8949097b3a3b3bf731949d1238cbdea0452f005466d0a9bd9ae409e10468b"
+          },
+          "rf_policy_releases": {
+            "count": 1,
+            "sha256": "a30bad784c2fe2ee60aa7f34f92b74d9a14bf462be3565c1ea4a12a0b2fea79c"
+          },
+          "rf_policy_reviews": {
+            "count": 3,
+            "sha256": "d00a5164fe725bdc305fcd08daa1c2c3dce6ded43bbae353548bb98646f148bc"
+          },
+          "rf_refunds": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_reviews": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_runs": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "rf_schema_version": {
+            "count": 1,
+            "sha256": "a15e7c35534e8bcd94de17bd51349dcc97c614c2f8d99c6af808e4926b50b060"
+          },
+          "rf_worker_heartbeats": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "catalog_equal": true,
+        "indexes_valid": true,
+        "revisions": [
+          "rf_orders_0001"
+        ],
+        "checkpoint_migrations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "sequences": {
+          "rf_audit_id_seq": {
+            "last_value": 1,
+            "is_called": false,
+            "table_max": null,
+            "next_value": 1,
+            "safe": true
+          },
+          "rf_job_attempts_id_seq": {
+            "last_value": 1,
+            "is_called": false,
+            "table_max": null,
+            "next_value": 1,
+            "safe": true
+          },
+          "rf_policy_events_id_seq": {
+            "last_value": 1,
+            "is_called": true,
+            "table_max": 1,
+            "next_value": 2,
+            "safe": true
+          }
+        },
+        "readable_checkpoints": []
+      }
+    },
+    "identity": {
+      "accounts_and_audit_equal": true,
+      "old_sessions_revoked": true
+    }
+  },
+  "runs": {
+    "auto": "2563807f-e225-4ce9-ae7f-be3d0b83ec98",
+    "rejected": "16466d8a-3618-4bf3-ae27-9177ee49f426",
+    "manual": "8ef76c08-338e-4d26-b318-1a2e5af73163",
+    "changed_approval": "fa413cfd-0a53-4f70-9076-2dc71703ff78",
+    "denied": "81e9267f-bafa-41d9-ae5a-ac7ebcaae9fe",
+    "restored": "19fe7669-be62-424f-82a1-ff6fa8545b0b"
+  },
+  "stopped_volumes_preserved": true
+}

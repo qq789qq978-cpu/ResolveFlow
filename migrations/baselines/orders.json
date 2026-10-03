@@ -1,0 +1,187 @@
+{
+  "tables": {
+    "rf_order_versions": {
+      "columns": [
+        [
+          "order_id",
+          "text",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "workspace",
+          "text",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "source",
+          "text",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "version",
+          "bigint",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "payload_sha",
+          "text",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "updated_at",
+          "timestamp with time zone",
+          true,
+          "now()",
+          "",
+          ""
+        ]
+      ],
+      "constraints": [
+        [
+          "rf_order_versions_order_id_fkey",
+          "FOREIGN KEY (order_id) REFERENCES rf_orders(id)"
+        ],
+        [
+          "rf_order_versions_pkey",
+          "PRIMARY KEY (order_id)"
+        ],
+        [
+          "rf_order_versions_source_check",
+          "CHECK ((source = 'synthetic-v1'::text))"
+        ],
+        [
+          "rf_order_versions_version_check",
+          "CHECK ((version > 0))"
+        ]
+      ],
+      "indexes": [
+        [
+          "rf_order_versions_pkey",
+          "CREATE UNIQUE INDEX rf_order_versions_pkey ON rf_order_versions USING btree (order_id)"
+        ]
+      ],
+      "triggers": [],
+      "row_security": [
+        false,
+        false
+      ]
+    },
+    "rf_order_events": {
+      "columns": [
+        [
+          "event_id",
+          "uuid",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "order_id",
+          "text",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "workspace",
+          "text",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "version",
+          "bigint",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "payload_sha",
+          "text",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "outcome",
+          "text",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "actor",
+          "text",
+          true,
+          null,
+          "",
+          ""
+        ],
+        [
+          "created_at",
+          "timestamp with time zone",
+          true,
+          "now()",
+          "",
+          ""
+        ]
+      ],
+      "constraints": [
+        [
+          "rf_order_events_order_id_fkey",
+          "FOREIGN KEY (order_id) REFERENCES rf_orders(id)"
+        ],
+        [
+          "rf_order_events_outcome_check",
+          "CHECK ((outcome = ANY (ARRAY['applied'::text, 'ignored_stale'::text, 'unchanged'::text])))"
+        ],
+        [
+          "rf_order_events_pkey",
+          "PRIMARY KEY (event_id)"
+        ],
+        [
+          "rf_order_events_version_check",
+          "CHECK ((version > 0))"
+        ]
+      ],
+      "indexes": [
+        [
+          "rf_order_events_created",
+          "CREATE INDEX rf_order_events_created ON rf_order_events USING btree (created_at, event_id)"
+        ],
+        [
+          "rf_order_events_pkey",
+          "CREATE UNIQUE INDEX rf_order_events_pkey ON rf_order_events USING btree (event_id)"
+        ]
+      ],
+      "triggers": [],
+      "row_security": [
+        false,
+        false
+      ]
+    }
+  },
+  "sequences": []
+}

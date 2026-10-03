@@ -1,0 +1,1713 @@
+{
+  "tables": {
+    "rf_orders": {
+      "count": 4,
+      "fingerprint": "031d774c9445cc7bbb59ee3d81fb34ac"
+    },
+    "rf_runs": {
+      "count": 9,
+      "fingerprint": "ea9e49100ae3285a1b2ba41e22005607"
+    },
+    "rf_jobs": {
+      "count": 9,
+      "fingerprint": "fd7a53f50996ca1ecc54361432466791"
+    },
+    "rf_approvals": {
+      "count": 3,
+      "fingerprint": "6b9a18cb6349ba49e9fff492e87acf4a"
+    },
+    "rf_audit": {
+      "count": 12,
+      "fingerprint": "87ea6d7c7e4bd44b00948ac51f375a3d"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "fingerprint": "1984ad79f69a32150146670d7aa60f8f"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "rf_job_attempts": {
+      "count": 12,
+      "fingerprint": "d7fa14d35a8ff6c25b57e82fcda80f9d"
+    },
+    "checkpoints": {
+      "count": 43,
+      "fingerprint": "f8ff4ac19bec3addf3f062fdd2ceeffe"
+    },
+    "checkpoint_writes": {
+      "count": 192,
+      "fingerprint": "8d530e5fa216a3836b499e2e859eb734"
+    },
+    "checkpoint_blobs": {
+      "count": 101,
+      "fingerprint": "103e56ac8a2cb2606312503d03c04046"
+    },
+    "checkpoint_migrations": {
+      "count": 10,
+      "fingerprint": "63a282a08243f71966a92c9e91b8b367"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "fingerprint": "176c8ec729efa04b992385f95ae8315d"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "fingerprint": "04e60455e71eac1d32cdd150ab366b56"
+    },
+    "rf_policy_releases": {
+      "count": 1,
+      "fingerprint": "3a19d250607e17d94a5356b0d63ca6fb"
+    },
+    "rf_policy_head": {
+      "count": 1,
+      "fingerprint": "852053b99217efe0207a37fda9d8ccb8"
+    },
+    "rf_policy_reviews": {
+      "count": 3,
+      "fingerprint": "97bb1a5794d864939a7473b982b03a6e"
+    },
+    "rf_policy_events": {
+      "count": 1,
+      "fingerprint": "f2bae950241dea9d09a9807d2569b758"
+    },
+    "rf_vector_batches": {
+      "count": 1,
+      "fingerprint": "1f1e7d7e4a1a2caa4ee9a476ba4291d3"
+    },
+    "rf_policy_vectors": {
+      "count": 7,
+      "fingerprint": "11589a55533353f92e8de5e2ef24de85"
+    }
+  },
+  "catalog": {
+    "tables": {
+      "checkpoint_blobs": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            false,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_blobs_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, channel, version)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_blobs_pkey",
+            "CREATE UNIQUE INDEX checkpoint_blobs_pkey ON checkpoint_blobs USING btree (thread_id, checkpoint_ns, channel, version)"
+          ],
+          [
+            "checkpoint_blobs_thread_id_idx",
+            "CREATE INDEX checkpoint_blobs_thread_id_idx ON checkpoint_blobs USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_migrations": {
+        "columns": [
+          [
+            "v",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_migrations_pkey",
+            "PRIMARY KEY (v)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_migrations_pkey",
+            "CREATE UNIQUE INDEX checkpoint_migrations_pkey ON checkpoint_migrations USING btree (v)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoint_writes": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "idx",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "channel",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "blob",
+            "bytea",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "task_path",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoint_writes_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoint_writes_pkey",
+            "CREATE UNIQUE INDEX checkpoint_writes_pkey ON checkpoint_writes USING btree (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)"
+          ],
+          [
+            "checkpoint_writes_thread_id_idx",
+            "CREATE INDEX checkpoint_writes_thread_id_idx ON checkpoint_writes USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "checkpoints": {
+        "columns": [
+          [
+            "thread_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint_ns",
+            "text",
+            true,
+            "''::text",
+            "",
+            ""
+          ],
+          [
+            "checkpoint_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "parent_checkpoint_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "checkpoint",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "metadata",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "checkpoints_pkey",
+            "PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "checkpoints_pkey",
+            "CREATE UNIQUE INDEX checkpoints_pkey ON checkpoints USING btree (thread_id, checkpoint_ns, checkpoint_id)"
+          ],
+          [
+            "checkpoints_thread_id_idx",
+            "CREATE INDEX checkpoints_thread_id_idx ON checkpoints USING btree (thread_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_approvals": {
+        "columns": [
+          [
+            "run_id",
+            "uuid",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "approved",
+            "boolean",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "actor",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "reason",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "created_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_approvals_pkey",
+            "PRIMARY KEY (run_id)"
+          ],
+          [
+            "rf_approvals_run_id_fkey",
+            "FOREIGN KEY (run_id) REFERENCES rf_runs(id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_approvals_pkey",
+            "CREATE UNIQUE INDEX rf_approvals_pkey ON rf_approvals USING btree (run_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_audit": {
+        "columns": [
+          [
+            "id",
+            "bigint",
+            true,
+            "nextval('rf_audit_id_seq'::regclass)",
+            "",
+            ""
+          ],
+          [
+            "run_id",
+            "uuid",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "actor",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "action",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "created_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_audit_pkey",
+            "PRIMARY KEY (id)"
+          ],
+          [
+            "rf_audit_run_id_fkey",
+            "FOREIGN KEY (run_id) REFERENCES rf_runs(id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_audit_pkey",
+            "CREATE UNIQUE INDEX rf_audit_pkey ON rf_audit USING btree (id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_job_attempts": {
+        "columns": [
+          [
+            "id",
+            "bigint",
+            true,
+            "nextval('rf_job_attempts_id_seq'::regclass)",
+            "",
+            ""
+          ],
+          [
+            "run_id",
+            "uuid",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "kind",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "success",
+            "boolean",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "error_type",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "elapsed_ms",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "created_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_job_attempts_pkey",
+            "PRIMARY KEY (id)"
+          ],
+          [
+            "rf_job_attempts_run_id_fkey",
+            "FOREIGN KEY (run_id) REFERENCES rf_runs(id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_job_attempts_pkey",
+            "CREATE UNIQUE INDEX rf_job_attempts_pkey ON rf_job_attempts USING btree (id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_jobs": {
+        "columns": [
+          [
+            "run_id",
+            "uuid",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "kind",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "status",
+            "text",
+            true,
+            "'queued'::text",
+            "",
+            ""
+          ],
+          [
+            "attempts",
+            "integer",
+            true,
+            "0",
+            "",
+            ""
+          ],
+          [
+            "available_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ],
+          [
+            "last_error",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "updated_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_jobs_kind_check",
+            "CHECK ((kind = ANY (ARRAY['investigate'::text, 'approval'::text])))"
+          ],
+          [
+            "rf_jobs_pkey",
+            "PRIMARY KEY (run_id)"
+          ],
+          [
+            "rf_jobs_run_id_fkey",
+            "FOREIGN KEY (run_id) REFERENCES rf_runs(id)"
+          ],
+          [
+            "rf_jobs_status_check",
+            "CHECK ((status = ANY (ARRAY['queued'::text, 'done'::text, 'failed'::text])))"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_jobs_pkey",
+            "CREATE UNIQUE INDEX rf_jobs_pkey ON rf_jobs USING btree (run_id)"
+          ],
+          [
+            "rf_jobs_ready",
+            "CREATE INDEX rf_jobs_ready ON rf_jobs USING btree (status, available_at)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_knowledge_chunks": {
+        "columns": [
+          [
+            "chunk_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "document_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "position",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "text",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "line_start",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "line_end",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_knowledge_chunks_document_id_fkey",
+            "FOREIGN KEY (document_id) REFERENCES rf_knowledge_documents(id) ON DELETE CASCADE"
+          ],
+          [
+            "rf_knowledge_chunks_pkey",
+            "PRIMARY KEY (chunk_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_chunks_document",
+            "CREATE INDEX rf_chunks_document ON rf_knowledge_chunks USING btree (document_id)"
+          ],
+          [
+            "rf_knowledge_chunks_pkey",
+            "CREATE UNIQUE INDEX rf_knowledge_chunks_pkey ON rf_knowledge_chunks USING btree (chunk_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_knowledge_documents": {
+        "columns": [
+          [
+            "id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "title",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "source",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "version",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "sha256",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "body",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "governance",
+            "jsonb",
+            true,
+            "'{}'::jsonb",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_knowledge_documents_pkey",
+            "PRIMARY KEY (id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_knowledge_documents_pkey",
+            "CREATE UNIQUE INDEX rf_knowledge_documents_pkey ON rf_knowledge_documents USING btree (id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_orders": {
+        "columns": [
+          [
+            "id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "owner",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "amount",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "days",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "used",
+            "boolean",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "status",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_orders_amount_check",
+            "CHECK ((amount > 0))"
+          ],
+          [
+            "rf_orders_days_check",
+            "CHECK ((days >= 0))"
+          ],
+          [
+            "rf_orders_pkey",
+            "PRIMARY KEY (id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_orders_pkey",
+            "CREATE UNIQUE INDEX rf_orders_pkey ON rf_orders USING btree (id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_policy_events": {
+        "columns": [
+          [
+            "id",
+            "bigint",
+            true,
+            "nextval('rf_policy_events_id_seq'::regclass)",
+            "",
+            ""
+          ],
+          [
+            "action",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "previous_release",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "target_release",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "generation",
+            "bigint",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "actor",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "reason",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "details",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "created_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_policy_events_pkey",
+            "PRIMARY KEY (id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_policy_events_pkey",
+            "CREATE UNIQUE INDEX rf_policy_events_pkey ON rf_policy_events USING btree (id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_policy_head": {
+        "columns": [
+          [
+            "singleton",
+            "boolean",
+            true,
+            "true",
+            "",
+            ""
+          ],
+          [
+            "release_id",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "generation",
+            "bigint",
+            true,
+            "0",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_policy_head_pkey",
+            "PRIMARY KEY (singleton)"
+          ],
+          [
+            "rf_policy_head_release_id_fkey",
+            "FOREIGN KEY (release_id) REFERENCES rf_policy_releases(id)"
+          ],
+          [
+            "rf_policy_head_singleton_check",
+            "CHECK (singleton)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_policy_head_pkey",
+            "CREATE UNIQUE INDEX rf_policy_head_pkey ON rf_policy_head USING btree (singleton)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_policy_releases": {
+        "columns": [
+          [
+            "id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "sha256",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "payload",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "actor",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "reason",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "created_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_policy_releases_pkey",
+            "PRIMARY KEY (id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_policy_releases_pkey",
+            "CREATE UNIQUE INDEX rf_policy_releases_pkey ON rf_policy_releases USING btree (id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_policy_reviews": {
+        "columns": [
+          [
+            "document_sha256",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "governance",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_policy_reviews_pkey",
+            "PRIMARY KEY (document_sha256)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_policy_reviews_pkey",
+            "CREATE UNIQUE INDEX rf_policy_reviews_pkey ON rf_policy_reviews USING btree (document_sha256)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_policy_vectors": {
+        "columns": [
+          [
+            "batch_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "chunk_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "document_sha",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "text_sha",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "embedding",
+            "vector(384)",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "vector_sha",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_policy_vectors_batch_id_fkey",
+            "FOREIGN KEY (batch_id) REFERENCES rf_vector_batches(id) ON DELETE CASCADE"
+          ],
+          [
+            "rf_policy_vectors_pkey",
+            "PRIMARY KEY (batch_id, chunk_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_policy_vectors_pkey",
+            "CREATE UNIQUE INDEX rf_policy_vectors_pkey ON rf_policy_vectors USING btree (batch_id, chunk_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_refunds": {
+        "columns": [
+          [
+            "order_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "run_id",
+            "uuid",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "amount",
+            "integer",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "created_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_refunds_amount_check",
+            "CHECK ((amount > 0))"
+          ],
+          [
+            "rf_refunds_order_id_fkey",
+            "FOREIGN KEY (order_id) REFERENCES rf_orders(id)"
+          ],
+          [
+            "rf_refunds_pkey",
+            "PRIMARY KEY (order_id)"
+          ],
+          [
+            "rf_refunds_run_id_fkey",
+            "FOREIGN KEY (run_id) REFERENCES rf_runs(id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_refunds_pkey",
+            "CREATE UNIQUE INDEX rf_refunds_pkey ON rf_refunds USING btree (order_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_reviews": {
+        "columns": [
+          [
+            "run_id",
+            "uuid",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "actor",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "resolution",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "created_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_reviews_pkey",
+            "PRIMARY KEY (run_id)"
+          ],
+          [
+            "rf_reviews_run_id_fkey",
+            "FOREIGN KEY (run_id) REFERENCES rf_runs(id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_reviews_pkey",
+            "CREATE UNIQUE INDEX rf_reviews_pkey ON rf_reviews USING btree (run_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_runs": {
+        "columns": [
+          [
+            "id",
+            "uuid",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "ticket",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "order_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "status",
+            "text",
+            true,
+            "'running'::text",
+            "",
+            ""
+          ],
+          [
+            "mode",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "model",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "state",
+            "jsonb",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "error",
+            "text",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "elapsed_ms",
+            "integer",
+            false,
+            null,
+            "",
+            ""
+          ],
+          [
+            "created_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ],
+          [
+            "updated_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ],
+          [
+            "created_by",
+            "text",
+            true,
+            "'operator'::text",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_runs_pkey",
+            "PRIMARY KEY (id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_runs_pkey",
+            "CREATE UNIQUE INDEX rf_runs_pkey ON rf_runs USING btree (id)"
+          ],
+          [
+            "rf_runs_status_created",
+            "CREATE INDEX rf_runs_status_created ON rf_runs USING btree (status, created_at DESC)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_schema_version": {
+        "columns": [
+          [
+            "version_num",
+            "character varying(32)",
+            true,
+            null,
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_schema_version_pkc",
+            "PRIMARY KEY (version_num)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_schema_version_pkc",
+            "CREATE UNIQUE INDEX rf_schema_version_pkc ON rf_schema_version USING btree (version_num)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_vector_batches": {
+        "columns": [
+          [
+            "id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "release_sha",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "contract",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "manifest",
+            "jsonb",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "created_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_vector_batches_pkey",
+            "PRIMARY KEY (id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_vector_batches_pkey",
+            "CREATE UNIQUE INDEX rf_vector_batches_pkey ON rf_vector_batches USING btree (id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      },
+      "rf_worker_heartbeats": {
+        "columns": [
+          [
+            "worker_id",
+            "text",
+            true,
+            null,
+            "",
+            ""
+          ],
+          [
+            "seen_at",
+            "timestamp with time zone",
+            true,
+            "now()",
+            "",
+            ""
+          ]
+        ],
+        "constraints": [
+          [
+            "rf_worker_heartbeats_pkey",
+            "PRIMARY KEY (worker_id)"
+          ]
+        ],
+        "indexes": [
+          [
+            "rf_worker_heartbeats_pkey",
+            "CREATE UNIQUE INDEX rf_worker_heartbeats_pkey ON rf_worker_heartbeats USING btree (worker_id)"
+          ]
+        ],
+        "triggers": [],
+        "row_security": [
+          false,
+          false
+        ]
+      }
+    },
+    "sequences": [
+      [
+        "rf_audit_id_seq",
+        "rf_audit",
+        "id",
+        "bigint",
+        1,
+        1,
+        9223372036854775807,
+        1,
+        1,
+        false
+      ],
+      [
+        "rf_job_attempts_id_seq",
+        "rf_job_attempts",
+        "id",
+        "bigint",
+        1,
+        1,
+        9223372036854775807,
+        1,
+        1,
+        false
+      ],
+      [
+        "rf_policy_events_id_seq",
+        "rf_policy_events",
+        "id",
+        "bigint",
+        1,
+        1,
+        9223372036854775807,
+        1,
+        1,
+        false
+      ]
+    ],
+    "application_tables": [
+      "rf_approvals",
+      "rf_audit",
+      "rf_job_attempts",
+      "rf_jobs",
+      "rf_knowledge_chunks",
+      "rf_knowledge_documents",
+      "rf_orders",
+      "rf_policy_events",
+      "rf_policy_head",
+      "rf_policy_releases",
+      "rf_policy_reviews",
+      "rf_policy_vectors",
+      "rf_refunds",
+      "rf_reviews",
+      "rf_runs",
+      "rf_vector_batches",
+      "rf_worker_heartbeats"
+    ],
+    "langgraph_tables": [
+      "checkpoint_blobs",
+      "checkpoint_migrations",
+      "checkpoint_writes",
+      "checkpoints"
+    ],
+    "unknown_tables": [],
+    "revisions": [
+      "rf_vector_0001"
+    ],
+    "extensions": [
+      [
+        "plpgsql",
+        "1.0",
+        "pg_catalog"
+      ],
+      [
+        "vector",
+        "0.8.6",
+        "public"
+      ]
+    ]
+  },
+  "containers": {
+    "db": {
+      "id": "c7ab8ba59fcfe899128e9197b7d9a1fc62e26aa2a2b420e4dbd2580eff24cfe7",
+      "image": "sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6",
+      "started": "2026-10-03T06:51:25.2568909Z",
+      "health": "healthy",
+      "volumes": {
+        "/var/lib/postgresql/data": "resolveflow_postgres-data"
+      }
+    },
+    "resolveflow": {
+      "id": "7c1d9643be37c78a3647a7df9ad41963021f70d7a48e033168332c09418359eb",
+      "image": "sha256:ca318ed482147fb2307c6d1b53e95e2a7c93301eef7a35a9b1ee3bb4cc220cec",
+      "started": "2026-10-03T06:51:34.227727Z",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_agent-data"
+      }
+    },
+    "worker": {
+      "id": "e544e193d9b9838f43053173b590e75091f60d2970ec174a18992a5dfe909aa8",
+      "image": "sha256:ca318ed482147fb2307c6d1b53e95e2a7c93301eef7a35a9b1ee3bb4cc220cec",
+      "started": "2026-10-03T06:51:25.2392865Z",
+      "health": "healthy",
+      "volumes": {
+        "/data": "resolveflow_worker-data"
+      }
+    },
+    "embedding": {
+      "id": "fb32bd28e5b9d2f80e9d88ff50e6f25f277a48880137750e8164986003c741c4",
+      "image": "sha256:6889b83d5748525639d336a4f526f5183e77e640cb6cc33c1a7221420cca77b9",
+      "started": "2026-10-03T06:51:25.2264325Z",
+      "health": "healthy",
+      "volumes": {}
+    }
+  }
+}

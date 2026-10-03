@@ -72,6 +72,9 @@ def grant_runtime(c,schema='public',roles=None):
     c.execute(sql.SQL('ALTER FUNCTION {}() OWNER TO {}').format(function,owner))
     c.execute(sql.SQL('REVOKE ALL ON FUNCTION {}() FROM PUBLIC,{},{}').format(function,app,reader))
     c.execute(sql.SQL('GRANT EXECUTE ON FUNCTION {}() TO {}').format(function,app))
+    if 'rf_order_versions' in cat['tables']:
+        from order_sync_roles import refresh
+        refresh(c,schema)
     return {'tables':len(cat['tables']),'sequences':len(cat['sequences'])}
 
 
@@ -128,6 +131,9 @@ def main():
         if args.action=='provision':result=provision(os.environ['DATABASE_URL'],{k:os.environ[v] for k,v in PASSWORD_ENV.items()})
         else:
             with psycopg.connect(os.environ['DATABASE_URL']) as c:result=grant_runtime(c)
+        if args.action=='provision' and os.getenv('RF_ORDER_SYNC_PASSWORD'):
+            from order_sync_roles import provision as provision_sync
+            provision_sync(os.environ['DATABASE_URL'],os.environ['RF_ORDER_SYNC_PASSWORD'])
         print(json.dumps(result));return 0
     except Exception as exc:
         print(json.dumps({'passed':False,'error_type':type(exc).__name__}));return 1
