@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-10-03T03:16:52.715556+00:00",
+  "command": [
+    "docker",
+    "version",
+    "--format",
+    "{{.Server.Version}}"
+  ],
+  "exit_code": 1,
+  "server_available": false,
+  "failure_category": "dockerDesktopLinuxEngine_pipe_unavailable",
+  "docker_started": false,
+  "live_replay_run": false,
+  "current_container_health_verified": false,
+  "current_volume_state_verified": false
+}

@@ -118,7 +118,7 @@ def main():
     doc.add_heading('再次演示',2)
     paragraph(doc,'只阅读本文件即可展示。需要重新操作时，按 REPLAY.md 选择全新项目名与空闲端口；不要清空旧数据库来重置退款，不要将演示导向主环境。结束后只停止演示服务，保留卷和记录。')
     doc.save(OUT/'ResolveFlow-demo.docx')
-    md=['# '+STORY['title'],'', '[下载 Word 版本](ResolveFlow-demo.docx) · [安全复现步骤](REPLAY.md) · [验收报告](../../validation/step-4.2-2026-09-23/REPORT.md)','',
+    md=['# '+STORY['title'],'', '[下载 Word 版本](ResolveFlow-demo.docx) · [翻页与讲解指南](PRESENTING.md) · [安全复现步骤](REPLAY.md) · [4.2 实跑报告](../../validation/step-4.2-2026-09-23/REPORT.md)','',
         '真实页面截图与可直接讲述的脚本。按图 1–8 阅读，建议约 2 分 40 秒；图 9 是可选对照。'+STORY['timing_note'],'',
         '独立 demo、BM25、合成订单、模拟退款。运行镜像 resolveflow:step39-ci-fix，代码基线 `526e166`。本机主环境仍为 step36，本轮不调用付费模型。','',
         '## 演示数据','', '|订单|合成事实|实测结果|','|---|---|---|']
@@ -133,7 +133,7 @@ def main():
     md += ['## 证据入口','',
            '[审批前](../../validation/step-4.2-2026-09-23/before-approval.json)、[审批后](../../validation/step-4.2-2026-09-23/after-approval.json)、[最终状态](../../validation/step-4.2-2026-09-23/final-demo.json)、[核对结果](../../validation/step-4.2-2026-09-23/verification.json)。', '',
            '图号按讲解顺序排列；实际采集时图 9 先于图 8，图 8 先于最终图 7。Word 裁切范围记录于 [story.json](story.json)，原始 PNG 保留完整浏览器视口，均未改写内容。','',
-           '本步仅本地提交；4.3继续截图材料复核与补充，无视频任务；4.5统一推送并核验对应提交CI。']
+           '截图采集于2026-09-23；2026-10-03完成4.3材料复核，见[复核报告](../../validation/step-4.3-2026-10-03/REPORT.md)。本次未重新实跑，当前服务健康未验证。无视频任务；4.4另行执行，4.5统一推送并核验对应提交CI。']
     (OUT/'README.md').write_text('\n'.join(md)+'\n',encoding='utf-8')
     print(json.dumps({'docx':str(OUT/'ResolveFlow-demo.docx'),'screenshots':len(STORY['scenes'])}))
 

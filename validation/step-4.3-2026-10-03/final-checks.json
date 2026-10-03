@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "staged_files_checked": 12,
+  "configured_secret_matches": 0,
+  "demo_secret_matches": 0,
+  "private_files_staged": false,
+  "python_syntax": "passed",
+  "git_diff_check": "passed",
+  "tracked_document_changes_sha256_lf": {
+    "EXECUTION_PLAN.md": "9851ba0b4e976780668ca063e74dad906cba8f05a2dcfbd61872e92d59f31f32",
+    "PROJECT_HANDOFF.md": "187415eabfba7d8e0a0b2688f80f29043d118613ef112f13bb3ecc944d095234",
+    "ROADMAP.md": "72535724be1e8b728805b4d0afc026dc144d79da1f2ca5ab869d87ebe74d46d7",
+    "docs/demo/PRESENTING.md": "ad5b19d7615bfa113ba5e4101c175fa959b8e57c78f2f34684c2e8c20c5625d1",
+    "docs/demo/README.md": "61a71678b3b1da9db0d338cbf016108d35c10ab9e4cbdc66f94898e3c1171110",
+    "docs/demo/REPLAY.md": "64593e40e5733e4c2ebff30de978f9e9c4cadfc90e12386454a23f228b6d2e8d",
+    "scripts/build_demo_document.py": "f9c5fb6796305b7758ee2c9edea5c838da17320a1b36df6f9e385b11a192e431",
+    "validation/step-4.3-2026-10-03/REPORT.md": "de33a5a93a02d4acb7e84faeff3bd3e62d37e309e3e1a8bdebdb2e689ee42d35",
+    "validation/step-4.3-2026-10-03/audit.py": "7382a67062d14287ed77e3b9e6f450b169e2853c5b1d99e7924a68ef45c386c3",
+    "validation/step-4.3-2026-10-03/environment.json": "1a8968fadc39f7c118bfbe3f72b236fa9dfb2dd45a5967c02ec079abaf5fe043",
+    "validation/step-4.3-2026-10-03/verification.json": "93cf734fa508c41c30ed3f650bca2746584f0d99fa2c1536d8f6ca902610805c",
+    "validation/step-4.3-2026-10-03/visual-review.json": "c22e9de7a313b7f838e47359c811dad4ad7c7468e62c9d505a28027c616bac2f"
+  },
+  "note": "Hashes cover staged files before adding this receipt; no credential values recorded."
+}
