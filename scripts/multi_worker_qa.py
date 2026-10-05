@@ -31,6 +31,17 @@ def distinct_worker_clients(rows, workers):
     return represented == {w['id'] for w in workers}
 
 
+def serialized_refund_waiters(rows, gate_pid):
+    """Observe the actual 5.4 order guard -> refund fixture lock chain."""
+    writers = [r for r in rows if r['operation'] == 'refund_insert' and r['wait_event'] == 'advisory'
+               and gate_pid in r['blockers']]
+    if len(writers) != 1:
+        return None
+    waiters = [r for r in rows if r['operation'] == 'order_guard' and r['wait_event'] == 'advisory'
+               and writers[0]['pid'] in r['blockers'] and r['pid'] != writers[0]['pid']]
+    return [writers[0], waiters[0]] if len(waiters) == 1 else None
+
+
 def admin(path, body=None, timeout=5):
     start = time.monotonic()
     request = urllib.request.Request(qa.URL + path, headers={
@@ -147,13 +158,16 @@ def main():
         observer.call('multi_cleanup')
 
         if not args.baseline:
-            # Both real workers reach the same order's refund boundary concurrently.
+            # 5.4 serializes order revalidation and refund under one order lock.
+            # One Worker waits at the refund trigger; the other must wait on it
+            # at the order guard, never bypassing this production protection.
             order = observer.call('multi_seed')['id']
             concurrent = report['concurrent'] = {'order_id': order, 'gate': observer.call('multi_gate', order_id=order)}
             concurrent['run_ids'] = [submit(order), submit(order)]
-            concurrent['blocked'] = blocked(2)
+            concurrent['blocked'] = qa.wait_for(lambda: serialized_refund_waiters(
+                observer.call('multi_activity'), concurrent['gate']['gate_pid']), 25)
             require(distinct_worker_clients(concurrent['blocked'], report['workers_before']),
-                    'two distinct Worker containers concurrently execute different jobs for the same order')
+                    'two distinct Workers execute same-order jobs with order-guard serialization')
             concurrent['before'] = [observer.call('snapshot', run_id=rid) for rid in concurrent['run_ids']]
             require(all(not s['job_lock_available'] and s['job']['attempts'] == 0 for s in concurrent['before']),
                     'both active job rows are locked and cannot be claimed by another Worker')
@@ -175,12 +189,36 @@ def main():
                 qa.docker('unpause', w)
             timeout_case['blocked'] = observer.call('blocked', run_id=timeout_case['run_id'])
             start = time.monotonic()
-            failed = qa.wait_for(lambda: (r if (r := qa.api('/api/runs/' + timeout_case['run_id']))['job']['status'] == 'failed' else None), 145)
+            # Task attempt time includes supervisor/MCP process startup. Measure
+            # blocked PG query lifetime directly, not the whole attempt, against
+            # the unchanged 10s SQL / 15s MCP read deadline.
+            active_queries = {}
+            timeout_case['sql_waits'] = []
+            def exhausted():
+                sample_started = time.monotonic()
+                rows = [r for r in observer.call('multi_activity')
+                        if r['operation'] == 'order_read' and timeout_case['gate']['gate_pid'] in r['blockers']]
+                observed = time.monotonic()
+                for row in rows:
+                    active_queries[row['pid']] = {'pid':row['pid'], 'client_addr':row['client_addr'],
+                        'last_query_seconds':float(row['query_seconds']), 'sample_started':sample_started}
+                for pid in list(active_queries):
+                    if pid not in {r['pid'] for r in rows}:
+                        q = active_queries.pop(pid)
+                        timeout_case['sql_waits'].append({'pid':pid,'client_addr':q['client_addr'],
+                            'lower_seconds':q['last_query_seconds'],
+                            'upper_seconds':q['last_query_seconds']+observed-q['sample_started']})
+                row = qa.api('/api/runs/' + timeout_case['run_id'])
+                return row if row['job']['status'] == 'failed' and not active_queries else None
+            failed = qa.wait_for(exhausted, 145)
             timeout_case['seconds_until_failed'] = round(time.monotonic() - start, 3)
             timeout_case['failed'] = observer.call('snapshot', run_id=timeout_case['run_id'])
             require(failed['job']['attempts'] == 3 and len(timeout_case['failed']['attempts']) == 3,
                     'real MCP timeout consumes exactly three ordinary attempts then fails')
-            require(all(not a['success'] and 9000 <= a['elapsed_ms'] < 15000 for a in timeout_case['failed']['attempts']),
+            require(len(timeout_case['sql_waits']) == 3 and not active_queries
+                    and all(not a['success'] for a in timeout_case['failed']['attempts'])
+                    and all(9 <= q['lower_seconds'] <= q['upper_seconds'] < 15
+                            and q['client_addr'] in addresses for q in timeout_case['sql_waits']),
                     'each observed server-side SQL timeout finishes before the 15-second MCP read deadline')
             attempts = timeout_case['failed']['attempts']
             timeout_case['retry_gaps_seconds'] = [round((datetime.fromisoformat(b['created_at'])
@@ -212,6 +250,9 @@ def main():
         report['passed'] = True
     except Exception as error:
         report['error_type'] = type(error).__name__
+        if observer:
+            try: report['failure_activity'] = observer.call('multi_activity')
+            except Exception as diagnostic_error: report['diagnostic_error_type'] = type(diagnostic_error).__name__
         if isinstance(error, qa.ObserverError):
             report['observer_error'] = error.details
         print('QA failed: ' + type(error).__name__, flush=True)

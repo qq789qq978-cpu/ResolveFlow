@@ -42,10 +42,12 @@ class MultiGate:
             return self.observer.execute("""
                 SELECT pid,host(client_addr) AS client_addr,state,wait_event_type,wait_event,
                     extract(epoch FROM clock_timestamp()-xact_start) AS transaction_seconds,
+                    extract(epoch FROM clock_timestamp()-query_start) AS query_seconds,
                     pg_blocking_pids(pid) AS blockers,
                     CASE WHEN EXISTS(SELECT 1 FROM pg_locks l WHERE l.pid=pg_stat_activity.pid
                                       AND l.relation='rf_jobs'::regclass AND l.mode='RowShareLock' AND l.granted)
                               AND state='idle in transaction' THEN 'queue_claim'
+                         WHEN query LIKE 'SELECT pg_advisory_xact_lock(hashtextextended(%' THEN 'order_guard'
                          WHEN query LIKE 'INSERT INTO rf_refunds%' THEN 'refund_insert'
                          WHEN query LIKE 'SELECT * FROM rf_orders WHERE%' THEN 'order_read'
                          ELSE 'other' END AS operation

@@ -1,0 +1,18 @@
+{
+  "sha": "d7c9255f07a056a9f124407bc2065e5314489bc3",
+  "run_id": 37297845672,
+  "url": "https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/37297845672",
+  "conclusion": "failure",
+  "passed_faults": [
+    "1.5",
+    "1.6",
+    "1.7",
+    "1.8"
+  ],
+  "failed_fault": "1.9",
+  "passed_checks_before_failure": 11,
+  "cause": "Legacy fixture waited for two refund INSERT backends, but 5.4 serializes same-order revalidation/refund with an advisory transaction lock, so second worker waits at order guard",
+  "business_protection_removed": false,
+  "fix": "Observe writer blocked by fixture and second worker blocked by writer order guard; still require distinct workers, both job locks, exactly one refund and one duplicate result",
+  "original_logs_private": "work/step58/37297845672/logs.zip"
+}

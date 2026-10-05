@@ -1,0 +1,47 @@
+{
+  "stage": 1,
+  "passed": false,
+  "started_utc": "2026-10-05T11:00:32.967792+00:00",
+  "image": "resolveflow:local",
+  "project_prefix": "resolveflow-qa-step",
+  "mode": "demo",
+  "cases": [
+    {
+      "step": "1.5",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.5.json",
+      "checks": 25
+    },
+    {
+      "step": "1.6",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.6.json",
+      "checks": 52
+    },
+    {
+      "step": "1.7",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.7.json",
+      "checks": 59
+    },
+    {
+      "step": "1.8",
+      "passed": true,
+      "exit_code": 0,
+      "report": "step-1.8.json",
+      "checks": 34
+    },
+    {
+      "step": "1.9",
+      "passed": false,
+      "exit_code": 1,
+      "report": "step-1.9.json",
+      "checks": 11
+    }
+  ],
+  "scope": "Fault regressions 1.5-1.9, not UI or load testing",
+  "finished_utc": "2026-10-05T11:08:40.040770+00:00"
+}

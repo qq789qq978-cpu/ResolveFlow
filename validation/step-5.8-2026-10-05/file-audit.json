@@ -1,9 +1,9 @@
 {
   "passed": true,
-  "files": 236,
+  "files": 249,
   "new_historical_blobs_scanned": 287,
-  "python_parsed": 47,
-  "local_links_checked": 465,
+  "python_parsed": 50,
+  "local_links_checked": 466,
   "known_credential_values_checked": 737,
   "secret_matches": [],
   "broken_links": [],

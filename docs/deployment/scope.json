@@ -167,7 +167,7 @@
       "steps": [
         "5.8"
       ],
-      "status": "release_gated",
+      "status": "paused_pending_new_sha_ci",
       "evidence": "validation/step-5.8-2026-10-05/REPORT.md",
       "completion_rule": "clean_worktree_and_HEAD_equals_remote_main_and_matching_successful_CI_artifact_receipt"
     }
@@ -364,6 +364,22 @@
       "isolated_restore_checks": 27,
       "preservation_checks": 32,
       "report": "validation/step-5.8-2026-10-05/local-restart-fix.json"
-    }
+    },
+    "second_ci": {
+      "sha": "d7c9255",
+      "run_id": 37297845672,
+      "result": "failure_preserved",
+      "failure": "legacy_1.9_order_guard_observation"
+    },
+    "fault_fixture_fix": {
+      "unit_tests": 13,
+      "new_cases": 5,
+      "real_fault_checks": 28,
+      "business_protection_changed": false,
+      "sql_deadline_changed": false,
+      "report": "validation/step-5.8-2026-10-05/multi-worker-final.json"
+    },
+    "status": "paused_user_requested",
+    "resume": "validation/step-5.8-2026-10-05/RESUME.md"
   }
 }

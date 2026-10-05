@@ -1,0 +1,2396 @@
+{
+  "step": "1.9",
+  "baseline": false,
+  "project": "resolveflow-qa-step19",
+  "started_utc": "2026-10-05T11:06:40.102299+00:00",
+  "passed": false,
+  "checks": [
+    {
+      "check": "two real healthy QA Workers",
+      "passed": true
+    },
+    {
+      "check": "demo mode",
+      "passed": true
+    },
+    {
+      "check": "real Worker is waiting in refund SQL",
+      "passed": true
+    },
+    {
+      "check": "busy admin retry promptly returns HTTP 409",
+      "passed": true
+    },
+    {
+      "check": "second Worker completes unrelated job while first is stalled",
+      "passed": true
+    },
+    {
+      "check": "both heartbeats and health checks stay green while one task is stalled",
+      "passed": true
+    },
+    {
+      "check": "stalled run retains job lock and pending execute checkpoint",
+      "passed": true
+    },
+    {
+      "check": "blocked refund has not committed",
+      "passed": true
+    },
+    {
+      "check": "queue transaction remains open beyond 30 seconds without an overall task deadline",
+      "passed": true
+    },
+    {
+      "check": "releasing external SQL blocker completes original job",
+      "passed": true
+    },
+    {
+      "check": "busy retry request neither resets nor duplicates work",
+      "passed": true
+    }
+  ],
+  "cleanup_errors": [],
+  "main_before": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 4,
+      "sha256": "fda241ed88f5aaf85d43a2b1fbba0d8c30fb5242006573e4fdfa2acb1db6a332"
+    },
+    "rf_jobs": {
+      "count": 4,
+      "sha256": "6c067355f8d212b9c2a8bc1b7b00e13a2981bae4ff2804343a06a994c0f3e18e"
+    },
+    "rf_approvals": {
+      "count": 2,
+      "sha256": "d1553731f12db26c7f068f495c8ee34be8410d46fc19e841d31694bee784b837"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 1,
+      "sha256": "c0ac3944ec29ebd0c3e2b9765c888f35efb9e4b40ded446260a76866cf0b2589"
+    },
+    "rf_audit": {
+      "count": 6,
+      "sha256": "5e368637cfc2a33ea82fd2749b52b38388aebe1b2eb1c1dd6047aa03bdc8c4c6"
+    },
+    "rf_job_attempts": {
+      "count": 6,
+      "sha256": "2ce33421825e95c1ac17f6e0acccc1f6e83217e03138769da3736f3fa69dfa82"
+    },
+    "checkpoints": {
+      "count": 21,
+      "sha256": "40272af013405e915e1e52079b8aa9e1d90dafcb6fafde8aa9cb1849d4020561"
+    },
+    "checkpoint_blobs": {
+      "count": 48,
+      "sha256": "fcd30d1bde7c90ed775899a34bcb7553e5bb664475da120ee3a5505ee7150f5c"
+    },
+    "checkpoint_writes": {
+      "count": 93,
+      "sha256": "5e4ea74680926fa05e01b31f45ad392096cf5e7ba7270310bc16ad148fa5e7cf"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "workers_before": [
+    {
+      "id": "c215192f605805d9b1126638ca2355941aa2bd26b552b1fd344872244afce38a",
+      "image": "sha256:6d523e25ecb5dac21d76cf48e65ac2382f06f4134256439f50f421d68a742889",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 111817,
+      "started": "2026-10-05T11:07:20.119505987Z",
+      "finished": "0001-01-01T00:00:00Z",
+      "command": [
+        "python",
+        "worker.py"
+      ],
+      "project": "resolveflow-qa-step19",
+      "networks": {
+        "resolveflow-qa-step19_default": {
+          "Aliases": [
+            "resolveflow-qa-step19-worker-1",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-qa-step19-worker-1",
+            "worker",
+            "c215192f6058"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "10998e98ec0bac4bcdd7aba5e03367a7fd500f382b07c605cba2600dd4b606b2",
+          "Gateway": "10.240.43.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "10.240.43.6",
+          "IPPrefixLen": 24,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "d6:2d:93:cb:9b:c5",
+          "NetworkID": "c52538c40a7bf9c004b3d0cecef1c5835029be2b47c9fd28579fe3c3f36d0043"
+        },
+        "resolveflow-qa-step19_embedding-private": {
+          "Aliases": [
+            "resolveflow-qa-step19-worker-1",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-qa-step19-worker-1",
+            "worker",
+            "c215192f6058"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "62a3e5e2fe75369983a08cc65c6b1d8a497a324b1cdea5d589ff1acdf9c15a19",
+          "Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "10.240.44.4",
+          "IPPrefixLen": 24,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "e6:05:3b:ef:b2:e5",
+          "NetworkID": "cfaeb5ebfa23ccd9342a801c74a942a7be030fe112eab2d9a7fab4bd2dcce97c"
+        }
+      }
+    },
+    {
+      "id": "79e627265aea7ebacd65a23e68f509baafbd3dc6e06ba0a5c9b2addeb0184525",
+      "image": "sha256:6d523e25ecb5dac21d76cf48e65ac2382f06f4134256439f50f421d68a742889",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0,
+      "pid": 111744,
+      "started": "2026-10-05T11:07:19.922204028Z",
+      "finished": "0001-01-01T00:00:00Z",
+      "command": [
+        "python",
+        "worker.py"
+      ],
+      "project": "resolveflow-qa-step19",
+      "networks": {
+        "resolveflow-qa-step19_default": {
+          "Aliases": [
+            "resolveflow-qa-step19-worker-2",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-qa-step19-worker-2",
+            "worker",
+            "79e627265aea"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "1776aab0a3a28017f6ebac60f5dec20156104469d6c8bcc07b331546bfdbe3fe",
+          "Gateway": "10.240.43.1",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "10.240.43.5",
+          "IPPrefixLen": 24,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "4a:90:43:d3:1a:24",
+          "NetworkID": "c52538c40a7bf9c004b3d0cecef1c5835029be2b47c9fd28579fe3c3f36d0043"
+        },
+        "resolveflow-qa-step19_embedding-private": {
+          "Aliases": [
+            "resolveflow-qa-step19-worker-2",
+            "worker"
+          ],
+          "DNSNames": [
+            "resolveflow-qa-step19-worker-2",
+            "worker",
+            "79e627265aea"
+          ],
+          "DriverOpts": null,
+          "EndpointID": "363f0b3289fb9b398b14bd0929d12af479693c0222ff9bdcf34081e04ef9ad34",
+          "Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "GwPriority": 0,
+          "IPAMConfig": null,
+          "IPAddress": "10.240.44.3",
+          "IPPrefixLen": 24,
+          "IPv6Gateway": "",
+          "Links": null,
+          "MacAddress": "06:15:a3:c6:21:9a",
+          "NetworkID": "cfaeb5ebfa23ccd9342a801c74a942a7be030fe112eab2d9a7fab4bd2dcce97c"
+        }
+      }
+    }
+  ],
+  "qa_before": {
+    "rf_orders": {
+      "count": 4,
+      "sha256": "af27673a0d377105b399790807a3f007574bda3d70a16c8981da4dbdcd3a309a"
+    },
+    "rf_runs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_jobs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_approvals": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_reviews": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_refunds": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_audit": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_job_attempts": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoints": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_blobs": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "checkpoint_writes": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rf_knowledge_documents": {
+      "count": 3,
+      "sha256": "68a34d904b0f54789b665740f941fef14def103f48016bbe1fcd865ab58d3813"
+    },
+    "rf_knowledge_chunks": {
+      "count": 7,
+      "sha256": "c8a25dcafdb3e17d0249613ae537523b55d4d8fb71172afe04c56bed848377c8"
+    }
+  },
+  "stalled": {
+    "order_id": "RF-1900",
+    "gate": {
+      "gate_pid": 179,
+      "order_id": "RF-1900",
+      "max_idle_seconds": 180
+    },
+    "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+    "blocked": [
+      {
+        "pid": 190,
+        "client_addr": "10.240.43.6",
+        "state": "active",
+        "wait_event_type": "Lock",
+        "wait_event": "advisory",
+        "transaction_seconds": "0.166007",
+        "blockers": [
+          179
+        ],
+        "operation": "refund_insert"
+      }
+    ],
+    "retry_http": {
+      "status": 409,
+      "body": {
+        "detail": "\u4efb\u52a1\u6b63\u5728\u5904\u7406\u6216\u72b6\u6001\u66f4\u65b0\u4e2d\uff0c\u8bf7\u7a0d\u540e\u67e5\u8be2\u72b6\u6001"
+      },
+      "seconds": 0.005
+    },
+    "other_run_id": "5ef95c20-89bb-4b26-8505-a55267d628d3",
+    "observed_seconds": 35.0,
+    "snapshot": {
+      "run": {
+        "id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+        "ticket": "\u7533\u8bf7\u9000\u6b3e",
+        "order_id": "RF-1900",
+        "status": "running",
+        "mode": "demo",
+        "model": "deepseek-flash",
+        "state": null,
+        "error": null,
+        "elapsed_ms": null,
+        "created_at": "2026-10-05 11:07:33.497090+00:00",
+        "updated_at": "2026-10-05 11:07:33.526271+00:00",
+        "created_by": "operator"
+      },
+      "job": {
+        "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+        "kind": "investigate",
+        "status": "queued",
+        "attempts": 0,
+        "available_at": "2026-10-05 11:07:33.497090+00:00",
+        "last_error": null,
+        "updated_at": "2026-10-05 11:07:33.497090+00:00"
+      },
+      "job_lock_available": false,
+      "graph_next": [
+        "execute"
+      ],
+      "graph_state": {
+        "ticket": "\u7533\u8bf7\u9000\u6b3e",
+        "order_id": "RF-1900",
+        "owner": "demo",
+        "order": {
+          "id": "RF-1900",
+          "owner": "demo",
+          "amount": 29900,
+          "days": 3,
+          "used": false,
+          "status": "delivered"
+        },
+        "evidence": [
+          {
+            "id": "shipping-v1",
+            "chunk_id": "shipping-v1:872750f16cd0:0",
+            "text": "\u7269\u6d41 shipping\u3001\u5feb\u9012\u3001\u5305\u88f9\u3001\u8fd0\u5355\u3001\u914d\u9001\u67e5\u8be2\uff1a\u8fd0\u8f93\u4e2d\u7684\u8ba2\u5355\u63d0\u4f9b\u5f53\u524d\u8fd0\u5355\u72b6\u6001\u3002\u8ba2\u5355\u672a\u7b7e\u6536\u65f6\u4e0d\u80fd\u76f4\u63a5\u6309\u5df2\u7b7e\u6536\u8ba2\u5355\u6267\u884c\u9000\u6b3e\uff0c\u5e94\u8f6c\u4eba\u5de5\u6838\u67e5\uff1b\u7b7e\u6536\u540e\u7533\u8bf7\u9000\u6b3e\u6309\u9000\u6b3e\u653f\u7b56\u5904\u7406\uff0c\u4e0d\u81ea\u52a8\u627f\u8bfa\u8d54\u4ed8\u3002",
+            "title": "\u7269\u6d41\u4e0e\u914d\u9001\u67e5\u8be2\u653f\u7b56",
+            "source": "shipping.md",
+            "version": "1",
+            "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 2.311677,
+            "retrieval": "bm25",
+            "retrieval_profile": "expanded",
+            "policy": {
+              "usable": true,
+              "reason": "active",
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "status": "approved",
+              "review_basis": "demo_fixture",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "actions": [
+              "reply"
+            ]
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:2",
+            "text": "\u91cd\u590d\u9000\u6b3e\u9632\u62a4\uff1a\u4e00\u4e2a\u8ba2\u5355\u6700\u591a\u6709\u4e00\u6761\u6a21\u62df\u9000\u6b3e\u53f0\u8d26\u3002\u4efb\u52a1\u53ef\u80fd\u56e0\u6545\u969c\u91cd\u8bd5\uff0c\u4f46\u4e0d\u80fd\u91cd\u590d\u8bb0\u5f55\u9000\u6b3e\u3002\u8fd9\u91cc\u7684\u9000\u6b3e\u4e0d\u8c03\u7528\u652f\u4ed8\u673a\u6784\uff0c\u4e5f\u4e0d\u4ee3\u8868\u771f\u5b9e\u8d44\u91d1\u5df2\u5230\u8d26\u3002",
+            "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 12,
+            "line_end": 12,
+            "score": 0.765555,
+            "retrieval": "bm25",
+            "retrieval_profile": "expanded",
+            "policy": {
+              "usable": true,
+              "reason": "active",
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "status": "approved",
+              "review_basis": "demo_fixture",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "actions": []
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:1",
+            "text": "\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u9000\u6b3e\u65f6\uff0c\u5ba1\u6279\u5458\u5fc5\u987b\u660e\u786e\u540c\u610f\u6216\u62d2\u7edd\u5e76\u586b\u5199\u7406\u7531\u3002\u7cfb\u7edf\u5148\u4fdd\u5b58\u51b3\u5b9a\uff0c\u518d\u6062\u590d\u539f\u5de5\u5355\u6d41\u7a0b\u3002\u8fd0\u8425\u4eba\u5458\u4e0d\u80fd\u5ba1\u6279\uff1b\u91cd\u590d\u63d0\u4ea4\u5ba1\u6279\u5e94\u88ab\u62d2\u7edd\u3002\u4eba\u5de5\u6838\u67e5\u7ed3\u6848\u4e0d\u4f1a\u81ea\u52a8\u6267\u884c\u9000\u6b3e\u3002",
+            "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 10,
+            "line_end": 10,
+            "score": 0.683279,
+            "retrieval": "bm25",
+            "retrieval_profile": "expanded",
+            "policy": {
+              "usable": true,
+              "reason": "active",
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "status": "approved",
+              "review_basis": "demo_fixture",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "actions": []
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:0",
+            "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+            "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 0.65444,
+            "retrieval": "bm25",
+            "retrieval_profile": "expanded",
+            "policy": {
+              "usable": true,
+              "reason": "active",
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "status": "approved",
+              "review_basis": "demo_fixture",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "actions": [
+              "refund"
+            ]
+          }
+        ],
+        "proposal": {
+          "action": "refund",
+          "reason": "\u5df2\u68c0\u7d22\u5230\u5904\u7406\u89c4\u5219\u539f\u6587\uff0c\u8ba2\u5355\u4e8b\u5b9e\u4ecd\u9700\u7a0b\u5e8f\u6838\u9a8c\u3002",
+          "citation_schema": 2,
+          "evidence_status": "supported",
+          "citations": [
+            "refund-v2:3ad704686fec:0"
+          ],
+          "quotes": [
+            {
+              "chunk_id": "refund-v2:3ad704686fec:0",
+              "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002"
+            }
+          ]
+        },
+        "result": {
+          "status": "auto_approved",
+          "response": "\u4e24\u9879\u9000\u6b3e\u6761\u4ef6\u5747\u6ee1\u8db3\uff0c\u81ea\u52a8\u6267\u884c\u6a21\u62df\u9000\u6b3e\u3002",
+          "reason": "\u4e24\u9879\u9000\u6b3e\u6761\u4ef6\u5747\u6ee1\u8db3\uff0c\u81ea\u52a8\u6267\u884c\u6a21\u62df\u9000\u6b3e\u3002",
+          "policy_supported": true,
+          "grounding": {
+            "schema": 2,
+            "reference_valid": true,
+            "usable": true,
+            "release": {
+              "valid": true,
+              "reason": "active",
+              "token": {
+                "id": "demo-policy-2026-09-21",
+                "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                "generation": 1,
+                "refund_rule": {
+                  "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                  "version": "refund-v2"
+                }
+              }
+            },
+            "action_chunks": {
+              "reply": "shipping-v1:872750f16cd0:0",
+              "refund": "refund-v2:3ad704686fec:0"
+            },
+            "policy_checks": [
+              {
+                "id": "refund-v2",
+                "chunk_id": "refund-v2:3ad704686fec:0",
+                "usable": true,
+                "reason": "active",
+                "checked_at": "2026-10-05T11:07:36.567716+00:00",
+                "status": "approved",
+                "review_basis": "demo_fixture",
+                "reviewed_by": "resolveflow-demo-fixture",
+                "reviewed_at": "2026-09-21T00:00:00Z",
+                "effective_from": "2026-09-21T00:00:00Z",
+                "effective_until": null
+              }
+            ],
+            "checked_at": "2026-10-05T11:07:36.567716+00:00",
+            "evidence_status": "supported",
+            "errors": [],
+            "verified": [
+              {
+                "id": "refund-v2",
+                "chunk_id": "refund-v2:3ad704686fec:0",
+                "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+                "source": "refund.md",
+                "version": "2",
+                "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+                "line_start": 8,
+                "line_end": 8,
+                "score": 0.65444,
+                "retrieval": "bm25",
+                "retrieval_profile": "expanded",
+                "policy": {
+                  "usable": true,
+                  "reason": "active",
+                  "checked_at": "2026-10-05T11:07:36.567716+00:00",
+                  "status": "approved",
+                  "review_basis": "demo_fixture",
+                  "reviewed_by": "resolveflow-demo-fixture",
+                  "reviewed_at": "2026-09-21T00:00:00Z",
+                  "effective_from": "2026-09-21T00:00:00Z",
+                  "effective_until": null
+                },
+                "release": {
+                  "id": "demo-policy-2026-09-21",
+                  "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                  "generation": 1,
+                  "refund_rule": {
+                    "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                    "version": "refund-v2"
+                  }
+                },
+                "actions": [
+                  "refund"
+                ],
+                "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002"
+              }
+            ],
+            "claim_entailment": "not_assessed"
+          },
+          "policy_version": "refund-v2",
+          "checks": [
+            {
+              "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+              "passed": true
+            },
+            {
+              "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+              "passed": true
+            }
+          ],
+          "decision_source": "automatic"
+        },
+        "trace": [
+          {
+            "node": "investigate",
+            "event": "skill_loaded",
+            "name": "refund-handling",
+            "sha256": "fb42933abd83781d63b4cc74bb44371a04595e3c42f2541bd371917dc608dbed"
+          },
+          {
+            "node": "investigate",
+            "transport": "mcp-stdio",
+            "tools": [
+              "search_policy",
+              "lookup_order"
+            ]
+          },
+          {
+            "node": "investigate",
+            "event": "baseline_evidence",
+            "sources": [
+              "shipping-v1",
+              "refund-v2",
+              "refund-v2",
+              "refund-v2"
+            ],
+            "chunks": [
+              "shipping-v1:872750f16cd0:0",
+              "refund-v2:3ad704686fec:2",
+              "refund-v2:3ad704686fec:1",
+              "refund-v2:3ad704686fec:0"
+            ],
+            "retrieval": "bm25"
+          },
+          {
+            "node": "validate",
+            "route": "auto_approved",
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+                "passed": true
+              },
+              {
+                "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+                "passed": true
+              }
+            ],
+            "reason": "\u4e24\u9879\u9000\u6b3e\u6761\u4ef6\u5747\u6ee1\u8db3\uff0c\u81ea\u52a8\u6267\u884c\u6a21\u62df\u9000\u6b3e\u3002"
+          }
+        ],
+        "decision": true,
+        "validated": true,
+        "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+        "skill": {
+          "name": "refund-handling",
+          "sha256": "fb42933abd83781d63b4cc74bb44371a04595e3c42f2541bd371917dc608dbed",
+          "instructions": "# \u9000\u6b3e\u5904\u7406\n\n\u4f7f\u7528 lookup_order \u83b7\u53d6\u5f53\u524d\u8ba2\u5355\uff0c\u4f7f\u7528 search_policy \u67e5\u8be2\u9000\u6b3e\u653f\u7b56\u3002\n\u6838\u5bf9\u7b7e\u6536\u72b6\u6001\u3001\u7b7e\u6536\u5929\u6570\u3001\u662f\u5426\u4f7f\u7528\u3002citations\u4f7f\u7528\u672c\u6b21\u68c0\u7d22\u5230\u7684\u5b8c\u6574chunk_id\uff0cquotes\u9010\u9879\u8bb0\u5f55\u76f8\u540cchunk_id\u53ca\u9010\u5b57\u539f\u6587quote\uff1b\u9000\u6b3e\u5904\u7406\u5fc5\u987b\u5f15\u7528\u8d44\u683c\u89c4\u5219\u6574\u6bb5\uff0c\u4e0d\u4ee5\u5ba1\u6279\u6216\u53f0\u8d26\u6bb5\u843d\u4ee3\u66ff\u3002\n\u8ba2\u5355\u4e0d\u5b58\u5728\u3001\u653f\u7b56\u7f3a\u5931\u3001\u672a\u7b7e\u6536\u6216\u63cf\u8ff0\u51b2\u7a81\u65f6\u5efa\u8bae escalate\u3002\u9000\u6b3e\u8bc9\u6c42\u6709\u5145\u5206\u653f\u7b56\u8bc1\u636e\u65f6\u8f93\u51fa refund \u5efa\u8bae\uff0c\u5e76\u8bf4\u660e\u6bcf\u9879\u6761\u4ef6\u7684\u4e8b\u5b9e\uff0c\u4e0d\u66ff\u4ee3\u89c4\u5219\u5f15\u64ce\u4f5c\u6700\u7ec8\u6388\u6743\u3002\n\u5df2\u7b7e\u6536\u524d\u63d0\u4e0b\uff0c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u4e14\u672a\u4f7f\u7528\u5c06\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff1b\u4e24\u9879\u90fd\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff1b\u4ec5\u6ee1\u8db3\u4e00\u9879\u4ea4\u4eba\u5de5\u5ba1\u6279\u3002\u4f9d\u636e refund-v2\uff0c\u4e0d\u58f0\u79f0\u771f\u5b9e\u6b3e\u9879\u5230\u8d26\u3002\u6700\u7ec8\u5206\u6d41\u7531\u786e\u5b9a\u6027\u4ee3\u7801\u6267\u884c\u3002\n\u8f93\u51fa\u7b26\u5408 Proposal \u7684 action\u3001reason\u3001citation_schema=2\u3001evidence_status\u3001citations\u3001quotes\u3002\u53ea\u90e8\u5206\u6709\u636e\u6807\u8bb0partial\uff0c\u65e0\u4f9d\u636e\u6807\u8bb0insufficient\uff0c\u4e24\u8005\u5747escalate\uff1b\u6ca1\u6709\u5f15\u7528\u65f6\u4e24\u4e2a\u5217\u8868\u90fd\u4e3a\u7a7a\u3002\u91d1\u989d\u6765\u81ea\u8ba2\u5355\uff0c\u4e0d\u4ece\u7528\u6237\u6587\u672c\u53d6\u503c\u3002\u54a8\u8be2\u5230\u8d26\u3001\u8d39\u7528\u7b49\u4e0d\u7b49\u4e8e\u8bf7\u6c42\u6267\u884c\u9000\u6b3e\u3002",
+          "catalog": [
+            {
+              "name": "refund-handling",
+              "description": "\u8c03\u67e5\u9000\u6b3e\u6216\u9000\u8d27\u5de5\u5355\uff0c\u67e5\u8be2\u8ba2\u5355\u4e0e\u9000\u6b3e\u653f\u7b56\uff0c\u5f62\u6210\u5e26\u8bc1\u636e\u7684\u5efa\u8bae\u3002"
+            },
+            {
+              "name": "shipping-handling",
+              "description": "\u8c03\u67e5\u7269\u6d41\u6216\u5feb\u9012\u72b6\u6001\u5de5\u5355\uff0c\u4f9d\u636e\u5f53\u524d\u8ba2\u5355\u4e8b\u5b9e\u7b54\u590d\uff0c\u4e0d\u627f\u8bfa\u672a\u7ecf\u786e\u8ba4\u7684\u8d54\u4ed8\u3002"
+            },
+            {
+              "name": "support-triage",
+              "description": "\u5bf9\u610f\u56fe\u4e0d\u660e\u786e\u6216\u653f\u7b56\u672a\u8986\u76d6\u7684\u552e\u540e\u5de5\u5355\u8fdb\u884c\u4fdd\u5b88\u5206\u6d41\u3002"
+            }
+          ]
+        },
+        "conflicts": [],
+        "route": "auto_approved",
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_calls": 0
+        }
+      },
+      "graph_interrupts": [],
+      "approval": null,
+      "checkpoint_ids": [
+        "1f1c0acf-8392-65a5-bfff-370b45de9d8e",
+        "1f1c0acf-8399-6981-8000-922bac72becd",
+        "1f1c0acf-8c05-68a4-8001-2201d8ccf609",
+        "1f1c0acf-8c3c-6c07-8002-9cdb4860daa8"
+      ],
+      "attempts": [],
+      "audit": [
+        {
+          "action": "create"
+        }
+      ],
+      "refunds": []
+    },
+    "activity": [
+      {
+        "pid": 139,
+        "client_addr": "10.240.43.4",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 144,
+        "client_addr": "10.240.43.5",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 145,
+        "client_addr": "10.240.43.5",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 148,
+        "client_addr": "10.240.43.6",
+        "state": "idle in transaction",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": "38.241600",
+        "blockers": [],
+        "operation": "queue_claim"
+      },
+      {
+        "pid": 147,
+        "client_addr": "10.240.43.6",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 178,
+        "client_addr": "10.240.43.4",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 179,
+        "client_addr": "10.240.43.4",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 180,
+        "client_addr": "10.240.43.4",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 181,
+        "client_addr": "10.240.43.6",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 182,
+        "client_addr": "10.240.43.6",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 183,
+        "client_addr": "10.240.43.6",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 184,
+        "client_addr": "10.240.43.6",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 187,
+        "client_addr": "10.240.43.6",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 190,
+        "client_addr": "10.240.43.6",
+        "state": "active",
+        "wait_event_type": "Lock",
+        "wait_event": "advisory",
+        "transaction_seconds": "35.175624",
+        "blockers": [
+          179
+        ],
+        "operation": "refund_insert"
+      },
+      {
+        "pid": 191,
+        "client_addr": "10.240.43.6",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 200,
+        "client_addr": "10.240.43.5",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      },
+      {
+        "pid": 201,
+        "client_addr": "10.240.43.5",
+        "state": "idle",
+        "wait_event_type": "Client",
+        "wait_event": "ClientRead",
+        "transaction_seconds": null,
+        "blockers": [],
+        "operation": "other"
+      }
+    ],
+    "metrics": {
+      "status": 200,
+      "body": {
+        "runs": {
+          "running": 1,
+          "auto_rejected": 1
+        },
+        "attempts": {
+          "total": 1,
+          "failed": 0,
+          "avg_ms": 4033,
+          "p95_ms": 4033.0
+        },
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "workers_online": 2,
+        "refund_execution": "simulated"
+      },
+      "seconds": 0.007
+    },
+    "health": [
+      "healthy",
+      "healthy"
+    ],
+    "completion_http": {
+      "id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+      "ticket": "\u7533\u8bf7\u9000\u6b3e",
+      "order_id": "RF-1900",
+      "status": "refunded",
+      "mode": "demo",
+      "model": "deepseek-flash",
+      "state": {
+        "order": {
+          "id": "RF-1900",
+          "days": 3,
+          "used": false,
+          "owner": "demo",
+          "amount": 29900,
+          "status": "delivered"
+        },
+        "owner": "demo",
+        "route": "auto_approved",
+        "skill": {
+          "name": "refund-handling",
+          "sha256": "fb42933abd83781d63b4cc74bb44371a04595e3c42f2541bd371917dc608dbed",
+          "catalog": [
+            {
+              "name": "refund-handling",
+              "description": "\u8c03\u67e5\u9000\u6b3e\u6216\u9000\u8d27\u5de5\u5355\uff0c\u67e5\u8be2\u8ba2\u5355\u4e0e\u9000\u6b3e\u653f\u7b56\uff0c\u5f62\u6210\u5e26\u8bc1\u636e\u7684\u5efa\u8bae\u3002"
+            },
+            {
+              "name": "shipping-handling",
+              "description": "\u8c03\u67e5\u7269\u6d41\u6216\u5feb\u9012\u72b6\u6001\u5de5\u5355\uff0c\u4f9d\u636e\u5f53\u524d\u8ba2\u5355\u4e8b\u5b9e\u7b54\u590d\uff0c\u4e0d\u627f\u8bfa\u672a\u7ecf\u786e\u8ba4\u7684\u8d54\u4ed8\u3002"
+            },
+            {
+              "name": "support-triage",
+              "description": "\u5bf9\u610f\u56fe\u4e0d\u660e\u786e\u6216\u653f\u7b56\u672a\u8986\u76d6\u7684\u552e\u540e\u5de5\u5355\u8fdb\u884c\u4fdd\u5b88\u5206\u6d41\u3002"
+            }
+          ],
+          "instructions": "# \u9000\u6b3e\u5904\u7406\n\n\u4f7f\u7528 lookup_order \u83b7\u53d6\u5f53\u524d\u8ba2\u5355\uff0c\u4f7f\u7528 search_policy \u67e5\u8be2\u9000\u6b3e\u653f\u7b56\u3002\n\u6838\u5bf9\u7b7e\u6536\u72b6\u6001\u3001\u7b7e\u6536\u5929\u6570\u3001\u662f\u5426\u4f7f\u7528\u3002citations\u4f7f\u7528\u672c\u6b21\u68c0\u7d22\u5230\u7684\u5b8c\u6574chunk_id\uff0cquotes\u9010\u9879\u8bb0\u5f55\u76f8\u540cchunk_id\u53ca\u9010\u5b57\u539f\u6587quote\uff1b\u9000\u6b3e\u5904\u7406\u5fc5\u987b\u5f15\u7528\u8d44\u683c\u89c4\u5219\u6574\u6bb5\uff0c\u4e0d\u4ee5\u5ba1\u6279\u6216\u53f0\u8d26\u6bb5\u843d\u4ee3\u66ff\u3002\n\u8ba2\u5355\u4e0d\u5b58\u5728\u3001\u653f\u7b56\u7f3a\u5931\u3001\u672a\u7b7e\u6536\u6216\u63cf\u8ff0\u51b2\u7a81\u65f6\u5efa\u8bae escalate\u3002\u9000\u6b3e\u8bc9\u6c42\u6709\u5145\u5206\u653f\u7b56\u8bc1\u636e\u65f6\u8f93\u51fa refund \u5efa\u8bae\uff0c\u5e76\u8bf4\u660e\u6bcf\u9879\u6761\u4ef6\u7684\u4e8b\u5b9e\uff0c\u4e0d\u66ff\u4ee3\u89c4\u5219\u5f15\u64ce\u4f5c\u6700\u7ec8\u6388\u6743\u3002\n\u5df2\u7b7e\u6536\u524d\u63d0\u4e0b\uff0c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u4e14\u672a\u4f7f\u7528\u5c06\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff1b\u4e24\u9879\u90fd\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff1b\u4ec5\u6ee1\u8db3\u4e00\u9879\u4ea4\u4eba\u5de5\u5ba1\u6279\u3002\u4f9d\u636e refund-v2\uff0c\u4e0d\u58f0\u79f0\u771f\u5b9e\u6b3e\u9879\u5230\u8d26\u3002\u6700\u7ec8\u5206\u6d41\u7531\u786e\u5b9a\u6027\u4ee3\u7801\u6267\u884c\u3002\n\u8f93\u51fa\u7b26\u5408 Proposal \u7684 action\u3001reason\u3001citation_schema=2\u3001evidence_status\u3001citations\u3001quotes\u3002\u53ea\u90e8\u5206\u6709\u636e\u6807\u8bb0partial\uff0c\u65e0\u4f9d\u636e\u6807\u8bb0insufficient\uff0c\u4e24\u8005\u5747escalate\uff1b\u6ca1\u6709\u5f15\u7528\u65f6\u4e24\u4e2a\u5217\u8868\u90fd\u4e3a\u7a7a\u3002\u91d1\u989d\u6765\u81ea\u8ba2\u5355\uff0c\u4e0d\u4ece\u7528\u6237\u6587\u672c\u53d6\u503c\u3002\u54a8\u8be2\u5230\u8d26\u3001\u8d39\u7528\u7b49\u4e0d\u7b49\u4e8e\u8bf7\u6c42\u6267\u884c\u9000\u6b3e\u3002"
+        },
+        "trace": [
+          {
+            "name": "refund-handling",
+            "node": "investigate",
+            "event": "skill_loaded",
+            "sha256": "fb42933abd83781d63b4cc74bb44371a04595e3c42f2541bd371917dc608dbed"
+          },
+          {
+            "node": "investigate",
+            "tools": [
+              "search_policy",
+              "lookup_order"
+            ],
+            "transport": "mcp-stdio"
+          },
+          {
+            "node": "investigate",
+            "event": "baseline_evidence",
+            "chunks": [
+              "shipping-v1:872750f16cd0:0",
+              "refund-v2:3ad704686fec:2",
+              "refund-v2:3ad704686fec:1",
+              "refund-v2:3ad704686fec:0"
+            ],
+            "sources": [
+              "shipping-v1",
+              "refund-v2",
+              "refund-v2",
+              "refund-v2"
+            ],
+            "retrieval": "bm25"
+          },
+          {
+            "node": "validate",
+            "route": "auto_approved",
+            "checks": [
+              {
+                "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+                "passed": true
+              },
+              {
+                "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+                "passed": true
+              }
+            ],
+            "reason": "\u4e24\u9879\u9000\u6b3e\u6761\u4ef6\u5747\u6ee1\u8db3\uff0c\u81ea\u52a8\u6267\u884c\u6a21\u62df\u9000\u6b3e\u3002",
+            "policy_version": "refund-v2"
+          },
+          {
+            "node": "execute",
+            "checks": [
+              {
+                "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+                "passed": true
+              },
+              {
+                "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+                "passed": true
+              }
+            ],
+            "reason": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+            "status": "refunded",
+            "response": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+            "grounding": {
+              "errors": [],
+              "schema": 2,
+              "usable": true,
+              "release": {
+                "token": {
+                  "id": "demo-policy-2026-09-21",
+                  "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                  "generation": 1,
+                  "refund_rule": {
+                    "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                    "version": "refund-v2"
+                  }
+                },
+                "valid": true,
+                "reason": "active"
+              },
+              "verified": [
+                {
+                  "id": "refund-v2",
+                  "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                  "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                  "score": 0.65444,
+                  "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+                  "policy": {
+                    "reason": "active",
+                    "status": "approved",
+                    "usable": true,
+                    "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                    "reviewed_at": "2026-09-21T00:00:00Z",
+                    "reviewed_by": "resolveflow-demo-fixture",
+                    "review_basis": "demo_fixture",
+                    "effective_from": "2026-09-21T00:00:00Z",
+                    "effective_until": null
+                  },
+                  "source": "refund.md",
+                  "actions": [
+                    "refund"
+                  ],
+                  "release": {
+                    "id": "demo-policy-2026-09-21",
+                    "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                    "generation": 1,
+                    "refund_rule": {
+                      "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                      "version": "refund-v2"
+                    }
+                  },
+                  "version": "2",
+                  "chunk_id": "refund-v2:3ad704686fec:0",
+                  "line_end": 8,
+                  "retrieval": "bm25",
+                  "line_start": 8,
+                  "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+                  "retrieval_profile": "expanded"
+                }
+              ],
+              "checked_at": "2026-10-05T11:07:36.574363+00:00",
+              "action_chunks": {
+                "reply": "shipping-v1:872750f16cd0:0",
+                "refund": "refund-v2:3ad704686fec:0"
+              },
+              "policy_checks": [
+                {
+                  "id": "refund-v2",
+                  "reason": "active",
+                  "status": "approved",
+                  "usable": true,
+                  "chunk_id": "refund-v2:3ad704686fec:0",
+                  "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                  "reviewed_at": "2026-09-21T00:00:00Z",
+                  "reviewed_by": "resolveflow-demo-fixture",
+                  "review_basis": "demo_fixture",
+                  "effective_from": "2026-09-21T00:00:00Z",
+                  "effective_until": null
+                }
+              ],
+              "evidence_status": "supported",
+              "reference_valid": true,
+              "claim_entailment": "not_assessed"
+            },
+            "simulated": true,
+            "amount_cents": 29900,
+            "policy_version": "refund-v2",
+            "decision_source": "automatic",
+            "policy_supported": true
+          }
+        ],
+        "usage": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "result": {
+          "checks": [
+            {
+              "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+              "passed": true
+            },
+            {
+              "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+              "passed": true
+            }
+          ],
+          "reason": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+          "status": "refunded",
+          "response": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+          "grounding": {
+            "errors": [],
+            "schema": 2,
+            "usable": true,
+            "release": {
+              "token": {
+                "id": "demo-policy-2026-09-21",
+                "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                "generation": 1,
+                "refund_rule": {
+                  "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                  "version": "refund-v2"
+                }
+              },
+              "valid": true,
+              "reason": "active"
+            },
+            "verified": [
+              {
+                "id": "refund-v2",
+                "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                "score": 0.65444,
+                "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+                "policy": {
+                  "reason": "active",
+                  "status": "approved",
+                  "usable": true,
+                  "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                  "reviewed_at": "2026-09-21T00:00:00Z",
+                  "reviewed_by": "resolveflow-demo-fixture",
+                  "review_basis": "demo_fixture",
+                  "effective_from": "2026-09-21T00:00:00Z",
+                  "effective_until": null
+                },
+                "source": "refund.md",
+                "actions": [
+                  "refund"
+                ],
+                "release": {
+                  "id": "demo-policy-2026-09-21",
+                  "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                  "generation": 1,
+                  "refund_rule": {
+                    "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                    "version": "refund-v2"
+                  }
+                },
+                "version": "2",
+                "chunk_id": "refund-v2:3ad704686fec:0",
+                "line_end": 8,
+                "retrieval": "bm25",
+                "line_start": 8,
+                "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+                "retrieval_profile": "expanded"
+              }
+            ],
+            "checked_at": "2026-10-05T11:07:36.574363+00:00",
+            "action_chunks": {
+              "reply": "shipping-v1:872750f16cd0:0",
+              "refund": "refund-v2:3ad704686fec:0"
+            },
+            "policy_checks": [
+              {
+                "id": "refund-v2",
+                "reason": "active",
+                "status": "approved",
+                "usable": true,
+                "chunk_id": "refund-v2:3ad704686fec:0",
+                "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                "reviewed_at": "2026-09-21T00:00:00Z",
+                "reviewed_by": "resolveflow-demo-fixture",
+                "review_basis": "demo_fixture",
+                "effective_from": "2026-09-21T00:00:00Z",
+                "effective_until": null
+              }
+            ],
+            "evidence_status": "supported",
+            "reference_valid": true,
+            "claim_entailment": "not_assessed"
+          },
+          "simulated": true,
+          "amount_cents": 29900,
+          "policy_version": "refund-v2",
+          "decision_source": "automatic",
+          "policy_supported": true
+        },
+        "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+        "ticket": "\u7533\u8bf7\u9000\u6b3e",
+        "decision": true,
+        "evidence": [
+          {
+            "id": "shipping-v1",
+            "text": "\u7269\u6d41 shipping\u3001\u5feb\u9012\u3001\u5305\u88f9\u3001\u8fd0\u5355\u3001\u914d\u9001\u67e5\u8be2\uff1a\u8fd0\u8f93\u4e2d\u7684\u8ba2\u5355\u63d0\u4f9b\u5f53\u524d\u8fd0\u5355\u72b6\u6001\u3002\u8ba2\u5355\u672a\u7b7e\u6536\u65f6\u4e0d\u80fd\u76f4\u63a5\u6309\u5df2\u7b7e\u6536\u8ba2\u5355\u6267\u884c\u9000\u6b3e\uff0c\u5e94\u8f6c\u4eba\u5de5\u6838\u67e5\uff1b\u7b7e\u6536\u540e\u7533\u8bf7\u9000\u6b3e\u6309\u9000\u6b3e\u653f\u7b56\u5904\u7406\uff0c\u4e0d\u81ea\u52a8\u627f\u8bfa\u8d54\u4ed8\u3002",
+            "score": 2.311677,
+            "title": "\u7269\u6d41\u4e0e\u914d\u9001\u67e5\u8be2\u653f\u7b56",
+            "policy": {
+              "reason": "active",
+              "status": "approved",
+              "usable": true,
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "review_basis": "demo_fixture",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "source": "shipping.md",
+            "actions": [
+              "reply"
+            ],
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "version": "1",
+            "chunk_id": "shipping-v1:872750f16cd0:0",
+            "line_end": 8,
+            "retrieval": "bm25",
+            "line_start": 8,
+            "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+            "retrieval_profile": "expanded"
+          },
+          {
+            "id": "refund-v2",
+            "text": "\u91cd\u590d\u9000\u6b3e\u9632\u62a4\uff1a\u4e00\u4e2a\u8ba2\u5355\u6700\u591a\u6709\u4e00\u6761\u6a21\u62df\u9000\u6b3e\u53f0\u8d26\u3002\u4efb\u52a1\u53ef\u80fd\u56e0\u6545\u969c\u91cd\u8bd5\uff0c\u4f46\u4e0d\u80fd\u91cd\u590d\u8bb0\u5f55\u9000\u6b3e\u3002\u8fd9\u91cc\u7684\u9000\u6b3e\u4e0d\u8c03\u7528\u652f\u4ed8\u673a\u6784\uff0c\u4e5f\u4e0d\u4ee3\u8868\u771f\u5b9e\u8d44\u91d1\u5df2\u5230\u8d26\u3002",
+            "score": 0.765555,
+            "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+            "policy": {
+              "reason": "active",
+              "status": "approved",
+              "usable": true,
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "review_basis": "demo_fixture",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "source": "refund.md",
+            "actions": [],
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "version": "2",
+            "chunk_id": "refund-v2:3ad704686fec:2",
+            "line_end": 12,
+            "retrieval": "bm25",
+            "line_start": 12,
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "retrieval_profile": "expanded"
+          },
+          {
+            "id": "refund-v2",
+            "text": "\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u9000\u6b3e\u65f6\uff0c\u5ba1\u6279\u5458\u5fc5\u987b\u660e\u786e\u540c\u610f\u6216\u62d2\u7edd\u5e76\u586b\u5199\u7406\u7531\u3002\u7cfb\u7edf\u5148\u4fdd\u5b58\u51b3\u5b9a\uff0c\u518d\u6062\u590d\u539f\u5de5\u5355\u6d41\u7a0b\u3002\u8fd0\u8425\u4eba\u5458\u4e0d\u80fd\u5ba1\u6279\uff1b\u91cd\u590d\u63d0\u4ea4\u5ba1\u6279\u5e94\u88ab\u62d2\u7edd\u3002\u4eba\u5de5\u6838\u67e5\u7ed3\u6848\u4e0d\u4f1a\u81ea\u52a8\u6267\u884c\u9000\u6b3e\u3002",
+            "score": 0.683279,
+            "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+            "policy": {
+              "reason": "active",
+              "status": "approved",
+              "usable": true,
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "review_basis": "demo_fixture",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "source": "refund.md",
+            "actions": [],
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "version": "2",
+            "chunk_id": "refund-v2:3ad704686fec:1",
+            "line_end": 10,
+            "retrieval": "bm25",
+            "line_start": 10,
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "retrieval_profile": "expanded"
+          },
+          {
+            "id": "refund-v2",
+            "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+            "score": 0.65444,
+            "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+            "policy": {
+              "reason": "active",
+              "status": "approved",
+              "usable": true,
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "review_basis": "demo_fixture",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "source": "refund.md",
+            "actions": [
+              "refund"
+            ],
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "version": "2",
+            "chunk_id": "refund-v2:3ad704686fec:0",
+            "line_end": 8,
+            "retrieval": "bm25",
+            "line_start": 8,
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "retrieval_profile": "expanded"
+          }
+        ],
+        "order_id": "RF-1900",
+        "proposal": {
+          "action": "refund",
+          "quotes": [
+            {
+              "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+              "chunk_id": "refund-v2:3ad704686fec:0"
+            }
+          ],
+          "reason": "\u5df2\u68c0\u7d22\u5230\u5904\u7406\u89c4\u5219\u539f\u6587\uff0c\u8ba2\u5355\u4e8b\u5b9e\u4ecd\u9700\u7a0b\u5e8f\u6838\u9a8c\u3002",
+          "citations": [
+            "refund-v2:3ad704686fec:0"
+          ],
+          "citation_schema": 2,
+          "evidence_status": "supported"
+        },
+        "conflicts": [],
+        "validated": true
+      },
+      "error": null,
+      "elapsed_ms": 39166,
+      "created_at": "2026-10-05T11:07:33.497090+00:00",
+      "updated_at": "2026-10-05T11:07:33.515603+00:00",
+      "created_by": "operator",
+      "approval": null,
+      "review": null,
+      "job": {
+        "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "available_at": "2026-10-05T11:07:33.497090+00:00",
+        "last_error": null,
+        "updated_at": "2026-10-05T11:07:33.515603+00:00"
+      },
+      "audit": [
+        {
+          "actor": "operator",
+          "action": "create",
+          "created_at": "2026-10-05T11:07:33.497090+00:00"
+        }
+      ]
+    },
+    "final": {
+      "run": {
+        "id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+        "ticket": "\u7533\u8bf7\u9000\u6b3e",
+        "order_id": "RF-1900",
+        "status": "refunded",
+        "mode": "demo",
+        "model": "deepseek-flash",
+        "state": {
+          "order": {
+            "id": "RF-1900",
+            "days": 3,
+            "used": false,
+            "owner": "demo",
+            "amount": 29900,
+            "status": "delivered"
+          },
+          "owner": "demo",
+          "route": "auto_approved",
+          "skill": {
+            "name": "refund-handling",
+            "sha256": "fb42933abd83781d63b4cc74bb44371a04595e3c42f2541bd371917dc608dbed",
+            "catalog": [
+              {
+                "name": "refund-handling",
+                "description": "\u8c03\u67e5\u9000\u6b3e\u6216\u9000\u8d27\u5de5\u5355\uff0c\u67e5\u8be2\u8ba2\u5355\u4e0e\u9000\u6b3e\u653f\u7b56\uff0c\u5f62\u6210\u5e26\u8bc1\u636e\u7684\u5efa\u8bae\u3002"
+              },
+              {
+                "name": "shipping-handling",
+                "description": "\u8c03\u67e5\u7269\u6d41\u6216\u5feb\u9012\u72b6\u6001\u5de5\u5355\uff0c\u4f9d\u636e\u5f53\u524d\u8ba2\u5355\u4e8b\u5b9e\u7b54\u590d\uff0c\u4e0d\u627f\u8bfa\u672a\u7ecf\u786e\u8ba4\u7684\u8d54\u4ed8\u3002"
+              },
+              {
+                "name": "support-triage",
+                "description": "\u5bf9\u610f\u56fe\u4e0d\u660e\u786e\u6216\u653f\u7b56\u672a\u8986\u76d6\u7684\u552e\u540e\u5de5\u5355\u8fdb\u884c\u4fdd\u5b88\u5206\u6d41\u3002"
+              }
+            ],
+            "instructions": "# \u9000\u6b3e\u5904\u7406\n\n\u4f7f\u7528 lookup_order \u83b7\u53d6\u5f53\u524d\u8ba2\u5355\uff0c\u4f7f\u7528 search_policy \u67e5\u8be2\u9000\u6b3e\u653f\u7b56\u3002\n\u6838\u5bf9\u7b7e\u6536\u72b6\u6001\u3001\u7b7e\u6536\u5929\u6570\u3001\u662f\u5426\u4f7f\u7528\u3002citations\u4f7f\u7528\u672c\u6b21\u68c0\u7d22\u5230\u7684\u5b8c\u6574chunk_id\uff0cquotes\u9010\u9879\u8bb0\u5f55\u76f8\u540cchunk_id\u53ca\u9010\u5b57\u539f\u6587quote\uff1b\u9000\u6b3e\u5904\u7406\u5fc5\u987b\u5f15\u7528\u8d44\u683c\u89c4\u5219\u6574\u6bb5\uff0c\u4e0d\u4ee5\u5ba1\u6279\u6216\u53f0\u8d26\u6bb5\u843d\u4ee3\u66ff\u3002\n\u8ba2\u5355\u4e0d\u5b58\u5728\u3001\u653f\u7b56\u7f3a\u5931\u3001\u672a\u7b7e\u6536\u6216\u63cf\u8ff0\u51b2\u7a81\u65f6\u5efa\u8bae escalate\u3002\u9000\u6b3e\u8bc9\u6c42\u6709\u5145\u5206\u653f\u7b56\u8bc1\u636e\u65f6\u8f93\u51fa refund \u5efa\u8bae\uff0c\u5e76\u8bf4\u660e\u6bcf\u9879\u6761\u4ef6\u7684\u4e8b\u5b9e\uff0c\u4e0d\u66ff\u4ee3\u89c4\u5219\u5f15\u64ce\u4f5c\u6700\u7ec8\u6388\u6743\u3002\n\u5df2\u7b7e\u6536\u524d\u63d0\u4e0b\uff0c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u4e14\u672a\u4f7f\u7528\u5c06\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff1b\u4e24\u9879\u90fd\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff1b\u4ec5\u6ee1\u8db3\u4e00\u9879\u4ea4\u4eba\u5de5\u5ba1\u6279\u3002\u4f9d\u636e refund-v2\uff0c\u4e0d\u58f0\u79f0\u771f\u5b9e\u6b3e\u9879\u5230\u8d26\u3002\u6700\u7ec8\u5206\u6d41\u7531\u786e\u5b9a\u6027\u4ee3\u7801\u6267\u884c\u3002\n\u8f93\u51fa\u7b26\u5408 Proposal \u7684 action\u3001reason\u3001citation_schema=2\u3001evidence_status\u3001citations\u3001quotes\u3002\u53ea\u90e8\u5206\u6709\u636e\u6807\u8bb0partial\uff0c\u65e0\u4f9d\u636e\u6807\u8bb0insufficient\uff0c\u4e24\u8005\u5747escalate\uff1b\u6ca1\u6709\u5f15\u7528\u65f6\u4e24\u4e2a\u5217\u8868\u90fd\u4e3a\u7a7a\u3002\u91d1\u989d\u6765\u81ea\u8ba2\u5355\uff0c\u4e0d\u4ece\u7528\u6237\u6587\u672c\u53d6\u503c\u3002\u54a8\u8be2\u5230\u8d26\u3001\u8d39\u7528\u7b49\u4e0d\u7b49\u4e8e\u8bf7\u6c42\u6267\u884c\u9000\u6b3e\u3002"
+          },
+          "trace": [
+            {
+              "name": "refund-handling",
+              "node": "investigate",
+              "event": "skill_loaded",
+              "sha256": "fb42933abd83781d63b4cc74bb44371a04595e3c42f2541bd371917dc608dbed"
+            },
+            {
+              "node": "investigate",
+              "tools": [
+                "search_policy",
+                "lookup_order"
+              ],
+              "transport": "mcp-stdio"
+            },
+            {
+              "node": "investigate",
+              "event": "baseline_evidence",
+              "chunks": [
+                "shipping-v1:872750f16cd0:0",
+                "refund-v2:3ad704686fec:2",
+                "refund-v2:3ad704686fec:1",
+                "refund-v2:3ad704686fec:0"
+              ],
+              "sources": [
+                "shipping-v1",
+                "refund-v2",
+                "refund-v2",
+                "refund-v2"
+              ],
+              "retrieval": "bm25"
+            },
+            {
+              "node": "validate",
+              "route": "auto_approved",
+              "checks": [
+                {
+                  "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+                  "passed": true
+                },
+                {
+                  "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+                  "passed": true
+                }
+              ],
+              "reason": "\u4e24\u9879\u9000\u6b3e\u6761\u4ef6\u5747\u6ee1\u8db3\uff0c\u81ea\u52a8\u6267\u884c\u6a21\u62df\u9000\u6b3e\u3002",
+              "policy_version": "refund-v2"
+            },
+            {
+              "node": "execute",
+              "checks": [
+                {
+                  "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+                  "passed": true
+                },
+                {
+                  "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+                  "passed": true
+                }
+              ],
+              "reason": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+              "status": "refunded",
+              "response": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+              "grounding": {
+                "errors": [],
+                "schema": 2,
+                "usable": true,
+                "release": {
+                  "token": {
+                    "id": "demo-policy-2026-09-21",
+                    "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                    "generation": 1,
+                    "refund_rule": {
+                      "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                      "version": "refund-v2"
+                    }
+                  },
+                  "valid": true,
+                  "reason": "active"
+                },
+                "verified": [
+                  {
+                    "id": "refund-v2",
+                    "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                    "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                    "score": 0.65444,
+                    "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+                    "policy": {
+                      "reason": "active",
+                      "status": "approved",
+                      "usable": true,
+                      "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                      "reviewed_at": "2026-09-21T00:00:00Z",
+                      "reviewed_by": "resolveflow-demo-fixture",
+                      "review_basis": "demo_fixture",
+                      "effective_from": "2026-09-21T00:00:00Z",
+                      "effective_until": null
+                    },
+                    "source": "refund.md",
+                    "actions": [
+                      "refund"
+                    ],
+                    "release": {
+                      "id": "demo-policy-2026-09-21",
+                      "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                      "generation": 1,
+                      "refund_rule": {
+                        "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                        "version": "refund-v2"
+                      }
+                    },
+                    "version": "2",
+                    "chunk_id": "refund-v2:3ad704686fec:0",
+                    "line_end": 8,
+                    "retrieval": "bm25",
+                    "line_start": 8,
+                    "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+                    "retrieval_profile": "expanded"
+                  }
+                ],
+                "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                "action_chunks": {
+                  "reply": "shipping-v1:872750f16cd0:0",
+                  "refund": "refund-v2:3ad704686fec:0"
+                },
+                "policy_checks": [
+                  {
+                    "id": "refund-v2",
+                    "reason": "active",
+                    "status": "approved",
+                    "usable": true,
+                    "chunk_id": "refund-v2:3ad704686fec:0",
+                    "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                    "reviewed_at": "2026-09-21T00:00:00Z",
+                    "reviewed_by": "resolveflow-demo-fixture",
+                    "review_basis": "demo_fixture",
+                    "effective_from": "2026-09-21T00:00:00Z",
+                    "effective_until": null
+                  }
+                ],
+                "evidence_status": "supported",
+                "reference_valid": true,
+                "claim_entailment": "not_assessed"
+              },
+              "simulated": true,
+              "amount_cents": 29900,
+              "policy_version": "refund-v2",
+              "decision_source": "automatic",
+              "policy_supported": true
+            }
+          ],
+          "usage": {
+            "model_calls": 0,
+            "input_tokens": 0,
+            "output_tokens": 0
+          },
+          "result": {
+            "checks": [
+              {
+                "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+                "passed": true
+              },
+              {
+                "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+                "passed": true
+              }
+            ],
+            "reason": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+            "status": "refunded",
+            "response": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+            "grounding": {
+              "errors": [],
+              "schema": 2,
+              "usable": true,
+              "release": {
+                "token": {
+                  "id": "demo-policy-2026-09-21",
+                  "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                  "generation": 1,
+                  "refund_rule": {
+                    "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                    "version": "refund-v2"
+                  }
+                },
+                "valid": true,
+                "reason": "active"
+              },
+              "verified": [
+                {
+                  "id": "refund-v2",
+                  "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                  "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                  "score": 0.65444,
+                  "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+                  "policy": {
+                    "reason": "active",
+                    "status": "approved",
+                    "usable": true,
+                    "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                    "reviewed_at": "2026-09-21T00:00:00Z",
+                    "reviewed_by": "resolveflow-demo-fixture",
+                    "review_basis": "demo_fixture",
+                    "effective_from": "2026-09-21T00:00:00Z",
+                    "effective_until": null
+                  },
+                  "source": "refund.md",
+                  "actions": [
+                    "refund"
+                  ],
+                  "release": {
+                    "id": "demo-policy-2026-09-21",
+                    "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                    "generation": 1,
+                    "refund_rule": {
+                      "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                      "version": "refund-v2"
+                    }
+                  },
+                  "version": "2",
+                  "chunk_id": "refund-v2:3ad704686fec:0",
+                  "line_end": 8,
+                  "retrieval": "bm25",
+                  "line_start": 8,
+                  "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+                  "retrieval_profile": "expanded"
+                }
+              ],
+              "checked_at": "2026-10-05T11:07:36.574363+00:00",
+              "action_chunks": {
+                "reply": "shipping-v1:872750f16cd0:0",
+                "refund": "refund-v2:3ad704686fec:0"
+              },
+              "policy_checks": [
+                {
+                  "id": "refund-v2",
+                  "reason": "active",
+                  "status": "approved",
+                  "usable": true,
+                  "chunk_id": "refund-v2:3ad704686fec:0",
+                  "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                  "reviewed_at": "2026-09-21T00:00:00Z",
+                  "reviewed_by": "resolveflow-demo-fixture",
+                  "review_basis": "demo_fixture",
+                  "effective_from": "2026-09-21T00:00:00Z",
+                  "effective_until": null
+                }
+              ],
+              "evidence_status": "supported",
+              "reference_valid": true,
+              "claim_entailment": "not_assessed"
+            },
+            "simulated": true,
+            "amount_cents": 29900,
+            "policy_version": "refund-v2",
+            "decision_source": "automatic",
+            "policy_supported": true
+          },
+          "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+          "ticket": "\u7533\u8bf7\u9000\u6b3e",
+          "decision": true,
+          "evidence": [
+            {
+              "id": "shipping-v1",
+              "text": "\u7269\u6d41 shipping\u3001\u5feb\u9012\u3001\u5305\u88f9\u3001\u8fd0\u5355\u3001\u914d\u9001\u67e5\u8be2\uff1a\u8fd0\u8f93\u4e2d\u7684\u8ba2\u5355\u63d0\u4f9b\u5f53\u524d\u8fd0\u5355\u72b6\u6001\u3002\u8ba2\u5355\u672a\u7b7e\u6536\u65f6\u4e0d\u80fd\u76f4\u63a5\u6309\u5df2\u7b7e\u6536\u8ba2\u5355\u6267\u884c\u9000\u6b3e\uff0c\u5e94\u8f6c\u4eba\u5de5\u6838\u67e5\uff1b\u7b7e\u6536\u540e\u7533\u8bf7\u9000\u6b3e\u6309\u9000\u6b3e\u653f\u7b56\u5904\u7406\uff0c\u4e0d\u81ea\u52a8\u627f\u8bfa\u8d54\u4ed8\u3002",
+              "score": 2.311677,
+              "title": "\u7269\u6d41\u4e0e\u914d\u9001\u67e5\u8be2\u653f\u7b56",
+              "policy": {
+                "reason": "active",
+                "status": "approved",
+                "usable": true,
+                "checked_at": "2026-10-05T11:07:36.440177+00:00",
+                "reviewed_at": "2026-09-21T00:00:00Z",
+                "reviewed_by": "resolveflow-demo-fixture",
+                "review_basis": "demo_fixture",
+                "effective_from": "2026-09-21T00:00:00Z",
+                "effective_until": null
+              },
+              "source": "shipping.md",
+              "actions": [
+                "reply"
+              ],
+              "release": {
+                "id": "demo-policy-2026-09-21",
+                "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                "generation": 1,
+                "refund_rule": {
+                  "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                  "version": "refund-v2"
+                }
+              },
+              "version": "1",
+              "chunk_id": "shipping-v1:872750f16cd0:0",
+              "line_end": 8,
+              "retrieval": "bm25",
+              "line_start": 8,
+              "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+              "retrieval_profile": "expanded"
+            },
+            {
+              "id": "refund-v2",
+              "text": "\u91cd\u590d\u9000\u6b3e\u9632\u62a4\uff1a\u4e00\u4e2a\u8ba2\u5355\u6700\u591a\u6709\u4e00\u6761\u6a21\u62df\u9000\u6b3e\u53f0\u8d26\u3002\u4efb\u52a1\u53ef\u80fd\u56e0\u6545\u969c\u91cd\u8bd5\uff0c\u4f46\u4e0d\u80fd\u91cd\u590d\u8bb0\u5f55\u9000\u6b3e\u3002\u8fd9\u91cc\u7684\u9000\u6b3e\u4e0d\u8c03\u7528\u652f\u4ed8\u673a\u6784\uff0c\u4e5f\u4e0d\u4ee3\u8868\u771f\u5b9e\u8d44\u91d1\u5df2\u5230\u8d26\u3002",
+              "score": 0.765555,
+              "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+              "policy": {
+                "reason": "active",
+                "status": "approved",
+                "usable": true,
+                "checked_at": "2026-10-05T11:07:36.440177+00:00",
+                "reviewed_at": "2026-09-21T00:00:00Z",
+                "reviewed_by": "resolveflow-demo-fixture",
+                "review_basis": "demo_fixture",
+                "effective_from": "2026-09-21T00:00:00Z",
+                "effective_until": null
+              },
+              "source": "refund.md",
+              "actions": [],
+              "release": {
+                "id": "demo-policy-2026-09-21",
+                "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                "generation": 1,
+                "refund_rule": {
+                  "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                  "version": "refund-v2"
+                }
+              },
+              "version": "2",
+              "chunk_id": "refund-v2:3ad704686fec:2",
+              "line_end": 12,
+              "retrieval": "bm25",
+              "line_start": 12,
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "retrieval_profile": "expanded"
+            },
+            {
+              "id": "refund-v2",
+              "text": "\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u9000\u6b3e\u65f6\uff0c\u5ba1\u6279\u5458\u5fc5\u987b\u660e\u786e\u540c\u610f\u6216\u62d2\u7edd\u5e76\u586b\u5199\u7406\u7531\u3002\u7cfb\u7edf\u5148\u4fdd\u5b58\u51b3\u5b9a\uff0c\u518d\u6062\u590d\u539f\u5de5\u5355\u6d41\u7a0b\u3002\u8fd0\u8425\u4eba\u5458\u4e0d\u80fd\u5ba1\u6279\uff1b\u91cd\u590d\u63d0\u4ea4\u5ba1\u6279\u5e94\u88ab\u62d2\u7edd\u3002\u4eba\u5de5\u6838\u67e5\u7ed3\u6848\u4e0d\u4f1a\u81ea\u52a8\u6267\u884c\u9000\u6b3e\u3002",
+              "score": 0.683279,
+              "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+              "policy": {
+                "reason": "active",
+                "status": "approved",
+                "usable": true,
+                "checked_at": "2026-10-05T11:07:36.440177+00:00",
+                "reviewed_at": "2026-09-21T00:00:00Z",
+                "reviewed_by": "resolveflow-demo-fixture",
+                "review_basis": "demo_fixture",
+                "effective_from": "2026-09-21T00:00:00Z",
+                "effective_until": null
+              },
+              "source": "refund.md",
+              "actions": [],
+              "release": {
+                "id": "demo-policy-2026-09-21",
+                "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                "generation": 1,
+                "refund_rule": {
+                  "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                  "version": "refund-v2"
+                }
+              },
+              "version": "2",
+              "chunk_id": "refund-v2:3ad704686fec:1",
+              "line_end": 10,
+              "retrieval": "bm25",
+              "line_start": 10,
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "retrieval_profile": "expanded"
+            },
+            {
+              "id": "refund-v2",
+              "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+              "score": 0.65444,
+              "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+              "policy": {
+                "reason": "active",
+                "status": "approved",
+                "usable": true,
+                "checked_at": "2026-10-05T11:07:36.440177+00:00",
+                "reviewed_at": "2026-09-21T00:00:00Z",
+                "reviewed_by": "resolveflow-demo-fixture",
+                "review_basis": "demo_fixture",
+                "effective_from": "2026-09-21T00:00:00Z",
+                "effective_until": null
+              },
+              "source": "refund.md",
+              "actions": [
+                "refund"
+              ],
+              "release": {
+                "id": "demo-policy-2026-09-21",
+                "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                "generation": 1,
+                "refund_rule": {
+                  "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                  "version": "refund-v2"
+                }
+              },
+              "version": "2",
+              "chunk_id": "refund-v2:3ad704686fec:0",
+              "line_end": 8,
+              "retrieval": "bm25",
+              "line_start": 8,
+              "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+              "retrieval_profile": "expanded"
+            }
+          ],
+          "order_id": "RF-1900",
+          "proposal": {
+            "action": "refund",
+            "quotes": [
+              {
+                "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                "chunk_id": "refund-v2:3ad704686fec:0"
+              }
+            ],
+            "reason": "\u5df2\u68c0\u7d22\u5230\u5904\u7406\u89c4\u5219\u539f\u6587\uff0c\u8ba2\u5355\u4e8b\u5b9e\u4ecd\u9700\u7a0b\u5e8f\u6838\u9a8c\u3002",
+            "citations": [
+              "refund-v2:3ad704686fec:0"
+            ],
+            "citation_schema": 2,
+            "evidence_status": "supported"
+          },
+          "conflicts": [],
+          "validated": true
+        },
+        "error": null,
+        "elapsed_ms": 39166,
+        "created_at": "2026-10-05 11:07:33.497090+00:00",
+        "updated_at": "2026-10-05 11:07:33.515603+00:00",
+        "created_by": "operator"
+      },
+      "job": {
+        "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "available_at": "2026-10-05 11:07:33.497090+00:00",
+        "last_error": null,
+        "updated_at": "2026-10-05 11:07:33.515603+00:00"
+      },
+      "job_lock_available": true,
+      "graph_next": [],
+      "graph_state": {
+        "ticket": "\u7533\u8bf7\u9000\u6b3e",
+        "order_id": "RF-1900",
+        "owner": "demo",
+        "order": {
+          "id": "RF-1900",
+          "owner": "demo",
+          "amount": 29900,
+          "days": 3,
+          "used": false,
+          "status": "delivered"
+        },
+        "evidence": [
+          {
+            "id": "shipping-v1",
+            "chunk_id": "shipping-v1:872750f16cd0:0",
+            "text": "\u7269\u6d41 shipping\u3001\u5feb\u9012\u3001\u5305\u88f9\u3001\u8fd0\u5355\u3001\u914d\u9001\u67e5\u8be2\uff1a\u8fd0\u8f93\u4e2d\u7684\u8ba2\u5355\u63d0\u4f9b\u5f53\u524d\u8fd0\u5355\u72b6\u6001\u3002\u8ba2\u5355\u672a\u7b7e\u6536\u65f6\u4e0d\u80fd\u76f4\u63a5\u6309\u5df2\u7b7e\u6536\u8ba2\u5355\u6267\u884c\u9000\u6b3e\uff0c\u5e94\u8f6c\u4eba\u5de5\u6838\u67e5\uff1b\u7b7e\u6536\u540e\u7533\u8bf7\u9000\u6b3e\u6309\u9000\u6b3e\u653f\u7b56\u5904\u7406\uff0c\u4e0d\u81ea\u52a8\u627f\u8bfa\u8d54\u4ed8\u3002",
+            "title": "\u7269\u6d41\u4e0e\u914d\u9001\u67e5\u8be2\u653f\u7b56",
+            "source": "shipping.md",
+            "version": "1",
+            "document_sha256": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 2.311677,
+            "retrieval": "bm25",
+            "retrieval_profile": "expanded",
+            "policy": {
+              "usable": true,
+              "reason": "active",
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "status": "approved",
+              "review_basis": "demo_fixture",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "actions": [
+              "reply"
+            ]
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:2",
+            "text": "\u91cd\u590d\u9000\u6b3e\u9632\u62a4\uff1a\u4e00\u4e2a\u8ba2\u5355\u6700\u591a\u6709\u4e00\u6761\u6a21\u62df\u9000\u6b3e\u53f0\u8d26\u3002\u4efb\u52a1\u53ef\u80fd\u56e0\u6545\u969c\u91cd\u8bd5\uff0c\u4f46\u4e0d\u80fd\u91cd\u590d\u8bb0\u5f55\u9000\u6b3e\u3002\u8fd9\u91cc\u7684\u9000\u6b3e\u4e0d\u8c03\u7528\u652f\u4ed8\u673a\u6784\uff0c\u4e5f\u4e0d\u4ee3\u8868\u771f\u5b9e\u8d44\u91d1\u5df2\u5230\u8d26\u3002",
+            "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 12,
+            "line_end": 12,
+            "score": 0.765555,
+            "retrieval": "bm25",
+            "retrieval_profile": "expanded",
+            "policy": {
+              "usable": true,
+              "reason": "active",
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "status": "approved",
+              "review_basis": "demo_fixture",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "actions": []
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:1",
+            "text": "\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u9000\u6b3e\u65f6\uff0c\u5ba1\u6279\u5458\u5fc5\u987b\u660e\u786e\u540c\u610f\u6216\u62d2\u7edd\u5e76\u586b\u5199\u7406\u7531\u3002\u7cfb\u7edf\u5148\u4fdd\u5b58\u51b3\u5b9a\uff0c\u518d\u6062\u590d\u539f\u5de5\u5355\u6d41\u7a0b\u3002\u8fd0\u8425\u4eba\u5458\u4e0d\u80fd\u5ba1\u6279\uff1b\u91cd\u590d\u63d0\u4ea4\u5ba1\u6279\u5e94\u88ab\u62d2\u7edd\u3002\u4eba\u5de5\u6838\u67e5\u7ed3\u6848\u4e0d\u4f1a\u81ea\u52a8\u6267\u884c\u9000\u6b3e\u3002",
+            "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 10,
+            "line_end": 10,
+            "score": 0.683279,
+            "retrieval": "bm25",
+            "retrieval_profile": "expanded",
+            "policy": {
+              "usable": true,
+              "reason": "active",
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "status": "approved",
+              "review_basis": "demo_fixture",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "actions": []
+          },
+          {
+            "id": "refund-v2",
+            "chunk_id": "refund-v2:3ad704686fec:0",
+            "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+            "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+            "source": "refund.md",
+            "version": "2",
+            "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+            "line_start": 8,
+            "line_end": 8,
+            "score": 0.65444,
+            "retrieval": "bm25",
+            "retrieval_profile": "expanded",
+            "policy": {
+              "usable": true,
+              "reason": "active",
+              "checked_at": "2026-10-05T11:07:36.440177+00:00",
+              "status": "approved",
+              "review_basis": "demo_fixture",
+              "reviewed_by": "resolveflow-demo-fixture",
+              "reviewed_at": "2026-09-21T00:00:00Z",
+              "effective_from": "2026-09-21T00:00:00Z",
+              "effective_until": null
+            },
+            "release": {
+              "id": "demo-policy-2026-09-21",
+              "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+              "generation": 1,
+              "refund_rule": {
+                "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                "version": "refund-v2"
+              }
+            },
+            "actions": [
+              "refund"
+            ]
+          }
+        ],
+        "proposal": {
+          "action": "refund",
+          "reason": "\u5df2\u68c0\u7d22\u5230\u5904\u7406\u89c4\u5219\u539f\u6587\uff0c\u8ba2\u5355\u4e8b\u5b9e\u4ecd\u9700\u7a0b\u5e8f\u6838\u9a8c\u3002",
+          "citation_schema": 2,
+          "evidence_status": "supported",
+          "citations": [
+            "refund-v2:3ad704686fec:0"
+          ],
+          "quotes": [
+            {
+              "chunk_id": "refund-v2:3ad704686fec:0",
+              "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002"
+            }
+          ]
+        },
+        "result": {
+          "status": "refunded",
+          "response": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+          "reason": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+          "policy_supported": true,
+          "grounding": {
+            "schema": 2,
+            "reference_valid": true,
+            "usable": true,
+            "release": {
+              "valid": true,
+              "reason": "active",
+              "token": {
+                "id": "demo-policy-2026-09-21",
+                "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                "generation": 1,
+                "refund_rule": {
+                  "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                  "version": "refund-v2"
+                }
+              }
+            },
+            "action_chunks": {
+              "reply": "shipping-v1:872750f16cd0:0",
+              "refund": "refund-v2:3ad704686fec:0"
+            },
+            "policy_checks": [
+              {
+                "id": "refund-v2",
+                "chunk_id": "refund-v2:3ad704686fec:0",
+                "usable": true,
+                "reason": "active",
+                "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                "status": "approved",
+                "review_basis": "demo_fixture",
+                "reviewed_by": "resolveflow-demo-fixture",
+                "reviewed_at": "2026-09-21T00:00:00Z",
+                "effective_from": "2026-09-21T00:00:00Z",
+                "effective_until": null
+              }
+            ],
+            "checked_at": "2026-10-05T11:07:36.574363+00:00",
+            "evidence_status": "supported",
+            "errors": [],
+            "verified": [
+              {
+                "id": "refund-v2",
+                "chunk_id": "refund-v2:3ad704686fec:0",
+                "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+                "source": "refund.md",
+                "version": "2",
+                "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+                "line_start": 8,
+                "line_end": 8,
+                "score": 0.65444,
+                "retrieval": "bm25",
+                "retrieval_profile": "expanded",
+                "policy": {
+                  "usable": true,
+                  "reason": "active",
+                  "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                  "status": "approved",
+                  "review_basis": "demo_fixture",
+                  "reviewed_by": "resolveflow-demo-fixture",
+                  "reviewed_at": "2026-09-21T00:00:00Z",
+                  "effective_from": "2026-09-21T00:00:00Z",
+                  "effective_until": null
+                },
+                "release": {
+                  "id": "demo-policy-2026-09-21",
+                  "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                  "generation": 1,
+                  "refund_rule": {
+                    "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                    "version": "refund-v2"
+                  }
+                },
+                "actions": [
+                  "refund"
+                ],
+                "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002"
+              }
+            ],
+            "claim_entailment": "not_assessed"
+          },
+          "policy_version": "refund-v2",
+          "checks": [
+            {
+              "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+              "passed": true
+            },
+            {
+              "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+              "passed": true
+            }
+          ],
+          "decision_source": "automatic",
+          "amount_cents": 29900,
+          "simulated": true
+        },
+        "trace": [
+          {
+            "node": "investigate",
+            "event": "skill_loaded",
+            "name": "refund-handling",
+            "sha256": "fb42933abd83781d63b4cc74bb44371a04595e3c42f2541bd371917dc608dbed"
+          },
+          {
+            "node": "investigate",
+            "transport": "mcp-stdio",
+            "tools": [
+              "search_policy",
+              "lookup_order"
+            ]
+          },
+          {
+            "node": "investigate",
+            "event": "baseline_evidence",
+            "sources": [
+              "shipping-v1",
+              "refund-v2",
+              "refund-v2",
+              "refund-v2"
+            ],
+            "chunks": [
+              "shipping-v1:872750f16cd0:0",
+              "refund-v2:3ad704686fec:2",
+              "refund-v2:3ad704686fec:1",
+              "refund-v2:3ad704686fec:0"
+            ],
+            "retrieval": "bm25"
+          },
+          {
+            "node": "validate",
+            "route": "auto_approved",
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+                "passed": true
+              },
+              {
+                "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+                "passed": true
+              }
+            ],
+            "reason": "\u4e24\u9879\u9000\u6b3e\u6761\u4ef6\u5747\u6ee1\u8db3\uff0c\u81ea\u52a8\u6267\u884c\u6a21\u62df\u9000\u6b3e\u3002"
+          },
+          {
+            "node": "execute",
+            "status": "refunded",
+            "response": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+            "reason": "\u6a21\u62df\u9000\u6b3e\u5df2\u5b8c\u6210\u3002",
+            "policy_supported": true,
+            "grounding": {
+              "schema": 2,
+              "reference_valid": true,
+              "usable": true,
+              "release": {
+                "valid": true,
+                "reason": "active",
+                "token": {
+                  "id": "demo-policy-2026-09-21",
+                  "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                  "generation": 1,
+                  "refund_rule": {
+                    "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                    "version": "refund-v2"
+                  }
+                }
+              },
+              "action_chunks": {
+                "reply": "shipping-v1:872750f16cd0:0",
+                "refund": "refund-v2:3ad704686fec:0"
+              },
+              "policy_checks": [
+                {
+                  "id": "refund-v2",
+                  "chunk_id": "refund-v2:3ad704686fec:0",
+                  "usable": true,
+                  "reason": "active",
+                  "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                  "status": "approved",
+                  "review_basis": "demo_fixture",
+                  "reviewed_by": "resolveflow-demo-fixture",
+                  "reviewed_at": "2026-09-21T00:00:00Z",
+                  "effective_from": "2026-09-21T00:00:00Z",
+                  "effective_until": null
+                }
+              ],
+              "checked_at": "2026-10-05T11:07:36.574363+00:00",
+              "evidence_status": "supported",
+              "errors": [],
+              "verified": [
+                {
+                  "id": "refund-v2",
+                  "chunk_id": "refund-v2:3ad704686fec:0",
+                  "text": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002",
+                  "title": "\u9000\u6b3e\u4e0e\u9000\u8d27\u653f\u7b56",
+                  "source": "refund.md",
+                  "version": "2",
+                  "document_sha256": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+                  "line_start": 8,
+                  "line_end": 8,
+                  "score": 0.65444,
+                  "retrieval": "bm25",
+                  "retrieval_profile": "expanded",
+                  "policy": {
+                    "usable": true,
+                    "reason": "active",
+                    "checked_at": "2026-10-05T11:07:36.574363+00:00",
+                    "status": "approved",
+                    "review_basis": "demo_fixture",
+                    "reviewed_by": "resolveflow-demo-fixture",
+                    "reviewed_at": "2026-09-21T00:00:00Z",
+                    "effective_from": "2026-09-21T00:00:00Z",
+                    "effective_until": null
+                  },
+                  "release": {
+                    "id": "demo-policy-2026-09-21",
+                    "sha256": "9feeb3aac6b679109d4d509ebb5fd1efd6ffbdcec2e3c6564d887ff807e21124",
+                    "generation": 1,
+                    "refund_rule": {
+                      "sha256": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+                      "version": "refund-v2"
+                    }
+                  },
+                  "actions": [
+                    "refund"
+                  ],
+                  "quote": "\u9000\u6b3e refund\u3001\u9000\u8d27\uff1a\u5df2\u7b7e\u6536\u4e14\u4e8b\u5b9e\u5b8c\u6574\u3001\u65e0\u51b2\u7a81\u7684\u8ba2\u5355\uff0c\u68c0\u67e5\u300c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u300d\u548c\u300c\u5546\u54c1\u672a\u4f7f\u7528\u300d\u4e24\u9879\u6761\u4ef6\u3002\u5168\u90e8\u6ee1\u8db3\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff0c\u5168\u90e8\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff0c\u4ec5\u6ee1\u8db3\u4e00\u9879\u7b49\u5f85\u4eba\u5de5\u5ba1\u6279\u4f8b\u5916\u5904\u7406\u3002\u7b7e\u6536\u7b2c7\u5929\u4ecd\u5728\u671f\u9650\u5185\u3002\u672a\u7b7e\u6536\u3001\u8bc1\u636e\u4e0d\u8db3\u6216\u4e8b\u5b9e\u51b2\u7a81\u5fc5\u987b\u8f6c\u4eba\u5de5\u6838\u67e5\u3002"
+                }
+              ],
+              "claim_entailment": "not_assessed"
+            },
+            "policy_version": "refund-v2",
+            "checks": [
+              {
+                "name": "\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929",
+                "passed": true
+              },
+              {
+                "name": "\u5546\u54c1\u672a\u4f7f\u7528",
+                "passed": true
+              }
+            ],
+            "decision_source": "automatic",
+            "amount_cents": 29900,
+            "simulated": true
+          }
+        ],
+        "decision": true,
+        "validated": true,
+        "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+        "skill": {
+          "name": "refund-handling",
+          "sha256": "fb42933abd83781d63b4cc74bb44371a04595e3c42f2541bd371917dc608dbed",
+          "instructions": "# \u9000\u6b3e\u5904\u7406\n\n\u4f7f\u7528 lookup_order \u83b7\u53d6\u5f53\u524d\u8ba2\u5355\uff0c\u4f7f\u7528 search_policy \u67e5\u8be2\u9000\u6b3e\u653f\u7b56\u3002\n\u6838\u5bf9\u7b7e\u6536\u72b6\u6001\u3001\u7b7e\u6536\u5929\u6570\u3001\u662f\u5426\u4f7f\u7528\u3002citations\u4f7f\u7528\u672c\u6b21\u68c0\u7d22\u5230\u7684\u5b8c\u6574chunk_id\uff0cquotes\u9010\u9879\u8bb0\u5f55\u76f8\u540cchunk_id\u53ca\u9010\u5b57\u539f\u6587quote\uff1b\u9000\u6b3e\u5904\u7406\u5fc5\u987b\u5f15\u7528\u8d44\u683c\u89c4\u5219\u6574\u6bb5\uff0c\u4e0d\u4ee5\u5ba1\u6279\u6216\u53f0\u8d26\u6bb5\u843d\u4ee3\u66ff\u3002\n\u8ba2\u5355\u4e0d\u5b58\u5728\u3001\u653f\u7b56\u7f3a\u5931\u3001\u672a\u7b7e\u6536\u6216\u63cf\u8ff0\u51b2\u7a81\u65f6\u5efa\u8bae escalate\u3002\u9000\u6b3e\u8bc9\u6c42\u6709\u5145\u5206\u653f\u7b56\u8bc1\u636e\u65f6\u8f93\u51fa refund \u5efa\u8bae\uff0c\u5e76\u8bf4\u660e\u6bcf\u9879\u6761\u4ef6\u7684\u4e8b\u5b9e\uff0c\u4e0d\u66ff\u4ee3\u89c4\u5219\u5f15\u64ce\u4f5c\u6700\u7ec8\u6388\u6743\u3002\n\u5df2\u7b7e\u6536\u524d\u63d0\u4e0b\uff0c\u7b7e\u6536\u4e0d\u8d85\u8fc77\u5929\u4e14\u672a\u4f7f\u7528\u5c06\u81ea\u52a8\u6a21\u62df\u9000\u6b3e\uff1b\u4e24\u9879\u90fd\u4e0d\u6ee1\u8db3\u81ea\u52a8\u62d2\u7edd\uff1b\u4ec5\u6ee1\u8db3\u4e00\u9879\u4ea4\u4eba\u5de5\u5ba1\u6279\u3002\u4f9d\u636e refund-v2\uff0c\u4e0d\u58f0\u79f0\u771f\u5b9e\u6b3e\u9879\u5230\u8d26\u3002\u6700\u7ec8\u5206\u6d41\u7531\u786e\u5b9a\u6027\u4ee3\u7801\u6267\u884c\u3002\n\u8f93\u51fa\u7b26\u5408 Proposal \u7684 action\u3001reason\u3001citation_schema=2\u3001evidence_status\u3001citations\u3001quotes\u3002\u53ea\u90e8\u5206\u6709\u636e\u6807\u8bb0partial\uff0c\u65e0\u4f9d\u636e\u6807\u8bb0insufficient\uff0c\u4e24\u8005\u5747escalate\uff1b\u6ca1\u6709\u5f15\u7528\u65f6\u4e24\u4e2a\u5217\u8868\u90fd\u4e3a\u7a7a\u3002\u91d1\u989d\u6765\u81ea\u8ba2\u5355\uff0c\u4e0d\u4ece\u7528\u6237\u6587\u672c\u53d6\u503c\u3002\u54a8\u8be2\u5230\u8d26\u3001\u8d39\u7528\u7b49\u4e0d\u7b49\u4e8e\u8bf7\u6c42\u6267\u884c\u9000\u6b3e\u3002",
+          "catalog": [
+            {
+              "name": "refund-handling",
+              "description": "\u8c03\u67e5\u9000\u6b3e\u6216\u9000\u8d27\u5de5\u5355\uff0c\u67e5\u8be2\u8ba2\u5355\u4e0e\u9000\u6b3e\u653f\u7b56\uff0c\u5f62\u6210\u5e26\u8bc1\u636e\u7684\u5efa\u8bae\u3002"
+            },
+            {
+              "name": "shipping-handling",
+              "description": "\u8c03\u67e5\u7269\u6d41\u6216\u5feb\u9012\u72b6\u6001\u5de5\u5355\uff0c\u4f9d\u636e\u5f53\u524d\u8ba2\u5355\u4e8b\u5b9e\u7b54\u590d\uff0c\u4e0d\u627f\u8bfa\u672a\u7ecf\u786e\u8ba4\u7684\u8d54\u4ed8\u3002"
+            },
+            {
+              "name": "support-triage",
+              "description": "\u5bf9\u610f\u56fe\u4e0d\u660e\u786e\u6216\u653f\u7b56\u672a\u8986\u76d6\u7684\u552e\u540e\u5de5\u5355\u8fdb\u884c\u4fdd\u5b88\u5206\u6d41\u3002"
+            }
+          ]
+        },
+        "conflicts": [],
+        "route": "auto_approved",
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "model_calls": 0
+        }
+      },
+      "graph_interrupts": [],
+      "approval": null,
+      "checkpoint_ids": [
+        "1f1c0acf-8392-65a5-bfff-370b45de9d8e",
+        "1f1c0acf-8399-6981-8000-922bac72becd",
+        "1f1c0acf-8c05-68a4-8001-2201d8ccf609",
+        "1f1c0acf-8c3c-6c07-8002-9cdb4860daa8",
+        "1f1c0ad0-dc3b-677e-8003-38d8fd7a0c16"
+      ],
+      "attempts": [
+        {
+          "id": 2,
+          "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+          "kind": "investigate",
+          "success": true,
+          "error_type": null,
+          "elapsed_ms": 39166,
+          "created_at": "2026-10-05 11:07:33.515603+00:00"
+        }
+      ],
+      "audit": [
+        {
+          "action": "create"
+        }
+      ],
+      "refunds": [
+        {
+          "order_id": "RF-1900",
+          "run_id": "1feaa741-40f3-47e9-b2ed-d0bc932ee487",
+          "amount": 29900,
+          "created_at": "2026-10-05 11:07:36.581596+00:00"
+        }
+      ]
+    }
+  },
+  "concurrent": {
+    "order_id": "RF-1901",
+    "gate": {
+      "gate_pid": 282,
+      "order_id": "RF-1901",
+      "max_idle_seconds": 180
+    },
+    "run_ids": [
+      "c41d2637-7665-45e8-875a-c8d04a76fbbb",
+      "7e889c4b-dbb6-4cc3-9ded-240c9cc14811"
+    ]
+  },
+  "error_type": "TimeoutError",
+  "qa_final": {
+    "resolveflow-qa-step19-worker-1": "exited",
+    "resolveflow-qa-step19-worker-2": "exited",
+    "resolveflow-qa-step19-resolveflow-1": "exited",
+    "resolveflow-qa-step19-db-1": "exited"
+  },
+  "finished_utc": "2026-10-05T11:08:40.026065+00:00"
+}

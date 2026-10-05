@@ -1,0 +1,48 @@
+{
+  "status": "paused_by_user",
+  "date": "2026-10-05",
+  "user_instruction": "太久了 先暂停住 打好断点 之后我让继续再接着做",
+  "step": "5.8",
+  "complete": false,
+  "remote_sha": "d7c9255f07a056a9f124407bc2065e5314489bc3",
+  "latest_ci": {
+    "run_id": 37297845672,
+    "conclusion": "failure",
+    "url": "https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/37297845672"
+  },
+  "third_ci_started": false,
+  "current_fixes": "local checkpoint commit only; no push after pause",
+  "verified": {
+    "full_local_before_fixes": {
+      "unit": 400,
+      "postgres": 166,
+      "frontend": 27
+    },
+    "restart_fix_focused": 43,
+    "restart_fix_real_acceptance": 27,
+    "fault_fix_focused": 13,
+    "fault_fix_real_acceptance": 28,
+    "runtime_files_unchanged": 67,
+    "last_main_snapshot": "main-after-fault-fix.json",
+    "known_secret_audit": "file-audit.json"
+  },
+  "next_action_after_explicit_continue": "Read RESUME.md and Git status; normal push of saved checkpoint, then full same-SHA CI and artifact verification. Do not rerun passed local suites without new changes or concerns.",
+  "deferred": [
+    "4.4",
+    "AC-07 provider sandbox",
+    "public hosting",
+    "offsite backup",
+    "external whole-host monitoring"
+  ],
+  "preserve": [
+    "existing main/8056/8057",
+    "all historical volumes",
+    ".env",
+    "SQL function spacing",
+    "approvals",
+    "checkpoints",
+    "refund idempotency",
+    "backend permissions"
+  ],
+  "old_seven_day_automation": "PAUSED"
+}

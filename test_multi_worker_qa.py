@@ -38,3 +38,19 @@ def test_fault_qa_refuses_existing_resources_without_starting(monkeypatch, tmp_p
     with pytest.raises(ValueError, match='fresh project'):
         qa.fault_compose(tmp_path/'empty.env')
     assert calls and not (tmp_path/'work').exists()
+
+
+
+@pytest.mark.parametrize('writer_blockers,waiter_blockers,operation,accepted',[
+    ([99],[10],'order_guard',True),
+    ([98],[10],'order_guard',False),
+    ([99],[99],'order_guard',False),
+    ([99],[10],'other',False),
+    ([99],[],'order_guard',False),
+])
+def test_concurrent_refund_requires_actual_order_lock_chain(monkeypatch,writer_blockers,waiter_blockers,operation,accepted):
+    monkeypatch.syspath_prepend(str(Path(__file__).parent/'scripts'))
+    check=importlib.import_module('multi_worker_qa').serialized_refund_waiters
+    rows=[{'pid':10,'operation':'refund_insert','wait_event':'advisory','blockers':writer_blockers},
+          {'pid':11,'operation':operation,'wait_event':'advisory','blockers':waiter_blockers}]
+    assert bool(check(rows,99)) is accepted
