@@ -73,21 +73,20 @@ def test_final_drill_refuses_to_restore_before_seven_days(tmp_path,monkeypatch):
     monkeypatch.setattr(trial_drill,'restore',restore)
     with pytest.raises(ValueError,match='seven-day'):trial_drill.drill(tmp_path,final=True)
 
-def test_resume_only_starts_existing_runtime_in_dependency_order(tmp_path,monkeypatch):
-    from scripts import local_trial
-    calls=[]
-    class Stack:
-        def cmd(self,*a):calls.append(a)
-    monkeypatch.setattr(local_trial,'load',lambda _: (tmp_path,{'image_id':'frozen'},Stack()))
+def test_resume_verifies_frozen_image_before_safe_start(tmp_path,monkeypatch):
+    from scripts import local_trial, local_backup
+    calls=[];stack=object()
+    monkeypatch.setattr(local_trial,'load',lambda _: (tmp_path,{'image_id':'frozen'},stack))
     monkeypatch.setattr(local_trial,'runtime_image',lambda _: 'frozen')
+    monkeypatch.setattr(local_backup,'start_existing',lambda s:calls.append(s))
     monkeypatch.setattr(local_trial,'ensure_observer',lambda *a:None)
     monkeypatch.setattr(local_trial,'tick',lambda *a: {'passed':False})
     local_trial.resume(tmp_path)
-    assert calls[0][-2:]==('alpha-db','beta-db')
-    assert all(c[0]=='start' and not any('migrate' in a or 'init' in a for a in c) for c in calls)
+    assert calls==[stack]
     monkeypatch.setattr(local_trial,'runtime_image',lambda _: 'unexpected')
     with pytest.raises(ValueError):local_trial.resume(tmp_path)
-    assert len(calls)==3
+    assert calls==[stack]
+
 
 def test_independent_copy_verifies_content_and_refuses_reuse(tmp_path,monkeypatch):
     from scripts import local_trial

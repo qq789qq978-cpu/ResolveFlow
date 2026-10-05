@@ -352,6 +352,18 @@
       "frontend": 27
     },
     "preservation_checks": 31,
-    "runtime_files_match": 67
+    "runtime_files_match": 67,
+    "first_ci": {
+      "sha": "95b0380",
+      "run_id": 37295737144,
+      "result": "failure_preserved"
+    },
+    "restart_fix": {
+      "focused_tests": 43,
+      "new_unit_cases": 4,
+      "isolated_restore_checks": 27,
+      "preservation_checks": 32,
+      "report": "validation/step-5.8-2026-10-05/local-restart-fix.json"
+    }
   }
 }

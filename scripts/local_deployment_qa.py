@@ -13,7 +13,7 @@ import urllib.error
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from scripts.local_stack import generate, protect
-from scripts.local_backup import Stack, create, verify, restore, run
+from scripts.local_backup import Stack, create, verify, restore, run, start_existing
 from scripts.local_probe import observe
 
 
@@ -133,7 +133,7 @@ def main():
         new_run('RF-1001',a)
         check('repeat refund preserves original ledger',before==sql(target,'alpha','SELECT * FROM rf_refunds ORDER BY order_id'))
         target.cmd('stop')
-        target.cmd('start','--wait','--wait-timeout','120')
+        start_existing(target)
         check('restored deployment restarts without installation jobs',api('/api/me',a)['id']==people['alice'])
         check('fresh target refuses reuse',_refuses(lambda:restore(bundle,target.project,port)))
         # Host observer is separate from Docker, but cannot observe this host powered off.
@@ -164,6 +164,17 @@ def main():
         report['passed']=True
     except BaseException as error:
         report['error_type']=type(error).__name__
+        report['runtime_diagnostics'] = {}
+        for item in (source, target):
+            if item is None: continue
+            try:
+                ids = item.cmd('ps','-a','-q').decode().split()
+                rows = json.loads(run(['docker','inspect',*ids])) if ids else []
+                report['runtime_diagnostics'][item.project] = [
+                    {'name':r['Name'], 'status':r['State']['Status'], 'exit_code':r['State']['ExitCode'],
+                     'health':r['State'].get('Health',{}).get('Status')} for r in rows]
+            except Exception as diagnostic_error:
+                report['runtime_diagnostics'][item.project] = {'error_type':type(diagnostic_error).__name__}
         if isinstance(error,AssertionError):report['failure']=str(error)
         raise
     finally:

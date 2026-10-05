@@ -1,0 +1,12 @@
+{
+  "sha": "95b0380f50170753ed01411515c21cad3f34a3df",
+  "run_id": 37295737144,
+  "url": "https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/37295737144",
+  "conclusion": "failure",
+  "step": "Local delivery and combined identity backup",
+  "passed_checks_before_failure": 19,
+  "failed_operation": "Compose start --wait on restored deployment after stop",
+  "underlying_error": "not captured by original wrapper; exact engine error unverified",
+  "fix": "explicit existing container IDs, database then API then workers/monitors, each health-gated; no recursive init/migration",
+  "original_logs_private": "work/step58/37295737144/logs.zip"
+}

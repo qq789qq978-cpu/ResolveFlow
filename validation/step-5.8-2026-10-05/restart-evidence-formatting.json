@@ -1,0 +1,8 @@
+{
+  "file": "restart-unit.xml",
+  "change": "Trailing whitespace only, no test outcomes changed",
+  "original_sha256": "21a6d85cfb96e8537fb9879ff858740608933cd4b698be8eab4023d0264ccc01",
+  "normalized_sha256": "5ce8c8dc12732927a2f9a7ac042730f99771d5416386e76122b2f2c884e6dd07",
+  "testcases": 43,
+  "errors": 13
+}

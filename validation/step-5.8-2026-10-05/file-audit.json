@@ -1,10 +1,10 @@
 {
   "passed": true,
-  "files": 227,
+  "files": 236,
   "new_historical_blobs_scanned": 287,
   "python_parsed": 47,
-  "local_links_checked": 454,
-  "known_credential_values_checked": 699,
+  "local_links_checked": 465,
+  "known_credential_values_checked": 737,
   "secret_matches": [],
   "broken_links": [],
   "limit": "Checks known local secrets, not a proof that arbitrary unknown credentials never existed"

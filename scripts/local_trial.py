@@ -284,10 +284,8 @@ def resume(work):
     work,state,s=load(work)
     with lock(work):
         if runtime_image(s)!=state['image_id']:raise ValueError('Trial runtime image changed')
-        # Start existing containers only. Never replay initialization or migration.
-        for services in (('alpha-db','beta-db'),('alpha-source','beta-source','gateway','alpha-api','beta-api'),
-                         ('alpha-worker','alpha-extra-worker','beta-worker','alpha-monitor','beta-monitor')):
-            s.cmd('start','--wait','--wait-timeout','180',*services)
+        from scripts.local_backup import start_existing
+        start_existing(s)
         ensure_observer(work,state)
     return tick(work)
 

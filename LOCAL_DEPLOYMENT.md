@@ -39,7 +39,7 @@ docker @rfCompose up -d --wait --wait-timeout 180
 
 ```powershell
 docker @rfCompose stop
-docker @rfCompose start
+python scripts/local_backup.py resume --work $rfWork
 docker @rfCompose ps
 ```
 

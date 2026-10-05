@@ -76,3 +76,50 @@ def test_backup_refuses_mixed_images_or_retagged_runtime(monkeypatch,images,conf
     if accepted:assert local_backup.runtime_image(Stack())==configured
     else:
         with pytest.raises(ValueError):local_backup.runtime_image(Stack())
+
+
+def _restart_fixture(monkeypatch, *, missing=False, health='healthy'):
+    from scripts import local_backup as module
+    names=['alpha-db','beta-db','gateway','alpha-api','beta-api','alpha-worker','beta-worker','alpha-monitor','beta-monitor']
+    maintenance=['alpha-roles','alpha-migrate','identity-init']
+    rows=[{'Id':n,'Config':{'Labels':{'com.docker.compose.project':'resolveflow-accounts-fixture',
+        'com.docker.compose.service':n}},'State':{'Running':True,'Status':'running','Health':{'Status':health}}}
+        for n in names+maintenance if not (missing and n=='beta-worker')]
+    calls=[]
+    class Stack:
+        project='resolveflow-accounts-fixture'
+        config={'services':{n:{} for n in names+maintenance}}
+        def cmd(self,*args):return ' '.join(r['Id'] for r in rows).encode()
+    def fake_run(argv):
+        calls.append(argv)
+        return json.dumps([r for r in rows if r['Id'] in argv[2:]]).encode() if argv[1]=='inspect' else b''
+    monkeypatch.setattr(module,'run',fake_run)
+    return module,Stack(),calls
+
+
+def test_resume_never_replays_completed_installation_jobs(monkeypatch):
+    module,stack,calls=_restart_fixture(monkeypatch)
+    module.start_existing(stack)
+    starts=[c[2:] for c in calls if c[1]=='start']
+    assert starts[0]==['alpha-db','beta-db']
+    assert starts[1]==['gateway','alpha-api','beta-api']
+    assert starts[2]==['alpha-worker','beta-worker','alpha-monitor','beta-monitor']
+    assert not any(n in ('alpha-roles','alpha-migrate','identity-init') for c in starts for n in c)
+
+
+def test_resume_missing_runtime_refuses_before_start(monkeypatch):
+    module,stack,calls=_restart_fixture(monkeypatch,missing=True)
+    with pytest.raises(ValueError,match='Missing runtime'):module.start_existing(stack)
+    assert not any(c[1]=='start' for c in calls)
+
+
+def test_resume_unhealthy_database_never_starts_business(monkeypatch):
+    module,stack,calls=_restart_fixture(monkeypatch,health='unhealthy')
+    with pytest.raises(RuntimeError,match='health gate'):module.start_existing(stack)
+    assert [c[2:] for c in calls if c[1]=='start']==[['alpha-db','beta-db']]
+
+
+def test_resume_stuck_database_has_bounded_wait(monkeypatch):
+    module,stack,calls=_restart_fixture(monkeypatch,health='starting')
+    with pytest.raises(TimeoutError,match='expired'):module.start_existing(stack,timeout=0)
+    assert len([c for c in calls if c[1]=='start'])==1

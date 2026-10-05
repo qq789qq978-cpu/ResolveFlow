@@ -17,7 +17,7 @@
 
 ## 日常演示
 
-从 `D:\AgentProjects\ResolveFlow` 执行。先启动Docker Desktop的Linux引擎，再恢复8057已有服务：
+从 `D:\AgentProjects\ResolveFlow` 执行。先启动Docker Desktop的Linux引擎，再恢复8057已有服务（5.8修复后按现有容器ID分层等待健康，不运行初始化/迁移）：
 
 ```powershell
 .venv\Scripts\python.exe scripts/local_trial.py resume --work work/resolveflow-accounts-trial57

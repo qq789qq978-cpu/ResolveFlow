@@ -14,6 +14,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import time
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -48,6 +49,44 @@ class Stack:
         return json.loads(self.cmd('run','--rm','--no-deps','-T',service,
             'python','scripts/local_backup_worker.py',action,
             data=json.dumps(payload).encode() if payload is not None else None))
+
+
+def start_existing(stack, timeout=180):
+    """Start only existing runtime IDs, in health-gated order; never init/migrate."""
+    groups = [('alpha-db', 'beta-db'),
+              ('alpha-source', 'beta-source', 'gateway', 'alpha-api', 'beta-api'),
+              ('alpha-worker', 'alpha-extra-worker', 'beta-worker', 'alpha-monitor', 'beta-monitor')]
+    groups = [[n for n in group if n in stack.config['services']] for group in groups]
+    ids = stack.cmd('ps', '-a', '-q').decode().split()
+    rows = json.loads(run(['docker', 'inspect', *ids])) if ids else []
+    existing = {}
+    for row in rows:
+        labels = row['Config']['Labels']
+        if labels.get('com.docker.compose.project') != stack.project:
+            raise ValueError('Container belongs to another project')
+        if labels.get('com.docker.compose.oneoff', '').lower() == 'true':
+            continue
+        name = labels.get('com.docker.compose.service')
+        if name in existing:
+            raise ValueError('Ambiguous service container')
+        existing[name] = row['Id']
+    if any(n not in existing for group in groups for n in group):
+        raise ValueError('Missing runtime container; refuse implicit installation')
+    for group in groups:
+        if not group:
+            continue
+        selected = [existing[n] for n in group]
+        run(['docker', 'start', *selected])
+        deadline = time.monotonic() + timeout
+        while True:
+            states = [r['State'] for r in json.loads(run(['docker', 'inspect', *selected]))]
+            if all(s.get('Running') and s.get('Health', {}).get('Status') == 'healthy' for s in states):
+                break
+            if any(s.get('Status') in ('exited', 'dead') or s.get('Health', {}).get('Status') == 'unhealthy' for s in states):
+                raise RuntimeError('Runtime failed health gate: ' + ','.join(group))
+            if time.monotonic() >= deadline:
+                raise TimeoutError('Runtime health wait expired: ' + ','.join(group))
+            time.sleep(1)
 
 
 @contextmanager
@@ -181,11 +220,14 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     subs = p.add_subparsers(dest='action',required=True)
     c = subs.add_parser('create'); c.add_argument('--work',type=Path,required=True); c.add_argument('--bundle',type=Path,required=True)
+    s = subs.add_parser('resume'); s.add_argument('--work',type=Path,required=True)
     v = subs.add_parser('verify'); v.add_argument('--bundle',type=Path,required=True)
     r = subs.add_parser('restore'); r.add_argument('--bundle',type=Path,required=True); r.add_argument('--project',required=True); r.add_argument('--port',type=int,default=8054)
     args = p.parse_args()
     try:
         if args.action == 'create': create(args.work,args.bundle)
+        elif args.action == 'resume':
+            with exclusive(args.work): start_existing(Stack(args.work))
         elif args.action == 'verify': verify(args.bundle)
         else: restore(args.bundle,args.project,args.port)
         print(json.dumps({'passed':True,'action':args.action})); return 0
