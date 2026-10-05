@@ -1,0 +1,64 @@
+{
+  "passed": false,
+  "project": "resolveflow-qa-cap56runtime",
+  "image": "resolveflow:step56-capacity",
+  "started_utc": "2026-10-05T07:07:12.284243+00:00",
+  "checks": [
+    {
+      "check": "new isolated project",
+      "passed": true
+    },
+    {
+      "check": "two healthy restricted Workers",
+      "passed": true
+    },
+    {
+      "check": "pending approval checkpoint saved",
+      "passed": true
+    },
+    {
+      "check": "non-MCP refund SQL consumes exactly three attempts",
+      "passed": true
+    },
+    {
+      "check": "timed out refund transaction rolled back",
+      "passed": true
+    },
+    {
+      "check": "durable approval survives SQL timeouts",
+      "passed": true
+    },
+    {
+      "check": "no task SQL remains after SQL retry exhaustion",
+      "passed": true
+    },
+    {
+      "check": "original approved checkpoint resumes after admin retry",
+      "passed": true
+    },
+    {
+      "check": "approval recovery did not repeat investigation",
+      "passed": true
+    },
+    {
+      "check": "operator permissions and duplicate approval remain enforced",
+      "passed": true
+    }
+  ],
+  "model_api_calls": 0,
+  "refund_execution": "simulated",
+  "limits": {
+    "sql_ms": 1000,
+    "lock_ms": 700,
+    "task_seconds": 8
+  },
+  "image_id": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+  "sql_timeout": {
+    "run_id": "873c2122-952a-4cf6-89cb-451aebcfc51d",
+    "seconds": 28.047,
+    "attempts": 3,
+    "error": "QueryCanceled"
+  },
+  "stopped_volume_preserved": true,
+  "finished_utc": "2026-10-05T07:10:28.239046+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "first_attempt_queue_wait_seconds": {
+    "samples": 100,
+    "p95": 28.192497,
+    "max": 41.92378
+  },
+  "workload_seconds_including_queue_and_intentional_pacing": 619.3279999999995,
+  "accepted_tickets_per_minute": 9.687919809858435,
+  "attempt_failures": 0,
+  "attempt_timeouts": 0,
+  "max_sampled_execution_slots": 3,
+  "observed_three_slots_with_at_least_seven_queued": true
+}

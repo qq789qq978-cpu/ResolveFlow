@@ -81,6 +81,8 @@ def _process_one(store, engine, run_id, max_attempts, retry_delay):
     # READ COMMITTED plus SKIP LOCKED lets multiple workers handle different runs.
     # Lock only rf_jobs; graph checkpoints and refund inserts use other connections.
     with store.connect() as c:
+        from capacity import execution_slot
+        if not execution_slot(c): return False
         job = c.execute("SELECT * FROM rf_jobs WHERE status='queued' AND available_at<=now() AND (%s::uuid IS NULL OR run_id=%s) ORDER BY available_at FOR UPDATE SKIP LOCKED LIMIT 1", (run_id,run_id)).fetchone()
         if not job:
             return False

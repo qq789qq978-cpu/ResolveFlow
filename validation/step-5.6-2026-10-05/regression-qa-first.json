@@ -1,0 +1,17 @@
+[
+  {
+    "case": "accounts",
+    "exit_code": 0,
+    "seconds": 153.24432110786438
+  },
+  {
+    "case": "orders",
+    "exit_code": 0,
+    "seconds": 299.29774832725525
+  },
+  {
+    "case": "runtime",
+    "exit_code": 1,
+    "seconds": 201.4224226474762
+  }
+]

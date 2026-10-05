@@ -15,7 +15,13 @@ def identity_snapshot(c):
     if c.execute('PRAGMA integrity_check').fetchone()[0] != 'ok' or c.execute('PRAGMA user_version').fetchone()[0] != 1:
         raise ValueError('Invalid identity database')
     result = {}
-    for table in ('accounts', 'audit', 'sessions', 'sqlite_sequence'):
+    tables = ['accounts', 'audit', 'sessions', 'sqlite_sequence']
+    present = {row[0] for row in c.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    optional = {'capacity_admissions','capacity_rates'}
+    if present & optional:
+        if not optional <= present: raise ValueError('Incomplete capacity schema')
+        tables += sorted(optional)
+    for table in tables:
         rows = sorted(c.execute('SELECT * FROM '+table).fetchall(), key=repr)
         result[table] = {'count': len(rows), 'sha256': hashlib.sha256(json.dumps(rows).encode()).hexdigest()}
     return result

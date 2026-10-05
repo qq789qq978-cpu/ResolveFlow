@@ -10,7 +10,7 @@
 
 ## 安装和启动
 
-需要Docker（Linux容器）和Python 3.12。在仓库根目录执行，首次镜像构建需要网络下载依赖，成功后默认demo/BM25运行无需模型网络调用。项目名和端口必须未使用；不要并行生成多套配置后同时启动（子网分配未跨进程预留）。测试机器和结果见[5.3报告](validation/step-5.3-2026-10-03/REPORT.md)，容量承诺待5.6实测。
+需要Docker（Linux容器）和Python 3.12。在仓库根目录执行，首次镜像构建需要网络下载依赖，成功后默认demo/BM25运行无需模型网络调用。项目名和端口必须未使用；不要并行生成多套配置后同时启动（子网分配未跨进程预留）。测试机器和结果见[5.3报告](validation/step-5.3-2026-10-03/REPORT.md)，启用容量保护的新部署及本机实测见[容量手册](CAPACITY.md)与[5.6报告](validation/step-5.6-2026-10-05/REPORT.md)，旧部署未自动升级。
 
 ```powershell
 docker build -t resolveflow:local-demo .

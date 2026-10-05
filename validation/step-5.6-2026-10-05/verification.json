@@ -1,0 +1,304 @@
+{
+  "passed": true,
+  "checks": {
+    ".env": true,
+    "test_runtime_limits_pg.py": true,
+    "engine.py": true,
+    "storage.py": true,
+    "db_migrate.py": true,
+    "runtime_image_matches_source": true,
+    "main_unchanged_since_docker_restart": true,
+    "original_main_data_and_identity_preserved": true,
+    "old_8053_8054_remain_stopped": true,
+    "historical_container_identity_and_volumes_unchanged": true,
+    "all_step56_qa_stopped": true
+  },
+  "runtime_files": 67,
+  "runtime_sha256": {
+    "alembic.ini": "e14d5ac6e141d33e5804eca0b1605056afa295b4ec96491341f8ebe5b2fbcf25",
+    "alerts.py": "047a952822985a1708376a0d017ec873acd3c9d7fa7307a10cdb01dec22dec32",
+    "auth.py": "914f39a6c0c79a7e9438293b95065f500ced841a577fbd475264326f138a6a11",
+    "bm25_config.py": "774e4b9e05145a00eb95ed5c6988307234e240ac8609ae16d4f13bc86f5d4a16",
+    "capacity.py": "190e9faf81390da4c07375ea6d0a38af56a85e5180cc581841e5cc4153c4dd25",
+    "checkpoint_state.py": "c8978057bfb5c769956bc22abc6054a9d02be6fed02d6581caaab7aeba12262a",
+    "conflicts.py": "a0be2da236615334e8f60a10113de8f70dd13dc58033da0247451f221fa329cb",
+    "database_state.py": "d9b080803b2fe3003858d08dfe885076390d8890684578e4f4abb1863497621b",
+    "db_migrate.py": "e1c72bf5f2e90b9defde4baa21d12f4500c9bbab967ae585a3a56568e01d2b57",
+    "db_roles.py": "7f67f58b578983c1d7015d08ea9337b3383f74922cd85ef0270456c75a68fd3d",
+    "embedding_contract.py": "bf2adc8b2ea273ebcd65f19cba557226f450e0591661394d77da2b850354e519",
+    "engine.py": "3ded1e7e98872c31916416bcbee7b683b3a003e3075b1c6813880f9dbc35879a",
+    "frontend/dist/app.js": "8af279658742cf2526de12443e1d3352d1eb9ac7e19c11d74c19013075362bdd",
+    "frontend/dist/index.html": "400051429c9a2221aa966ca2981eb4b1c32f7bf0dadc6ae9cdbc362eeeab20d3",
+    "frontend/dist/personal.js": "de91c5f6064fb979f3eb23bc40bd4419d6980d2c704681f5b187cbaf23f5169b",
+    "frontend/dist/style.css": "00af46aca1659f771d53eca45fb1925e05d9e0c66204f798c4bdc79c16b716cf",
+    "grounding.py": "24868e08c5138e4dd32d3b14819291a387b781ca67e0d1e3b7640596d7a19497",
+    "identity.py": "373a45642bec05222f4e989dcaf6f451dd59732af51cac123293f96a67f3d1e7",
+    "identity_gateway.py": "2dbb0ab2d25bb715ebd820782816931ed3daa9d312428cebb1be56a1f17aea43",
+    "jobs.py": "97b55f4026dac2aaab6ff8d62f751966b483c2b1218ea57a5e3a703b63f17bd2",
+    "knowledge/escalation.md": "2bb36483d2ad07b11672344b29d8ce605e6a6e16768453610e21043458b32b78",
+    "knowledge/governance.json": "7522250754690fe5384f0b6ccd041eb5492163c693004fef7c00df41b9eecf6d",
+    "knowledge/refund.md": "3ad704686fec3a76d7830fa086979405257343797b836b3e3f911e6359684c35",
+    "knowledge/release.json": "a62d6f75b1f0660704af2bb0363f37c2f347d401feac37e4538afabd594d09d4",
+    "knowledge/shipping.md": "872750f16cd030f62c89b748ff2ab7081dc705dbac07381ceb8074d7869a612c",
+    "mcp_gateway.py": "c3c8ec3e1c6072321cd717237bb8102f68875c6adf217723b2842e44863b773c",
+    "mcp_server.py": "6d4e76211972f58685c997eaff479a93c07bc5ef2589558030524cd1da7c154b",
+    "migrations/baselines/core.json": "7e77ab962e8da4d0e9cc3d35c28f095074b130f601b7b15138f390484b6ee950",
+    "migrations/baselines/hybrid.json": "a085e77a404746caabc29d5bdeac417e6b27ff0a979c4966ad09749c42bbb8db",
+    "migrations/baselines/langgraph-3.1.2.json": "ac8ac3792d0c8a48445621959aceeb0484f45ef45d3ac1b109c298172b00c4ed",
+    "migrations/baselines/orders.json": "c7b5699a025328aa6d03e1f221460951ca85b7532173e30f3096c9e2e42f06ba",
+    "migrations/env.py": "fdb11d4f5bd9afe07f3890794b544c81e737c2c85e7bf39405ba4f5209ef173d",
+    "migrations/script.py.mako": "524a6a8f8d2717a38cad41e75d142349ebbbc8cff9de986c40d996d8141eec99",
+    "migrations/versions/rf_core_0001.py": "907bea443a2dfa7b93da06c9ce17553701bd3076f6b037f75fc13f23e10bf48f",
+    "migrations/versions/rf_orders_0001.py": "3d648fad4d1b95be52b4168e0f25dfcce5e49084d6b612ffc86f2589632a38ef",
+    "migrations/versions/rf_vector_0001.py": "0e44ef1a5ffa1372b96133fa263c5fd796aa6e4f1863adbaef18e28f8e209a0e",
+    "model_config.py": "e1c0928c47f3f5ed2c94f71a00aeddbce2f3e41f0433a3c25c04bc7ee9ff62b0",
+    "monitor.py": "5916ece9483011a3f4e7f5e0abac9e3b2a0b52e11977d994e046524c57ed107f",
+    "observability.py": "e530160238793806b5643994c44235e71a0bbdddedcc2c33532746c2bf8ec8b8",
+    "operations.py": "68b7da8f27335252bbec45d87e1a54248393d464a73b5f5e6379de19bc91565c",
+    "order_sync.py": "3b0fcb633d91638e2923756c92b15852b94405989f826dcbf555536606d88267",
+    "order_sync_roles.py": "dd7d3c3b406a530f0a3ed52b08293bce6fa833fe7ef741abc24435998e7836c1",
+    "policy_governance.py": "4742899644c359c3921cb1bbc75a514538cfaa459c80129da45e3c04b90c77cb",
+    "policy_pdf.py": "10a922c2f3e479528ac68d43b296bb80e6aee372f331d21e5707fadee18d8421",
+    "policy_releases.py": "84525035bb378c763923e6c4d7d3bbefdab2a9edb7b7b51ff596474eb2b95fa7",
+    "rag.py": "ccd18d88a3876c6f6a436683a783c87f5a6c623248e761b160b61ac294b284f8",
+    "refund_policy.py": "060917416c76d9f174f8f56fa177721a7480d5982675cfade14984311d5322e5",
+    "requirements.lock": "9e25a288c6f41391b4fb490b0c59fcafb704c0a9be4d335bde29b4c611c99b25",
+    "runtime_db.py": "b272c5af1df6df96caa125b7695d3edb2056dc5cc35342d7797e132206d62ea1",
+    "scripts/backup_snapshot.py": "b59092c27e5ef16f5747b477c60e7c5db4c18d1768f94d89c524cce38188c247",
+    "scripts/build_vector_index.py": "344ec0b41e06a41e6c0d907f8916c986e0f21d7f24304ed33697eefefaf1ec3c",
+    "scripts/local_backup_worker.py": "2472847c2d1e9a94c8ee372fae56cebf0a9237ce60ec764204395d74f9973646",
+    "scripts/restore_validation.py": "49c0366c2cdfbca1c8fb6b263b05624bc16226d17d5bfbec2405b46933689f2e",
+    "scripts/schema_catalog.py": "df08f583137b50484de8234d260bc099748bc6c9ffd5ec4ccf45ef38436680d8",
+    "secret_entrypoint.py": "f1c56a3394c6780cd2631478f0d1d7684e1aa8bb10f310595a3dc0c22be618e6",
+    "semantic.py": "9dfc802874c7bbcd80788a84efb82abdadc5522947bee4a5e2cf33247ba25adc",
+    "skill_loader.py": "7af84751bd6c0afc7f4f0ffb6d9840af1a0f37d980514856050296ca1f7314cc",
+    "skills/refund-handling/SKILL.md": "4b08ba27f6d0113e7da6638a87646433036f846ab7ea37c77424047eb9b8f224",
+    "skills/shipping-handling/SKILL.md": "2335e2fc8ac51f1062c0b2fb18b3fa2c3522942c9a05ead016712ce210bb9381",
+    "skills/support-triage/SKILL.md": "4efc0324ab295997a1bbeb13aa7b16a132e437cc48b906b32ec3c6c8731e7f13",
+    "storage.py": "178e411a9eedf745d02dee2ec4b2afdaf5b85fb8c027685051b8dae48b9358d5",
+    "support_data.py": "48845ce2f2da6e17edf1f1033b0da34c593bdbb2b9274ae56bde57003411cc91",
+    "synthetic_orders.py": "1b67d0de4b78ec0f5b14550585bb510542d9d5882ded3a420efe28affd52fa36",
+    "task_runtime.py": "a53e165f4dd94884e2c87dea37aa79a984e21b92dcb0df74a378c34acee973fc",
+    "worker.py": "14c2e07c17a107b464d87b76b0d94e92d266edc1c401a6f6deb21a938826c676",
+    "worker_health.py": "fb1bd72f6631d21402f60308d26ccd2ee51db8687555b3e19adc368200017fd5",
+    "worker_task.py": "cd52d8d6b0e999c5d82d29ec929165477bebad48f72a0f7f3fe8abcf00e350dd"
+  },
+  "historical_containers": [
+    {
+      "name": "/resolveflow-accounts-local-beta-worker-1",
+      "id": "a08dcf4bd32d0b4f7e0fcdf6d51126b08ac7bc1c30b7f1e6993de581b3cc8302",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {
+        "/data": "resolveflow-accounts-local_beta-worker"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-local-beta-monitor-1",
+      "id": "6f7f9512b1330a58c1d3450ea6f039176200f126a64d47a0e91d39c8e29a2ba7",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-local-beta-api-1",
+      "id": "d9e86fbe748d966336780aaf1bfcee9fda8802d69fe5e67dc9d643ea47c195df",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-local-alpha-worker-1",
+      "id": "5220bc9208986263d729cd0ca2183fdb0561935bdfe6323baf17cc3d07de4790",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {
+        "/data": "resolveflow-accounts-local_alpha-worker"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-local-alpha-monitor-1",
+      "id": "f2e6f9a4f5578251b594042b2ea44c03913991cb20431eb27aa267736e54d972",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-local-alpha-api-1",
+      "id": "2cc0a847ab220760acabb6108bbfbb639aa4ae5aeade508f38ddb4c043a474ab",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-local-beta-migrate-1",
+      "id": "a4702c043c42056b392b980ee3651f48699fc0eda2c76a99065cd4b2bb6d048c",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-local-alpha-migrate-1",
+      "id": "1b5e8f82e32378ece566a20fb5e951d94c0d29d0a1d087f682462ea16056d782",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-local-beta-roles-1",
+      "id": "14b1f97d67a3f55d31b8e7e9b932242b209e26b159728d8416594038a2a7e950",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-local-alpha-roles-1",
+      "id": "5243ec4c9313e6c9a8950535cd83da9028f2171918c41f09392053fe2641a7b2",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-local-gateway-1",
+      "id": "f364abb52871b00619809a8fdb596ebf15cd94efbcbf847252df27c453ad60bb",
+      "image": "sha256:5df60f0c5084a2d24363f0d92cc2e559f644622aafa815a51e566e5ecd7888c9",
+      "status": "exited",
+      "volumes": {
+        "/data": "resolveflow-accounts-local_identity-data"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-local-beta-db-1",
+      "id": "092a81c75254655d1e1384338f02231972bafc98ab6166d84a7c86428a06b11b",
+      "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+      "status": "exited",
+      "volumes": {
+        "/var/lib/postgresql/data": "resolveflow-accounts-local_beta-db"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-local-alpha-db-1",
+      "id": "0934ebbcb71beb513ee791948ffb7710cc0793c263bdf1e6b0dddcaba0721dd6",
+      "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+      "status": "exited",
+      "volumes": {
+        "/var/lib/postgresql/data": "resolveflow-accounts-local_alpha-db"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-orders-alpha-monitor-1",
+      "id": "bce404815499de04e93ceef8b332c2299aea14b510bfe27d6f7cbfa219adbbcc",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-orders-alpha-worker-1",
+      "id": "95c439a34950aac07f224cc02c46ae0eaab053e51b828c56a35de3407e5366fc",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {
+        "/data": "resolveflow-accounts-orders_alpha-worker"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-orders-beta-worker-1",
+      "id": "8f5c640080d2d227e1b8d2816cb3710a267f4779b8ee33490433e81a4b365bb7",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {
+        "/data": "resolveflow-accounts-orders_beta-worker"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-orders-beta-monitor-1",
+      "id": "72c5aca6728740ff4abcae6a960c0242afcc1b3cdcfa29ec739274df98f544d2",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-orders-alpha-api-1",
+      "id": "8d4f39994ce7a41d564016be5c86bb08cc7950358143c17b49a43fbb86d57539",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-orders-beta-api-1",
+      "id": "f3bb320e92483e17db12448e34a42d011fa3f0ea56c79192574f35e5e6713238",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-orders-alpha-migrate-1",
+      "id": "21e7b561942c17400f471a583ed1f4164f8db4d4d5af2134d5ed48560bc03b9c",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-orders-beta-migrate-1",
+      "id": "13c126ba5135903c280b29b04c1b715f88b95871a0cc1bcf9bfba13ebb2d21c6",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-orders-alpha-roles-1",
+      "id": "532779b435873c42ef3ed5bfa36acd6e9be3d30f1c63e8e41b6b0f0de7c1cb68",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-orders-beta-roles-1",
+      "id": "fa66420f0bff6206f5e3edb853316c58a3148b5c696ac910aaffe17abf762d27",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-orders-alpha-db-1",
+      "id": "08129c5b4e47d65a0f4ab6bef66cb897a0f8c6ee8020b18c43a96a1a08cfa91a",
+      "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+      "status": "exited",
+      "volumes": {
+        "/var/lib/postgresql/data": "resolveflow-accounts-orders_alpha-db"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-orders-beta-db-1",
+      "id": "086b91825797f2ae1122fa626461473be98dffa95e2f7c82e8436d16bdbb7fd6",
+      "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+      "status": "exited",
+      "volumes": {
+        "/var/lib/postgresql/data": "resolveflow-accounts-orders_beta-db"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-orders-gateway-1",
+      "id": "043de0ec20c034b18af98538150332c66e7dc0667fd7e1be3e247d4bc5bb6612",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {
+        "/data": "resolveflow-accounts-orders_identity-data"
+      }
+    },
+    {
+      "name": "/resolveflow-accounts-orders-beta-source-1",
+      "id": "0483c6ef3e3c69d68b505acaae3c6f0cbc20b006015aa0af0999a3f76dfd955f",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    },
+    {
+      "name": "/resolveflow-accounts-orders-alpha-source-1",
+      "id": "9ed79eb9ca0a0fde8e7d34e41ae377871b2b92929198fa5bda54d52920057d2b",
+      "image": "sha256:5d0ba0af26c2f7818c221d37495d80c71f0e2a808464aa60ad7c5aef97f20cb2",
+      "status": "exited",
+      "volumes": {}
+    }
+  ]
+}

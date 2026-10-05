@@ -1,0 +1,35 @@
+✔ PDF sources use physical pages while Markdown keeps source lines (10.1064ms)
+✔ admin alerts show actionable stalled tasks and disappear after recovery (10.921ms)
+✔ failed alert polling marks the last snapshot unknown rather than recovered (7.1352ms)
+✔ a delayed admin alert cannot cross a role switch (5.6212ms)
+✔ a previous role cannot publish a delayed created ticket into the new session (4.9594ms)
+✔ review completion cannot replace a newly selected ticket (8.7155ms)
+✔ retry completion cannot replace a newly selected ticket (5.0346ms)
+✔ approval completion cannot replace a newly selected ticket (7.4724ms)
+✔ a previous filter response cannot replace the latest filter results (5.8918ms)
+✔ out of order detail requests keep the last selected ticket (4.261ms)
+✔ old polling detail cannot overwrite a completed mutation (4.8638ms)
+✔ a network failure keeps draft input and polling recovers without replaying writes (4.0119ms)
+✔ a stale login response cannot restore the older role (3.3588ms)
+✔ reconnection replaces obsolete read-error text while preserving the draft (4.1571ms)
+✔ an old search does not clear the busy state of a new session search (7.9655ms)
+✔ pending actions cannot be duplicated after switching away and back (4.8604ms)
+✔ verified quotes and retrieved candidates are visibly distinct and escaped (4.2148ms)
+✔ legacy and insufficient evidence cannot display a successful citation check (3.8128ms)
+✔ new proposals never expose an unverified model reason while awaiting validation (3.6463ms)
+✔ expired policy remains an authentic historical quote without claiming usability (3.4777ms)
+✔ release generation is visible and incompatible releases are not presented as usable (5.3481ms)
+✔ personal login sends password once, keeps bearer only in memory and displays scope (16.2529ms)
+✔ maintenance UI has accounts and audit but never requests business data (7.9121ms)
+✔ revocation clears visible business data and prompts a fresh login (6.4959ms)
+✔ unconfirmed logout retains token to retry server-side revocation (4.9525ms)
+✔ delayed personal login cannot install an old bearer over a newer login (7.8644ms)
+✔ delayed maintenance data cannot reappear after logout (4.0356ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 439.3676

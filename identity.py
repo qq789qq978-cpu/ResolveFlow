@@ -115,6 +115,8 @@ class IdentityStore:
         try:
             c.execute('PRAGMA journal_mode=WAL')
             c.executescript(SCHEMA)
+            from capacity import enabled, SCHEMA as CAPACITY_SCHEMA
+            if enabled(): c.executescript(CAPACITY_SCHEMA)
             aid = str(uuid.uuid4())
             c.execute('INSERT INTO accounts(id,username,password_hash,role,workspace,enabled,created_at) '
                       "VALUES (?,?,?,'manager',NULL,1,?)", (aid, username, encoded, int(time.time())))

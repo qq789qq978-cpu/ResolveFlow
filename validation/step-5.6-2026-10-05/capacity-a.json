@@ -1,0 +1,3275 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "check": "each workspace has >=1000 orders/history and >=100 active chunks",
+      "passed": true
+    },
+    {
+      "check": "five active accounts including maintenance enforced",
+      "passed": true
+    },
+    {
+      "check": "role and workspace selector denied under capacity mode",
+      "passed": true
+    },
+    {
+      "check": "ten requests accepted and persist queued before workers",
+      "passed": true
+    },
+    {
+      "check": "burst all accepted jobs reach terminal",
+      "passed": true
+    },
+    {
+      "check": "30 automatic flows complete with slot available",
+      "passed": true
+    },
+    {
+      "check": "100th ticket accepted and duplicate new ticket consumes quota",
+      "passed": true
+    },
+    {
+      "check": "101st refused across both workspaces",
+      "passed": true
+    },
+    {
+      "check": "approval resumes at full quota without new admission",
+      "passed": true
+    },
+    {
+      "check": "foreign workspace cannot read run",
+      "passed": true
+    },
+    {
+      "check": "direct private backend cannot bypass full deployment quota",
+      "passed": true
+    },
+    {
+      "check": "runtime observed all three slots with queued work and never over allocation",
+      "passed": true
+    },
+    {
+      "check": "submit p95 within target with zero failure",
+      "passed": true
+    },
+    {
+      "check": "read p95 within target with zero failure",
+      "passed": false
+    }
+  ],
+  "samples": {
+    "submit": [
+      {
+        "seconds": 0.43699999999989814,
+        "status": 202
+      },
+      {
+        "seconds": 0.45299999999997453,
+        "status": 202
+      },
+      {
+        "seconds": 0.5,
+        "status": 202
+      },
+      {
+        "seconds": 0.5,
+        "status": 202
+      },
+      {
+        "seconds": 0.5149999999998727,
+        "status": 202
+      },
+      {
+        "seconds": 0.5459999999998217,
+        "status": 202
+      },
+      {
+        "seconds": 0.5619999999998981,
+        "status": 202
+      },
+      {
+        "seconds": 0.5929999999998472,
+        "status": 202
+      },
+      {
+        "seconds": 0.625,
+        "status": 202
+      },
+      {
+        "seconds": 0.6869999999998981,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.29700000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.17099999999982174,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.21900000000005093,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.1089999999999236,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.31199999999989814,
+        "status": 202
+      },
+      {
+        "seconds": 0.18699999999989814,
+        "status": 202
+      },
+      {
+        "seconds": 3.3910000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.09400000000005093,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 3.2970000000000255,
+        "status": 202
+      },
+      {
+        "seconds": 0.0929999999998472,
+        "status": 202
+      },
+      {
+        "seconds": 0.1570000000001528,
+        "status": 202
+      },
+      {
+        "seconds": 0.07799999999997453,
+        "status": 202
+      },
+      {
+        "seconds": 0.0929999999998472,
+        "status": 202
+      },
+      {
+        "seconds": 0.11000000000012733,
+        "status": 202
+      },
+      {
+        "seconds": 0.09400000000005093,
+        "status": 202
+      },
+      {
+        "seconds": 0.13999999999987267,
+        "status": 202
+      },
+      {
+        "seconds": 0.11000000000012733,
+        "status": 202
+      },
+      {
+        "seconds": 0.17099999999982174,
+        "status": 202
+      },
+      {
+        "seconds": 0.28099999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.18800000000010186,
+        "status": 202
+      },
+      {
+        "seconds": 0.20299999999997453,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.8910000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.25,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.13999999999987267,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.125,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.18699999999989814,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.20299999999997453,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.1410000000000764,
+        "status": 202
+      },
+      {
+        "seconds": 0.25,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.1570000000001528,
+        "status": 202
+      },
+      {
+        "seconds": 0.7339999999999236,
+        "status": 202
+      },
+      {
+        "seconds": 0.5940000000000509,
+        "status": 202
+      },
+      {
+        "seconds": 0.26499999999987267,
+        "status": 202
+      },
+      {
+        "seconds": 0.18800000000010186,
+        "status": 202
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.17200000000002547,
+        "status": 202
+      },
+      {
+        "seconds": 0.1570000000001528,
+        "status": 202
+      }
+    ],
+    "read": [
+      {
+        "seconds": 0.2339999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.2660000000000764,
+        "status": 200
+      },
+      {
+        "seconds": 0.2660000000000764,
+        "status": 200
+      },
+      {
+        "seconds": 0.45299999999997453,
+        "status": 200
+      },
+      {
+        "seconds": 0.45299999999997453,
+        "status": 200
+      },
+      {
+        "seconds": 0.5149999999998727,
+        "status": 200
+      },
+      {
+        "seconds": 0.5619999999998981,
+        "status": 200
+      },
+      {
+        "seconds": 0.5940000000000509,
+        "status": 200
+      },
+      {
+        "seconds": 1.4850000000001273,
+        "status": 200
+      },
+      {
+        "seconds": 1.4850000000001273,
+        "status": 200
+      },
+      {
+        "seconds": 1.2970000000000255,
+        "status": 200
+      },
+      {
+        "seconds": 1.3910000000000764,
+        "status": 200
+      },
+      {
+        "seconds": 1.4220000000000255,
+        "status": 200
+      },
+      {
+        "seconds": 0.5,
+        "status": 200
+      },
+      {
+        "seconds": 0.5,
+        "status": 200
+      },
+      {
+        "seconds": 0.3910000000000764,
+        "status": 200
+      },
+      {
+        "seconds": 0.42200000000002547,
+        "status": 200
+      },
+      {
+        "seconds": 0.4839999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 1.280999999999949,
+        "status": 200
+      },
+      {
+        "seconds": 1.25,
+        "status": 200
+      },
+      {
+        "seconds": 1.280999999999949,
+        "status": 200
+      },
+      {
+        "seconds": 1.2970000000000255,
+        "status": 200
+      },
+      {
+        "seconds": 1.3279999999999745,
+        "status": 200
+      },
+      {
+        "seconds": 0.4839999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.4839999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.4839999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.32799999999997453,
+        "status": 200
+      },
+      {
+        "seconds": 0.42200000000002547,
+        "status": 200
+      },
+      {
+        "seconds": 0.5779999999999745,
+        "status": 200
+      },
+      {
+        "seconds": 0.7190000000000509,
+        "status": 200
+      },
+      {
+        "seconds": 0.7190000000000509,
+        "status": 200
+      },
+      {
+        "seconds": 0.9850000000001273,
+        "status": 200
+      },
+      {
+        "seconds": 0.9529999999999745,
+        "status": 200
+      },
+      {
+        "seconds": 0.6880000000001019,
+        "status": 200
+      },
+      {
+        "seconds": 0.5779999999999745,
+        "status": 200
+      },
+      {
+        "seconds": 0.5779999999999745,
+        "status": 200
+      },
+      {
+        "seconds": 2.311999999999898,
+        "status": 200
+      },
+      {
+        "seconds": 2.311999999999898,
+        "status": 200
+      },
+      {
+        "seconds": 2.280999999999949,
+        "status": 200
+      },
+      {
+        "seconds": 2.280999999999949,
+        "status": 200
+      },
+      {
+        "seconds": 2.280999999999949,
+        "status": 200
+      },
+      {
+        "seconds": 0.25,
+        "status": 200
+      },
+      {
+        "seconds": 0.25,
+        "status": 200
+      },
+      {
+        "seconds": 0.2660000000000764,
+        "status": 200
+      },
+      {
+        "seconds": 0.2820000000001528,
+        "status": 200
+      },
+      {
+        "seconds": 0.31300000000010186,
+        "status": 200
+      },
+      {
+        "seconds": 0.2820000000001528,
+        "status": 200
+      },
+      {
+        "seconds": 0.2820000000001528,
+        "status": 200
+      },
+      {
+        "seconds": 0.25,
+        "status": 200
+      },
+      {
+        "seconds": 0.28099999999994907,
+        "status": 200
+      },
+      {
+        "seconds": 0.28099999999994907,
+        "status": 200
+      },
+      {
+        "seconds": 0.32799999999997453,
+        "status": 200
+      },
+      {
+        "seconds": 0.3429999999998472,
+        "status": 200
+      },
+      {
+        "seconds": 0.29700000000002547,
+        "status": 200
+      },
+      {
+        "seconds": 0.29700000000002547,
+        "status": 200
+      },
+      {
+        "seconds": 0.34400000000005093,
+        "status": 200
+      },
+      {
+        "seconds": 0.26499999999987267,
+        "status": 200
+      },
+      {
+        "seconds": 0.375,
+        "status": 200
+      },
+      {
+        "seconds": 0.32799999999997453,
+        "status": 200
+      },
+      {
+        "seconds": 0.32799999999997453,
+        "status": 200
+      },
+      {
+        "seconds": 0.32799999999997453,
+        "status": 200
+      },
+      {
+        "seconds": 0.31300000000010186,
+        "status": 200
+      },
+      {
+        "seconds": 0.21900000000005093,
+        "status": 200
+      },
+      {
+        "seconds": 0.34400000000005093,
+        "status": 200
+      },
+      {
+        "seconds": 0.28099999999994907,
+        "status": 200
+      },
+      {
+        "seconds": 0.28099999999994907,
+        "status": 200
+      },
+      {
+        "seconds": 0.29700000000002547,
+        "status": 200
+      },
+      {
+        "seconds": 0.25,
+        "status": 200
+      },
+      {
+        "seconds": 0.25,
+        "status": 200
+      },
+      {
+        "seconds": 0.3589999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.3589999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.3589999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.40599999999994907,
+        "status": 200
+      },
+      {
+        "seconds": 0.3910000000000764,
+        "status": 200
+      },
+      {
+        "seconds": 0.2820000000001528,
+        "status": 200
+      },
+      {
+        "seconds": 0.46900000000005093,
+        "status": 200
+      },
+      {
+        "seconds": 0.32799999999997453,
+        "status": 200
+      },
+      {
+        "seconds": 0.3589999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.43699999999989814,
+        "status": 200
+      },
+      {
+        "seconds": 0.4839999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.29700000000002547,
+        "status": 200
+      },
+      {
+        "seconds": 0.34400000000005093,
+        "status": 200
+      },
+      {
+        "seconds": 0.29700000000002547,
+        "status": 200
+      },
+      {
+        "seconds": 0.2660000000000764,
+        "status": 200
+      },
+      {
+        "seconds": 0.34400000000005093,
+        "status": 200
+      },
+      {
+        "seconds": 0.29700000000002547,
+        "status": 200
+      },
+      {
+        "seconds": 0.29700000000002547,
+        "status": 200
+      },
+      {
+        "seconds": 0.375,
+        "status": 200
+      },
+      {
+        "seconds": 0.2660000000000764,
+        "status": 200
+      },
+      {
+        "seconds": 0.3429999999998472,
+        "status": 200
+      },
+      {
+        "seconds": 0.31199999999989814,
+        "status": 200
+      },
+      {
+        "seconds": 0.3589999999999236,
+        "status": 200
+      },
+      {
+        "seconds": 0.40599999999994907,
+        "status": 200
+      },
+      {
+        "seconds": 0.5619999999998981,
+        "status": 200
+      },
+      {
+        "seconds": 0.6880000000001019,
+        "status": 200
+      },
+      {
+        "seconds": 0.6880000000001019,
+        "status": 200
+      },
+      {
+        "seconds": 0.5160000000000764,
+        "status": 200
+      },
+      {
+        "seconds": 0.5309999999999491,
+        "status": 200
+      },
+      {
+        "seconds": 0.28099999999994907,
+        "status": 200
+      },
+      {
+        "seconds": 0.15599999999994907,
+        "status": 200
+      }
+    ],
+    "auto": [
+      {
+        "seconds": 8.125,
+        "status": "refunded"
+      },
+      {
+        "seconds": 6.469000000000051,
+        "status": "refunded"
+      },
+      {
+        "seconds": 10.014999999999873,
+        "status": "refunded"
+      },
+      {
+        "seconds": 8.954000000000178,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.717999999999847,
+        "status": "refunded"
+      },
+      {
+        "seconds": 10.422000000000025,
+        "status": "refunded"
+      },
+      {
+        "seconds": 10.344000000000051,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.577999999999975,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.719000000000051,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.0,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.233999999999924,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.110000000000127,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.342999999999847,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.844000000000051,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.672000000000025,
+        "status": "refunded"
+      },
+      {
+        "seconds": 10.25,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.375,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.530999999999949,
+        "status": "refunded"
+      },
+      {
+        "seconds": 12.344000000000051,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.141000000000076,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.155999999999949,
+        "status": "refunded"
+      },
+      {
+        "seconds": 8.780999999999949,
+        "status": "refunded"
+      },
+      {
+        "seconds": 7.483999999999924,
+        "status": "refunded"
+      },
+      {
+        "seconds": 7.719000000000051,
+        "status": "refunded"
+      },
+      {
+        "seconds": 8.047000000000025,
+        "status": "refunded"
+      },
+      {
+        "seconds": 10.219000000000051,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.297000000000025,
+        "status": "refunded"
+      },
+      {
+        "seconds": 10.030999999999949,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.202999999999975,
+        "status": "refunded"
+      },
+      {
+        "seconds": 9.766000000000076,
+        "status": "refunded"
+      }
+    ]
+  },
+  "polls": [
+    {
+      "time": 1791182634.7266521,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 7,
+          "connections": 6,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 3,
+          "connections": 3,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182640.4882514,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 7,
+          "connections": 8,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 3,
+          "connections": 5,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182650.2893417,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 5,
+          "connections": 18,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 2,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791182656.1016397,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 5,
+          "connections": 18,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 1,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791182662.7890997,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 20,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791182669.6938343,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 1,
+          "connections": 18,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791182676.6669095,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 15,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 6,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182682.0436091,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 15,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182687.1625261,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 15,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182692.768648,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 15,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182701.657508,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 6,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182708.2926033,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 6,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182714.5943687,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 15,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 6,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182720.6148887,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 6,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182726.6019459,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 6,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182732.77701,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182740.5675633,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182746.621382,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 11,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182753.8792908,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182759.4565697,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182765.1053236,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 12,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182771.8104923,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182777.463914,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182784.6694305,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 12,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182790.2733924,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 15,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182797.0438943,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182804.2105675,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182809.9897828,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 15,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182816.5766063,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182825.0675173,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182831.2261212,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182839.1820242,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182845.4100223,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182851.4903586,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 1,
+          "connections": 11,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182861.3522182,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182866.8907456,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182872.4280512,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182877.71467,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182883.8014562,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182889.0610683,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182897.834097,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182903.9643981,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182909.5906055,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182914.9123318,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 1,
+          "connections": 11,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182920.6300113,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182927.1100183,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182933.0109863,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182938.5435169,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182946.496555,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182951.8661926,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 14,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182957.583673,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 4,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182963.104875,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 3,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 1,
+          "queued": 2,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791182972.5315323,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 5,
+          "connections": 17,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 1,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791182979.2030716,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 16,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 1,
+          "connections": 10,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791182985.2266588,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 1,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791182991.9755948,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791182999.2649503,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 1,
+          "queued": 2,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183005.3269105,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 5,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 2,
+          "connections": 10,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183012.6601133,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 1,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183018.9363556,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183025.8521361,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 1,
+          "connections": 17,
+          "slots": 2
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183031.3978746,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183037.109602,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 11,
+          "slots": 0
+        },
+        "beta": {
+          "running": 1,
+          "queued": 3,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183042.936199,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 4,
+          "connections": 17,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 2,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183049.0421393,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 2,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 2,
+          "connections": 10,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183056.228299,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 0,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 1,
+          "connections": 10,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183064.8971255,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 11,
+          "slots": 0
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183070.242261,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 11,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183075.2061188,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 5,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 2,
+          "connections": 10,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183082.154362,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 1,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183088.56438,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 17,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183095.726161,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 1,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 10,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183102.3700175,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183108.88197,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 1,
+          "queued": 1,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183115.2883208,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 5,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 2,
+          "connections": 10,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183122.462549,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 1,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183129.5093644,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183136.7134979,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 1,
+          "connections": 17,
+          "slots": 2
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183143.820343,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183150.799527,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 15,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 2,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183158.7407582,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 3,
+          "connections": 19,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 1,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183166.6990921,
+      "workspaces": {
+        "alpha": {
+          "running": 2,
+          "queued": 1,
+          "connections": 17,
+          "slots": 2
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 9,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183173.9371786,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 1,
+          "queued": 0,
+          "connections": 10,
+          "slots": 1
+        }
+      }
+    },
+    {
+      "time": 1791183179.9172146,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 11,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183185.183603,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183190.8249295,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183198.7663567,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 11,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183204.1245632,
+      "workspaces": {
+        "alpha": {
+          "running": 1,
+          "queued": 0,
+          "connections": 13,
+          "slots": 1
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 7,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183210.9997005,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 12,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 6,
+          "slots": 0
+        }
+      }
+    },
+    {
+      "time": 1791183220.9889712,
+      "workspaces": {
+        "alpha": {
+          "running": 0,
+          "queued": 0,
+          "connections": 12,
+          "slots": 0
+        },
+        "beta": {
+          "running": 0,
+          "queued": 0,
+          "connections": 6,
+          "slots": 0
+        }
+      }
+    }
+  ],
+  "projects": [
+    "resolveflow-accounts-cap56a"
+  ],
+  "model_api_calls": 0,
+  "real_refunds": 0,
+  "workers": 3,
+  "slot_allocation": {
+    "alpha": 2,
+    "beta": 1
+  },
+  "machine": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "processor": "Intel64 Family 6 Model 165 Stepping 2, GenuineIntel"
+  },
+  "started_at": "2026-10-05T06:43:11.902016+00:00",
+  "docker": {
+    "NCPU": 16,
+    "MemTotal": 8228847616,
+    "ServerVersion": "29.7.2",
+    "OperatingSystem": "Docker Desktop"
+  },
+  "image_id": "sha256:4468a775f0bf1a966eefd46618f11f55af610fd0e66d49b683b00a1cf386f87a",
+  "fixtures": {
+    "alpha": {
+      "rf_orders": 1004,
+      "rf_runs": 1000,
+      "rf_knowledge_chunks": 107
+    },
+    "beta": {
+      "rf_orders": 1004,
+      "rf_runs": 1000,
+      "rf_knowledge_chunks": 107
+    }
+  },
+  "accepted": [
+    {
+      "id": "0d0e3504-7dd8-4448-ae1e-fce10d8b9fb8",
+      "workspace": "alpha",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 42.51499999999987
+    },
+    {
+      "id": "04c46c57-6b87-41d6-9d9d-d5daec41fa61",
+      "workspace": "alpha",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 50.0619999999999
+    },
+    {
+      "id": "c5e47cbe-f887-4532-a66f-c091fa848ffa",
+      "workspace": "alpha",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 42.4369999999999
+    },
+    {
+      "id": "6da7f02e-fc09-465f-bee6-b48603670e9e",
+      "workspace": "alpha",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 50.28099999999995
+    },
+    {
+      "id": "1dffbab9-a5cd-49a0-9a6d-5a5c97f7719f",
+      "workspace": "beta",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 50.375
+    },
+    {
+      "id": "adcea95f-4943-412c-8c46-9e7bda551a7b",
+      "workspace": "alpha",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 50.202999999999975
+    },
+    {
+      "id": "2eb6f864-b140-4644-bb00-ec1adfca6add",
+      "workspace": "beta",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 50.5619999999999
+    },
+    {
+      "id": "7c853be8-c6b0-4022-a0a1-dfd7b72fbbd0",
+      "workspace": "alpha",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 42.358999999999924
+    },
+    {
+      "id": "7967f77b-cbbb-4d98-87ca-033c09c0b339",
+      "workspace": "alpha",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 49.96799999999985
+    },
+    {
+      "id": "ef2ac32e-aa77-4d83-9944-d7b67d8302fc",
+      "workspace": "beta",
+      "submitted_monotonic": 2821.75,
+      "terminal": "refunded",
+      "seconds": 50.46799999999985
+    },
+    {
+      "id": "3f059f99-fca2-4311-8dbf-9af593df875c",
+      "workspace": "alpha",
+      "submitted_monotonic": 2872.312,
+      "terminal": "refunded",
+      "seconds": 8.125
+    },
+    {
+      "id": "20ae97cc-380a-439a-a375-e76c91766fb9",
+      "workspace": "alpha",
+      "submitted_monotonic": 2880.437,
+      "terminal": "refunded",
+      "seconds": 6.469000000000051
+    },
+    {
+      "id": "da8b556c-74c3-4538-b1a1-0e30710fcbcf",
+      "workspace": "alpha",
+      "submitted_monotonic": 2886.906,
+      "terminal": "refunded",
+      "seconds": 10.014999999999873
+    },
+    {
+      "id": "44f854ee-1f3d-4b10-a7d9-21ee0fe28b6b",
+      "workspace": "alpha",
+      "submitted_monotonic": 2896.921,
+      "terminal": "refunded",
+      "seconds": 8.954000000000178
+    },
+    {
+      "id": "8ea07d1c-f932-4694-bc5e-c21313a2405b",
+      "workspace": "alpha",
+      "submitted_monotonic": 2905.875,
+      "terminal": "refunded",
+      "seconds": 9.717999999999847
+    },
+    {
+      "id": "c972d501-fa79-484a-b676-bf0241c58394",
+      "workspace": "alpha",
+      "submitted_monotonic": 2915.593,
+      "terminal": "refunded",
+      "seconds": 10.422000000000025
+    },
+    {
+      "id": "4ea596b4-2117-47af-a4f5-ac710d33c029",
+      "workspace": "alpha",
+      "submitted_monotonic": 2926.015,
+      "terminal": "refunded",
+      "seconds": 10.344000000000051
+    },
+    {
+      "id": "97860228-a94f-4950-b40a-5b9387df6dcf",
+      "workspace": "alpha",
+      "submitted_monotonic": 2936.359,
+      "terminal": "refunded",
+      "seconds": 9.577999999999975
+    },
+    {
+      "id": "14d0116f-6600-40dc-bcbb-dbfb033e27fe",
+      "workspace": "alpha",
+      "submitted_monotonic": 2945.937,
+      "terminal": "refunded",
+      "seconds": 9.719000000000051
+    },
+    {
+      "id": "363f558d-7aea-4bc4-a9f1-e665629748a0",
+      "workspace": "alpha",
+      "submitted_monotonic": 2955.656,
+      "terminal": "refunded",
+      "seconds": 9.0
+    },
+    {
+      "id": "3c67b3ac-229c-4f0f-a7e6-f1f9521c9dd2",
+      "workspace": "alpha",
+      "submitted_monotonic": 2964.656,
+      "terminal": "refunded",
+      "seconds": 9.233999999999924
+    },
+    {
+      "id": "c627c895-add6-4a51-b272-b20f3d21adf6",
+      "workspace": "alpha",
+      "submitted_monotonic": 2973.89,
+      "terminal": "refunded",
+      "seconds": 9.110000000000127
+    },
+    {
+      "id": "b1028732-8dcb-4ab7-9734-d6ea64a0fed0",
+      "workspace": "alpha",
+      "submitted_monotonic": 2983.0,
+      "terminal": "refunded",
+      "seconds": 9.342999999999847
+    },
+    {
+      "id": "36c6a516-2c4e-4f39-92c3-48ac335113bd",
+      "workspace": "alpha",
+      "submitted_monotonic": 2992.343,
+      "terminal": "refunded",
+      "seconds": 9.844000000000051
+    },
+    {
+      "id": "0ae1abde-09ab-46da-9c5a-78c3bfeda19c",
+      "workspace": "alpha",
+      "submitted_monotonic": 3002.187,
+      "terminal": "refunded",
+      "seconds": 9.672000000000025
+    },
+    {
+      "id": "561c4e77-2b7b-438e-b3e4-0f7df9ca4dea",
+      "workspace": "alpha",
+      "submitted_monotonic": 3011.859,
+      "terminal": "refunded",
+      "seconds": 10.25
+    },
+    {
+      "id": "e2666906-5548-4c20-86fb-e43274b7cc7d",
+      "workspace": "alpha",
+      "submitted_monotonic": 3022.109,
+      "terminal": "refunded",
+      "seconds": 9.375
+    },
+    {
+      "id": "fa8c439e-4790-4ca2-917c-2d9eac9aab70",
+      "workspace": "alpha",
+      "submitted_monotonic": 3031.484,
+      "terminal": "refunded",
+      "seconds": 9.530999999999949
+    },
+    {
+      "id": "2056f276-1623-43e0-97e2-20d1ce32e430",
+      "workspace": "alpha",
+      "submitted_monotonic": 3041.015,
+      "terminal": "refunded",
+      "seconds": 12.344000000000051
+    },
+    {
+      "id": "a6cb3436-1532-43c2-bf77-7af2cb91be96",
+      "workspace": "alpha",
+      "submitted_monotonic": 3053.359,
+      "terminal": "refunded",
+      "seconds": 9.141000000000076
+    },
+    {
+      "id": "ab64435b-2cf2-4363-bf41-f34458f24ba4",
+      "workspace": "alpha",
+      "submitted_monotonic": 3062.5,
+      "terminal": "refunded",
+      "seconds": 9.155999999999949
+    },
+    {
+      "id": "8bcae83c-5eae-4e2c-8eec-ac46f6ceae48",
+      "workspace": "alpha",
+      "submitted_monotonic": 3071.656,
+      "terminal": "refunded",
+      "seconds": 8.780999999999949
+    },
+    {
+      "id": "45d53258-770a-43b4-8247-bfab256a5795",
+      "workspace": "alpha",
+      "submitted_monotonic": 3080.437,
+      "terminal": "refunded",
+      "seconds": 7.483999999999924
+    },
+    {
+      "id": "6b771417-37ea-4b89-9e11-e79a89b079ca",
+      "workspace": "alpha",
+      "submitted_monotonic": 3087.921,
+      "terminal": "refunded",
+      "seconds": 7.719000000000051
+    },
+    {
+      "id": "48f541eb-61e6-4d3d-b6b9-94ae7ccfc9d3",
+      "workspace": "alpha",
+      "submitted_monotonic": 3095.64,
+      "terminal": "refunded",
+      "seconds": 8.047000000000025
+    },
+    {
+      "id": "4f48ca48-10ff-47da-8a00-510402cfe4ae",
+      "workspace": "alpha",
+      "submitted_monotonic": 3103.687,
+      "terminal": "refunded",
+      "seconds": 10.219000000000051
+    },
+    {
+      "id": "b4d46314-a569-4dda-b251-6f183ae0a6e2",
+      "workspace": "alpha",
+      "submitted_monotonic": 3113.906,
+      "terminal": "refunded",
+      "seconds": 9.297000000000025
+    },
+    {
+      "id": "64a60256-4439-469b-bdfc-cb44262f68ff",
+      "workspace": "alpha",
+      "submitted_monotonic": 3123.203,
+      "terminal": "refunded",
+      "seconds": 10.030999999999949
+    },
+    {
+      "id": "90cbe42e-4a1a-4225-a8ab-da78d5a6d599",
+      "workspace": "alpha",
+      "submitted_monotonic": 3133.234,
+      "terminal": "refunded",
+      "seconds": 9.202999999999975
+    },
+    {
+      "id": "048e029b-d80b-4f32-b407-93f3b18febc6",
+      "workspace": "alpha",
+      "submitted_monotonic": 3142.437,
+      "terminal": "refunded",
+      "seconds": 9.766000000000076
+    },
+    {
+      "id": "63b8fbb7-77ee-4bfa-9594-e32142e32d52",
+      "workspace": "alpha",
+      "submitted_monotonic": 3152.203,
+      "terminal": "refunded",
+      "seconds": 11.327999999999975
+    },
+    {
+      "id": "29d275e3-9f89-4d52-a35b-2801fe198401",
+      "workspace": "alpha",
+      "submitted_monotonic": 3155.5,
+      "terminal": "refunded",
+      "seconds": 9.875
+    },
+    {
+      "id": "14d4f704-bfe0-477b-ad7d-01eb7e0478b0",
+      "workspace": "beta",
+      "submitted_monotonic": 3155.593,
+      "terminal": "refunded",
+      "seconds": 9.891000000000076
+    },
+    {
+      "id": "3293a1ae-efaf-424f-87e9-aeff30e4baec",
+      "workspace": "alpha",
+      "submitted_monotonic": 3155.75,
+      "terminal": "refunded",
+      "seconds": 15.983999999999924
+    },
+    {
+      "id": "eb6a8ecc-5eca-406a-9634-dd988bb6d979",
+      "workspace": "alpha",
+      "submitted_monotonic": 3155.828,
+      "terminal": "refunded",
+      "seconds": 17.797000000000025
+    },
+    {
+      "id": "de57237c-32d0-4f76-97c8-57befcb1746f",
+      "workspace": "beta",
+      "submitted_monotonic": 3155.921,
+      "terminal": "refunded",
+      "seconds": 17.875
+    },
+    {
+      "id": "a785cd42-a0a8-4014-a722-168d37f53bc1",
+      "workspace": "alpha",
+      "submitted_monotonic": 3156.031,
+      "terminal": "refunded",
+      "seconds": 25.389999999999873
+    },
+    {
+      "id": "9b9af1f5-fcda-4e5f-ac60-8e692e946625",
+      "workspace": "alpha",
+      "submitted_monotonic": 3156.125,
+      "terminal": "refunded",
+      "seconds": 26.092999999999847
+    },
+    {
+      "id": "dc20d637-ce56-4bc7-90ad-274d9b542c06",
+      "workspace": "beta",
+      "submitted_monotonic": 3156.265,
+      "terminal": "refunded",
+      "seconds": 26.047000000000025
+    },
+    {
+      "id": "7fd7fd2a-c509-49b4-a6b1-ccceeb0b8b91",
+      "workspace": "alpha",
+      "submitted_monotonic": 3156.375,
+      "terminal": "refunded",
+      "seconds": 32.51499999999987
+    },
+    {
+      "id": "013bf1b8-fe63-49f8-9922-7169db145752",
+      "workspace": "alpha",
+      "submitted_monotonic": 3189.89,
+      "terminal": "refunded",
+      "seconds": 10.344000000000051
+    },
+    {
+      "id": "bde72436-e687-4b10-89bb-99d460d24c43",
+      "workspace": "beta",
+      "submitted_monotonic": 3190.171,
+      "terminal": "refunded",
+      "seconds": 10.157000000000153
+    },
+    {
+      "id": "d0fa3889-ae8e-4cf3-b915-29f82e885ab6",
+      "workspace": "alpha",
+      "submitted_monotonic": 3190.296,
+      "terminal": "refunded",
+      "seconds": 10.094000000000051
+    },
+    {
+      "id": "5b8052c4-221b-409b-9802-d1ddab7796c6",
+      "workspace": "alpha",
+      "submitted_monotonic": 3190.484,
+      "terminal": "refunded",
+      "seconds": 18.561999999999898
+    },
+    {
+      "id": "459776d4-032a-4cc5-b95c-41dba869b4cb",
+      "workspace": "beta",
+      "submitted_monotonic": 3190.687,
+      "terminal": "refunded",
+      "seconds": 18.438000000000102
+    },
+    {
+      "id": "e1390aad-f6b4-44d8-aaf4-39d628d27102",
+      "workspace": "alpha",
+      "submitted_monotonic": 3190.843,
+      "terminal": "refunded",
+      "seconds": 18.375
+    },
+    {
+      "id": "dc1f36b6-37c2-4948-bdb2-3b5ec1ae7457",
+      "workspace": "alpha",
+      "submitted_monotonic": 3190.984,
+      "terminal": "refunded",
+      "seconds": 26.108999999999924
+    },
+    {
+      "id": "defa6157-2296-4f08-831c-c6258c573445",
+      "workspace": "beta",
+      "submitted_monotonic": 3191.14,
+      "terminal": "refunded",
+      "seconds": 26.063000000000102
+    },
+    {
+      "id": "2ec36bdc-2e62-4479-8ee6-0792b7f8e09b",
+      "workspace": "alpha",
+      "submitted_monotonic": 3191.296,
+      "terminal": "refunded",
+      "seconds": 26.0
+    },
+    {
+      "id": "46bc00b9-507c-476c-bd9e-52d5b873930f",
+      "workspace": "alpha",
+      "submitted_monotonic": 3191.437,
+      "terminal": "refunded",
+      "seconds": 33.422000000000025
+    },
+    {
+      "id": "df747815-0039-43a5-9695-2ea32807cf9a",
+      "workspace": "beta",
+      "submitted_monotonic": 3225.859,
+      "terminal": "refunded",
+      "seconds": 8.983999999999924
+    },
+    {
+      "id": "c3fc34e8-add5-4cb2-9436-b5f708646b0c",
+      "workspace": "alpha",
+      "submitted_monotonic": 3226.031,
+      "terminal": "refunded",
+      "seconds": 8.936999999999898
+    },
+    {
+      "id": "95c5952a-ed3c-4424-9c77-31e96077f251",
+      "workspace": "alpha",
+      "submitted_monotonic": 3226.156,
+      "terminal": "refunded",
+      "seconds": 8.936999999999898
+    },
+    {
+      "id": "ed8ff1aa-274b-41af-9b3b-f0c9f7d8e265",
+      "workspace": "beta",
+      "submitted_monotonic": 3226.312,
+      "terminal": "refunded",
+      "seconds": 18.108999999999924
+    },
+    {
+      "id": "7c97ca35-5494-4f34-b10e-a282d0f83cdf",
+      "workspace": "alpha",
+      "submitted_monotonic": 3227.203,
+      "terminal": "refunded",
+      "seconds": 17.311999999999898
+    },
+    {
+      "id": "17796b89-31a5-4aec-b6a3-1c5e52e22a92",
+      "workspace": "alpha",
+      "submitted_monotonic": 3227.453,
+      "terminal": "refunded",
+      "seconds": 18.139999999999873
+    },
+    {
+      "id": "4e389a78-2f7e-4b66-a7cb-9ceb09165284",
+      "workspace": "beta",
+      "submitted_monotonic": 3227.609,
+      "terminal": "refunded",
+      "seconds": 24.96900000000005
+    },
+    {
+      "id": "b718c6f5-1c58-47b4-9363-f11b88adcf9f",
+      "workspace": "alpha",
+      "submitted_monotonic": 3227.75,
+      "terminal": "refunded",
+      "seconds": 24.92099999999982
+    },
+    {
+      "id": "664b753b-2e84-411a-8cef-b1a52bfcfd60",
+      "workspace": "alpha",
+      "submitted_monotonic": 3227.875,
+      "terminal": "refunded",
+      "seconds": 24.875
+    },
+    {
+      "id": "b9853c3b-accf-4e9c-a250-f7790cec38ec",
+      "workspace": "beta",
+      "submitted_monotonic": 3228.031,
+      "terminal": "refunded",
+      "seconds": 32.358999999999924
+    },
+    {
+      "id": "e0fc0071-2ece-490d-8244-ea9e365c5ef6",
+      "workspace": "alpha",
+      "submitted_monotonic": 3261.39,
+      "terminal": "refunded",
+      "seconds": 10.063000000000102
+    },
+    {
+      "id": "be102414-065a-4639-aadb-075c9d692b4c",
+      "workspace": "alpha",
+      "submitted_monotonic": 3261.531,
+      "terminal": "refunded",
+      "seconds": 10.030999999999949
+    },
+    {
+      "id": "9f27c4e1-3e9f-4e90-a8a2-7b24977dd98d",
+      "workspace": "beta",
+      "submitted_monotonic": 3261.656,
+      "terminal": "refunded",
+      "seconds": 10.014999999999873
+    },
+    {
+      "id": "b312d476-503f-43c7-8ced-0f7a26a519a3",
+      "workspace": "alpha",
+      "submitted_monotonic": 3261.796,
+      "terminal": "refunded",
+      "seconds": 18.84400000000005
+    },
+    {
+      "id": "6cff9adb-fbc9-4471-a16c-a7e27f358ea8",
+      "workspace": "alpha",
+      "submitted_monotonic": 3261.921,
+      "terminal": "refunded",
+      "seconds": 18.813000000000102
+    },
+    {
+      "id": "df5c463f-511d-444a-a526-ef00a4872241",
+      "workspace": "beta",
+      "submitted_monotonic": 3262.046,
+      "terminal": "refunded",
+      "seconds": 18.797000000000025
+    },
+    {
+      "id": "f00eaa7e-9d95-4508-aae8-b5ea2dc5be55",
+      "workspace": "alpha",
+      "submitted_monotonic": 3262.187,
+      "terminal": "refunded",
+      "seconds": 27.96900000000005
+    },
+    {
+      "id": "4c12aba9-a9ee-4bfe-8a4d-6ca793961362",
+      "workspace": "alpha",
+      "submitted_monotonic": 3262.359,
+      "terminal": "refunded",
+      "seconds": 27.875
+    },
+    {
+      "id": "8ffad2b7-0b2c-4db4-aae2-736a1faeae83",
+      "workspace": "beta",
+      "submitted_monotonic": 3262.531,
+      "terminal": "refunded",
+      "seconds": 27.797000000000025
+    },
+    {
+      "id": "3f17c144-6ce1-4061-a4bb-371bf5e90fdb",
+      "workspace": "alpha",
+      "submitted_monotonic": 3262.687,
+      "terminal": "refunded",
+      "seconds": 36.922000000000025
+    },
+    {
+      "id": "159db97a-d740-4964-9586-2b7079c860b2",
+      "workspace": "alpha",
+      "submitted_monotonic": 3300.609,
+      "terminal": "refunded",
+      "seconds": 9.969000000000051
+    },
+    {
+      "id": "5809440f-371f-4841-9c39-99e6fbf23fee",
+      "workspace": "beta",
+      "submitted_monotonic": 3300.796,
+      "terminal": "refunded",
+      "seconds": 9.907000000000153
+    },
+    {
+      "id": "51d00c52-9627-44be-87e6-d1b58c0f2735",
+      "workspace": "alpha",
+      "submitted_monotonic": 3300.968,
+      "terminal": "refunded",
+      "seconds": 9.844000000000051
+    },
+    {
+      "id": "8124ee62-af5b-44c2-ad45-a2f42859ed90",
+      "workspace": "alpha",
+      "submitted_monotonic": 3301.109,
+      "terminal": "refunded",
+      "seconds": 18.75
+    },
+    {
+      "id": "ca0e71ce-604e-4676-afda-6a002be17676",
+      "workspace": "beta",
+      "submitted_monotonic": 3301.281,
+      "terminal": "refunded",
+      "seconds": 18.672000000000025
+    },
+    {
+      "id": "87b33c8e-daa0-4d55-93bd-2f866d11178d",
+      "workspace": "alpha",
+      "submitted_monotonic": 3301.437,
+      "terminal": "refunded",
+      "seconds": 18.608999999999924
+    },
+    {
+      "id": "33fd22e9-91c7-42aa-aaeb-f4de028f7c61",
+      "workspace": "alpha",
+      "submitted_monotonic": 3301.593,
+      "terminal": "refunded",
+      "seconds": 27.438000000000102
+    },
+    {
+      "id": "f396a855-c9c0-4922-9d0e-5edde8d588e1",
+      "workspace": "beta",
+      "submitted_monotonic": 3301.796,
+      "terminal": "refunded",
+      "seconds": 27.360000000000127
+    },
+    {
+      "id": "8e104c6a-1562-44ba-a559-bf7de404e3d9",
+      "workspace": "alpha",
+      "submitted_monotonic": 3301.968,
+      "terminal": "refunded",
+      "seconds": 27.313000000000102
+    },
+    {
+      "id": "d4dfee03-e59b-4c27-a18c-fd3d5a31826d",
+      "workspace": "alpha",
+      "submitted_monotonic": 3302.109,
+      "terminal": "refunded",
+      "seconds": 35.577999999999975
+    },
+    {
+      "id": "6ab648dd-0b09-47cf-9bf8-1ce5598c3ad7",
+      "workspace": "beta",
+      "submitted_monotonic": 3338.687,
+      "terminal": "refunded",
+      "seconds": 11.469000000000051
+    },
+    {
+      "id": "f7c8043c-1529-48cd-90f3-e2cf9bc679dd",
+      "workspace": "alpha",
+      "submitted_monotonic": 3338.843,
+      "terminal": "refunded",
+      "seconds": 11.422000000000025
+    },
+    {
+      "id": "9597ce05-9086-4977-8af2-9fb30ba0e7b6",
+      "workspace": "alpha",
+      "submitted_monotonic": 3339.0,
+      "terminal": "refunded",
+      "seconds": 11.375
+    },
+    {
+      "id": "b02f755c-abb2-4e01-a778-a23fff800f62",
+      "workspace": "beta",
+      "submitted_monotonic": 3339.734,
+      "terminal": "refunded",
+      "seconds": 20.686999999999898
+    },
+    {
+      "id": "3e53ccff-7ee8-4c91-b214-a621f39ed76e",
+      "workspace": "alpha",
+      "submitted_monotonic": 3340.328,
+      "terminal": "refunded",
+      "seconds": 20.186999999999898
+    },
+    {
+      "id": "bf5a624f-cf2f-482c-a66a-066475169dcf",
+      "workspace": "alpha",
+      "submitted_monotonic": 3340.593,
+      "terminal": "refunded",
+      "seconds": 20.047000000000025
+    },
+    {
+      "id": "014416fd-985b-4a87-a085-7a71178f06e1",
+      "workspace": "beta",
+      "submitted_monotonic": 3340.781,
+      "terminal": "refunded",
+      "seconds": 27.59400000000005
+    },
+    {
+      "id": "7b3a1882-2cd7-4e10-86fd-dbe65a0d8f6c",
+      "workspace": "alpha",
+      "submitted_monotonic": 3340.937,
+      "terminal": "refunded",
+      "seconds": 27.53099999999995
+    },
+    {
+      "id": "fe127a58-e33e-4b39-9eee-b35aa56232a5",
+      "workspace": "alpha",
+      "submitted_monotonic": 3369.468,
+      "terminal": "refunded",
+      "seconds": 26.952999999999975
+    },
+    {
+      "id": "2ab38912-3d77-4eca-ace7-aae16e4b8a38",
+      "workspace": "alpha",
+      "submitted_monotonic": 3378.843,
+      "terminal": "already_refunded",
+      "seconds": 8.077999999999975
+    }
+  ],
+  "metrics": {
+    "submit": {
+      "count": 100,
+      "p95_seconds": 0.625,
+      "max_seconds": 3.3910000000000764,
+      "failures": 0
+    },
+    "read": {
+      "count": 100,
+      "p95_seconds": 1.4850000000001273,
+      "max_seconds": 2.311999999999898,
+      "failures": 0
+    }
+  },
+  "error_type": "AssertionError",
+  "failure": "read p95 within target with zero failure",
+  "stopped_volumes_preserved": true,
+  "finished_at": "2026-10-05T06:53:50.787271+00:00"
+}

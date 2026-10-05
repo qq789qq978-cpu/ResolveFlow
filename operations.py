@@ -4,6 +4,7 @@ import uuid
 import logging
 import time
 import psycopg
+import httpx
 from psycopg_pool import PoolTimeout, TooManyRequests
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -44,11 +45,15 @@ def create_app():
         from alerts import Limits
         Limits.environment()  # Fail invalid alert configuration before serving.
         store=Store(os.environ['DATABASE_URL'],pooled=True,register=True)
+        identity_client=httpx.Client(trust_env=False,follow_redirects=False,timeout=5) if os.getenv('RF_AUTH_MODE')=='personal' else None
         try:
+            app.state.identity_client=identity_client
             store.setup()
             app.state.store=store
             yield
-        finally:store.close()
+        finally:
+            if identity_client is not None:identity_client.close()
+            store.close()
     app=FastAPI(title='ResolveFlow Operations',version='3.0.0',lifespan=lifespan)
     @app.middleware('http')
     async def correlated_request(request,call_next):
@@ -118,6 +123,12 @@ def create_app():
     def create(body:Ticket,request:Request,actor=Depends(allow('operator','admin'))):
         run_id=str(uuid.uuid4())
         request.state.run_id=run_id
+        from capacity import enabled, authorize_submission
+        if enabled():
+            with app.state.store.connect() as connection:
+                if not connection.execute('SELECT id FROM rf_orders WHERE id=%s',(body.order_id,)).fetchone():
+                    raise HTTPException(404,'订单不存在')
+            authorize_submission(request, run_id)
         try:jobs.enqueue(app.state.store,run_id,body.ticket,body.order_id,os.getenv('MODE','live'),os.getenv('MODEL_NAME'),str(actor))
         except KeyError:raise HTTPException(404,'订单不存在') from None
         return get(run_id)

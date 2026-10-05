@@ -27,7 +27,7 @@ def private_file(path, content):
         f.write(content)
 
 
-def generate(project, image, port, *, orders=False):
+def generate(project, image, port, *, orders=False, capacity=False):
     work = accounts_generate(project, image, port)
     protect(work)
     config = json.loads((work/'compose.json').read_text())
@@ -48,6 +48,17 @@ def generate(project, image, port, *, orders=False):
     if orders:
         from scripts.order_source_stack import configure
         configure(config,work,image)
+    if capacity:
+        from copy import deepcopy
+        config['x-resolveflow-local']['capacity'] = True
+        for name in ('gateway','identity-init','alpha-api','beta-api','alpha-worker','beta-worker'):
+            config['services'][name]['environment']['RF_CAPACITY_ENABLED'] = '1'
+        for w,slots in (('alpha',2),('beta',1)):
+            config['services'][w+'-worker']['environment']['RF_EXECUTION_SLOTS'] = str(slots)
+        extra = deepcopy(config['services']['alpha-worker'])
+        extra['volumes'] = ['alpha-extra-worker:/data']
+        config['services']['alpha-extra-worker'] = extra
+        config['volumes']['alpha-extra-worker'] = {}
     secret_dir = work/'secrets'; secret_dir.mkdir()
     config['secrets'] = {}
     for name, service in config['services'].items():
@@ -81,8 +92,9 @@ def main():
     p.add_argument('--project', required=True); p.add_argument('--image', required=True)
     p.add_argument('--port', type=int, default=8053)
     p.add_argument('--orders',action='store_true',help='Enable private synthetic sources and admin synchronization')
+    p.add_argument('--capacity',action='store_true',help='Enable deployment quota, rate limits and 2+1 execution slots')
     args = p.parse_args()
-    work = generate(args.project, args.image, args.port,orders=args.orders)
+    work = generate(args.project, args.image, args.port,orders=args.orders,capacity=args.capacity)
     print(json.dumps({'private_configuration': str(work), 'started': False}))
 
 

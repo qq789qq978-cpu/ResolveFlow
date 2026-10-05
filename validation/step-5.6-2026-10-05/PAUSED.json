@@ -1,0 +1,149 @@
+{
+  "paused_by_user": true,
+  "completed": false,
+  "timestamp": "2026-10-05T07:32:59.305238+00:00",
+  "project": "resolveflow-accounts-cap56b",
+  "volumes_preserved": true,
+  "working_tree_committed": false,
+  "pushed": false,
+  "admissions": [
+    [
+      "2026-10-05",
+      18
+    ]
+  ],
+  "queue": {
+    "alpha": [
+      {
+        "run_id": "18fbda04-288c-4fb6-9f2e-291fa8bfe38b",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "4355f661-90fb-4cf6-b212-02f98312ff42",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "04224aaa-b047-4dbe-9a1b-3d4024e2f774",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "94eb6615-0ab7-4eed-9415-25ad8ce50ea4",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "84b8ec04-eccc-40a0-b68c-e26d6ce5787e",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "b95bd816-ab8c-4c28-bd0a-2987746fc0fc",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "22cc11b6-8542-462f-b078-4764ded0d940",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "8c3a8e8d-4cda-44b6-b15f-a2cc2905f34c",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "00edcdf6-546e-4b46-b756-c09726f1ba15",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "0f23efbd-0d91-40d9-830a-17c9562ecf87",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "a54f2b3d-7aaa-4171-8d2f-9bf8efe0a580",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "ec74e243-2d31-482f-835a-ae4b65e9b046",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "330f4c0d-484e-466b-8759-eec1d64d26cb",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "3b5330d4-02de-443d-8f58-27ca630c03fe",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "647afc27-74a8-4236-b71b-477d185cc8b4",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      }
+    ],
+    "beta": [
+      {
+        "run_id": "bb05d25f-70b2-42fc-9755-384a4fe31fa1",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "52e685cb-3802-4f29-b723-5e5428bab5bf",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      },
+      {
+        "run_id": "a7075f28-e0c9-4a8d-bcb0-53cccc4c4bab",
+        "kind": "investigate",
+        "status": "done",
+        "attempts": 1,
+        "run_status": "refunded"
+      }
+    ]
+  },
+  "running_test_containers": [],
+  "final_capacity_report_exists": false
+}

@@ -1,0 +1,6 @@
+{
+  "file": "focused-cwd.xml",
+  "change": "Only trailing line whitespace removed; failure cases and XML attributes retained",
+  "original_sha256": "a28baee002de7ed61dfc4c8fe13397b08c4ca0fe4a5ae47550a7a4224841520c",
+  "normalized_sha256": "56499d3886a2a80e607ad39639c0c64b13db647f04e41818dde4c2e0d10564ae"
+}

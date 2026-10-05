@@ -76,6 +76,7 @@ def verify(bundle):
 
 def runtime_image(stack):
     services = ('gateway','alpha-api','beta-api','alpha-worker','beta-worker')
+    if getattr(stack,'meta',{}).get('capacity'): services += ('alpha-extra-worker',)
     ids = stack.cmd('ps','-a','-q',*services).decode().split()
     if len(ids) != len(services):
         raise ValueError('Missing deployed runtime container')
@@ -101,6 +102,7 @@ def create(work, bundle):
                     'quiesced_services': paused, 'image': stack.meta['image']}
         manifest['image_id'] = runtime_image(stack)
         manifest['orders'] = stack.meta.get('orders',False)
+        manifest['capacity'] = stack.meta.get('capacity',False)
         try:
             if paused: stack.cmd('stop','-t','30',*paused)
             if manifest['orders']:
@@ -132,7 +134,7 @@ def restore(bundle, project, port):
     if actual_id != manifest['image_id']:
         raise ValueError('Backup image unavailable')
     # generate refuses existing configuration, containers, networks AND volumes.
-    work = generate(project, manifest['image_id'], port,orders=manifest.get('orders',False))
+    work = generate(project, manifest['image_id'], port,orders=manifest.get('orders',False),capacity=manifest.get('capacity',False))
     if manifest.get('orders'):
         sources = json.loads((bundle/'synthetic-sources.json').read_text(encoding='utf-8'))
         for workspace in ('alpha','beta'):
@@ -164,7 +166,8 @@ def restore(bundle, project, port):
             # Start only runtimes; do not replay initialization/migrations on restored data.
             stack.cmd('up','-d','--no-deps','--wait','--wait-timeout','180',
                 'gateway','alpha-api','beta-api','alpha-worker','beta-worker','alpha-monitor','beta-monitor',
-                *(['alpha-source','beta-source'] if manifest.get('orders') else []))
+                *(['alpha-source','beta-source'] if manifest.get('orders') else []),
+                *(['alpha-extra-worker'] if manifest.get('capacity') else []))
             result['passed'] = True
         except BaseException:
             stack.cmd('stop')

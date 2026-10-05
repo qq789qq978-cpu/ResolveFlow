@@ -24,6 +24,10 @@ class Input(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
 
+class Admission(Input):
+    run_id: uuid.UUID
+
+
 class Login(Input):
     username: str = Field(min_length=1, max_length=40)
     password: str = Field(min_length=1, max_length=128)
@@ -90,6 +94,8 @@ def create_app(store=None, workspaces=None, transport=None):
         app.state.workspaces = workspaces or load_workspaces(os.environ['RF_WORKSPACES'])
         with app.state.identities.connect() as c:
             c.execute('SELECT count(*) FROM accounts')
+            from capacity import enabled, verify
+            if enabled(): verify(c)
         async with httpx.AsyncClient(timeout=15, trust_env=False, follow_redirects=False,
                                      transport=transport) as client:
             app.state.client = client
@@ -150,7 +156,9 @@ def create_app(store=None, workspaces=None, transport=None):
         return {'status': 'ok'}
 
     @app.post('/api/session')
-    def login(body: Login):
+    def login(body: Login, request: Request):
+        from capacity import enabled, login_limit
+        if enabled(): login_limit(app.state.identities, request.client.host if request.client else "unknown")
         token = app.state.identities.login(body.username, body.password)
         return {'token': token, 'account': app.state.identities.principal(token)}
 
@@ -175,6 +183,15 @@ def create_app(store=None, workspaces=None, transport=None):
             app.state.identities.audit(p, 'workspace_denied', workspace, 403)
             raise IdentityError(403, '工作区不匹配')
         return p
+
+    @app.post('/internal/admission')
+    def admission(body: Admission, request: Request):
+        from capacity import enabled, admit
+        if not enabled(): raise HTTPException(503, 'capacity_not_enabled')
+        p = introspect(request)
+        if p['role'] not in {'operator', 'admin'}: raise HTTPException(403, 'submission_denied')
+        admit(app.state.identities, p, str(body.run_id))
+        return {'run_id': str(body.run_id)}
 
     @app.get('/api/accounts')
     def accounts(request: Request):

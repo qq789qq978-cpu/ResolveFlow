@@ -1,5 +1,5 @@
 {
-  "version": "5.5-local-prepared",
+  "version": "5.6-local-verified",
   "date": "2026-10-05",
   "purpose": "local_job_portfolio_demo",
   "user_confirmed": {
@@ -13,30 +13,6 @@
     "monthly_incremental_budget_cny": 0,
     "existing_hosting_domain_order_or_sandbox_resources": "none",
     "if_free_resources_insufficient": "local_delivery_authorized_no_cloud_purchase"
-  },
-  "engineering_targets_not_yet_verified": {
-    "quota_timezone": "Asia/Hong_Kong",
-    "default_mode": "demo",
-    "default_retrieval": "bm25",
-    "paid_model_calls": 0,
-    "synthetic_workspaces_for_isolation_tests": 2,
-    "submit_p95_seconds": 2,
-    "read_p95_seconds": 1,
-    "demo_auto_flow_p95_seconds": 30,
-    "http_latency_min_samples": 100,
-    "auto_flow_min_samples": 30,
-    "test_orders_min": 1000,
-    "test_historical_runs_min": 1000,
-    "test_knowledge_chunks_min": 100,
-    "concurrent_submission_burst": 10,
-    "audit_retention_days": 30,
-    "backup_interval_hours": 24,
-    "successful_backups_retained": 7,
-    "rpo_hours": 24,
-    "rto_hours": 4,
-    "trial_days": 7,
-    "local_observation_seconds": 120,
-    "trial_environment": "local_host_running_days"
   },
   "unresolved_implementation_choices": [
     {
@@ -60,14 +36,14 @@
         "5.2",
         "5.6"
       ],
-      "status": "partial",
+      "status": "passed",
       "completed_steps": [
-        "5.2"
-      ],
-      "pending_steps": [
+        "5.2",
         "5.6"
       ],
-      "evidence": "validation/step-5.2-2026-10-03/REPORT.md"
+      "pending_steps": [],
+      "evidence": "validation/step-5.6-2026-10-05/REPORT.md",
+      "environment": "isolated_local_demo_capacity_profile"
     },
     {
       "id": "AC-03",
@@ -110,15 +86,14 @@
         "5.4",
         "5.6"
       ],
-      "status": "partial",
-      "evidence": "validation/step-5.4-2026-10-03/REPORT.md",
-      "environment": "isolated_local_synthetic_demo",
+      "status": "passed",
+      "evidence": "validation/step-5.6-2026-10-05/REPORT.md",
+      "environment": "isolated_local_demo_capacity_profile",
       "completed_steps": [
-        "5.4"
-      ],
-      "pending_steps": [
+        "5.4",
         "5.6"
-      ]
+      ],
+      "pending_steps": []
     },
     {
       "id": "AC-07",
@@ -136,14 +111,26 @@
       "steps": [
         "5.6"
       ],
-      "status": "not_run"
+      "status": "passed",
+      "completed_steps": [
+        "5.6"
+      ],
+      "pending_steps": [],
+      "evidence": "validation/step-5.6-2026-10-05/REPORT.md",
+      "environment": "isolated_local_demo_capacity_profile"
     },
     {
       "id": "AC-09",
       "steps": [
         "5.6"
       ],
-      "status": "not_run"
+      "status": "passed",
+      "completed_steps": [
+        "5.6"
+      ],
+      "pending_steps": [],
+      "evidence": "validation/step-5.6-2026-10-05/REPORT.md",
+      "environment": "isolated_local_demo_capacity_profile"
     },
     {
       "id": "AC-10",
@@ -177,7 +164,7 @@
     }
   ],
   "stage_rules": {
-    "current_step_only": "5.5",
+    "current_step_only": "5.6",
     "local_commit_each_step": true,
     "push_and_matching_ci_step": "5.8",
     "step44": "deferred_by_user",
@@ -236,5 +223,65 @@
     "business_runtime_integrated": false,
     "docker_business_regression_run": false,
     "evidence": "validation/step-5.5-2026-10-05/REPORT.md"
+  },
+  "engineering_targets": {
+    "quota_timezone": "Asia/Hong_Kong",
+    "default_mode": "demo",
+    "default_retrieval": "bm25",
+    "paid_model_calls": 0,
+    "synthetic_workspaces_for_isolation_tests": 2,
+    "submit_p95_seconds": 2,
+    "read_p95_seconds": 1,
+    "demo_auto_flow_p95_seconds": 30,
+    "http_latency_min_samples": 100,
+    "auto_flow_min_samples": 30,
+    "test_orders_min": 1000,
+    "test_historical_runs_min": 1000,
+    "test_knowledge_chunks_min": 100,
+    "concurrent_submission_burst": 10,
+    "audit_retention_days": 30,
+    "backup_interval_hours": 24,
+    "successful_backups_retained": 7,
+    "rpo_hours": 24,
+    "rto_hours": 4,
+    "trial_days": 7,
+    "local_observation_seconds": 120,
+    "trial_environment": "local_host_running_days"
+  },
+  "implementation_5_6": {
+    "new_deployment_url": "http://127.0.0.1:8056",
+    "existing_deployments_upgraded": false,
+    "workers": 3,
+    "execution_slots": {
+      "alpha": 2,
+      "beta": 1
+    },
+    "shared_daily_quota": 100,
+    "timezone": "Asia/Hong_Kong",
+    "uncertain_admission": "retained_fail_closed",
+    "metrics": {
+      "submit": {
+        "count": 100,
+        "p95_seconds": 0.5619999999998981,
+        "max_seconds": 0.9059999999990396,
+        "failures": 0
+      },
+      "read": {
+        "count": 100,
+        "p95_seconds": 0.3280000000013388,
+        "max_seconds": 0.375,
+        "failures": 0
+      },
+      "auto": {
+        "count": 30,
+        "p95_seconds": 12.156999999999243,
+        "max_seconds": 12.171000000000276,
+        "failures": 0
+      }
+    },
+    "evidence": "validation/step-5.6-2026-10-05/REPORT.md",
+    "seven_day_trial_verified": false,
+    "rpo_rto_verified": false,
+    "remote_ci_for_this_step": false
   }
 }

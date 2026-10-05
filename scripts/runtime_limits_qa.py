@@ -20,6 +20,8 @@ def main():
     parser.add_argument('--image',required=True)
     parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--port',default='8020')
+    parser.add_argument('--task-seconds',type=int,default=12,choices=range(6,16),
+                        help='Injected overall deadline; stays below 25s SQL gate and 30s statement deadline')
     args=parser.parse_args()
     if not args.project.startswith('resolveflow-qa-') or args.report.exists():parser.error('Use a new QA target/report')
     work=ROOT/'work'/args.project;work.mkdir(parents=True,exist_ok=False)
@@ -102,7 +104,9 @@ def main():
 
         # Permit SQL to run longer than the task deadline to distinguish the
         # overall task supervisor from server-side per-statement cancellation.
-        override['services']['worker']['environment'].update(RF_DB_STATEMENT_TIMEOUT_MS='30000',RF_DB_LOCK_TIMEOUT_MS='30000',RF_TASK_TIMEOUT_SECONDS='6')
+        # Allow cold Python/MCP startup before the delay is observed; the old
+        # six-second fixture can expire before reaching SQL on slower hosts.
+        override['services']['worker']['environment'].update(RF_DB_STATEMENT_TIMEOUT_MS='30000',RF_DB_LOCK_TIMEOUT_MS='30000',RF_TASK_TIMEOUT_SECONDS=str(args.task_seconds))
         config.write_text(json.dumps(override))
         command(compose+['up','--no-deps','--no-build','-d','--scale','worker=2','--wait','worker'])
         before=[json.loads(command(['docker','inspect',args.project+'-worker-'+str(i)]))[0]['State']['StartedAt'] for i in (1,2)]
@@ -116,9 +120,9 @@ def main():
         require(wait_run(args.project,other)['status']=='auto_rejected','second Worker completes unrelated task while refund is blocked')
         row=failed(rid)
         report['task_deadline']={'run_id':rid,'attempts':row['job']['attempts'],'error':row['job']['last_error'],
-            'attempt_elapsed_ms':json.loads(sql("SELECT json_agg(elapsed_ms ORDER BY id) FROM rf_job_attempts WHERE run_id='"+rid+"'"))}
+            'configured_seconds':args.task_seconds,'attempt_elapsed_ms':json.loads(sql("SELECT json_agg(elapsed_ms ORDER BY id) FROM rf_job_attempts WHERE run_id='"+rid+"'"))}
         require(row['job']['attempts']==3 and row['job']['last_error']=='TaskDeadlineExceeded','overall deadline consumes exactly three attempts')
-        require(all(5500<=ms<13000 for ms in report['task_deadline']['attempt_elapsed_ms']),'each six-second task ends within bounded cleanup allowance')
+        require(all((args.task_seconds-.5)*1000<=ms<(args.task_seconds+7)*1000 for ms in report['task_deadline']['attempt_elapsed_ms']),'each injected deadline ends within bounded cleanup allowance')
         wait(idle);require(True,'no task or MCP database connections remain after deadline')
         require(sql("SELECT count(*) FROM rf_refunds WHERE order_id='RF-1001'")=='0','killed task leaves no partial refund')
         sql("BEGIN; SELECT run_id FROM rf_jobs WHERE run_id='"+rid+"' FOR UPDATE NOWAIT; ROLLBACK")

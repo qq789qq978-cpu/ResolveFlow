@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "project": "resolveflow-accounts-capacity",
+  "url": "http://127.0.0.1:8056",
+  "image_id": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+  "capacity": true,
+  "orders": true,
+  "services": [
+    {
+      "name": "/resolveflow-accounts-capacity-alpha-api-1",
+      "id": "40d0998f3da195f4c65c5d7836978069db57ce0966d7ed3cd5532e9781e84f24",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-alpha-db-1",
+      "id": "12ba7424802023e71ab50876cccd4bfb79c129744871e922fb949c3df3e7a6c8",
+      "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-alpha-extra-worker-1",
+      "id": "59436f48a060cb8e23795500927b90d252c4c731d1b2883b74ef8867afe3dea3",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-alpha-monitor-1",
+      "id": "79b9ab188568ff978ce2be588f6bd4e1b163212fdc2a426adb430b439f577a7c",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-alpha-source-1",
+      "id": "ffc2abce8ea5778e8595a1930c45554a0ed520735abc3ec943c3694cbe97a2a0",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-alpha-worker-1",
+      "id": "eac5e6a3b3064c6ae03fc30f4cc36ec2224ae22ce697aee8af39bf7fa3fd9b64",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-beta-api-1",
+      "id": "f4e0016f5fe92e3892c4ed492923cfee7bdec8bbe9aa755ad4c8c2e21eb6ad42",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-beta-db-1",
+      "id": "3489055543e02b275b4b4bd2bca5d90b808d5b46002cc485ecb09f2e879e6b8a",
+      "image": "sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-beta-monitor-1",
+      "id": "772e9340096744d6913d9d454d7f21a2972dd9aa483ae83d1fbac3ff706dd895",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-beta-source-1",
+      "id": "143cc33c6705b93e42114c20d6ee424d2fca5f8638ae0c1d3de6f79905e1e5cb",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-beta-worker-1",
+      "id": "3e1969dafd9f666fd5406014b24ef67475ddf872a206239dcc0ce2f64475668e",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    },
+    {
+      "name": "/resolveflow-accounts-capacity-gateway-1",
+      "id": "bfe6ee62ace60d1f81c9b9880243d8149bd0750b853a7323e91d9deef26764b1",
+      "image": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+      "health": "healthy"
+    }
+  ],
+  "new_accounts": "maintainer only; password remains in ignored private bootstrap.txt",
+  "initial_backup": "work/resolveflow-accounts-capacity/backups/initial",
+  "initial_admissions": 0
+}

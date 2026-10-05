@@ -9,7 +9,7 @@ COPY scripts/build_vector_index.py ./scripts/build_vector_index.py
 COPY alembic.ini ./alembic.ini
 COPY db_migrate.py database_state.py checkpoint_state.py ./
 COPY db_roles.py ./
-COPY identity.py identity_gateway.py ./
+COPY identity.py identity_gateway.py capacity.py ./
 COPY secret_entrypoint.py order_sync.py order_sync_roles.py synthetic_orders.py ./
 COPY scripts/local_backup_worker.py scripts/backup_snapshot.py scripts/restore_validation.py ./scripts/
 COPY runtime_db.py task_runtime.py worker_task.py ./

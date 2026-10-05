@@ -37,15 +37,23 @@ def validate_keys():
         raise RuntimeError('Configure three distinct access codes: ' + ', '.join(KEYS.values()))
 
 
+def identity_post(request, url, **kwargs):
+    # Reuse transport connections, never cache a principal or a Bearer header.
+    state = getattr(request.scope.get('app'), 'state', None)
+    client = getattr(state, 'identity_client', None)
+    if client is not None:
+        return client.post(url, timeout=5, follow_redirects=False, **kwargs)
+    return httpx.post(url, timeout=5, trust_env=False, follow_redirects=False, **kwargs)
+
+
 def authenticate(request: Request, key=Depends(header)):
     if os.getenv('RF_AUTH_MODE', 'legacy') == 'personal':
         authorization = request.headers.get('Authorization', '')
         if not authorization.startswith('Bearer ') or len(authorization) > 200:
             raise HTTPException(401, '请使用个人账号登录')
         try:
-            result = httpx.post(os.environ['RF_IDENTITY_URL'].rstrip('/') + '/internal/session',
-                headers={'Authorization': authorization, 'X-Workspace-Service': os.environ['RF_IDENTITY_SERVICE_KEY']},
-                timeout=5, trust_env=False, follow_redirects=False)
+            result = identity_post(request, os.environ['RF_IDENTITY_URL'].rstrip('/') + '/internal/session',
+                headers={'Authorization': authorization, 'X-Workspace-Service': os.environ['RF_IDENTITY_SERVICE_KEY']})
             if result.status_code in {401, 403}:
                 raise HTTPException(result.status_code, '会话无效或不属于当前工作区')
             result.raise_for_status()
