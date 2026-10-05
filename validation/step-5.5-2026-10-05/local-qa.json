@@ -1,0 +1,128 @@
+{
+  "kind": "offline_local_mock_only",
+  "provider_sandbox_verified": false,
+  "passed": true,
+  "checks": [
+    {
+      "name": "intent stable on repeat",
+      "passed": true
+    },
+    {
+      "name": "lost response explicitly unknown",
+      "passed": true
+    },
+    {
+      "name": "unknown request never resubmitted",
+      "passed": true
+    },
+    {
+      "name": "query recovers accepted provider fixture",
+      "passed": true
+    },
+    {
+      "name": "verified callback reports success",
+      "passed": true
+    },
+    {
+      "name": "same callback applied once",
+      "passed": true
+    },
+    {
+      "name": "older callback cannot rewind",
+      "passed": true
+    },
+    {
+      "name": "reopen preserves idempotency",
+      "passed": true
+    },
+    {
+      "name": "reconciliation confirms same state",
+      "passed": true
+    },
+    {
+      "name": "cross workspace reconciliation refused",
+      "passed": true
+    },
+    {
+      "name": "late contradictory result escalates",
+      "passed": true
+    },
+    {
+      "name": "discrepancy stays visible",
+      "passed": true
+    },
+    {
+      "name": "not found is not proof of failure",
+      "passed": true
+    },
+    {
+      "name": "not found does not permit another send",
+      "passed": true
+    },
+    {
+      "name": "one provider fixture refund total",
+      "passed": true
+    }
+  ],
+  "real_refunds": 0,
+  "external_payment_api_calls": 0,
+  "model_api_calls": 0,
+  "network_guard": "socket creation forbidden during exercise",
+  "fixtures_preserved": "work\\resolveflow-payment-step55",
+  "intents": [
+    {
+      "key": "mock-refund-662811a04d6e3054405bbda98bbda999a52c7b4216b9c10bb8537eba8e449d4f",
+      "workspace": "alpha",
+      "merchant": "mock-merchant-a",
+      "order_id": "RF-2002",
+      "state": "unknown",
+      "provider_state": null,
+      "version": 0
+    },
+    {
+      "key": "mock-refund-9c6b48fb66a84be712129cfc741ab30dea39be7c53f6513af2f8b4b5b5b452de",
+      "workspace": "alpha",
+      "merchant": "mock-merchant-a",
+      "order_id": "RF-2001",
+      "state": "review_required",
+      "provider_state": "failed",
+      "version": 3
+    }
+  ],
+  "event_outcomes": [
+    {
+      "outcome": "applied",
+      "count": 2
+    },
+    {
+      "outcome": "ignored_stale",
+      "count": 1
+    },
+    {
+      "outcome": "needs_review",
+      "count": 1
+    },
+    {
+      "outcome": "unchanged",
+      "count": 1
+    }
+  ],
+  "reconciliation": [
+    {
+      "key": "mock-refund-9c6b48fb66a84be712129cfc741ab30dea39be7c53f6513af2f8b4b5b5b452de",
+      "outcome": "applied"
+    },
+    {
+      "key": "mock-refund-9c6b48fb66a84be712129cfc741ab30dea39be7c53f6513af2f8b4b5b5b452de",
+      "outcome": "unchanged"
+    },
+    {
+      "key": "mock-refund-662811a04d6e3054405bbda98bbda999a52c7b4216b9c10bb8537eba8e449d4f",
+      "outcome": "not_found_manual_review"
+    }
+  ],
+  "fixture_sha256": {
+    "ledger.sqlite3": "689b58624711eeee383e04df099382c8cabb814ff0a6d6889efcc36aaf5c3ed2",
+    "provider.sqlite3": "5c4314edbead371555d9730b4cc45e890946fa9693fdf6b94af637fdb77bb0e7"
+  }
+}

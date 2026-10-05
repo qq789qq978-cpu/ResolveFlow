@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": {
+    "no_known_secret_values_or_private_keys": true,
+    "local_document_links_valid": true,
+    "source_matches_tested_workspace": true,
+    "no_work_or_env_files_staged": true
+  },
+  "staged_files": 21,
+  "known_env_secret_values_checked": 7,
+  "secret_match_files": [],
+  "local_links_checked": 174,
+  "broken_links": []
+}

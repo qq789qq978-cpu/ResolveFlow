@@ -1,0 +1,31 @@
+{
+  "observed_on": "2026-10-05",
+  "user_confirmation": "没有，按现有约定完成本地准备，暂缓外部沙箱验收",
+  "external_acceptance": "deferred_user_authorized",
+  "sources": [
+    {
+      "url": "https://open.alipay.com/develop/sandbox/app",
+      "title": "支付宝沙箱入口",
+      "observed": "Redirected to auth.alipay.com login. No sign-in or account creation performed.",
+      "unverified": [
+        "current sandbox eligibility for this user",
+        "fees and free entitlement",
+        "available refund/query APIs",
+        "local callback support"
+      ]
+    },
+    {
+      "url": "https://docs.stripe.com/testing",
+      "title": "测试 / Test card numbers",
+      "observed_quotes": [
+        "通过使用测试值模拟交易，在沙盒中测试您的集成——这些交易不会转移资金。",
+        "在使用测试银行卡时，请在所有 API 调用中使用测试 API 密钥。",
+        "真实模式下的退款是异步的：退款可能看上去是成功的，然后会失败；也可能先是 pending，然后成功。",
+        "使用 Stripe CLI 在本地接收 Webhook：stripe listen --forward-to localhost:4242/webhook"
+      ],
+      "limits": "Documentation observation only. No registration, eligibility, fees, account keys, CLI installation, provider requests or event forwarding verified."
+    }
+  ],
+  "research_limit": "Alipay docs search did not yield a verified sandbox guide; unrelated search results were discarded. No provider is selected or configured.",
+  "decision": "Complete vendor-neutral offline contract preparation only; no claim of free provider entitlement or AC-07 pass."
+}

@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "checks": {
+    "protected_runtime_and_env_unchanged": true,
+    "new_python_parses": true,
+    "not_copied_to_runtime_image": true,
+    "not_imported_by_business_runtime": true,
+    "existing_fixture_refused_without_new_report": true,
+    "existing_report_refused_without_new_fixture": true,
+    "fixture_data_unchanged_after_refusal": true,
+    "sql_spacing_file_unchanged": true
+  },
+  "source_sha256": {
+    "experiments/payment_contract.py": "ddad250502cca56feefaf9a30e44c9270c400563f9cc17836b8fcb7b74017c04",
+    "test_payment_contract.py": "04fc28d6ba4d65a405a9c4741f6790f8307bed3e8173fb7a31f8027a93274fc7",
+    "scripts/payment_contract_qa.py": "11497b3d520b195fb40f9fc982086c6b051a00cfb4449fe78aa1b953af63cac7"
+  },
+  "protected_sha256": {
+    "Dockerfile": "642e2ac8ba9bce1d1d35bf4cc2162949f27c74eec6b5be74222f93f0a4b2703c",
+    "engine.py": "3ded1e7e98872c31916416bcbee7b683b3a003e3075b1c6813880f9dbc35879a",
+    "storage.py": "178e411a9eedf745d02dee2ec4b2afdaf5b85fb8c027685051b8dae48b9358d5",
+    "operations.py": "08716eb4433a8a9afb9cc8ada4d2ec6ab53c60da42e5dbbb362e21079963f04c",
+    "identity_gateway.py": "76f7d09390ea19e6433faa4741ef205a667b6c31c9eff9c34581ef2610d2c45e",
+    "db_migrate.py": "e1c72bf5f2e90b9defde4baa21d12f4500c9bbab967ae585a3a56568e01d2b57",
+    "scripts/local_stack.py": "fbe34f0302ae449f73f9811354045c363245b2369327b3802af2452b5c72dcce",
+    "test_runtime_limits_pg.py": "7fd0054f51350c6859e31e66a9bb5d12473f81293182270b2e922c5d83d1b26a",
+    ".env": "f203efc8421736602f1bde668ed84ff3c93d34e083fa0fdc779b4411baaceff0"
+  },
+  "business_database_snapshot_verified": false,
+  "reason": "Docker daemon unavailable; no business DB operations in this step",
+  "fixture_files_preserved": {
+    "ledger.sqlite3": "689b58624711eeee383e04df099382c8cabb814ff0a6d6889efcc36aaf5c3ed2",
+    "provider.sqlite3": "5c4314edbead371555d9730b4cc45e890946fa9693fdf6b94af637fdb77bb0e7"
+  }
+}

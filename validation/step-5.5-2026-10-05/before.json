@@ -1,0 +1,18 @@
+{
+  "base": "7c8e6c8",
+  "protected_sha256": {
+    "Dockerfile": "642e2ac8ba9bce1d1d35bf4cc2162949f27c74eec6b5be74222f93f0a4b2703c",
+    "engine.py": "3ded1e7e98872c31916416bcbee7b683b3a003e3075b1c6813880f9dbc35879a",
+    "storage.py": "178e411a9eedf745d02dee2ec4b2afdaf5b85fb8c027685051b8dae48b9358d5",
+    "operations.py": "08716eb4433a8a9afb9cc8ada4d2ec6ab53c60da42e5dbbb362e21079963f04c",
+    "identity_gateway.py": "76f7d09390ea19e6433faa4741ef205a667b6c31c9eff9c34581ef2610d2c45e",
+    "db_migrate.py": "e1c72bf5f2e90b9defde4baa21d12f4500c9bbab967ae585a3a56568e01d2b57",
+    "scripts/local_stack.py": "fbe34f0302ae449f73f9811354045c363245b2369327b3802af2452b5c72dcce",
+    "test_runtime_limits_pg.py": "7fd0054f51350c6859e31e66a9bb5d12473f81293182270b2e922c5d83d1b26a",
+    ".env": "f203efc8421736602f1bde668ed84ff3c93d34e083fa0fdc779b4411baaceff0"
+  },
+  "git_clean": true,
+  "docker_available": false,
+  "database_snapshot": "not_available_docker_daemon_stopped",
+  "date": "2026-10-05"
+}
