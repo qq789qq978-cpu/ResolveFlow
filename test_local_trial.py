@@ -38,6 +38,21 @@ def test_stale_backup_and_new_calendar_day_need_new_evidence():
     state,records,end=fixture()
     assert not assess(state,records,end+timedelta(days=1))['passed']
 
+def test_single_day_needs_explicit_scope_revision_and_does_not_claim_seven_days():
+    state,records,end=fixture(1)
+    assert not assess(state,records,end)['passed']
+    state['scope_revision']='5.7-single-day-user-authorized'
+    with pytest.raises(ValueError):assess(state,records,end)
+    state['scope_authorization']={'source':'user','decision':'single-day trial plus recovery drills'}
+    r=assess(state,records,end)
+    assert r['passed'] and r['required_days']==1 and not r['multi_day_retention_verified']
+    state['final_drill']['passed']=False
+    assert not assess(state,records,end)['passed']
+
+def test_unknown_scope_cannot_weaken_calendar_gate():
+    state,records,end=fixture(1);state['scope_revision']='skip-tests'
+    with pytest.raises(ValueError):assess(state,records,end)
+
 def test_observation_gaps_are_unknown_not_claimed_outages():
     rows=[{'time':BASE.isoformat(),'available':True},
           {'time':(BASE+timedelta(hours=12)).isoformat(),'available':False}]

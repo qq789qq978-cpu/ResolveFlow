@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "completed_at": "2026-10-05T09:42:37.920164+00:00",
+  "scope_revision": "5.7-single-day-user-authorized",
+  "authorization": {
+    "source": "explicit_user_instruction",
+    "date": "2026-10-05",
+    "decision": "single-day trial plus recovery and rollback drills",
+    "user_quote": "今天你说已经有结果了对吧 就把标准改成单日试运行就行",
+    "previous_scope": "seven actual consecutive dates and seven retained successful backups",
+    "new_scope": "one actual local date, at least one joint backup and independent directory copy, verified recovery/rollback and local fault observation",
+    "not_verified": [
+      "seven_day_reliability",
+      "seven_daily_backup_retention",
+      "production_SLA",
+      "offsite_backup"
+    ]
+  },
+  "drill_evidence": "D:\\AgentProjects\\ResolveFlow\\validation\\step-5.7-2026-10-05\\drills\\20261005T091954078027Z.json",
+  "backup_id": "20261005T091446641380Z",
+  "drill_repeated": false,
+  "explanation": "Existing successful same-day drill against the same latest verified backup satisfies the user-revised scope.",
+  "seven_day_trial_verified": false,
+  "seven_daily_backups_verified": false
+}

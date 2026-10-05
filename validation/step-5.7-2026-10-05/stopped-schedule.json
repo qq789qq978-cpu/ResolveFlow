@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "host_observer_process_stopped": true,
+  "observer_stop_marker": true,
+  "automation_id": "resolveflow-5-7",
+  "automation_status": "PAUSED",
+  "container_monitors_retained": true
+}

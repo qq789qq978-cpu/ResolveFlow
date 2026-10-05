@@ -1,0 +1,31 @@
+{
+  "passed": false,
+  "observed_successful_dates": [
+    "2026-10-05"
+  ],
+  "required_dates": [
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07",
+    "2026-10-08",
+    "2026-10-09",
+    "2026-10-10",
+    "2026-10-11"
+  ],
+  "successful_days": 1,
+  "calendar_requirement_met": false,
+  "backup_requirement_met": false,
+  "successful_backup_count": 1,
+  "backup_gaps_over_24h": [],
+  "latest_backup_age_hours": 0.37142960611111114,
+  "final_drill_current": false,
+  "next": "continue_real_daily_observation",
+  "project": "resolveflow-accounts-trial57",
+  "checked_at": "2026-10-05T09:37:05.209972+00:00",
+  "completed_at": null,
+  "url": "http://127.0.0.1:8057",
+  "model_api_calls": 0,
+  "real_refunds": 0,
+  "public_access": false,
+  "trial_started_at": "2026-10-05T09:13:35.384351+00:00"
+}

@@ -1,5 +1,5 @@
 {
-  "version": "5.7-local-trial-in-progress",
+  "version": "5.7-single-day-verified",
   "date": "2026-10-05",
   "purpose": "local_job_portfolio_demo",
   "user_confirmed": {
@@ -61,15 +61,15 @@
         "5.3",
         "5.7"
       ],
-      "status": "partial",
+      "status": "passed",
       "completed_steps": [
-        "5.3"
-      ],
-      "pending_steps": [
+        "5.3",
         "5.7"
       ],
-      "environment": "local_demo",
-      "evidence": "validation/step-5.3-2026-10-03/REPORT.md"
+      "pending_steps": [],
+      "environment": "isolated_local_single_day_not_24x7",
+      "evidence": "validation/step-5.7-2026-10-05/REPORT.md",
+      "scope_revision": "5.7-single-day-user-authorized"
     },
     {
       "id": "AC-05",
@@ -138,22 +138,29 @@
         "5.3",
         "5.7"
       ],
-      "status": "partial",
+      "status": "passed",
       "completed_steps": [
-        "5.3"
-      ],
-      "pending_steps": [
+        "5.3",
         "5.7"
       ],
-      "environment": "local_demo",
-      "evidence": "validation/step-5.3-2026-10-03/REPORT.md"
+      "pending_steps": [],
+      "environment": "isolated_local_single_day_not_24x7",
+      "evidence": "validation/step-5.7-2026-10-05/REPORT.md",
+      "scope_revision": "5.7-single-day-user-authorized"
     },
     {
       "id": "AC-11",
       "steps": [
         "5.7"
       ],
-      "status": "not_run"
+      "status": "passed",
+      "completed_steps": [
+        "5.7"
+      ],
+      "pending_steps": [],
+      "scope_revision": "5.7-single-day-user-authorized",
+      "evidence": "validation/step-5.7-2026-10-05/REPORT.md",
+      "environment": "isolated_local_single_day_not_24x7"
     },
     {
       "id": "AC-12",
@@ -241,12 +248,15 @@
     "concurrent_submission_burst": 10,
     "audit_retention_days": 30,
     "backup_interval_hours": 24,
-    "successful_backups_retained": 7,
+    "successful_backups_retained": 1,
     "rpo_hours": 24,
     "rto_hours": 4,
-    "trial_days": 7,
+    "trial_days": 1,
     "local_observation_seconds": 120,
-    "trial_environment": "local_host_running_days"
+    "trial_environment": "local_single_day_demo",
+    "recommended_future_trial_days": 7,
+    "recommended_operational_backups_retained": 7,
+    "multi_day_retention_verified": false
   },
   "implementation_5_6": {
     "new_deployment_url": "http://127.0.0.1:8056",
@@ -285,24 +295,43 @@
     "remote_ci_for_this_step": false
   },
   "implementation_5_7": {
-    "status": "in_progress_real_dates_required",
+    "status": "passed_single_day_user_revised_scope",
     "project": "resolveflow-accounts-trial57",
     "url": "http://127.0.0.1:8057",
     "successful_dates": [
       "2026-10-05"
     ],
     "backups": 1,
-    "initial_drill": {
+    "final_drill": {
       "passed": true,
       "backup_id": "20261005T091446641380Z",
       "report": "D:\\AgentProjects\\ResolveFlow\\validation\\step-5.7-2026-10-05\\drills\\20261005T091954078027Z.json",
-      "finished_at": "2026-10-05T09:23:51.874648+00:00"
+      "finished_at": "2026-10-05T09:23:51.874648+00:00",
+      "adopted_existing_evidence": true,
+      "scope_revision": "5.7-single-day-user-authorized"
     },
-    "final_drill": null,
     "independent_directory": true,
     "offsite": false,
+    "seven_day_trial_verified": false,
+    "seven_daily_backups_verified": false,
+    "observation_minutes": 26.12,
     "evidence": "validation/step-5.7-2026-10-05/REPORT.md",
     "automation_id": "resolveflow-5-7",
+    "automation_status": "PAUSED",
     "remote_ci_for_this_step": false
+  },
+  "scope_revision_5_7": {
+    "source": "explicit_user_instruction",
+    "date": "2026-10-05",
+    "decision": "single-day trial plus recovery and rollback drills",
+    "user_quote": "今天你说已经有结果了对吧 就把标准改成单日试运行就行",
+    "previous_scope": "seven actual consecutive dates and seven retained successful backups",
+    "new_scope": "one actual local date, at least one joint backup and independent directory copy, verified recovery/rollback and local fault observation",
+    "not_verified": [
+      "seven_day_reliability",
+      "seven_daily_backup_retention",
+      "production_SLA",
+      "offsite_backup"
+    ]
   }
 }

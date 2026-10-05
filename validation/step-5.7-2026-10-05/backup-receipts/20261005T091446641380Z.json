@@ -1,0 +1,16 @@
+{
+  "id": "20261005T091446641380Z",
+  "created_at": "2026-10-05T09:14:48.063390+00:00",
+  "finished_at": "2026-10-05T09:15:17.598651+00:00",
+  "day": "2026-10-05",
+  "bundle": "D:\\AgentProjects\\ResolveFlow\\work\\resolveflow-accounts-trial57\\backups\\20261005T091446641380Z",
+  "copy": "D:\\AgentProjects\\ResolveFlow\\work\\resolveflow-trial-backup-copies\\trial57\\20261005T091446641380Z",
+  "manifest_sha256": "01981fe72ffcc4bf0f2413a39a622164ab2b04ba5b80b827cb7b0a828cb3b140",
+  "image_id": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+  "passed": true,
+  "separate_directory": true,
+  "offsite": false,
+  "maintenance_seconds": 30.957271,
+  "accounts": 5,
+  "admissions": 5
+}

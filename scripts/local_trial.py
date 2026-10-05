@@ -120,7 +120,7 @@ def backup(work,state,s):
           'accounts':manifest['identity']['accounts']['count'],
           'admissions':manifest['identity']['capacity_admissions']['count']}
     state['backups'].append(item);write(work/'trial-state.json',state)
-    write(Path(state['evidence'])/'backups'/f'{tag}.json',item)
+    write(Path(state['evidence'])/'backup-receipts'/f'{tag}.json',item)
     return item
 
 def observation_summary(rows):
@@ -166,27 +166,38 @@ def observer(work,lease):
             if (work/'observer-stop').exists():return
             time.sleep(1)
 
+def criteria(state):
+    revision=state.get('scope_revision','5.7-seven-day')
+    if revision=='5.7-seven-day':return 7,7
+    if revision=='5.7-single-day-user-authorized' and state.get('scope_authorization'):
+        return 1,1
+    raise ValueError('Unrecognized or unauthorized trial scope')
+
 def assess(state,days,current):
+    required_days,required_backups=criteria(state)
     today=current.astimezone(HK).date();valid={d['day'] for d in days if d.get('passed')}
     first=datetime.fromisoformat(state['started_at']).astimezone(HK).date()
-    end=max(today,first+timedelta(days=6))
-    required=[(end-timedelta(days=n)).isoformat() for n in reversed(range(7))]
+    end=max(today,first+timedelta(days=required_days-1))
+    required=[(end-timedelta(days=n)).isoformat() for n in reversed(range(required_days))]
     elapsed=(current-datetime.fromisoformat(state['started_at'])).total_seconds()
-    calendar=all(day in valid for day in required) and elapsed>=6*86400
+    calendar=all(day in valid for day in required) and elapsed>=(required_days-1)*86400
     backups=state['backups'];times=[datetime.fromisoformat(b['created_at']) for b in backups]
     gaps=[{'from':a.isoformat(),'to':b.isoformat(),'hours':(b-a).total_seconds()/3600} for a,b in zip(times,times[1:]) if (b-a).total_seconds()>86400]
     latest_age=(current-times[-1]).total_seconds()/3600 if times else None
     # Missing days/backup gaps must be disclosed. Only a fresh continuous window can qualify.
     window_start=datetime.fromisoformat(required[0]+'T00:00:00+08:00')
     window_gaps=[g for g in gaps if datetime.fromisoformat(g['to'])>=window_start]
-    backups_ok=len(backups)>=7 and latest_age is not None and 0<=latest_age<=24 and not window_gaps
+    backups_ok=len(backups)>=required_backups and latest_age is not None and 0<=latest_age<=24 and not window_gaps
     drill=state.get('final_drill',{})
     drill_ok=drill.get('passed',False) and drill.get('backup_id')==(backups[-1]['id'] if backups else None)
     return {'passed':calendar and backups_ok and drill_ok,'observed_successful_dates':sorted(valid),
+            'scope_revision':state.get('scope_revision','5.7-seven-day'),
+            'required_days':required_days,'required_backups':required_backups,
+            'multi_day_retention_verified':required_days==7 and calendar and backups_ok,
             'required_dates':required,'successful_days':len(valid),'calendar_requirement_met':calendar,
             'backup_requirement_met':backups_ok,'successful_backup_count':len(backups),
             'backup_gaps_over_24h':gaps,'latest_backup_age_hours':latest_age,
-            'final_drill_current':drill_ok,'next':'final_drill' if calendar and backups_ok and not drill_ok else 'continue_real_daily_observation'}
+            'final_drill_current':drill_ok,'next':'complete' if calendar and backups_ok and drill_ok else ('final_drill' if calendar and backups_ok and not drill_ok else 'continue_real_daily_observation')}
 
 def status(work,state=None):
     work,stored,s=load(work);state=state or stored
@@ -280,6 +291,36 @@ def resume(work):
         ensure_observer(work,state)
     return tick(work)
 
+def accept_single_day(work):
+    """Reuse a completed drill only after explicit, recorded single-day scope revision."""
+    work,state,s=load(work)
+    with lock(work):
+        if state.get('scope_revision')!='5.7-single-day-user-authorized' or criteria(state)!=(1,1):
+            raise ValueError('Explicit single-day authorization required')
+        if state.get('completed_at'):return status(work,state)
+        initial=state['initial_drill'];drill=read(initial['report']);latest=state['backups'][-1]
+        assert initial['backup_id']==latest['id']==drill['backup_id']
+        assert drill['passed'] and all(c['passed'] for c in drill['checks']) and not drill['cleanup_errors']
+        assert 0<=drill['rpo_seconds']<=86400 and max(drill['recovery_rto_seconds'],drill['rollback_rto_seconds'])<=14400
+        assert all(drill[k]<=120 for k in ('entry_detection_seconds','partial_worker_detection_seconds','queue_detection_seconds','failure_fixture_detection_seconds'))
+        assert verify(Path(latest['bundle']))==verify(Path(latest['copy']))
+        assert hashlib.sha256((Path(latest['copy'])/'manifest.json').read_bytes()).hexdigest()==latest['manifest_sha256']
+        assert runtime_image(s)==state['image_id'];wait_healthy(s)
+        for w in ('alpha','beta'):
+            assert sql(s,w,"SELECT count(*) FROM rf_jobs WHERE status='failed'")[0][0]==0
+        state['final_drill']={**initial,'adopted_existing_evidence':True,'scope_revision':state['scope_revision']}
+        result=status(work,state)
+        assert result['passed']
+        state['completed_at']=now().isoformat();state['completion']=result
+        write(work/'trial-state.json',state)
+        (work/'observer-stop').write_text(now().isoformat(),encoding='utf-8')
+        write(Path(state['evidence'])/'acceptance.json',{'passed':True,'completed_at':state['completed_at'],
+              'scope_revision':state['scope_revision'],'authorization':state['scope_authorization'],
+              'drill_evidence':initial['report'],'backup_id':latest['id'],'drill_repeated':False,
+              'explanation':'Existing successful same-day drill against the same latest verified backup satisfies the user-revised scope.',
+              'seven_day_trial_verified':False,'seven_daily_backups_verified':False})
+        return status(work,state)
+
 def initialize(project,image,port,evidence,mirror):
     if not project.startswith('resolveflow-accounts-trial'):raise ValueError('Dedicated trial project required')
     evidence=Path(evidence).resolve();mirror=Path(mirror).resolve()
@@ -307,7 +348,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);sub=p.add_subparsers(dest='action',required=True)
     q=sub.add_parser('init');q.add_argument('--project',required=True);q.add_argument('--image',required=True)
     q.add_argument('--port',type=int,default=8057);q.add_argument('--evidence',type=Path,required=True);q.add_argument('--mirror',type=Path,required=True)
-    for name in ('tick','status','observe','resume'):
+    for name in ('tick','status','observe','resume','accept-single-day'):
         q=sub.add_parser(name);q.add_argument('--work',type=Path,required=True)
         if name=='observe':q.add_argument('--lease',required=True)
     a=p.parse_args()
@@ -316,6 +357,7 @@ def main():
         elif a.action=='tick':result=tick(a.work)
         elif a.action=='status':result=status(a.work)
         elif a.action=='resume':result=resume(a.work)
+        elif a.action=='accept-single-day':result=accept_single_day(a.work)
         else:observer(a.work,a.lease);return 0
         print(json.dumps(result,ensure_ascii=False));return 0
     except Exception as e:

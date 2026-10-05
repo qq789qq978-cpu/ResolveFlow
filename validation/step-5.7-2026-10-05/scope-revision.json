@@ -1,0 +1,14 @@
+{
+  "source": "explicit_user_instruction",
+  "date": "2026-10-05",
+  "decision": "single-day trial plus recovery and rollback drills",
+  "user_quote": "今天你说已经有结果了对吧 就把标准改成单日试运行就行",
+  "previous_scope": "seven actual consecutive dates and seven retained successful backups",
+  "new_scope": "one actual local date, at least one joint backup and independent directory copy, verified recovery/rollback and local fault observation",
+  "not_verified": [
+    "seven_day_reliability",
+    "seven_daily_backup_retention",
+    "production_SLA",
+    "offsite_backup"
+  ]
+}
