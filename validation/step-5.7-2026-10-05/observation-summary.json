@@ -1,0 +1,8 @@
+{
+  "samples": 19,
+  "first": "2026-10-05T09:14:17.105812+00:00",
+  "last": "2026-10-05T09:32:22.387923+00:00",
+  "unavailable_samples": [],
+  "unobserved_gaps": [],
+  "scope": "same_host_samples_not_24x7_or_external_SLA"
+}

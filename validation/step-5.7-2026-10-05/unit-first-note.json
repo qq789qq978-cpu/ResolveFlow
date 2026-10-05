@@ -1,0 +1,8 @@
+{
+  "failure": "Existing fixed-window login test crossed a real clock minute; production behavior unchanged",
+  "repair": "Freeze clock inside one login window",
+  "ephemeral_test_tokens_redacted": 1,
+  "trailing_line_whitespace_normalized": true,
+  "original_redacted_sha256": "a614dfa44289df592cc24504766643db5c345db56ae812ebf03ca81d3ae9c4f1",
+  "normalized_sha256": "1a25fb356c23f7ecab0cdac91d4165d7d6116f50d304ab2f8e256a67b74867d7"
+}

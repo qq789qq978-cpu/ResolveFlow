@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "project": "resolveflow-accounts-trial57",
+  "started_at": "2026-10-05T09:13:35.384351+00:00",
+  "pending_run": "cf00ad9e-8bd1-4c59-9969-f51f14ce9183",
+  "image_id": "sha256:417e98da2cbef1f69d998587feff4327b81fa05359b3a13ae4c01cda7c4d6d72",
+  "url": "http://127.0.0.1:8057",
+  "public_access": false
+}

@@ -59,8 +59,11 @@ def test_global_rate_across_accounts(system):
     for n in range(30):capacity.admit(store,{**p,'id':str(n%3)},str(uuid.uuid4()),1000)
     with pytest.raises(IdentityError):capacity.admit(store,p,str(uuid.uuid4()),1000)
 
-def test_login_throttles_unknown_users_and_ignores_forwarding(system):
+def test_login_throttles_unknown_users_and_ignores_forwarding(system,monkeypatch):
     store,_=system
+    # Fixed-window behavior must be tested inside one window, not across a real minute boundary.
+    fixed=int(capacity.time.time())//60*60+1
+    monkeypatch.setattr(capacity.time,'time',lambda:fixed)
     with TestClient(create_app(store,WORKSPACES)) as client:
         for n in range(10):
             assert client.post('/api/session',json={'username':'unknown'+str(n),'password':'wrong'},headers={'X-Forwarded-For':str(n)}).status_code==401

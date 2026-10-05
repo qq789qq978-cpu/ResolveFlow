@@ -55,6 +55,8 @@ def generate(project, image, port, *, orders=False, capacity=False):
             config['services'][name]['environment']['RF_CAPACITY_ENABLED'] = '1'
         for w,slots in (('alpha',2),('beta',1)):
             config['services'][w+'-worker']['environment']['RF_EXECUTION_SLOTS'] = str(slots)
+            for suffix in ('api','monitor'):
+                config['services'][w+'-'+suffix]['environment']['RF_EXPECTED_WORKERS'] = str(slots)
         extra = deepcopy(config['services']['alpha-worker'])
         extra['volumes'] = ['alpha-extra-worker:/data']
         config['services']['alpha-extra-worker'] = extra

@@ -1,0 +1,76 @@
+{
+  "day": "2026-10-05",
+  "started_at": "2026-10-05T09:14:18.020204+00:00",
+  "passed": true,
+  "runs": {
+    "alpha-auto": {
+      "submission_requested_at": "2026-10-05T09:14:18.387378+00:00",
+      "id": "418b8e97-7c2d-4254-8fcc-f23acee0d3b0",
+      "status": "refunded"
+    },
+    "alpha-duplicate": {
+      "submission_requested_at": "2026-10-05T09:14:24.178833+00:00",
+      "id": "76734cd9-345d-447e-9839-bbd63bc453f6",
+      "status": "already_refunded"
+    },
+    "beta-auto": {
+      "submission_requested_at": "2026-10-05T09:14:32.008742+00:00",
+      "id": "8a0a9b66-89f9-45bf-ac25-113b3e47553b",
+      "status": "refunded"
+    },
+    "beta-duplicate": {
+      "submission_requested_at": "2026-10-05T09:14:38.430348+00:00",
+      "id": "5db11dea-26a3-4578-bbba-df429872f077",
+      "status": "already_refunded"
+    }
+  },
+  "alerts": {
+    "alpha": {
+      "available": true,
+      "checked_at": "2026-10-05T09:14:31.863146+00:00",
+      "limits": {
+        "expected_workers": 2,
+        "offline_seconds": 20,
+        "running_seconds": 120,
+        "queued_seconds": 60,
+        "consecutive_failures": 3,
+        "failure_window_seconds": 900
+      },
+      "workers_online": 2,
+      "alerts": [],
+      "truncated": false,
+      "truncated_codes": [],
+      "observation": "running_age_is_a_warning_not_proof_of_deadlock"
+    },
+    "beta": {
+      "available": true,
+      "checked_at": "2026-10-05T09:14:46.606842+00:00",
+      "limits": {
+        "expected_workers": 1,
+        "offline_seconds": 20,
+        "running_seconds": 120,
+        "queued_seconds": 60,
+        "consecutive_failures": 3,
+        "failure_window_seconds": 900
+      },
+      "workers_online": 1,
+      "alerts": [],
+      "truncated": false,
+      "truncated_codes": [],
+      "observation": "running_age_is_a_warning_not_proof_of_deadlock"
+    }
+  },
+  "finished_at": "2026-10-05T09:15:17.603651+00:00",
+  "order_id": "RF-7000",
+  "backup_id": "20261005T091446641380Z",
+  "checks": [
+    "two_workspace_auto_refunds",
+    "duplicate_ledger_unchanged",
+    "cross_workspace_denied",
+    "three_workers_observed",
+    "no_active_alerts",
+    "joint_backup_and_independent_copy"
+  ],
+  "model_api_calls": 0,
+  "real_refunds": 0
+}
