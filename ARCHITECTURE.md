@@ -1,5 +1,7 @@
 # ResolveFlow 架构
 
+第五阶段新增个人身份gateway、双工作区、私有订单源、容量/限流与联合备份，最新部署结构见[运维交接](docs/deployment/HANDOVER.md)。下图保留3.9代码基线，不用于宣称覆盖5.x新增组件。
+
 代码基线：`526e166cfbec1b55796bf8ef8f27462fd00bc951`（3.9）。[该提交 CI](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35832707932) 已成功，附件核验为264项基础、149项PostgreSQL及198项历史故障检查。本文为4.1的代码架构说明，不表示本机已部署新版；本机主服务仍为step36，3.7以后的功能在隔离环境验收。
 
 ![ResolveFlow 代码架构：浏览器与API、Worker任务与MCP子进程、共享PostgreSQL、RAG和运维边界](docs/architecture/resolveflow.svg)

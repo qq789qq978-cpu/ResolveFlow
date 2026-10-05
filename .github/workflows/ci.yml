@@ -38,9 +38,9 @@ jobs:
         with:
           node-version: '22'
       - name: Frontend delayed-response and reconnect tests
-        run: node --test test_frontend.cjs test_identity_frontend.cjs
+        run: node --test --test-reporter=junit --test-reporter-destination=validation/frontend-ci.xml test_frontend.cjs test_identity_frontend.cjs
       - name: Unit and MCP tests (synthetic fixtures)
-        run: env -u DATABASE_URL python -m pytest test_local_trial.py test_capacity.py test_payment_contract.py test_order_sync.py test_local_deployment.py test_identity.py test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_observability.py test_rag.py test_policy_pdf.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py test_policy_releases.py test_bm25.py test_semantic.py test_reranker_assessment.py test_live_eval_budget.py test_live_rag_evaluation.py test_multi_worker_qa.py test_migrations.py test_database_backup.py test_database_restore.py test_db_roles.py test_runtime_limits.py -q --junitxml=validation/unit-ci.xml
+        run: env -u DATABASE_URL python -m pytest test_verify_delivery.py test_local_trial.py test_capacity.py test_payment_contract.py test_order_sync.py test_local_deployment.py test_identity.py test_engine.py test_mcp_skills.py test_refund_policy.py test_operations.py test_observability.py test_rag.py test_policy_pdf.py test_rag_dataset.py test_rag_baseline.py test_grounding.py test_policy_governance.py test_policy_releases.py test_bm25.py test_semantic.py test_reranker_assessment.py test_live_eval_budget.py test_live_rag_evaluation.py test_multi_worker_qa.py test_migrations.py test_database_backup.py test_database_restore.py test_db_roles.py test_runtime_limits.py -q --junitxml=validation/unit-ci.xml
       - name: Offline payment contract (not provider sandbox)
         run: python scripts/payment_contract_qa.py --project resolveflow-payment-ci --report validation/payment-contract-ci.json
       - name: Validate frozen RAG candidate annotations (no quality scoring)
@@ -96,6 +96,7 @@ jobs:
             validation/stage1-ci/*.json
             validation/rag-candidates-ci.json
             validation/rag-baseline-ci.json
+            validation/frontend-ci.xml
             validation/unit-ci.xml
             validation/postgres-ci.xml
             validation/stage3-ci.json

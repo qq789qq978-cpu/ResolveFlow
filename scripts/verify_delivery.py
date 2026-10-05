@@ -23,12 +23,59 @@ def git(*args):
     return subprocess.check_output(['git', *args], cwd=ROOT, text=True).strip()
 
 
+def validate_archive(archive):
+    """Fail closed on missing, skipped, failed or out-of-scope release evidence."""
+    def read(suffix):
+        names = [n for n in archive.namelist() if n == suffix or n.endswith('/' + suffix)]
+        if len(names) != 1:
+            raise RuntimeError('Missing or ambiguous artifact: ' + suffix)
+        return archive.read(names[0])
+
+    counts = {}
+    for kind in ('unit', 'postgres', 'frontend'):
+        root = ET.fromstring(read(kind + '-ci.xml'))
+        cases = root.findall('.//testcase')
+        if not cases or any(case.find(tag) is not None for case in cases for tag in ('failure', 'error', 'skipped')):
+            raise RuntimeError('JUnit missing tests or contains unsuccessful cases: ' + kind)
+        counts[kind] = len(cases)
+    checked = {}
+    for name in ('persistence-ci.json', 'roles-ci.json', 'runtime-ci.json',
+                 'observability-ci.json', 'stage3-ci.json', 'stage1-ci/summary.json',
+                 'accounts-ci.json', 'local-deployment-ci.json', 'order-sync-ci.json',
+                 'payment-contract-ci.json'):
+        data = json.loads(read(name))
+        if data.get('passed') is not True:
+            raise RuntimeError('Artifact did not pass: ' + name)
+        checks = data.get('checks')
+        if isinstance(checks, list) and (not checks or any(c.get('passed') is not True for c in checks)):
+            raise RuntimeError('Unsuccessful report subchecks: ' + name)
+        checked[name] = {'passed': True, 'checks': len(data['checks']) if isinstance(data.get('checks'), list) else data.get('checks')}
+    stage = json.loads(read('stage3-ci.json'))
+    if not stage['restore'].get('resume_verified') or not stage['restore'].get('source_stopped_during_resume'):
+        raise RuntimeError('Independent original approval recovery was not verified')
+    faults = json.loads(read('stage1-ci/summary.json'))
+    if len(faults['cases']) != 5 or not all(c['passed'] for c in faults['cases']):
+        raise RuntimeError('Five fault scenarios are incomplete')
+    for step in ('1.5', '1.6', '1.7', '1.8', '1.9'):
+        if json.loads(read('stage1-ci/step-' + step + '.json')).get('passed') is not True:
+            raise RuntimeError('Individual fault evidence failed: ' + step)
+    # Read the descriptive evaluations too; these are not semantic quality gates.
+    for name in ('evaluation_v3.json', 'evaluation_rag.json', 'rag-candidates-ci.json', 'rag-baseline-ci.json'):
+        json.loads(read(name))
+    payment = json.loads(read('payment-contract-ci.json'))
+    if payment.get('provider_sandbox_verified') is not False or payment.get('external_payment_api_calls') != 0 or payment.get('real_refunds') != 0:
+        raise RuntimeError('Offline payment evidence has incorrect scope')
+    return counts, checked
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--status', action='store_true', help='Show current HEAD run without downloading')
     parser.add_argument('--output', type=Path, default=ROOT / 'validation/github-actions-local.json')
     parser.add_argument('--artifacts', type=Path, default=ROOT / 'work/delivery')
     args = parser.parse_args()
+    if not args.status and git('status', '--porcelain'):
+        raise RuntimeError('Delivery requires a clean working tree')
     sha = git('rev-parse', 'HEAD')
     remote = git('ls-remote', 'origin', 'refs/heads/main').split()[0]
     if sha != remote:
@@ -83,42 +130,12 @@ def main():
     raw = request('/actions/artifacts/' + str(artifacts[0]['id']) + '/zip', binary=True)
     archive = zipfile.ZipFile(io.BytesIO(raw))
 
-    def read(suffix):
-        names = [n for n in archive.namelist() if n == suffix or n.endswith('/' + suffix)]
-        if len(names) != 1:
-            raise RuntimeError('Missing or ambiguous artifact: ' + suffix)
-        return archive.read(names[0])
-
-    counts = {}
-    for kind in ('unit', 'postgres'):
-        root = ET.fromstring(read(kind + '-ci.xml'))
-        cases = root.findall('.//testcase')
-        if not cases or any(case.find(tag) is not None for case in cases for tag in ('failure', 'error', 'skipped')):
-            raise RuntimeError('JUnit missing tests or contains unsuccessful cases: ' + kind)
-        counts[kind] = len(cases)
-    checked = {}
-    for name in ('persistence-ci.json', 'roles-ci.json', 'runtime-ci.json',
-                 'observability-ci.json', 'stage3-ci.json', 'stage1-ci/summary.json'):
-        data = json.loads(read(name))
-        if data.get('passed') is not True:
-            raise RuntimeError('Artifact did not pass: ' + name)
-        checked[name] = {'passed': True, 'checks': len(data['checks']) if isinstance(data.get('checks'), list) else data.get('checks')}
-    stage = json.loads(read('stage3-ci.json'))
-    if not stage['restore'].get('resume_verified') or not stage['restore'].get('source_stopped_during_resume'):
-        raise RuntimeError('Independent original approval recovery was not verified')
-    faults = json.loads(read('stage1-ci/summary.json'))
-    if len(faults['cases']) != 5 or not all(c['passed'] for c in faults['cases']):
-        raise RuntimeError('Five fault scenarios are incomplete')
-    for step in ('1.5', '1.6', '1.7', '1.8', '1.9'):
-        if json.loads(read('stage1-ci/step-' + step + '.json')).get('passed') is not True:
-            raise RuntimeError('Individual fault evidence failed: ' + step)
-    # Read the descriptive evaluations too; these are not semantic quality gates.
-    for name in ('evaluation_v3.json', 'evaluation_rag.json', 'rag-candidates-ci.json', 'rag-baseline-ci.json'):
-        json.loads(read(name))
+    counts, checked = validate_archive(archive)
     args.artifacts.mkdir(parents=True, exist_ok=True)
     artifact_path = args.artifacts / (str(run['id']) + '-attempt-' + str(run['run_attempt']) + '.zip')
     artifact_path.write_bytes(raw)
-    receipt = {**summary, 'verified_utc': datetime.now(timezone.utc).isoformat(),
+    import hashlib
+    receipt = {**summary, 'artifact_sha256': hashlib.sha256(raw).hexdigest(), 'working_tree_clean': True, 'verified_utc': datetime.now(timezone.utc).isoformat(),
                'local_equals_remote': True, 'passed': True, 'tests': counts,
                'reports': checked, 'artifact_id': artifacts[0]['id'], 'artifact_path': str(artifact_path),
                'jobs': [{'name': j['name'], 'conclusion': j['conclusion'],

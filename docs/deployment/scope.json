@@ -1,5 +1,5 @@
 {
-  "version": "5.7-single-day-verified",
+  "version": "5.8-release-gated",
   "date": "2026-10-05",
   "purpose": "local_job_portfolio_demo",
   "user_confirmed": {
@@ -167,11 +167,13 @@
       "steps": [
         "5.8"
       ],
-      "status": "not_run"
+      "status": "release_gated",
+      "evidence": "validation/step-5.8-2026-10-05/REPORT.md",
+      "completion_rule": "clean_worktree_and_HEAD_equals_remote_main_and_matching_successful_CI_artifact_receipt"
     }
   ],
   "stage_rules": {
-    "current_step_only": "5.7",
+    "current_step_only": "5.8",
     "local_commit_each_step": true,
     "push_and_matching_ci_step": "5.8",
     "step44": "deferred_by_user",
@@ -333,5 +335,23 @@
       "production_SLA",
       "offsite_backup"
     ]
+  },
+  "implementation_5_8": {
+    "handover": "docs/deployment/HANDOVER.md",
+    "receipt": "validation/github-actions-local.json",
+    "remote_verified_in_committed_document": false,
+    "note": "Read the matching current-SHA ignored receipt; no self-referential SHA claim in committed documentation",
+    "deferred": [
+      "AC-07",
+      "4.4"
+    ],
+    "local_validation": "passed",
+    "distinct_tests": {
+      "unit": 400,
+      "postgres": 166,
+      "frontend": 27
+    },
+    "preservation_checks": 31,
+    "runtime_files_match": 67
   }
 }

@@ -1,0 +1,163 @@
+{
+  "sha": "1d2eac2bb85e8dd08449ed55defa0e037bd42413",
+  "run_id": 37095361491,
+  "url": "https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/37095361491",
+  "status": "completed",
+  "conclusion": "success",
+  "attempt": 1,
+  "verified_utc": "2026-10-03T04:30:17.689392+00:00",
+  "local_equals_remote": true,
+  "passed": true,
+  "tests": {
+    "unit": 264,
+    "postgres": 149
+  },
+  "reports": {
+    "persistence-ci.json": {
+      "passed": true,
+      "checks": null
+    },
+    "roles-ci.json": {
+      "passed": true,
+      "checks": null
+    },
+    "runtime-ci.json": {
+      "passed": true,
+      "checks": 23
+    },
+    "observability-ci.json": {
+      "passed": true,
+      "checks": 27
+    },
+    "stage3-ci.json": {
+      "passed": true,
+      "checks": 16
+    },
+    "stage1-ci/summary.json": {
+      "passed": true,
+      "checks": 198
+    }
+  },
+  "artifact_id": 11264492849,
+  "artifact_path": "D:\\AgentProjects\\ResolveFlow\\work\\delivery\\37095361491-attempt-1.zip",
+  "jobs": [
+    {
+      "name": "tests",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Initialize containers",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run pip install -r requirements.lock",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Frontend delayed-response and reconnect tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Unit and MCP tests (synthetic fixtures)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen RAG candidate annotations (no quality scoring)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Frozen RAG baseline (descriptive metrics, not a quality pass)",
+          "conclusion": "success"
+        },
+        {
+          "name": "PostgreSQL queue, RBAC and crash recovery",
+          "conclusion": "success"
+        },
+        {
+          "name": "Offline evaluation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Document retrieval evaluation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build containers and verify asynchronous flow",
+          "conclusion": "success"
+        },
+        {
+          "name": "Restricted PostgreSQL roles and real business flow",
+          "conclusion": "success"
+        },
+        {
+          "name": "Runtime deadlines, SQL timeouts and two-Worker recovery",
+          "conclusion": "success"
+        },
+        {
+          "name": "Correlated logs and independent operational alerts",
+          "conclusion": "success"
+        },
+        {
+          "name": "Independent install, recreate, backup and original approval recovery",
+          "conclusion": "success"
+        },
+        {
+          "name": "Recreate containers and resume checkpoint",
+          "conclusion": "success"
+        },
+        {
+          "name": "Real Worker crashes, database outage and multi-worker timeouts",
+          "conclusion": "success"
+        },
+        {
+          "name": "Container logs",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Stop test containers",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Stop containers",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}
