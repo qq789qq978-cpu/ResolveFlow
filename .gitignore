@@ -12,3 +12,6 @@ models/
 validation/github-actions-local.json
 backups/
 *.dump
+
+# Local career notes and private working documents
+/private-career/

@@ -46,7 +46,7 @@ docker compose exec -T resolveflow python policy_releases.py status
 
 新空库首次启动导入完整清单。旧库启动时幂等增加 governance 字段，已有文档的默认值为 `{}`，**不会自动补签审核**；需维护人员核对原文哈希后显式审核并发布。正常重启不覆盖已撤销/变更的数据库审核状态。导入是替换完整政策集合，必须包含所有要保留的文档；主环境本次升级前已确认三份原文与镜像一致。
 
-目前仍使用启动时建表/加列，正式版本化 migration 留到第三阶段。政策发布、版本回滚和退款规则版本一致性属于 **2.5，未开始**。
+数据库现使用版本化迁移，见 [MIGRATIONS.md](MIGRATIONS.md)。政策发布、版本回滚与退款规则一致性已实现，见 [POLICY_RELEASES.md](POLICY_RELEASES.md)。
 
 ## 验证与评测边界
 

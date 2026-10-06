@@ -70,7 +70,7 @@ def main():
     doc.core_properties.subject = '真实页面截图与约 2 分 40 秒讲解顺序'
     doc.core_properties.author = 'ResolveFlow'
     doc.add_heading(STORY['title'],0)
-    paragraph(doc,'用一组真实页面截图，展示售后诉求如何经过规则核验、人工审批和后台执行，并通过台账避免重复模拟退款。面向项目展示与面试讲解，无需录制视频。')
+    paragraph(doc,'用一组真实页面截图，展示售后诉求如何经过规则核验、人工审批和后台执行，并通过台账避免重复模拟退款。展示业务处理流程与执行结果。')
     paragraph(doc,'主线按图 1 至图 8 顺序讲解，建议约 2 分 40 秒。图 9 为可选拒绝分支对照。时长为脚本预算，未进行真人计时。')
     doc.add_heading('演示数据与结果',1)
     table=doc.add_table(rows=1, cols=3)
@@ -120,7 +120,7 @@ def main():
     doc.save(OUT/'ResolveFlow-demo.docx')
     md=['# '+STORY['title'],'', '[下载 Word 版本](ResolveFlow-demo.docx) · [翻页与讲解指南](PRESENTING.md) · [安全复现步骤](REPLAY.md) · [4.2 实跑报告](../../validation/step-4.2-2026-09-23/REPORT.md)','',
         '真实页面截图与可直接讲述的脚本。按图 1–8 阅读，建议约 2 分 40 秒；图 9 是可选对照。'+STORY['timing_note'],'',
-        '独立 demo、BM25、合成订单、模拟退款。运行镜像 resolveflow:step39-ci-fix，代码基线 `526e166`。本机主环境仍为 step36，本轮不调用付费模型。','',
+        '独立 demo、BM25、合成订单、模拟退款。运行镜像 resolveflow:step39-ci-fix，代码基线 `526e166`。截图环境采用 demo 模式，无生成模型调用。','',
         '## 演示数据','', '|订单|合成事实|实测结果|','|---|---|---|']
     md += ['|'+'|'.join(row)+'|' for row in DATA]
     md += ['', '最终 4 条工单、5 次执行尝试、1 条审批、2 条模拟退款（共 458 元），零模型调用。所有诉求均为“申请退款”，RF-1003 未使用。', '']
@@ -133,7 +133,7 @@ def main():
     md += ['## 证据入口','',
            '[审批前](../../validation/step-4.2-2026-09-23/before-approval.json)、[审批后](../../validation/step-4.2-2026-09-23/after-approval.json)、[最终状态](../../validation/step-4.2-2026-09-23/final-demo.json)、[核对结果](../../validation/step-4.2-2026-09-23/verification.json)。', '',
            '图号按讲解顺序排列；实际采集时图 9 先于图 8，图 8 先于最终图 7。Word 裁切范围记录于 [story.json](story.json)，原始 PNG 保留完整浏览器视口，均未改写内容。','',
-           '截图采集于2026-09-23；2026-10-03完成4.3材料复核，见[复核报告](../../validation/step-4.3-2026-10-03/REPORT.md)。4.3未重新实跑；后续Docker恢复和运行验收见[4.5交付入口](../../DELIVERY.md)。无视频任务；4.4按用户要求暂缓，4.5统一推送并核验对应提交CI。']
+           '截图采集于 2026-09-23，2026-10-03 完成[材料复核](../../validation/step-4.3-2026-10-03/REPORT.md)。原图与业务证据保留采集日期；当前个人账号、双工作区和容量成果见[交付导航](../../DELIVERY.md)。']
     (OUT/'README.md').write_text('\n'.join(md)+'\n',encoding='utf-8')
     print(json.dumps({'docx':str(OUT/'ResolveFlow-demo.docx'),'screenshots':len(STORY['scenes'])}))
 

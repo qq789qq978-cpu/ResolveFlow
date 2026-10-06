@@ -1,5 +1,7 @@
 # ResolveFlow 3：可恢复的售后 Agent 工作台
 
+本页是共享角色码与单业务库的兼容部署参考。当前推荐的个人账号、双工作区版本见[本地部署](LOCAL_DEPLOYMENT.md)。
+
 项目目录：`D:\AgentProjects\ResolveFlow`。本版本包含异步执行、角色权限、运行监控、文档 RAG 和 CI。最新验收见 [VALIDATION.md](VALIDATION.md)。
 
 ## 本地使用
@@ -89,17 +91,8 @@ Compose按PostgreSQL健康→一次性migrate成功退出→API健康→Worker�
 
 本机 Docker 已完成安装并实际运行，程序在 D:/Programs/DockerDesktop，数据在 D:/DockerData。Compose 已通过保留命名卷的容器重建、表内容核对与待审批工单恢复。当前使用 demo，不调用付费模型。完整证据见 VALIDATION.md；历史 WSL 安装故障不代表当前状态。
 
-云服务器部署还需实际 Linux 主机、域名/HTTPS、替换共享角色码、数据库备份和恢复演练。当前服务只绑定 127.0.0.1，不直接开放公网；不应把开发工作台无保护地暴露到公网。
+本页描述共享角色码的兼容运行方式；个人账号与双工作区见[账号手册](ACCOUNTS.md)。公网部署需另行配置主机、HTTPS 和网络边界。当前服务只绑定 127.0.0.1，不直接开放公网；不应把开发工作台无保护地暴露到公网。
 
-## 简历表述
-
-可写：基于 LangGraph 与 DeepSeek 开发售后处理 Agent，采用 MCP 只读工具和按需加载 Skills；实现 PostgreSQL 持久化检查点、异步任务队列、角色权限、人工审批及订单级退款幂等；提供运营工作台、任务监控和合成案例回归测试。
-
-不要写：真实支付退款、生产准确率 100%、百万级并发、已上线企业生产系统、未经对应验收证明的故障恢复或远程 CI 成功。Docker 本机实跑与重建恢复已有独立报告，不能据此声称云端生产上线。
-
-面试应能解释：为什么模型只提出建议；为什么规则作最终分流；checkpoint 与业务事务的边界；为何任务至少一次执行但退款仍幂等；进程崩溃与普通异常的重试区别；如何证明后端权限无法通过调用 API 绕过。
-
-
-## 文档 RAG 与后续计划
+## 文档 RAG
 
 新增受审核 Markdown 政策导入、分块、PostgreSQL 索引、BM25 检索与来源展示。仅全新demo库由迁移任务播种政策。后续修改须通过migrate维护账号显式发布完整政策集合，见[POLICY_RELEASES.md](POLICY_RELEASES.md)；业务账号不允许修改知识库。详见 [RAG.md](RAG.md)、[PROJECT_HANDOFF.md](PROJECT_HANDOFF.md) 与 [ROADMAP.md](ROADMAP.md)。

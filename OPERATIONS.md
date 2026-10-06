@@ -1,16 +1,6 @@
 # ResolveFlow 操作与阶段交付手册
 
-5.8本地交付核对完成：400基础/166PG/27前端及31项保护检查通过。最新演示入口http://127.0.0.1:8057，见[运维交接](docs/deployment/HANDOVER.md)及[5.8报告](validation/step-5.8-2026-10-05/REPORT.md)。远程完成须有validation/github-actions-local.json的当前HEAD成功CI与附件核验回执；回执不存在或SHA不匹配即未完成。AC-07外部沙箱和4.4继续暂缓，5.7仅单日会话验收，非七天。
-
-以下为历史步骤/使用说明，当前环境以第五阶段交接为准。
-
-5.5本地支付契约准备完成：32项契约测试、15项独立无网络演练通过。用户确认无服务商沙箱账号，外部接入/验收暂缓，AC-07未通过；未接入现有业务退款链。见[沙箱准备手册](PAYMENT_SANDBOX.md)与[报告](validation/step-5.5-2026-10-05/REPORT.md)。本轮Docker未运行，旧入口健康未重新核验；仅本地提交，5.8统一推送/CI。
-
-5.4可选合成订单接口已交付，启用方式、管理员导入命令、状态/审批保护、备份和回退边界见[订单同步手册](ORDER_SYNC.md)。本机新入口为http://127.0.0.1:8054，原8053部署保留；安装/恢复新环境请串行执行。
-
-5.2新增的个人账号入口和两工作区部署见[ACCOUNTS.md](ACCOUNTS.md)。5.3多数据库与身份SQLite联合备份、恢复和本地监控见[LOCAL_DEPLOYMENT.md](LOCAL_DEPLOYMENT.md)；不能把本手册单项目命令直接套用于多数据库部署。主环境仍step36。
-
-适用于第三阶段交付的本地 demo：PostgreSQL 17、API、Worker、独立 monitor；hybrid 另加本地 encoder。共享角色码和模拟退款不是公网生产授权。日常操作在目标检出的项目根目录执行；命令默认作用于当前 Compose 项目，先确认项目和卷，切勿把 QA 命令套到主库。
+本手册维护兼容的单业务库 Compose 部署（共享角色码）。个人账号与双工作区使用 [LOCAL_DEPLOYMENT.md](LOCAL_DEPLOYMENT.md) 和[运维手册](docs/deployment/HANDOVER.md)，不要混用两类备份命令。故障测试应在独立 demo 项目中执行。
 
 ## 新机器、新库
 
@@ -34,7 +24,7 @@ hybrid 的权重下载、固定版本/哈希及 encoder 配置见 [SEMANTIC_IMPL
 3. 使用一致的新镜像重建 API/Worker/monitor，检查结构、健康、后台心跳与告警，再验证旧工单可读和原待审批可恢复。不要让普通 API 持有迁移或管理员连接。
 4. 失败先停止接单并保存证据。只在旧程序与当前结构、权限契约兼容时回退应用镜像；不可逆结构变更从可信备份恢复到独立库核对后再安排切换，绝不直接覆盖原卷。checkpoint 中断和未知结构按 [MIGRATION_RECOVERY.md](MIGRATION_RECOVERY.md) 处理。
 
-本次 3.9 的部署交付验证在隔离环境进行，主环境继续 step36。以上是今后维护程序，不代表本轮已升级主服务或完成生产切换。
+部署与故障验收在隔离环境进行；上述维护命令需针对实际目标项目使用，不默认修改任何已有环境。
 
 ## 备份、校验与恢复
 
@@ -99,6 +89,6 @@ CI 从干净检出安装锁定依赖，运行基础/PG/前端、冻结检索结�
 
 阶段结束统一提交推送，并同时确认：本地 HEAD = origin/main = GitHub workflow head_sha；工作流成功；该次 evaluation 附件中的 JUnit、持久化、阶段恢复、权限、期限、告警及五类故障报告成功。CI 的 BM25/合成向量结果不代替本地真实 encoder 验收。
 
-实际 SHA、run URL 和附件核对回执保存在忽略的 `validation/github-actions-local.json`，避免把自身提交 SHA 回写后制造新未测提交。阶段报告见 [3.9 验收报告](validation/step-3.9-2026-09-23/REPORT.md)。当前交付安排见 [DELIVERY.md](DELIVERY.md)；4.5 先行，4.4 按用户要求暂缓，条件上线阶段不自动启动。
+实际 SHA、run URL 和附件核对回执保存在忽略的 `validation/github-actions-local.json`，避免把自身提交 SHA 回写后制造新未测提交。阶段报告见 [3.9 验收报告](validation/step-3.9-2026-09-23/REPORT.md)。当前文档与成果入口见 [DELIVERY.md](DELIVERY.md)。
 
 推送后可执行 `python scripts/verify_delivery.py --status` 查询本地 HEAD 的 push 工作流，再执行 `python scripts/verify_delivery.py` 下载并核对对应附件。该脚本使用本机 Git 凭据管理器或 GH_TOKEN/GITHUB_TOKEN，只在内存中使用凭据，不写入报告；产出同 SHA 回执和忽略目录内的原始附件 ZIP。没有运行、未成功或证据缺失时不能作为交付完成。

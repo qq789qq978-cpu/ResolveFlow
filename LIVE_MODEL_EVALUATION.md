@@ -44,4 +44,4 @@ reason仍是内部未核准调查建议。逐字摘录不证明自由reason里�
 
 `scripts/evaluate_live_rag.py --live --private-dir PATH --report NEWPATH`要求明确的模型与QA配置，只接受固定DeepSeek端点和公开QA数据库连接，拒绝覆盖旧报告。`scripts/live_eval_budget.py`通过专用httpx transport计费约束，单元测试使用假HTTP响应，不消耗费用。新批次会增加真实调用及保留验收次数，应单独记录用途、输入指纹与预算。
 
-本步完成指真实调用、可核对计费、度量与限制记录完成，不等于生产质量合格。2.12阶段收尾、推送和远程CI留待下一步。
+本步完成指真实调用、可核对计费、度量与限制记录完成，不等于生产质量合格。阶段回归与当前交付见[验收索引](VALIDATION.md)。

@@ -1,45 +1,24 @@
-# ResolveFlow 交付入口
+# ResolveFlow 文档导航
 
-本项目用于展示可恢复的售后 Agent 工作流：运营提交诉求、政策与订单调查、规则核验、人工审批、后台执行和模拟退款幂等。它使用合成订单，不接真实支付，不代表已上线的生产系统。
+ResolveFlow 已交付可本地运行的售后智能工单系统，覆盖调查、规则决策、审批、模拟退款和故障恢复。首次阅读从首页与图文演示开始；运行项目使用个人账号部署。
 
-5.8本地交付核对完成：400基础/166PG/27前端及31项保护检查通过。最新演示入口http://127.0.0.1:8057，见[运维交接](docs/deployment/HANDOVER.md)及[5.8报告](validation/step-5.8-2026-10-05/REPORT.md)。远程完成须有validation/github-actions-local.json的当前HEAD成功CI与附件核验回执；回执不存在或SHA不匹配即未完成。AC-07外部沙箱和4.4继续暂缓，5.7仅单日会话验收，非七天。
+|阅读目的|入口|
+|---|---|
+|功能概览与快速启动|[README](README.md)|
+|流程截图与业务结果|[图文演示](docs/demo/README.md)、[Word 演示](docs/demo/ResolveFlow-demo.docx)|
+|设计与代码入口|[系统架构](ARCHITECTURE.md)|
+|指标与测试依据|[验证成果](docs/RESULTS.md)、[验收索引](VALIDATION.md)|
+|部署与日常运维|[本地部署](LOCAL_DEPLOYMENT.md)、[运维手册](docs/deployment/HANDOVER.md)|
+|账号与权限|[个人账号](ACCOUNTS.md)、[数据库角色](DATABASE_ROLES.md)|
+|订单接入与容量|[合成订单同步](ORDER_SYNC.md)、[额度与限流](CAPACITY.md)|
+|政策知识库|[RAG](RAG.md)、[PDF 导入](PDF_IMPORT.md)、[政策发布](POLICY_RELEASES.md)|
+|超时与故障定位|[运行期限](RUNTIME_LIMITS.md)、[日志与告警](OBSERVABILITY.md)|
+|备份与演练|[联合备份](LOCAL_DEPLOYMENT.md)、[恢复演练](TRIAL.md)|
+|交付范围|[需求与验收](docs/deployment/REQUIREMENTS.md)、[版本里程碑](EXECUTION_PLAN.md)|
+|维护与扩展|[维护指南](PROJECT_HANDOFF.md)、[演进方向](ROADMAP.md)|
 
-4.4简历、项目说明与面试问答继续暂缓。
-## 阅读与演示
+本地演示版基线 `66b2aa4` 已通过[完整 CI](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/37424944514)与附件核验。当前分支状态查看 [Actions](https://github.com/qq789qq978-cpu/ResolveFlow/actions/workflows/ci.yml)。
 
-|目的|入口|范围|
-|---|---|---|
-|了解项目与启动方式|[README](README.md)|功能、配置、demo/live 区别|
-|理解架构|[架构说明](ARCHITECTURE.md)、[架构图 PNG](docs/architecture/resolveflow.png)|API、Worker、队列、checkpoint、MCP、RAG、权限和幂等|
-|直接演示|[11 页 Word](docs/demo/ResolveFlow-demo.docx)、[图文脚本](docs/demo/README.md)|9 张真实截图；主线建议 2 分 40 秒，未真人计时，无视频|
-|准备讲解|[翻页与讲解指南](docs/demo/PRESENTING.md)|页码、工单、证据对应关系与能力边界|
-|重新运行演示|[隔离复现说明](docs/demo/REPLAY.md)|全新项目与空闲端口，零付费模型调用，停止后保留卷|
-|运行与维护|[操作手册](OPERATIONS.md)|新装、升级、备份、独立恢复、告警与排障|
-|导入知识库 PDF|[PDF 导入说明](PDF_IMPORT.md)|文本层 PDF、物理页码、维护 CLI、审核发布及回滚；不含 OCR 或网页上传|
-|查看验收范围|[验收索引](VALIDATION.md)、[执行清单](EXECUTION_PLAN.md)|历史证据与当前进度；未验证项不视为通过|
-|继续项目|[交接](PROJECT_HANDOFF.md)、[路线图](ROADMAP.md)|最新断点、下一操作和仍有效的约定|
+截图采集于 2026-09-23，展示当时的业务流程与共享角色码界面；当前个人账号、双工作区、同步和容量能力由后续验收报告覆盖。历史截图和报告保留采集日期。
 
-## 本机环境与版本
-
-第五阶段推荐入口为 http://127.0.0.1:8057 ，固定step56-capacity镜像、5.7修正监控期望配置；67个运行文件与本次源码的匹配见5.8证据。8056保留但未升级监控期望；8003历史主环境仍step36，8053/8054已停止，数据与卷均保留。不能用旧主环境证明新功能已部署。
-
-[第五阶段运维交接](docs/deployment/HANDOVER.md)集中提供当前环境、登录方式、启动/停止、备份/恢复、故障处理、AC矩阵和未完成项。账号凭据只在私有work目录，不在Git或截图。旧架构图、9张截图与Word仍为3.9/2026-09-23历史材料；新增个人账号、同步和容量的证据见5.2–5.7报告，不改旧材料日期。
-
-## 远程交付如何确认
-
-本地测试成功后统一推送本阶段提交，再执行：
-
-```powershell
-python scripts/verify_delivery.py --status
-python scripts/verify_delivery.py
-```
-
-只有本地 HEAD 与远程 main 相同、该 SHA 的 push 工作流成功，且测试和故障恢复附件核验通过，5.8 的远程交付才完成。实际 SHA、运行链接与核验结果保存在忽略文件 `validation/github-actions-local.json`；附件保存在忽略目录 `work/delivery`。回执必须 `passed=true` 且 `sha` 匹配当前提交，旧 CI 或徽章不能替代。
-
-回执不提交 Git，避免为记录自身提交 SHA 再产生一个未经 CI 的提交。任何代码或材料修复都需新提交、重新推送并确认该提交的 CI。收到失败邮件时按邮件中的 SHA 和运行链接判断，不把旧失败等同于最新提交失败。
-
-## 保留的边界
-
-人工标签复核和通用引用语义支持性尚未完成；真实reranker实验未达到启用门槛，保持关闭。告警仅管理员页面与本地日志，无外部通知；新版8057有个人账号和双工作区隔离，旧共享角色码部署不具备这些能力。容量仅按5.6已定义本地样本成立，不外推公网或真实支付。
-
-4.4仍暂缓。公网、HTTPS、异地备份、宿主离线外部监控和AC-07外部支付沙箱按授权暂缓；单日验收不证明24小时/七天可靠性、七份跨日备份或30天审计留存时长。真实商家与正式资金排除，5.8完成后停止。
+默认运行使用合成订单、demo/BM25 与模拟退款。外部支付沙箱、公网部署、真实资金、OCR 和长期在线 SLA 不属于本地演示版的交付范围。

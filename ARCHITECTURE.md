@@ -1,8 +1,33 @@
 # ResolveFlow 架构
 
-第五阶段新增个人身份gateway、双工作区、私有订单源、容量/限流与联合备份，最新部署结构见[运维交接](docs/deployment/HANDOVER.md)。下图保留3.9代码基线，不用于宣称覆盖5.x新增组件。
+当前本地部署以个人身份入口连接两个独立工作区。每个工作区具有独立 PostgreSQL、API、Worker、订单源与只读监控；身份库统一管理账号、会话、日额度与限流。
 
-代码基线：`526e166cfbec1b55796bf8ef8f27462fd00bc951`（3.9）。[该提交 CI](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35832707932) 已成功，附件核验为264项基础、149项PostgreSQL及198项历史故障检查。本文为4.1的代码架构说明，不表示本机已部署新版；本机主服务仍为step36，3.7以后的功能在隔离环境验收。
+```mermaid
+flowchart TB
+    Browser[浏览器：运营 / 审批 / 管理员] --> Gateway[个人身份 Gateway]
+    Gateway --> Identity[(SQLite：身份 / 会话 / 审计 / 额度)]
+    Gateway --> APIA[alpha API]
+    Gateway --> APIB[beta API]
+    subgraph Alpha[工作区 alpha]
+        APIA --> PGA[(PostgreSQL：订单 / 队列 / 政策 / checkpoint / 退款)]
+        WA[2 个 Worker] --> PGA
+        OA[私有合成订单源] --> APIA
+        MA[只读 monitor] --> PGA
+    end
+    subgraph Beta[工作区 beta]
+        APIB --> PGB[(PostgreSQL：订单 / 队列 / 政策 / checkpoint / 退款)]
+        WB[1 个 Worker] --> PGB
+        OB[私有合成订单源] --> APIB
+        MB[只读 monitor] --> PGB
+    end
+    WA --> Graph[受监督的 LangGraph 任务子进程]
+    WB --> Graph
+    Graph --> MCP[MCP：订单与政策只读查询]
+```
+
+图中订单源箭头表示同步数据流；MCP 和任务子进程分别运行在所属工作区，只访问该工作区数据库。图中的 LangGraph／MCP 为同类组件的合并表示，不是跨工作区共享执行服务。浏览器只访问回环地址上的 Gateway，内部业务服务不发布宿主端口。
+
+个人账号与会话逻辑见 [identity_gateway.py](identity_gateway.py)，部署拓扑见 [scripts/local_stack.py](scripts/local_stack.py)，容量与连接预算见 [CAPACITY.md](CAPACITY.md)。以下核心工作流图采集于第三阶段基线 `526e166`，描述单工作区内部结构，保留原始导出文件。
 
 ![ResolveFlow 代码架构：浏览器与API、Worker任务与MCP子进程、共享PostgreSQL、RAG和运维边界](docs/architecture/resolveflow.svg)
 
@@ -12,7 +37,7 @@
 
 ## 从请求到结果
 
-1. 浏览器通过同源HTTP携带`X-API-Key`。运营/管理员提交工单，后端在一个事务中写入`rf_runs`、`rf_jobs`和审计记录，返回HTTP 202。浏览器轮询状态；API不启动LangGraph执行，也没有独立消息中间件。
+1. 个人账号部署由 Gateway 校验会话并转发工作区身份，API 再次核验权限；兼容部署通过同源 HTTP 携带 `X-API-Key`。运营/管理员提交工单，后端在一个事务中写入`rf_runs`、`rf_jobs`和审计记录，返回HTTP 202。浏览器轮询状态；API不启动LangGraph执行，也没有独立消息中间件。
 2. Worker从PostgreSQL以`FOR UPDATE SKIP LOCKED`领取队列行，并在整个尝试中持有这把行锁。每个Worker一次处理一个任务，可增加副本处理其他队列行。独立线程/连接维护心跳；心跳正常不代表当前任务一定有进展。
 3. `TaskRunner`启动受监督的Python子进程，在其中创建LangGraph。默认每次尝试180秒，包含子进程初始化、MCP、模型、checkpoint和执行；排队、人工审批等待、管理员再次重试不属于这180秒。超时后终止子进程并清理本次数据库会话，再交回队列处理结果。
 4. `investigate`先通过stdio MCP读取政策和当前订单；`demo`用规则生成建议，`live`可额外调用DeepSeek兼容接口。模型可提出只读工具调用与结构化建议，退款资格由后端代码、政策版本和证据校验决定。
@@ -41,16 +66,16 @@ Worker被强杀或数据库连接中断时，未提交的领取事务回滚，�
 
 |边界|实际实现与权限|
 |---|---|
-|浏览器 → API|共享角色授权码，由`auth.py`在后端检查；提交为operator/admin，审批和核查为reviewer/admin，重试/监控为admin。不是个人账号、SSO或租户隔离。|
+|浏览器 → Gateway → API|个人账号与工作区身份在服务端核验；提交为 operator/admin，审批和核查为 reviewer/admin，重试／监控为 admin。共享角色码仅为兼容部署入口。|
 |API / Worker / 任务子进程|使用`rf_app`，业务写入与checkpoint所需权限受限；连接池按进程配置，没有全局无限池。|
-|MCP 子进程|宿主绑定订单ID和owner，通过`rf_readonly`访问库，只暴露`search_policy`和`lookup_order`。没有退款写工具；demo owner绑定不等于真实多租户鉴权。|
+|MCP 子进程|宿主绑定订单ID和owner，通过`rf_readonly`访问库，只暴露`search_policy`和`lookup_order`。没有退款写工具；订单 owner 绑定与工作区数据库隔离共同限制查询范围。|
 |本地 embedding|可选semantic profile，模型目录只读挂载，在`embedding-private`内部网络提供HTTP编码。生成模型的live调用是另一条外部网络路径。|
 |独立 monitor|`rf_readonly`周期读取队列/尝试/心跳，输出告警转换JSON日志；API另行计算管理员`/api/alerts`，不依赖monitor把告警写进库。|
 |迁移与政策维护|`rf_migrator`负责版本迁移、政策发布和向量维护；一次性`db-roles`在管理权限下配置账号/授权，`migrate`成功后才启动应用。应用启动检查结构，不自行修复未知漂移。|
 |备份与恢复|维护CLI生成带校验和、版本和时间信息的备份；恢复到新容器/卷并核对数据、结构及原审批续跑。保留源库和历史卷；不是自动生产切换或PITR。|
 |日志与告警|关联`request_id → run_id → attempt_id / worker_id → task_token`，容器日志轮转。离线、过久、排队和连续失败可定位；告警无外部消息通知，去重不跨monitor重启持久化。|
 
-Compose部署中，核心数据库为PostgreSQL 17；混合检索使用支持pgvector的镜像。`postgres-data`保存权威业务、知识索引和checkpoint；`agent-data`/`worker-data`是进程工作目录，不能把其中的本地SQLite文件当作PostgreSQL部署的权威业务库或恢复来源。新版本默认BM25为DB/API/Worker/monitor四个常驻服务，启用semantic再增加embedding；本机现状的四服务是DB/API/Worker/embedding，仍为step36，不能混用两种口径。
+Compose部署中，核心数据库为PostgreSQL 17；混合检索使用支持pgvector的镜像。`postgres-data`保存权威业务、知识索引和checkpoint；`agent-data`/`worker-data`是进程工作目录，不能把其中的本地SQLite文件当作PostgreSQL部署的权威业务库或恢复来源。新版本默认BM25为DB/API/Worker/monitor四个常驻服务，启用semantic再增加embedding；个人账号部署的身份库另用 SQLite，联合备份同时覆盖身份与两个业务库。
 
 ## 代码核对入口
 
@@ -66,6 +91,6 @@ Compose部署中，核心数据库为PostgreSQL 17；混合检索使用支持pgv
 |监控 / 部署 / 运维|[monitor.py](monitor.py)、[alerts.py](alerts.py)、[compose.yaml](compose.yaml)、[db_roles.py](db_roles.py)、[db_migrate.py](db_migrate.py)|独立只读观察、账号与启动依赖|
 |备份 / 独立恢复|[database_backup.py](scripts/database_backup.py)、[database_restore.py](scripts/database_restore.py)|新环境恢复、校验、卷保留|
 
-## 展示边界
+## 设计范围
 
-本图描述已实现代码与已有验收，不包含真正上线、支付对接、外部告警、OCR、个人账号或多租户。RAG人工标签/引用语义审核仍未完成；真实reranker实验未达启用门槛。完整业务展示脚本、视频和简历材料属于4.2–4.4，本步未制作。操作细节见[统一操作手册](OPERATIONS.md)，本步核对记录见[4.1报告](validation/step-4.1-2026-09-23/REPORT.md)。
+本地演示版使用合成订单与模拟退款，告警输出至本地日志和管理员页面。文本 PDF 支持维护 CLI 导入；外部支付、OCR、SSO 和公网生产部署不属于当前版本。RAG 指标及人工复核边界见[验证成果](docs/RESULTS.md)，运行操作见[运维手册](docs/deployment/HANDOVER.md)。

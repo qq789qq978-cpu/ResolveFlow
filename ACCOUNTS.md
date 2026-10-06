@@ -1,8 +1,8 @@
 # 个人账号、权限审计与工作区隔离
 
-5.4可选合成订单接口已交付，启用方式、管理员导入命令、状态/审批保护、备份和回退边界见[订单同步手册](ORDER_SYNC.md)。本机新入口为http://127.0.0.1:8054，原8053部署保留；安装/恢复新环境请串行执行。
+个人账号版支持可选的[合成订单同步](ORDER_SYNC.md)、[容量保护](CAPACITY.md)和联合备份；新环境安装与恢复应串行执行。
 
-5.2 实现入口为 `identity_gateway.py`，工作区业务入口仍为 `operations.py`。本步仅独立 demo 验收及本地提交；不替换本机 step36 主环境、不覆盖 `.env`，5.8 统一推送。公网 HTTPS、免费资源、持久盘及备份方案属于 5.3，负载与公网限流属于 5.6。
+个人身份入口为 `identity_gateway.py`，工作区业务接口为 `operations.py`。本地部署与联合备份见 [LOCAL_DEPLOYMENT.md](LOCAL_DEPLOYMENT.md)，容量与限流见 [CAPACITY.md](CAPACITY.md)。
 
 ## 隔离方式
 
@@ -86,6 +86,6 @@ node --test test_frontend.cjs test_identity_frontend.cjs
 python scripts/accounts_qa.py --image resolveflow:accounts-demo --project resolveflow-accounts-qa01 --report validation/accounts-qa01.json --port 8052
 ```
 
-真实验收使用新项目和新报告文件，成功/失败都停止服务并保留卷；不得复用旧 QA 数据使结果看似通过。测试覆盖账户上限竞争、撤销、角色、工作区、后台 MCP、网络、审批恢复和退款幂等。自动化已注册到 CI，但本步没有推送或新远程 CI 结果。
+真实验收使用新项目和新报告文件，成功/失败都停止服务并保留卷；不得复用旧 QA 数据使结果看似通过。测试覆盖账户上限竞争、撤销、角色、工作区、后台 MCP、网络、审批恢复和退款幂等。自动化已纳入 CI，发布结果见[验证成果](docs/RESULTS.md)。
 
-本次结果、首次失败与最终证据见 [5.2 报告](validation/step-5.2-2026-10-03/REPORT.md)。容量、100 工单/日、3 并发、公网 TLS、外部服务商沙箱、免费资源和 7 天试运行均不由这些测试证明。
+账号首次失败与最终证据见 [5.2 报告](validation/step-5.2-2026-10-03/REPORT.md)。100 工单/日与 3 执行槽另见[容量验收](CAPACITY.md)，单日恢复见[演练手册](TRIAL.md)。外部支付、公网和长期可靠性不属于本地版交付范围。
