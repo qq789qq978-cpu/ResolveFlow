@@ -1,6 +1,6 @@
 {
   "version": "5.8-release-gated",
-  "date": "2026-10-05",
+  "date": "2026-10-06",
   "purpose": "local_job_portfolio_demo",
   "user_confirmed": {
     "public_access": false,
@@ -167,7 +167,7 @@
       "steps": [
         "5.8"
       ],
-      "status": "paused_pending_new_sha_ci",
+      "status": "release_gated",
       "evidence": "validation/step-5.8-2026-10-05/REPORT.md",
       "completion_rule": "clean_worktree_and_HEAD_equals_remote_main_and_matching_successful_CI_artifact_receipt"
     }
@@ -379,7 +379,7 @@
       "sql_deadline_changed": false,
       "report": "validation/step-5.8-2026-10-05/multi-worker-final.json"
     },
-    "status": "paused_user_requested",
-    "resume": "validation/step-5.8-2026-10-05/RESUME.md"
+    "status": "resumed_release_gated",
+    "resume": "validation/step-5.8-2026-10-05/resumed-2026-10-06.json"
   }
 }
