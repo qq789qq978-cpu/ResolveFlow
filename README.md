@@ -14,7 +14,7 @@
 
 ![人工审批后恢复原工单并完成模拟退款](docs/demo/screenshots/05-resumed.png)
 
-截图展示审批恢复流程，采集于 2026-09-23；完整演示包含 9 张真实页面截图和 [Word 文档](docs/demo/ResolveFlow-demo.docx)。个人账号、订单同步和容量验证见[验收索引](VALIDATION.md)。
+截图展示审批恢复流程，采集于 2026-09-23；完整演示包含 [9 个业务场景与真实页面截图](docs/demo/README.md)。个人账号、订单同步和容量验证见[验收索引](VALIDATION.md)。
 
 |场景|处理结果|
 |---|---|

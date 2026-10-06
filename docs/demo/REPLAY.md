@@ -1,8 +1,8 @@
 # 截图演示复现
 
-静态展示直接打开 [Word](ResolveFlow-demo.docx) 或 [图文脚本](README.md)，无需启动服务。以下仅用于再次生成真实页面和证据，不要在主环境 8003 操作。
+页面与业务结果见[图文展示](README.md)。以下步骤在全新隔离环境中重演业务流程并导出证据。
 
-翻页、计数与讲解边界见 [使用指南](PRESENTING.md)。截图日期为 2026-09-23；4.3 复核时 Docker 引擎不可用。随后 4.5 已恢复 Docker 并在独立环境复验，最新结果见 [交付入口](../../DELIVERY.md)；本组截图没有重新采集。
+截图保留 2026-09-23 的采集日期；当前版本与验收汇总见[文档导航](../../DELIVERY.md)。
 
 ## 复现前检查
 
@@ -68,6 +68,6 @@ python scripts/demo_environment.py stop --project resolveflow-qa-demo-replay01
 
 ## 文档维护
 
-讲解、截图关联工单和 Word 裁切范围在 [story.json](story.json)。`scripts/build_demo_document.py` 用相同来源生成 Markdown 与 Word，需使用文档依赖环境中的 python-docx、Pillow。修改 Word 后要重新渲染并逐页目视检查；渲染中间 PDF/PNG 放本步忽略目录（4.3 为 `work/step43`），不当作视频交付。仅修改操作说明时无需重新生成 Word，更不要把原图采集日期改成复核日期。
+截图关联工单、数据库核对及复现结果见[业务流程展示](README.md)中的证据入口。
 
 PDF 导入、故障恢复、告警故障注入没有在这组截图中重新执行；参见 [PDF 导入手册](../../PDF_IMPORT.md)、[期限手册](../../RUNTIME_LIMITS.md)、[告警手册](../../OBSERVABILITY.md) 和 [3.9 验收](../../validation/step-3.9-2026-09-23/REPORT.md)。人工语义复核等边界继续保留。

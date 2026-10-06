@@ -1,6 +1,8 @@
 # 3.1：迁移框架与现有数据库结构基线
 
-日期：2026-09-22。起点：`ba1785975a24cced4502b48bece24cbaa3560f3a`。结论：**本步完成**；3.2 未开始，本步仅本地提交，第三阶段在 3.9 统一推送。
+> 以下为对应日期和配置的验证记录；当前版本成果见[验证汇总](../../docs/RESULTS.md)。
+
+日期：2026-09-22。起点：`ba1785975a24cced4502b48bece24cbaa3560f3a`。
 
 ## 完成内容
 
@@ -9,7 +11,7 @@
 - LangGraph 的 4 张 checkpoint 表及内部迁移版本继续由 PostgresSaver 管理。应用迁移不创建、修改或删除这些表，也不管理 pgvector 扩展的安装/卸载。
 - 新增只读 catalog 核对工具及 core/hybrid 参考 JSON；真实旧 setup、隔离基线及主库应用结构一致。
 - Dockerfile 包含迁移文件及核对工具；依赖锁只新增 Alembic、Mako 1.4.1、MarkupSafe 3.0.3，原依赖版本不变，`pip check` 通过。
-- 更新 README、路线图、执行清单、交接、验证索引及 [MIGRATIONS.md](../../MIGRATIONS.md)。CI 已加入新增的 6 项离线和 9 项 PostgreSQL 测试，未推送或触发新远程 CI。
+- 更新 README、路线图、执行清单、交接、验证索引及 [MIGRATIONS.md](../../MIGRATIONS.md)。
 
 ## 实测结果
 

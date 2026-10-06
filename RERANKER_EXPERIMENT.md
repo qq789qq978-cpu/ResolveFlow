@@ -1,8 +1,8 @@
 # 真实本地 reranker 实验
 
-2026-09-23用户追加实验，补充2.9的历史条件评估。使用cross-encoder/mmarco-mMiniLMv2-L12-H384-v1，revision `1427fd652930e4ba29e8149678df786c240d8825`，模型卡Apache-2.0。协议在推理前写入[RAG_SUPPLEMENT_PLAN.md](RAG_SUPPLEMENT_PLAN.md)，原始结果和模型文件SHA在[reranker.json](validation/rag-supplement-2026-09-23/reranker.json)。
+2026-09-23补充实验，补充2.9的历史条件评估。使用cross-encoder/mmarco-mMiniLMv2-L12-H384-v1，revision `1427fd652930e4ba29e8149678df786c240d8825`，模型卡Apache-2.0。协议在推理前写入[RAG_SUPPLEMENT_PLAN.md](RAG_SUPPLEMENT_PLAN.md)，原始结果和模型文件SHA在[reranker.json](validation/rag-supplement-2026-09-23/reranker.json)。
 
-断网容器、CPU2线程、内存上限2GiB；只读取本地safetensors，不启用远程模型代码。对原45条调优查询、218对query/原文片段真实打分，最长512token，无截断。35条保留集未跑、未用于挑模型；仍用冻结标签，人工复核待完成。
+断网容器、CPU2线程、内存上限2GiB；只读取本地safetensors，不启用远程模型代码。对原45条调优查询、218对query/原文片段真实打分，最长512token，无截断。35条保留集未跑、未用于挑模型；仍用冻结标签，标签采用冻结版本，审查方式为模型辅助核查。
 
 |方案（top4）|完整证据命中|必要组召回|首条相关MRR|完整证据RR|上下文相关片段|
 |---|---:|---:|---:|---:|---:|

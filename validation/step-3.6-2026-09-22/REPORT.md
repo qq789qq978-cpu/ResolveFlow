@@ -1,6 +1,8 @@
 # 3.6 数据库角色隔离验收
 
-2026-09-22完成。迁移、业务、只读三个PostgreSQL账号已在本机真实部署；普通API/Worker不再持有数据库管理员连接。只完成3.6，下一步3.7未开始，3.9再统一推送与核验远程CI。
+> 以下为对应日期和配置的验证记录；当前版本成果见[验证汇总](../../docs/RESULTS.md)。
+
+2026-09-22完成。迁移、业务、只读三个PostgreSQL账号已在本机真实部署；普通API/Worker不再持有数据库管理员连接。
 
 ## 实现
 
@@ -24,7 +26,7 @@
 
 PG专项涵盖所有权接管和幂等配置、禁止业务/只读账号迁移或配置角色、真实事务锁等待、关闭只读设置仍禁止写入、MCP实际使用只读连接、运行身份拒绝、未受管同名角色回滚、列级越权授权清除。测试使用隔离schema和独立测试库，不对主库执行权限破坏探针。
 
-`fresh-roles.json`是早期候选的新装结果；最终结果以`fresh-final.json`为准。`unit-roles.xml`、`postgres-roles.xml`及`postgres-roles-final.xml`保留迭代中的专项记录，不重复计入232/120总数。一条既有Starlette/AnyIO弃用警告不影响通过结果。第一阶段故障观察工具已改为仅在独立QA进程使用管理连接，完整1.5–1.9故障套件本步未重跑；当前提交未推送，不能引用第二阶段CI作为本步CI结果。
+`fresh-roles.json`是早期候选的新装结果；最终结果以`fresh-final.json`为准。`unit-roles.xml`、`postgres-roles.xml`及`postgres-roles-final.xml`保留迭代中的专项记录，不重复计入232/120总数。一条既有Starlette/AnyIO弃用警告不影响通过结果。
 
 ## 主库与保留资料
 

@@ -1,6 +1,6 @@
 # 标签、引用支持性与产品边界
 
-2026-09-23，在3.8前执行用户明确追加的补充任务。详情见[逐题核查](validation/rag-supplement-2026-09-23/SUPPORT_REVIEW.md)与[机器可读记录](validation/rag-supplement-2026-09-23/support-review.json)。
+2026-09-23，在3.8前执行标签来源与检索补充实验。详情见[逐题核查](validation/rag-supplement-2026-09-23/SUPPORT_REVIEW.md)与[机器可读记录](validation/rag-supplement-2026-09-23/support-review.json)。
 
 80条冻结样例通过结构、语料指纹与片段来源校验；公开调优45条按题设/问题意图核查预期证据及答案边界，保留原候选标签，未修改v1或重算历史指标。逐题判断由Codex模型辅助完成，不是人类审核或外部独立盲测。35条保留集未用于逐题语义复核、模型选型或调参。
 

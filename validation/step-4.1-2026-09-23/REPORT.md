@@ -1,5 +1,7 @@
 # 4.1 最终架构图
 
+> 以下为对应日期和配置的验证记录；当前版本成果见[验证汇总](../../docs/RESULTS.md)。
+
 2026-09-23，在原目录接续已完成的3.9（代码提交`526e166cfbec1b55796bf8ef8f27462fd00bc951`）。本步仅完成架构图与解释、来源和图面核对；不涉及应用代码变更、主环境部署、数据写入或故障注入。
 
 交付入口：[ARCHITECTURE.md](../../ARCHITECTURE.md)。主图提供[SVG](../../docs/architecture/resolveflow.svg)、[PNG](../../docs/architecture/resolveflow.png)和[Mermaid源文件](../../docs/architecture/resolveflow.mmd)，附[重绘说明](../../docs/architecture/README.md)。
@@ -12,4 +14,4 @@ Mermaid CLI 11.12.0渲染SVG/PNG成功，使用本机Chrome和中文字体。迭
 
 本次为文档变更，没有重新执行264基础/149PG/198故障测试，也没有启动新的CI；这些数值明确引用[526e166的成功CI](https://github.com/qq789qq978-cpu/ResolveFlow/actions/runs/35832707932)，不冒称4.1提交的测试结果。临时绘图依赖保存在忽略的work目录，应用依赖和Docker镜像保持原样。
 
-4.1完成后本地提交、不推送；第四阶段到4.5统一推送并核验对应CI。本轮停止，4.2演示脚本与数据尚未开始。保留业务数据、历史卷、审批/checkpoint、退款幂等和后端权限；无付费模型、真实退款或.env覆盖。
+本轮停止，4.2演示脚本与数据尚未开始。保留业务数据、历史卷、审批/checkpoint、退款幂等和后端权限；无付费模型、真实退款或.env覆盖。

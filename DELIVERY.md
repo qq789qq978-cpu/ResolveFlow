@@ -5,7 +5,7 @@ ResolveFlow 已交付可本地运行的售后智能工单系统，覆盖调查�
 |阅读目的|入口|
 |---|---|
 |功能概览与快速启动|[README](README.md)|
-|流程截图与业务结果|[图文演示](docs/demo/README.md)、[Word 演示](docs/demo/ResolveFlow-demo.docx)|
+|流程截图与业务结果|[图文演示](docs/demo/README.md)|
 |设计与代码入口|[系统架构](ARCHITECTURE.md)|
 |指标与测试依据|[验证成果](docs/RESULTS.md)、[验收索引](VALIDATION.md)|
 |部署与日常运维|[本地部署](LOCAL_DEPLOYMENT.md)、[运维手册](docs/deployment/HANDOVER.md)|

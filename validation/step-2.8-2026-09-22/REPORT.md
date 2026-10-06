@@ -1,6 +1,8 @@
 # 2.8：本地 embedding、pgvector 与混合检索
 
-2026-09-22。本步完成本地E5-small编码、完整向量批次、pgvector精确cosine及BM25/RRF混合检索，按 [2.7冻结方案](../../SEMANTIC_RETRIEVAL.md) 达到启用门槛。本机8003显式启用hybrid/demo；默认新装仍为BM25。操作说明见 [实现与维护](../../SEMANTIC_IMPLEMENTATION.md)。本步仅本地提交，不推送；2.9尚未执行，2.12统一推送并核对CI。
+> 以下为对应日期和配置的验证记录；当前版本成果见[验证汇总](../../docs/RESULTS.md)。
+
+2026-09-22。本步完成本地E5-small编码、完整向量批次、pgvector精确cosine及BM25/RRF混合检索，按 [2.7冻结方案](../../SEMANTIC_RETRIEVAL.md) 达到启用门槛。本机8003显式启用hybrid/demo；默认新装仍为BM25。操作说明见 [实现与维护](../../SEMANTIC_IMPLEMENTATION.md)。
 
 ## 实现与真实推理
 

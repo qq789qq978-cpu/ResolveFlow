@@ -15,3 +15,15 @@ backups/
 
 # Local career notes and private working documents
 /private-career/
+
+# Local-only working notes and presentation drafts
+/private-career/
+/docs/demo/PRESENTING.md
+/docs/demo/ResolveFlow-demo.docx
+/docs/demo/story.json
+/scripts/build_demo_document.py
+/validation/step-4.3-2026-10-03/audit.py
+/validation/step-5.6-2026-10-05/PAUSED.json
+/validation/step-5.6-2026-10-05/RESUME.md
+/validation/step-5.8-2026-10-05/PAUSED.json
+/validation/step-5.8-2026-10-05/RESUME.md
